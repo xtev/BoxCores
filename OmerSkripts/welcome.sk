@@ -1,0 +1,5 @@
+on first join:
+    send title "&b&lWelcome &6&l%player%&b&l!" to player
+
+on join:
+    send title "&b&lWelcome Back!" to player 

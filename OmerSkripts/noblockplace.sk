@@ -1,0 +1,100 @@
+on place:
+    if event-block is fire coral fan:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is Yellow candle:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is Wither Rose:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is Crimson Root:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is Turtle Egg:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is Chain:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is twisting vines:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is red muchroom:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is white shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is purple shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is light gray shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is blue shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is light blue shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is orange shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is magenta shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is yellow shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is lime shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is pink shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is gray shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is green shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is red shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is brown shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is black shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+on place:
+    if event-block is cyan shulker box:
+        cancel event
+        Send "&aYou are not allowed to place that block!"

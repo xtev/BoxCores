@@ -1,0 +1,13 @@
+on death of piglin brute:
+   cancel drops
+   drop 1 red dye named "&4&lSlave's Heart"
+   
+on death of zombified piglin:
+   cancel drops
+   drop 1 red dye named "&4&lSlave's Heart"
+   
+every 2 minutes:
+  delete all piglin brutes
+ 
+every 1 minute:
+  delete all zombified piglins

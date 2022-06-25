@@ -1,0 +1,48 @@
+variables:
+    {kills.%player%} = 0
+    {deaths.%player%} = 0
+    {kdr.%player%} = 0
+    {killstreak.%player%} = 0
+    {joinss} = 0
+every 1 second:
+    loop all players:
+        wipe loop-player's sidebar
+        set {_online} to number of all players
+        set name of sidebar of loop-player to "&9&lOmerbox &7&l┃ &7S1"
+        set score "&r&r&r" in sidebar of loop-player to 12
+        set score "&9&lPlayer" in sidebar of loop-player to 11
+        set score "&9&l→ &fUser: &b%loop-player%" in sidebar of loop-player to 10 
+        set score "&9&l→ &fKills: &b%{kills.%loop-player%}%" in sidebar of loop-player to 9
+        set score "&9&l→ &fDeaths: &b%{deaths.%loop-player%}%" in sidebar of loop-player to 8
+        set score "&9&l→ &fKdr: &b%{kdr.%loop-player%}%" in sidebar of loop-player to 7
+        set score "&9&l→ &fStreak: &b%{killstreak.%loop-player%}%" in sidebar of loop-player to 6
+        set score "&9&lServer" in sidebar of loop-player to 5
+        set score "&9&l→ &fOnline Players: &b%{_online}% / 200" in sidebar of loop-player to 4
+        set score "&9&l→ &fJoins: &b%{joinss}%" in sidebar of loop-player to 3
+        set score "&9&l→ &fTPS: &b%tps from the last 1 minute%" in sidebar of loop-player to 2
+        set score "&r" in sidebar of loop-player to 1
+        set score "&9&lOmerbox.tebex.io" in sidebar of loop-player to 0
+
+every 1 second:
+    loop all players:
+        set {KDR.%loop-player%} to {kills.%loop-player%} / {deaths.%loop-player%}
+
+on first join:
+    add 1 to {joinss}
+    set {killstreak.%player%} to 0
+
+on death of player:
+    add 1 to {deaths.%victim%}
+    add 1 to {kills.%attacker%}
+    add 1 to {killstreak.%attacker%}
+    set {killstreak.%player%} to 0
+
+command /resetstatsall:
+    permission: resetstatsall.use
+    permission message: &cYou do not have access to this command!
+    trigger:
+        loop all players:
+            set {kills.%loop-player%} to 0
+            set {deaths.%loop-player%} to 0
+            set {killstreak.%loop-player%} to 0
+            set {KDR.%loop-player%} to 0

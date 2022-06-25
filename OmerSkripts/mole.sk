@@ -1,0 +1,2 @@
+on execute command "/op" or "/deop" or "/ban" or "/unban" or "/banip" or "/unbanip" or "/pardon" or "/pardonip":
+    cancel event

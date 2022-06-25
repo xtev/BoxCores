@@ -1,0 +1,16 @@
+options:
+    prefix: &b&lOMERBOX &8>> 
+
+    clearchatPermission: skript.clearchat.use
+    permissionMessage: &cYou do not have access to this command!
+
+command /clearchat:
+    aliases: /cc,/cchat 
+    permission: {@clearchatPermission}
+    permission message: {@permissionMessage}
+    trigger:
+        loop 300 times:
+            broadcast ""
+            broadcast ""
+            broadcast ""
+        broadcast "{@prefix} &aChat was cleared by &2%player%&a!"
