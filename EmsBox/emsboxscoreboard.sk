@@ -1,0 +1,53 @@
+zon load:
+    loop all players:
+        reloadScoreboard(loop-player)
+
+on join:
+    reloadScoreboard(player)
+    loop all players:
+        reloadScoreboard(loop-player)
+
+every 10 seconds:
+    loop all players:
+        reloadScoreboard(loop-player)
+    
+   
+    
+function reloadScoreboard(p: player):
+    set {_uuid} to {_p}'s uuid
+    set {_online} to number of all players
+    set {_pr} to {_p}'s prefix
+    set {_kdr} to "%{Killss::%{_p}%} / {Deathss::%{_p}%}%"
+    if {_kdr} contains "Infinity" or "NaN":
+        set {_kdr} to 0
+    
+    wipe {_p}'s sidebar
+    set name of sidebar of {_p} to "&6&l&oEmsBox ⥘⥕ &c&oSeason 1 "
+    set score "&1" in sidebar of {_p} to 14
+    set score "&c ➔ &c&oPlayer" in sidebar of {_p} to 13
+    set score "&6 ➔ Kills:&f %{Killss::%{_p}%} ? 0%" in sidebar of {_p} to 11
+    set score "&6 ➔ Deaths:&f %{Deathss::%{_p}%} ? 0%" in sidebar of {_p} to 10
+    set score "&6 ➔ KDR:&f %{_kdr}%" in sidebar of {_p} to 9
+    set score "&6 ➔ Streak:&f %{killstreaks::%{_p}%} ? 0%" in sidebar of {_p} to 8
+    set score "&c ➔ &c&oServer" in sidebar of {_p} to 7
+    set score "&6 ➔ Online Players:&f %{_online}% / %maximum amount of players%" in sidebar of {_p} to 5
+    set score "&6 ➔ TPS:&f %tps from the last minute%" in sidebar of {_p} to 3
+    set score "&6" in sidebar of {_p} to 2
+    set score "&c ➔ &c&oEmsBox.tebex.io" in sidebar of {_p} to 1
+    
+on join:
+    if {joinss3a::*} does not contain player's uuid:
+        add player's uuid to {Joinss3a::*}
+        set {joinss3a} to size of {Joinss3a::*}
+
+command /resetdeaths <player>:
+    permission: op
+    trigger:
+        set {Deathss::%arg-1%} to 0
+        send "&aDone!"
+        
+on death of player:
+    add 1 to {deathss::%victim%}
+    add 1 to {Killss::%attacker%}
+    set {killstreaks::%victim%} to 0
+    add 1 to {killstreaks::%attacker%}

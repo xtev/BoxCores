@@ -1,0 +1,95 @@
+variables:
+    {getPinged.%player%} = true
+    {sendEmojis.%player%} = true 
+options:
+	#
+	# Color Codes:
+	# (&a Light Green) (&b Aqua) (&c Light Red) (&dLight Purple) (&e Yellow) (&f White)
+	# (&1 Dark Blue) (&2 Dark Green) (&3 Dark Aqua) (&4 Dark Red) (&5 Dark Purple) (&6 Gold) (&7 Light Gray) (&8 Dark Gray) (&9 Blue)
+	#
+	prefix: &6&lChatSettings
+	prefix_start: &8&l•
+	main_color: &f
+	second_color: &7
+
+command /chatsettings [<text>] [<text>]:
+    trigger:
+        if arg-1 is not set:
+            send ""
+            send "{@prefix_start} {@main_color}/chatsettings getPinged <on/off> {@second_color}&oEnable / disable chat pings"
+            send "{@prefix_start} {@main_color}/chatsettings sendEmojis list {@second_color}&oSee list of custom emojis"
+            send "{@prefix_start} {@main_color}/chatsettings sendEmojis <on/off> {@second_color}&oEnable / disable sending emojis"
+            send "{@prefix_start} {@main_color}/chatsettings help {@second_color}&oSee list off commands"
+            send "{@prefix_start} {@main_color}/chatsettings info {@second_color}&oSee information about chatsettings"
+            send ""
+        else:
+            if arg-1 is "getPinged" or "sendEmojis" or "help" or "info":
+                if arg-1 is "getPinged":
+                    if arg-2 is not set:
+                        send "{@prefix} {@prefix_start} {@main_color}/chatsettings getPinged <on/off>"
+                    else:
+                        if arg-2 matches "on" or "off":
+                            if arg-2 is "on":
+                                send "{@prefix} {@prefix_start} {@second_color}You have successfully enabled %arg-1%"
+                                set {getPinged.%player%} to true
+                            else if arg-2 is "off":
+                                send "{@prefix} {@prefix_start} {@second_color}You have successfully disabled %arg-1%"
+                                set {getPinged.%player%} to false
+                        else:
+                            send "{@prefix} {@prefix_start} {@main_color}/chatsettings getPinged <on/off>"
+                if arg-1 is "sendEmojis":
+                    if arg-2 is not set:
+                        send "{@prefix} {@prefix_start} {@main_color}/chatsettings sendEmojis <on/off>"
+                    else:
+                        if arg-2 matches "on" or "off" or "list":
+                            if arg-2 is "on":
+                                send "{@prefix} {@prefix_start} {@second_color}You have successfully enabled %arg-1%"
+                                set {sendEmojis.%player%} to true
+                            else if arg-2 is "off":
+                                send "{@prefix} {@prefix_start} {@second_color}You have successfully disabled %arg-1%"
+                                set {sendEmojis.%player%} to false
+                            if arg-2 is "list":
+                                send "{@prefix_start} {@main_color}':)' or ':D' = {@second_color}☺"
+                                send "{@prefix_start} {@main_color}':(' or 'D:' = {@second_color}☹"
+                        else:
+                            send "{@prefix} {@prefix_start} {@main_color}/chatsettings sendEmojis <on/off>"
+                if arg-1 is "info":
+                    send ""
+                    send "{@prefix_start} {@main_color}Version 1.0 {@second_color}&oBy Trillionair"
+                    send ""
+                if arg-1 is "help":
+                    send ""
+                    send "{@prefix_start} {@main_color}/chatsettings getPinged <on/off> {@second_color}&oEnable / disable chat pings"
+                    send "{@prefix_start} {@main_color}/chatsettings sendEmojis <on/off> {@second_color}&oEnable / disable sending emojis"
+                    send "{@prefix_start} {@main_color}/chatsettings help {@second_color}&oSee list off commands"
+                    send "{@prefix_start} {@main_color}/chatsettings info {@second_color}&oSee information about chatsettings"
+                    send ""
+            else:
+                send ""
+                send "{@prefix_start} {@main_color}/chatsettings getPinged <on/off> {@second_color}&oEnable / disable chat pings"
+                send "{@prefix_start} {@main_color}/chatsettings sendEmojis list {@second_color}&oSee list of custom emojis"
+                send "{@prefix_start} {@main_color}/chatsettings sendEmojis <on/off> {@second_color}&oEnable / disable sending emojis"
+                send "{@prefix_start} {@main_color}/chatsettings help {@second_color}&oSee list off commands"
+                send "{@prefix_start} {@main_color}/chatsettings info {@second_color}&oSee information about chatsettings"
+                send ""
+
+on chat:
+    loop all players:
+        if message contains "%loop-player%":
+            replace all "%loop-player%" with "&6@%loop-player%&r" in message
+            if {getPinged.%loop-player%} is true:
+                play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 2 to loop-player
+            else:
+                stop
+on chat:
+    if message contains ":)" or ":D" or ":(" or "D:":
+        if {sendEmojis.%player%} is true:
+            replace all ":D" with "☺" in message
+            replace all ":)" with "☺" in message
+            replace all ":(" with "☹" in message
+            replace all "D:" with "☹" in message
+# made by Trillionair #
+# version 1.0 #
+# version 1.1 wil come with 14 more emojis #
+# make sure to not send to nn's #
+# enjoy #

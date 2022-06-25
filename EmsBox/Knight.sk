@@ -1,0 +1,75 @@
+on right click with nether star:
+    name of player's tool is "&9&lPrince":
+        remove 1 of player's held item from player
+        spawn 1 of skeleton at location of player
+        set last spawned skeleton's held item to netherite axe
+        set last spawned skeleton's offhand item to totem of undying
+        set last spawned skeleton's max health to 850
+        set last spawned skeleton's health to 850
+        set display name of last spawned skeleton to "&9Dark &9Monster"
+        apply speed 1 to last spawned skeleton for 9999999 days
+        apply fire resistance to last spawned skeleton for 9999999 days
+		apply strength 5 to last spawned skeleton for 9999999 days
+        set last spawned skeleton's helmet to Black glass
+		clear last spawned skeleton
+		drop light blue glass
+		on death of last spawned skeleton:
+    set {_drops::*} to drops
+    remove drops from the drops
+    wait 5 ticks
+    add {_drops::*} to victim's inventory
+command /prince boss:
+    permission: op
+    trigger:
+        give player 1 of nether star named "&9&lPrince"
+on death:
+    if display name of victim is "&9Dark &9Monster":
+        chance of 100%
+        wait 2 seconds
+        spawn 1 of skeleton at location of victim
+        set last spawned skeleton's held item to netherite axe 
+        set last spawned skeleton's offhand item to totem of undying
+        set last spawned skeleton's max health to 850
+        set last spawned skeleton's health to 850
+        set display name of last spawned skeleton to "&9Dark &9Monster"
+        apply speed 1 to last spawned skeleton for 9999999 days
+        apply fire resistance to last spawned skeleton for 9999999 days
+		apply strength 5 to last spawned skeleton for 9999999 days
+        set last spawned skeleton's helmet to black glass
+		clear last spawned skeleton
+		drop light blue glass
+  
+on damage:
+    if display name of victim is "&9Dark &9Monster":
+        chance of 15%:
+            apply wither to attacker for 5 seconds
+            apply blindness 1 to attacker for 5 seconds
+            damage attacker by 5
+        chance of 7%:
+            create a fake explosion at attacker
+            damage attacker by 10
+        chance of 15%:
+            execute console command "smite %attacker%"
+        chance of 15%:
+            push attacker upward at speed 1
+        chance of 10%:
+            force victim to ride attacker
+            wait 5 seconds
+            force victim to dismount
+            create fake explosion
+            damage attacker by 25
+on right click with nether star:
+    name of player's tool is "&9&lPrince Summoner":
+        remove 1 of player's held item from player
+        spawn 1 of skeleton at location of player
+        set last spawned skeleton's held item to netherite axe
+        set last spawned skeleton's offhand item to totem of undying
+        set last spawned skeleton's max health to 850
+        set last spawned skeleton's health to 850
+        set display name of last spawned skeleton to "&9Dark &9Monster"
+        apply speed 1 to last spawned skeleton for 9999999 days
+        apply fire resistance to last spawned skeleton for 9999999 days
+		apply strength 5 to last spawned skeleton for 9999999 days
+        set last spawned skeleton's helmet to Black glass
+        clear last spawned skeleton
+		drop light blue glass

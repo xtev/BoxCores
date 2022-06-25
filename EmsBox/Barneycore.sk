@@ -1,0 +1,90 @@
+options:
+    Prefix: &6EmsBox &7>
+    Message: &cPlease wait 2 seconds.
+    CoolDown: 2 seconds
+
+on item spawn:
+	if name of event-item is set:
+		set display name of event-entity to name of event-item
+	else:
+		set {_type} to "%type of event-item%"
+		set display name of event-entity to {_type} in strict proper case
+
+every 5 minutes:
+  execute console command "goldencrates givekey * afk"
+  broadcast "&6BoxUni &7> &7&lYou Earned A Afk Key! Next In &8&n5 Minutes"
+  
+every 6 minutes:
+  broadcast "&8&m╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌"
+  broadcast " {@Prefix} &7Make Sure To Use &9&l/Discord"
+  broadcast "&8&m╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌"
+  
+on chat:
+    replace all "retard", "fuck", "faggot", "twat", "piss", "shit", "bitch", "slut", "pussy", "anal", "dick", "cum", "cock", "slut", "wanker", "nigga", "niggas", "cunt", "niggers", "ngga", "ngger", "n1gger", "n1gg3r", "n1iggers", "n1gg3rs", "kys", "KYS", "penis", "niggwe"  or "nigger" in message with "&7《&cNot Cool&7》"
+    replace all "fu ck", "fuc k", "f u c k", "f uck", "f uc k", "k y s", "p e n i s", "n i g w g w e" or "f u ck" in message with "&7《&cNot Cool&7》"
+    replace all "sh it", "s h i t", "shi t", "s h it", "s hit", "sh i t", or "shite" in message with "&7《&cNot Cool&7》"
+    replace all "b i t c h", "bitc h", "bit ch", "b itch", "bit c h", "bit c h", or "b i t ch" In message with "&7《&cNot Cool&7》"
+    replace all  "cu m", "c u m", or "c um" in message with "&7《&cNot Cool&7》"
+	
+
+command /minecraft:me:
+ trigger:
+  stop
+ 
+command /me:
+ trigger:
+  stop
+
+		
+		
+command /mutechat:
+    permission: chat.mute
+    permission message: &c You don't have the required permission to perform that command.
+    trigger:
+        if {Globalchat} is not set:
+            set {Globalchat} to true
+            broadcast "{@Prefix} &c&lChat muted by &r&c《%player%》"
+            stop trigger
+
+        if {Globalchat} is set:
+            clear {Globalchat}
+            broadcast "{@Prefix} &a&lChat unmuted by &r&a《%player%》"
+
+on chat:
+    if {Globalchat} is true:
+        if player has permission "chat.mute.bypass":
+            stop trigger
+        else:
+            cancel event
+            send "{@Prefix} &c&lChat is currently muted."
+			
+command /clearchat:
+        permission: minehut.clearchat
+        permission message: &cInsufficient permission. 
+        usage: /clearchat
+        trigger:
+                loop 100 times:
+                        broadcast " "
+                wait 5 ticks
+                broadcast "&alayer% &7cleared the chat"
+every 24 hours:
+  broadcast "&8&m╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌"
+  broadcast " {@Prefix} Thank You Akari For Helping with scripts :)"
+  broadcast "&8&m╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌"
+every 3 minutes:
+ execute console command "lagg clear"
+ 
+ 
+on chat:
+    if {%player%.cooldown} is true:
+        send "&6EmsBox &7> {@Message}"
+        cancel event
+    else:
+        set {%player%.cooldown} to true
+        wait {@CoolDown}
+        clear {%player%.cooldown}
+ 
+on leave:
+ clear {%player%.cooldown}
+on join:
+ clear {%player%.cooldown}

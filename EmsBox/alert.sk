@@ -1,0 +1,6 @@
+command /alert [<text>]:
+    aliases: bc, broadcast, announce
+    permission: op
+    trigger:
+        broadcast "&a&lANNOUNCEMENT &8&l|&f %colored arg-1%"
+        send title "&a&lANNOUNCEMENT" with subtitle "%colored arg-1%" to all players
