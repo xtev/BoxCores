@@ -1,0 +1,15 @@
+command /bc [<text>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            broadcast "&f&l[Bash&7&lBox&f&l] &8&l» &f%colored arg-1%"
+        else:
+            send "&c/bc (message)" 
+command /broadcast [<text>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            broadcast "&f&l[Bash&7&lBox&f&l] &8&l» &f%colored arg-1%"
+        else:
+            send "&c/bc (message)" 
+            send "&c/broadcast (message)" 

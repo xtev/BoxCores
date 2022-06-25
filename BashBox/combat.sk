@@ -1,0 +1,191 @@
+# Config Options
+options:
+	combatLogCommand: 10 seconds
+	combatLogLogout: 15 seconds
+	
+	mobsTagPlayers: true
+
+	commandPermission: server.combatlog
+	commandPermissionMessage: &4&lERROR &8» &7You do not have the required permission &8(&cserver.combatlog&8)
+	commandUsage: &4&lERROR &8» &7Incorrect usage: &c
+	
+	noDeathPermission: server.combatlog.bypasskill
+	noCommandBlockingPermission: server.combatlog.bypasscommand
+	
+	messageForceTagged: &aForce combat-tagged %arg-2%
+	messageForceUntagged: &aForce uncombat-tagged %arg-2%
+	messageForceUntaggedAll: &aForce uncombat-tagged everyone
+	
+	messageTagger: &aYou have combat tagged %victim%
+	messageTagged: &aYou have been combat tagged by %attacker%
+	
+	messageUntaggedLogout: &aYou may now log out
+	messageUntaggedCommand: &aYou may now use commands
+	
+	messageLoggedInCombat: &b%player% has logged out during combat!
+	messageCommandInCombat: &cYou can not use commands during combat!
+	
+	actionbarTaggedCommand: &cCmd %{_commandRemainingS}%
+	actionbarUntaggedCommand: &aCmd ✔
+	actionbarTaggedLogout: &cLog %{_logoutRemainingS}%
+	actionbarUntaggedLogout: &aLog ✔
+	actionbarSeparator: &8|
+	
+	messageHelp1: &8[&aCombat Log Help&8]
+	messageHelp2: &a/combatlog tag <player> &8- &fForce combat tags a player
+	messageHelp3: &a/combatlog untag <player> &8- &fForce untags a player
+	messageHelp4: &a/combatlog untagall &8- &fForce untags everyone on the server 
+
+# Functions
+function canLogOut(p: player) :: boolean:
+	set {_uuid} to {_p}'s uuid
+	if {combatlog::playerdata::%{_uuid}%::lasthit} is not set:
+		return true
+	if (difference between {combatlog::playerdata::%{_uuid}%::lasthit} and now) > {@combatLogLogout}:
+		return true
+	return false
+
+function canUseCommands(p: player) :: boolean:
+	set {_uuid} to {_p}'s uuid
+	if {combatlog::playerdata::%{_uuid}%::lasthit} is not set:
+		return true
+	if (difference between {combatlog::playerdata::%{_uuid}%::lasthit} and now) > {@combatLogCommand}:
+		return true
+	return false
+
+function hasAnyTag(p: player) :: boolean:
+	if canLogOut({_p}) is false:
+		return true
+	if canUseCommands({_p}) is false:
+		return true
+	return false
+
+# Events
+on kick:
+#
+#	UNCOMMENT IN NEXT SEASON <--------------------------------------
+#
+#	if "%event.getReason()%" is "Kicked for spamming":
+#		stop
+	set {combatlog::playerdata::%player's uuid%::kicked} to true
+
+on disconnect:
+	if {combatlog::playerdata::%player's uuid%::kicked} is true:
+		delete {combatlog::playerdata::%player's uuid%::kicked}
+		stop
+	
+	if canLogOut(player) is false:
+		if player does not have permission "{@noDeathPermission}":
+			kill player
+			execute console command "kill %player%"
+		broadcast "{@messageLoggedInCombat}"
+
+on command:
+	if canUseCommands(player) is false:
+		if player does not have permission "{@noCommandBlockingPermission}":
+			cancel event
+			message "{@messageCommandInCombat}"
+
+on damage:
+	if "%victim's world%" is "townhallhub":
+		stop
+		
+	if "%damage cause%" is not "attack":
+		stop
+	
+	if {@mobsTagPlayers} is false:
+		if attacker is not a player:
+			stop
+	set {_same} to isInSameClan(attacker, victim)
+	if {_same} is false:
+		if victim is a player:
+			
+			if hasAnyTag(victim) is false:
+				message "{@messageTagged}" to victim
+			
+			if hasAnyTag(attacker) is false:
+				message "{@messageTagger}" to attacker
+			
+			set {combatlog::playerdata::%victim's uuid%::lasthit} to now
+			if attacker is a player:
+				set {combatlog::playerdata::%attacker's uuid%::lasthit} to now
+
+on death:
+	if victim is a player:
+		delete {combatlog::playerdata::%victim's uuid%::lasthit} 
+
+every 4 ticks:
+	loop all players:
+		if hasAnyTag(loop-player) is true:
+			set {combatlog::playerdata::%loop-player's uuid%::prevdisplay} to true
+			set {_taggedFor} to difference between now and {combatlog::playerdata::%loop-player's uuid%::lasthit}
+			
+			set {_taggedCommand} to "{@actionbarUntaggedCommand}"
+			set {_taggedLogout} to "{@actionbarUntaggedLogout}"
+			
+			if canLogOut(loop-player) is false:
+				set {_logoutRemainingS} to "%difference between {_taggedFor} and {@combatLogLogout}%"
+				#set {_logoutRemainingS} to "%ceil({_logoutRemaining}.getTicks() / 20)%"
+				replace all " seconds" in {_logoutRemainingS} with "s"
+				set {_taggedLogout} to "{@actionbarTaggedLogout}"
+				set {combatlog::playerdata::%loop-player's uuid%::prevdisplaylogout} to true
+			
+			else if {combatlog::playerdata::%loop-player's uuid%::prevdisplaylogout} is true:
+				set {combatlog::playerdata::%loop-player's uuid%::prevdisplaylogout} to false
+				message "{@messageUntaggedLogout}" to loop-player
+			
+			if canUseCommands(loop-player) is false:
+				set {_commandRemainingS} to "%difference between {_taggedFor} and {@combatLogCommand}%"
+				#set {_commandRemainingS} to "%ceil({_commandRemaining}.getTicks() / 20)%"
+				replace all " seconds" in {_commandRemainingS} with "s"
+				set {_taggedCommand} to "{@actionbarTaggedCommand}"
+				set {combatlog::playerdata::%loop-player's uuid%::prevdisplaycommand} to true
+						
+			else if {combatlog::playerdata::%loop-player's uuid%::prevdisplaycommand} is true:
+				set {combatlog::playerdata::%loop-player's uuid%::prevdisplaycommand} to false
+				message "{@messageUntaggedCommand}" to loop-player
+			
+			send action bar "%{_taggedCommand}% {@actionbarSeparator} %{_taggedLogout}%" to loop-player
+		else if {combatlog::playerdata::%loop-player's uuid%::prevdisplay} is true:
+			delete {combatlog::playerdata::%loop-player's uuid%::prevdisplay}
+			send action bar "{@actionbarUntaggedCommand} {@actionbarSeparator} {@actionbarUntaggedLogout}" to loop-player
+		else:
+			if {combatlog::playerdata::%loop-player's uuid%::prevdisplaycommand} is true:
+				set {combatlog::playerdata::%loop-player's uuid%::prevdisplaycommand} to false
+				message "{@messageUntaggedCommand}" to loop-player
+			
+			if {combatlog::playerdata::%loop-player's uuid%::prevdisplaylogout} is true:
+				set {combatlog::playerdata::%loop-player's uuid%::prevdisplaylogout} to false
+				message "{@messageUntaggedLogout}" to loop-player
+# Command
+command /combatlog <text> [<player>]:
+	permission: {@commandPermission}
+	permission message: {@commandPermissionMessage}
+	usage: {@commandUsage}/combatlog help
+	trigger:
+		if arg-1 is "tag":
+			if arg-2 is not set:
+				message "{@commandUsage}/combatlog tag <player>"
+				stop
+			
+			set {combatlog::playerdata::%arg-2's uuid%::lasthit} to now
+			message "{@messageForceTagged}"
+			
+		else if arg-1 is "untag":
+			if arg-2 is not set:
+				message "{@commandUsage}/combatlog untag <player>"
+				stop
+			
+			delete {combatlog::playerdata::%arg-2's uuid%::lasthit}
+			message "{@messageForceUntagged}"
+			
+		else if arg-1 is "untagall":
+			loop all players:
+				delete {combatlog::playerdata::%loop-player's uuid%::lasthit}
+			message "{@messageForceUntaggedAll}"
+		
+		else:
+			message "{@messageHelp1}"
+			message "{@messageHelp2}"
+			message "{@messageHelp3}"
+			message "{@messageHelp4}"

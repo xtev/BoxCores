@@ -1,0 +1,56 @@
+options:
+    error: &4&lERROR &8| &7
+    prefix: &f&lBash&8&lBox &8|
+
+command /mapclear <text> [<text>]:
+    permission: server.mapclear
+    permission message: {@error}You do not have the required permission &8(&c&lserver.spawn&8)
+    usage: {@error}Incorrect usage&8: &c&l/mapclear help
+    trigger:
+        if arg-1 is "forceclear":
+            clearMap()
+            broadcast "{@prefix}The map has been cleared by &b&l%player's displayname%&7!"
+            broadcast "{@prefix}&b&lFall damage &7will be &b&ldisabled &7for the next &b&l30 seconds&7..."
+        else if arg-1 is "setfrequency":
+            if arg-2 is not set:
+                message "{@error}Incorrect usage: &c&l/mapclear setfrequency <time>"
+                stop
+            
+            set {_time} to arg-2 parsed as time period
+            
+            if "%{_time}%" is "<none>":
+                message "{@error}The timespan you provided is not valid, valid examples include: 5m, 1d12h, 100s"
+                stop
+            
+            set {server::mapclear::frequency} to {_time}
+            message "{@prefix}Set map clear &b&lfrequency&7 to &b&l%{_time}%"
+        else:
+            message "&b&l/mapclear forceclear"
+            message "&b&l/mapclear setfrequency <time>"
+            
+on place:
+    if player's gamemode is survival:
+        add location of event-block to {server::playerplacedblocks::*}
+
+every 5 second:
+    set {_time} to difference between now and {server::mapclear::lastclear}
+    
+    if {_time} >= {server::mapclear::frequency}:
+        clearMap()
+        broadcast "{@prefix}The map has &b&lcleared &7automatically"
+        broadcast "{@prefix}&b&lFall damage &7will be &b&ldisabled &7for the next &b&l30 seconds"
+
+on damage:
+    if victim is a player:
+        if damage cause is fall:
+            set {_time} to difference between now and {server::mapclear::lastclear}
+            if {_time} < 30 seconds:
+                cancel event
+        
+function clearMap():
+    loop {server::playerplacedblocks::*}:
+        if block at loop-value is not any shulker box:
+            set block at loop-value to air
+    delete {server::playerplacedblocks::*}
+    
+    set {server::mapclear::lastclear} to now

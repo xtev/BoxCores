@@ -1,0 +1,8 @@
+on place:
+    If "%event-block%" contain "shulker box":
+        if "%region at player%" contains "box":
+            cancel event
+
+on place:
+    If "%event-block%" contain "shulker box":
+        cancel event

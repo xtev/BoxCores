@@ -1,0 +1,108 @@
+options:
+ prefix:&f&lBash&8&lBox &8|
+ colour: &f&m
+
+on join:
+  if {killss::%player's uuid%} is not set:
+    set {killss::%player's uuid%} to 0
+  if {deathss::%player's uuid%} is not set:
+    set {deathss::%player's uuid%} to 0
+	
+on death of player:
+    add 1 to {deathss::%victim's uuid%}
+    if attacker is a player:
+        add 1 to {killss::%attacker's uuid%}
+
+function join(o: objects, s: text) :: text:
+    loop {_o::*}:
+        add loop-value to {_fin::*}
+        add {_s} to {_fin::*}
+    
+    set {_s} to ""
+    loop {_fin::*}:
+        set {_s} to "%{_s}%%loop-value%"
+    
+    return {_s}
+
+function parseTimespan(t: text) :: timespan:
+    set {_timespan} to {_t}
+    set {_x::*} to {_timespan} split at ""
+    remove all "" from {_x::*}
+    
+    loop {_x::*}:
+        if loop-value is "s":
+            add " seconds " to {_s::*}
+        else if loop-value is "m":
+            add " minutes " to {_s::*}
+        else if loop-value is "h":
+            add " hours " to {_s::*}
+        else if loop-value is "d":
+            add " days " to {_s::*}
+        else:
+            add loop-value to {_s::*}
+        
+    set {_timespan} to join({_s::*}, "") parsed as timespan
+    
+    return {_timespan}
+
+function prettifyTimespan(ms: integer) :: text:
+    set {_raw} to floor({_ms} / 1000)
+    set {_seconds} to "%floor(mod({_raw}, 60))%"
+    set {_minutes} to "%floor(mod({_raw}, 3600) / 60)%"
+    set {_hours} to "%floor({_raw} / 3600)%"
+
+    if length of {_seconds} = 1:
+        set {_seconds} to "0%{_seconds}%"
+
+    if length of {_minutes} = 1:
+        set {_minutes} to "0%{_minutes}%"
+
+    if length of {_hours} = 1:
+        set {_hours} to "0%{_hours}%"
+
+    return "%{_hours}%:%{_minutes}%:%{_seconds}%"
+	
+function keyAll():
+    set {server::keyall::lastclear} to now
+    execute console command "crate givekey * afk"
+    broadcast "{@prefix} &b&lThe next keyall will be in 15 mins"
+
+function updateTimers():
+	set {server::keyall::nextkey} to {server::keyall::frequency}
+	remove difference between now and {server::keyall::lastkey} from {server::keyall::nextkey}
+	set {server::keyall::nextkey} to prettifyTimespan({server::keyall::nextkey})
+
+every 15 minutes:
+            keyAll()
+
+command /settimeakari [<text>]:
+ permission: server.*
+ trigger:
+  set {_time} to parseTimespan(arg-1)
+  set {server::keyall::frequency} to {_time}
+
+options: 
+  server: &f&lBash&8&lBox
+  
+
+Every 20 ticks:
+  updateTimers()
+  loop all players: 
+    set {_key} to {server::keyall::nextkey}
+    set {_online} to number of all players
+    set {_kdr} to "%{killss::%{_p}%} / {deathss::%{_p}%}%"
+    if {_kdr} contains "Infinity" or "NaN":
+      set {_kdr} to 0
+    wipe loop-player's sidebar
+    set loop-player to {_e}
+    set name of sidebar of loop-player to "{@server}" 
+    set score "{@colour}&m-------------------" in sidebar of loop-player to 16
+    set score "&b&l%loop-player%" in sidebar of loop-player to 15
+    set score " &r&l| &bKills &7> %{killss::%loop-player's uuid%} ? 0%" in sidebar of loop-player to 14
+    set score " &r&l| &bDeaths &7> %{deathss::%loop-player's uuid%} ? 0%" in sidebar of loop-player to 13
+    set score " &r&l| &bKDR &7> %{_kdr}%" in sidebar of loop-player to 12
+    set score "&b&lServer" in sidebar of loop-player to 11
+    set score " &r&l| &bOnline &7> %amount of all players%" in sidebar of loop-player to 10
+    set score " &r&l| &bTPS &7> %tps from the last minute%" in sidebar of loop-player to 9
+    set score "{@colour}-------------------" in sidebar of loop-player to 6
+    set score "&f&oIP: &7&oBashbox.Minehut.gg" in sidebar of loop-player to 5

@@ -1,0 +1,185 @@
+options:
+ prefix:&f&lBash&8&lBox &8|
+ Message: &cPlease wait 1 seconds.
+ CoolDown: 2 seconds
+
+every 1 hours: 
+	execute console command "/mapclear forceclear"
+
+
+
+command /discord:
+	trigger:
+		send "{@prefix} &7&lJoin the &1&lDiscord <tooltip:&6&lClick to open the &1&lDiscord><link:https://discord.gg/7sGcB59SfW>&ehere." to player
+		play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 2
+
+on death:
+    if attacker is a player:
+        if victim is a player:
+            set {_weapon} to name of attacker's tool
+            set {_lore::*} to lore of attacker's tool
+            set {_split::*} to {_lore} split at " "
+            set the death message to "{@prefix} &a&l&n%attacker%&c (♥%attacker's health%) &8&lHas killed &a&l&n%victim%&8&l using %{_weapon} ?"&a&l&nFists"%"
+			
+on chat:
+    replace all "fuck", "fucking" , "faggot", "twat", "piss",  "slut", "pussy", "anal", "dick", "cum", "cock", "slut", "wanker", "nigga", "niggas", "cunt", "niggers", "ngga", "ngger", "n1gger", "n1gg3r", "n1iggers", "n1gg3rs", "kys", "KYS", "penis", "niggwe"  or "nigger", "niger", "nlgger", "nlgga", "n-i-g-g-e-r", "n-i-g-g-a", "niqger", "niqga", "ky s", "k ys", "k ys" in message with "&8&l[&a&l&nCensored&8&l] &r"
+    replace all "fu ck", "fuc k", "f u c k", "f uck", "f uc k", "k y s", "p e n i s", "n i g w g w e" or "f u ck" in message with "&8&l[&a&l&nCensored&8&l] &r"
+    replace all "sh it", "s h i t", "shi t", "s h it", "s hit", "sh i t", or "shite" in message with "&8&l[&a&l&nCensored&8&l] &r"
+    replace all "b i t c h", "bitc h", "bit ch", "b itch", "bit c h", "bit c h", or "b i t ch" In message with "&8&l[&a&l&nCensored&8&l] &r"
+    replace all  "cu m", "c u m", or "c um" in message with "&8&l[&a&l&nCensored&8&l] &r"
+
+on chat:
+    if message contains "zsbox":
+        cancel event
+        execute console command "ban %player% advertising"
+
+on mine of copper ore:
+    clear drops
+    drop copper ingot
+
+
+on mine of iron ore:
+    clear drops
+    drop iron ingot
+
+every 15 minutes:
+    broadcast "{@prefix} &4All items will be removed in 60 seconds"
+    wait 57 seconds
+    broadcast "{@prefix} &4All items will be removed in 3 seconds"
+    wait 1 seconds
+    broadcast  "{@prefix} &4All items will be removed in 2 seconds"
+    wait 1 seconds
+    broadcast "{@prefix} &4All items will be removed in 1 seconds"
+    wait 1 seconds
+    make server execute command "killall all "
+
+Every 5 minutes:
+		broadcast "&8&m-------------------------------------"
+		broadcast "{@prefix} &7&lMake Sure To Use &9/Discord "
+		broadcast "&8&m-------------------------------------"
+		wait 6 minutes
+		broadcast "&8&m-------------------------------------"
+		broadcast "{@prefix} &7&lEvery 15 Minutes you get an afk key"
+		broadcast "&8&m-------------------------------------"
+		wait 7 minutes
+		broadcast "&8&m-------------------------------------"
+		broadcast "{@prefix} &7&lMake sure to advertise the server"
+		broadcast "&8&m-------------------------------------"
+		wait 8 minutes
+		broadcast "&8&m-------------------------------------"
+		broadcast "{@prefix} &7&lTo buy ranks do /buy"
+		broadcast "&8&m-------------------------------------"
+
+command /clearchat:
+    aliases: /cc
+    permission: chat.clear
+    permission message: &bYou don't have permission to clear chat.
+    trigger:
+        loop 1000 times:
+            broadcast " "
+        wait 5 tick
+        broadcast "{@prefix} &cChat has been cleared by &l%player%&5!"
+
+			
+command /mutechat:
+  permission: mutechat.use
+  trigger:
+    if {mutechat} is false:
+      set {mutechat} to true
+      broadcast "{@prefix}  &cChat has been muted by %player%" # Change Server-Name to your server name!
+    else:
+      set {mutechat} to false
+      broadcast "{@prefix} &aChat has been unmuted by %player%" # Change Server-Name to your server name!
+ 
+on chat:
+  if player does not have permission "mutechat.bypass":
+    if {mutechat} is true:
+      send "{@prefix} &cThe chat is currently muted."
+      cancel event
+	  
+on chat:
+	if {mini.%player%.cooldown} is true:
+		send "{@prefix} {@Message}"
+		cancel event
+	else:
+		set {mini.%player%.cooldown} to true
+		wait {@CoolDown}
+		clear {mini.%player%.cooldown}
+ 
+on leave:
+ clear {mini.%player%.cooldown}
+ 
+on chat:
+   loop all players:
+      if message contains "%loop-player%":
+         replace "%loop-player%" with "&b@&b%loop-player%&f" in message
+		 
+on place of red mushroom:
+    cancel event
+    send "{@prefix} &3 You can not place that block"
+
+
+
+on place of soul lantern:
+    cancel event
+    send "{@prefix} &3 You can not place that block"
+
+
+
+on place of lantern:
+    cancel event
+    send "{@prefix} &3 You can not place that block"
+
+
+on place of bamboo:
+    cancel event
+    send "{@prefix} &3 You can not place that block"
+
+
+
+on place of tube coral:
+    cancel event
+    send "{@prefix} &3 You can not place that block"
+
+
+on place of redstone torch:
+    cancel event
+    send "{@prefix} &3 You can not place that block"
+
+
+on place of seagrass:
+    cancel event
+    send "{@prefix} &3 You can not place that block"
+
+on rightclick with sugar:
+    name of the player's weapon is "&a&lStrenght token"
+    apply strength 2 to player for 60 seconds
+    remove sugar named "&a&lStrenght token" from player's inventory
+    send "&a&lYou have redeemed a strenght token and now gained &4&lstrength 2"
+	
+on join:
+    set join message to "{@prefix} &8&l[&a+&8&l] &7%player%"
+
+on quit:
+    set leave message to "{@prefix} &8&l[&c-&8&l] &7%player%"
+	
+	
+ 
+on item spawn:
+	if name of event-item is set:
+		set display name of event-entity to name of event-item
+	else:
+		set {_type} to "%type of event-item%"
+		set display name of event-entity to {_type} in strict proper case
+		
+command /staffchat [<text>]:
+    aliases: /sc, /staffchat
+    permission: sc.staffchat
+    permission message: &6&l(!) &fYou need sc.staffchat permission to access Staff Chat!
+    trigger:
+        if arg 1 is not set:
+            send "You need a message dumbass" to player
+        else:
+            loop all players:
+                if loop-player has permission "sc.staffchat":
+                    send "&6StaffChat &8» &7%player's display name%: &f%arg 1%" to loop-player
