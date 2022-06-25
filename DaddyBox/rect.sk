@@ -1,0 +1,23 @@
+options:
+    Prefix: &f&lDaddy&8&lBox &8|
+
+every 5 minutes:
+    set {1} to random integer between 0 and 50045
+    set {2} to random integer between 0 and 10095
+    set {reactionenabled} to true
+    set {rectnum} to {1} + {2}
+    broadcast ""
+    send formatted "{@Prefix} &f What is &c&l%{1}% + %{2}%" to all players
+    broadcast ""
+    if {reactionanswered} is true:
+        set {reactionanswered} to false
+        
+
+on chat:
+    if message contains "%{rectnum}%":
+        if {reactionenabled} is true:
+            broadcast "{@Prefix} &b%player% got the answer of %{rectnum}%"
+            set {reactionanswered} to true
+            set {reactionenabled} to false
+            # do stuff
+            give player 15 magma block

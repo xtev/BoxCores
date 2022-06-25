@@ -1,0 +1,54 @@
+on load:
+    loop all players:
+        reloadScoreboard(loop-player)
+
+on join:
+    reloadScoreboard(player)
+    loop all players:
+        reloadScoreboard(loop-player)
+
+every 15 seconds:
+    loop all players:
+        reloadScoreboard(loop-player)
+        set {_loopy::%loop-player%} to loop-player
+
+on death of player:
+    add 1 to {Deathss::%victim's uuid%}
+    if attacker is a player:
+        add 1 to {Killss::%attacker's uuid%}   
+
+on join:
+    if {joinss3a::*} does not contain player's uuid:
+        add player's uuid to {Joinss3a::*}
+        set {joinss3a} to size of {Joinss3a::*}
+
+on join:
+  if {Killss::%player's uuid%} is not set:
+    set {Killss::%player's uuid%} to 0
+  if {Deathss::%player's uuid%} is not set:
+    set {Deathss::%player's uuid%} to 0  
+	
+function reloadScoreboard(p: player):
+    set {_uuid} to {_p}'s uuid
+    set {_online} to number of all players
+    set {_pr} to {_p}'s prefix
+    set {_kdr} to "%{Killss::%{_p}%} / {Deathss::%{_p}%}%"
+    if {_kdr} contains "Infinity" or "NaN":
+        set {_kdr} to 0
+	
+    
+    clear scoreboard of {_p}
+    set title of {_p} scoreboard to "&4&lDaddyBox &7| &dS1 "
+    set line 11 of {_p} scoreboards to "&1"
+    set line 10 of {_p} scoreboards to "&4&lPlayer"
+    set line 9 of {_p} scoreboards to "&4→ &rKills:&b %{Killss::%{_p}%} ? 0%"
+    set line 8 of {_p} scoreboards to "&4→ &rDeaths:&b %{Deathss::%{_p}%} ? 0%"
+    set line 7 of {_p} scoreboards to "&4→ &rKDR:&b %{_kdr}%"
+    set line 7 of {_p} scoreboards to "&4→ &rStreak:&b %{killstreaks::%{_p}%} ? 0%"
+    set line 6 of {_p} scoreboards to "&4&lServer"
+    set line 5 of {_p} scoreboards to "&4→&r Online Players:&b %{_online}% / %maximum amount of players%"
+    set line 6 of {_p} scoreboards to "&4→&r Joins:&b %{joinss3a}%"
+    set line 3 of {_p} scoreboards to "&4→&r TPS:&b %tps from the last minute%"
+    set line 2 of {_p} scoreboards to "&4"
+    set line 1 of {_p} scoreboards to "&6&lDaddybox.minehut.gg"
+    toggle board of {_p}

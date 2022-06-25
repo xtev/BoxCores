@@ -1,0 +1,284 @@
+options:
+ prefix: &f&lDaddy&8&lBox &8|
+
+
+command /clan [<text>] [<text>] [<text>]:
+    trigger:
+        if arg-1 is not set:
+            set {_clan} to getClan(player)
+            if ({_clan} is not set):
+                sendClansHelpMessage(player)        
+        if arg-1 is "create":
+            if arg-2 is not set:
+                sendClansHelpMessage(player)
+                stop
+            createClan(player, arg-2)
+            stop
+        if arg-1 is "disband":
+            disbandClan(player)
+            stop
+        if arg-1 is "invite":
+            invitePlayerToClan(player, arg-2 parsed as a player)
+            stop
+        if arg-1 is "join":
+            joinClan(player, arg-2)
+            stop
+        if arg-1 is "leave":
+            set {_clan} to getClan(player)
+            leaveClan(player, {_clan})
+            stop
+        if arg-1 is "kick":
+            kickClanMember(player, arg-2 parsed as an offline player)
+            stop
+        if arg-1 is "chat":
+            toggleClanChat(player)
+            stop
+        if arg-1 is "info":
+            sendClansInfoMessage(player)
+            stop
+        else:
+            sendClansHelpMessage(player)
+            stop
+
+on chat:
+    if {data::%player's uuid%::clanChatEnabled} is set:
+        set {_clan} to getClan(player)
+        messageClan({_clan}, "&aClan Chat &8? &7%player%&f: %message%")
+        cancel event
+
+on damage of a player:
+    attacker is player:
+        set {_same} to isInSameClan(attacker, victim)
+        if {_same} is true:
+            cancel event
+            send "{@prefix} &b%victim% &7is in your clan." to attacker
+           
+function sendClansHelpMessage(p: player):
+    message "" to {_p}
+    message "{@prefix} &fListing commands..." to {_p}
+    message "" to {_p}
+    message " &f/clan create <name>" to {_p}
+    message " &f/clan invite <player>" to {_p}
+    message " &f/clan kick <player>" to {_p}
+    message " &f/clan join <clan>" to {_p}
+    message " &f/clan chat" to {_p}
+    message " &f/clan leave" to {_p}
+    message " &f/clan disband" to {_p}
+    message " &f/clan info" to {_p}
+    message "" to {_p}
+
+function createClan(p: player, n: text):
+    if length of {_n} is more than 10:
+        message "{@prefix} &7Your clan name must be less than 11 characters." to {_p}
+        stop
+   
+    set {_canCreateOwner} to true
+    set {_canCreateUUID} to true
+    set {_canCreateName} to true
+    loop {clansData::*}:
+        if {clansData::%loop-value%::owner} is {_p}'s uuid:
+            set {_canCreateOwner} to false
+        loop {clansData::%loop-value%::members::*}:
+            if loop-value-2 is {_p}'s uuid:
+                set {_canCreateUUID} to false
+        if {clansData::%loop-value%::name} is {_n}:
+            set {_canCreateName} to false
+    if {_canCreateOwner} is false:
+        message "&c-- &7You already own a clan." to {_p}
+        stop
+    if {_canCreateName} is false:
+        message "&c-- &7That clan name is already in use." to {_p}
+        stop
+    if {_canCreateUUID} is false:
+        message "&c-- &7You are already in a clan." to {_p}
+        stop
+    add {_n} to {clansData::*}
+    set {clansData::%{_n}%::owner} to {_p}'s uuid
+    set {clansData::%{_n}%::name} to {_n}
+    broadcast "{@prefix} &7The clan &b%{_n}%&7 was created by &b%{_p}%&7."
+
+function disbandClan(p: player):
+    set {_clan} to getClan({_p})
+    if {_clan} is not set:
+        message "{@prefix} &7You are not in a clan." to {_p}
+        stop
+    if {clansData::%{_clan}%::owner} is not {_p}'s uuid:
+        message "{@prefix} &7You don't own this clan." to {_p}
+        stop
+    set {_uuid} to {_p}'s uuid
+    if {clansData::confirmDisband::%{_uuid}%} isn't set:
+        message "{@prefix} &7Are you sure you want to disband your clan?. (Expires in 10 seconds)" to {_p}
+        set {clansData::confirmDisband::%{_uuid}%} to false
+        wait 10 seconds
+        if {clansData::confirmDisband::%{_uuid}%} is set:
+            delete {clansData::confirmDisband::%{_uuid}%}
+        stop
+    messageClanWithoutOwner({_p}, "&a?? &7Your clan was disbanded by &b%{_p}%&7.")
+    
+    loop {clansData::%{_clan}%::members::*}:
+        if {data::%loop-value%::clanChatEnabled} is set:
+            delete {data::%loop-value%::clanChatEnabled}
+    delete {data::%{_uuid}%::clanChatEnabled}    
+    remove {_clan} from {clansData::*}
+    delete {clansData::%{_clan}%}
+    delete {clansData::%{_clan}%::members::*}
+    delete {clansData::%{_clan}%::owner}
+    delete {clansData::%{_clan}%::name}
+    message "{@prefix} &7You have disbanded your clan." to {_p}
+    
+function getClan(p: offline player) :: text:
+    loop {clansData::*}:
+        if {clansData::%loop-value%::owner} is {_p}'s uuid:
+            return "%loop-value%"
+            stop
+        loop {clansData::%loop-value%::members::*}:
+            if {_p}'s uuid is loop-value-2:
+                return "%loop-value-1%"
+                stop
+                
+function getClanOwner(c: text) :: text:
+    return {clansData::%{_c}%::owner}
+
+function messageClanWithoutOwner(p: player, s: text):
+    set {_clan} to getClan({_p})
+    loop {clansData::%{_clan}%::members::*}: 
+        if loop-value is {_p}'s uuid:
+            continue
+        message "%{_s}%" to loop-value parsed as a player
+
+function messageClan(c: text, s: text):
+    message "%{_s}%" to {clansData::%{_c}%::owner} parsed as a player
+    loop {clansData::%{_c}%::members::*}: 
+        message "%{_s}%" to loop-value parsed as a player
+
+function invitePlayerToClan(p: player, t: player):
+    set {_clan} to getClan({_p})
+    set {_targetClan} to getClan({_t})
+    set {_clanOwner} to getClanOwner({_clan})
+    if {_clanOwner} is not {_p}'s uuid:
+        message "{@prefix} &7You can't invite anyone to this clan, since you don't own it." to {_p}
+        stop
+		
+    if {clansData::%{_clan}%::members::*} is greater than 6:
+        message "{@prefix} &7Im sorry but you have reached the playerlimit of clans" to {_p}
+        stop
+    if {_targetClan} is {_clan}:
+        message "{@prefix} &7That player is already in your clan" to {_p}
+        stop
+    if {clansData::invites::%{_clan}%::*} contains {_t}:
+        message "{@prefix} &7That player already has an active invite to join your clan." to {_p}
+        stop
+    message "{@prefix} &7You have invited &b%{_t}% &7to your clan." to {_p}
+    add {_t}'s uuid to {clansData::invites::%{_clan}%::*}
+    message "{@prefix} &7You have been invited to join &b%{_clan}%&7, this invite will expire in &b20 seconds&7." to {_t}
+    wait 20 seconds
+    if {clansData::invites::%{_clan}%::*} does not contain {_t}'s uuid:
+        stop
+    remove {_t}'s uuid from {clansData::invites::%{_clan}%::*}
+    message "{@prefix} &7Your invite to join &b%{_clan}%&7 has expired." to {_t}
+
+function joinClan(p: player, c: text):
+    set {_clan} to getClan({_p})
+    if {_clan} is set:
+        message "{@prefix} &7You are already in a clan." to {_p}
+        stop
+    if {clansData::invites::%{_c}%::*} does not contain {_p}'s uuid:
+        message "{@prefix} &7You have not been invited to join that clan." to {_p}
+        stop
+    remove {_p}'s uuid from {clansData::invites::%{_c}%::*}
+    messageClan({_clan}, "{@prefix} &7The player &b%{_p}%&7 has joined your clan.")
+    add {_p}'s uuid to {clansData::%{_c}%::members::*}
+    message "{@prefix} &7You have joined the clan &b%{_c}%&7." to {_p}
+
+function leaveClan(p: player, c: text):
+    set {_clan} to getClan({_p})
+    if {_clan} is not set:
+        message "{@prefix} &7You are not in a clan." to {_p}
+        stop
+    remove {_p}'s uuid from {clansData::%{_c}%::members::*}
+    messageClan({_clan}, "{@prefix} &7The player &b%{_p}%&7 has left your clan.")
+    message "{@prefix} &7You have left the clan &b%{_c}%&7." to {_p}
+    
+    set {_uuid} to {_p}'s uuid
+    if {data::%{_uuid}%::clanChatEnabled} is set:
+        delete {data::%{_uuid}%::clanChatEnabled}
+
+function kickClanMember(p: offline player, t: player):
+    set {_clan} to getClan({_p})
+    if {_clan} is not set:
+        message "{@prefix} &7You are not in a clan." to {_p}
+        stop
+    set {_clanOwner} to getClanOwner({_clan})
+    if {_clanOwner} is not {_p}'s uuid:
+        message "{@prefix} &7You can't kick anyone from this clan, since you don't own it." to {_p}
+        stop
+    if {clansData::%{_clan}%::members::*} does not contain {_t}'s uuid:
+        message "{@prefix} &7That player is not in your clan, you can't kick them." to {_p}
+        stop
+    remove {_t}'s uuid from {clansData::%{_clan}%::members::*}
+    messageClan({_clan}, "{@prefix} &7The player &b%{_t}%&7 was kicked from your clan.")
+    message "{@prefix} &7You have kicked &b%{_t}%&7 from your clan." to {_p}
+    message "{@prefix} &7You have been kicked from &b%{_clan}%&7." to {_t}
+    
+    set {_uuid} to {_t}'s uuid
+    if {data::%{_uuid}%::clanChatEnabled} is set:
+        delete {data::%{_uuid}%::clanChatEnabled}
+
+function getClanTag(p: player) :: text:
+    set {_clan} to getClan({_p})
+    if {_clan} is not set:
+        return ""
+        stop
+    return "&8[&7&l%{clansData::%{_clan}%::name}%&8] "
+
+function toggleClanChat(p: player):
+    set {_clan} to getClan({_p})
+    if {_clan} is not set:
+        message "{@prefix} &7You are not in a clan." to {_p}
+        stop
+    set {_uuid} to {_p}'s uuid
+    if {data::%{_uuid}%::clanChatEnabled} is not set:
+        set {data::%{_uuid}%::clanChatEnabled} to true
+        message "{@prefix} &7You have &aenabled &7clan chat." to {_p}
+    else: 
+        delete {data::%{_uuid}%::clanChatEnabled}
+        message "{@prefix} &7You have &cdisabled &7clan chat." to {_p}
+
+function sendClansInfoMessage(p: player):
+    set {_clan} to getClan({_p})
+    if {_clan} is not set:
+        message "{@prefix} &7You are not in a clan." to {_p}
+        stop
+    message "" to {_p}
+    message "&7Clan &b%{_clan}%&b's &7Information" to {_p}
+    message "" to {_p}
+    message "&7Owner&f: %{clansData::%{_clan}%::owner} parsed as a offline player%" to {_p}
+    message "" to {_p}
+    message "&7Members:" to {_p}
+    if {clansData::%{_clan}%::members::*} is not set:
+        message "&fNone" to {_p}
+    else:
+        loop {clansData::%{_clan}%::members::*}:
+            message "&f%loop-value parsed as a offline player%" to {_p}
+    message "" to {_p}
+
+function isInSameClan(p: player, t: player) :: boolean:
+    set {_clan} to getClan({_p})
+    set {_targetsClan} to getClan({_t})
+
+    if {_clan} is {_targetsClan}:
+        return true
+        stop
+    return false
+
+
+command resetclans:
+	permission: op
+	trigger:
+		set {_before} to unix timestamp of now
+		delete {clansData::*}
+		send "Done %difference between unix timestamp of now and {_before}%ms"
+	
+on chat:
+	set {_x} to formatted player's prefix
+	set chat format to "%{_tag} ? "" %%{_x}% &f%player% &8&l> &7%message%"
