@@ -1,0 +1,26 @@
+every 13 seconds:
+    summon wither skeleton at location(-229, 151, 574)
+    set {_h} to leather helmet of protection 255
+    dye {_h} orange
+    set {_c} to leather chestplate of protection 255
+    dye {_c} orange
+    set {_l} to leather leggings of protection 255
+    dye {_l} orange
+    set {_b} to leather boots of protection 255
+    dye {_b} orange
+
+    
+    set name of last spawned wither skeleton to "&6&lStarfish"
+    equip last spawned wither skeleton with {_h}
+    equip last spawned wither skeleton with {_c}
+    equip last spawned wither skeleton with {_l}
+    equip last spawned wither skeleton with {_b}
+    set last spawned wither skeleton's held item to blaze powder of sharpness 10
+
+
+on death of wither skeleton:
+    cancel drops
+    drop 1 orange dye named "&6&lStarfish Token"
+    
+every 3 minutes:
+   delete all wither skeletons

@@ -1,0 +1,6 @@
+on command "me":
+    cancel event
+on command "minecraft:me":
+    cancel event
+on command "essentials:me":
+    cancel event

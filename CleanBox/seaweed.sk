@@ -1,0 +1,12 @@
+every 8 seconds:
+    summon turtle at location(-151, 155, 572)
+    set name of last spawned turtle to "&2&lSeaweed Turtle"
+    set last spawned turtle's max health to 25
+    heal last spawned turtle
+
+on death of turtle:
+    cancel drops
+    drop 1 green dye named "&2&lSeaweed Token"
+
+every 1 minutes:
+   delete all turtles

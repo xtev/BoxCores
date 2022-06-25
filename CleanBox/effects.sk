@@ -1,0 +1,2 @@
+every 10 seconds:
+    execute console command "effect give @a night_vision 999999 1 true"

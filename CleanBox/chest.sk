@@ -1,0 +1,10 @@
+every second:
+    loop all players:
+        if loop-player's chestplate is netherite chestplate:
+            damage loop-player's chestplate by 400
+
+
+every second:
+    loop all players:
+        if loop-player's chestplate is diamond chestplate:
+            damage loop-player's chestplate by 400

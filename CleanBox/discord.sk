@@ -1,0 +1,8 @@
+options:
+    prefix: &7[&9&lCleanbox&7] &8>> 
+
+command /discord:
+    aliases: /community, /discord, /Server
+    trigger:
+        send "{@prefix} <tooltip:&ahttps://discord.gg/cleanbox><link:https://discord.gg/cleanbox>&ahttps://discord.gg/cleanbox." to player
+        play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 2

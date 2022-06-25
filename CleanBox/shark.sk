@@ -1,0 +1,31 @@
+every 10 seconds:
+    summon skeleton at location(-340, 157, 878)
+    set {_h} to leather helmet of protection 255
+    dye {_h} gray
+    set {_c} to leather chestplate of protection 255
+    dye {_c} gray
+    set {_l} to leather leggings of protection 255
+    dye {_l} gray
+    set {_b} to leather boots of protection 255
+    dye {_b} gray
+
+    
+    set name of last spawned skeleton to "&7&lSharks Bone"
+    equip last spawned skeleton with {_h}
+    equip last spawned skeleton with {_c}
+    equip last spawned skeleton with {_l}
+    equip last spawned skeleton with {_b}
+
+
+on death of skeleton:
+    cancel drops
+    drop 1 grey dye named "&7&lShark Token"
+    
+every 2 minutes:
+   delete all skeletons
+ 
+every 5 seconds:
+   delete all arrows
+
+every 1 seconds:
+   delete all chickens

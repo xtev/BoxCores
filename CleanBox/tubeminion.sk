@@ -1,0 +1,32 @@
+every 14 seconds:
+    summon drowned at location(-224, 153, 930)
+    set {_h} to leather helmet of protection 40
+    dye {_h} blue
+    set {_c} to leather chestplate of protection 60
+    dye {_c} blue
+    set {_l} to leather leggings of protection 60
+    dye {_l} blue
+    set {_b} to leather boots of protection 40
+    dye {_b} blue
+
+    
+    set name of last spawned drowned to "&9&lTube Minion"
+    equip last spawned drowned with {_h}
+    equip last spawned drowned with {_c}
+    equip last spawned drowned with {_l}
+    equip last spawned drowned with {_b}
+    set health of last spawned drowned to 60
+
+
+on death of drowned:
+    cancel drops
+    drop 1 lapis lazuli named "&9&lTube Token"
+    
+every 2 minutes:
+   delete all drowneds
+ 
+every 5 seconds:
+   delete all tridents
+
+every 1 seconds:
+   delete all chickens

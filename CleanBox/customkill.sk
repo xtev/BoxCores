@@ -1,0 +1,7 @@
+options:
+    prefix: &7[&9&lCleanbox&7] &7»
+on death:
+    if attacker is a player:
+        if victim is a player:
+            set {_weapon} to name of attacker's tool
+            set the death message to "{@prefix} &a&l&n%attacker%&c&l &7Has killed &4&l&n%victim%&7&l using &4%{_weapon} ? "&9&l&nFists"%"

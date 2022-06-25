@@ -1,0 +1,14 @@
+on chat:
+    if {chatcooldown.%player%} is true:
+        cancel event
+        send "&7[&9&lCleanbox&7] &7You need to wait 2 seconds after each message!"
+    else:
+        set {chatcooldown.%player%} to true
+        wait 2 seconds
+        set {chatcooldown.%player%} to false
+
+command /clearchatdelay [<player>]:
+    permission: permission
+    permission message: &cYou do not have access to this command!
+    trigger:
+        delete {chatcooldown.%arg-1%}

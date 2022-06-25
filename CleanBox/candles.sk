@@ -1,0 +1,35 @@
+on place of green candle:
+    cancel event
+	
+on place of white candle:
+    cancel event
+
+on place of horn coral block:
+    cancel event
+	
+on place of horn coral:
+    cancel event
+	
+on place of oak boat:
+    cancel event
+	
+on place of seagrass:
+    cancel event
+	
+on place of tube coral:
+    cancel event
+	
+on place of cornflower:
+    cancel event
+	
+every 1 second:
+    delete all boats
+
+on place of sea pickle:
+    cancel event
+
+on place of any shulker box:
+    cancel event
+
+on place of furnace:
+    cancel event

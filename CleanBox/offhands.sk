@@ -1,0 +1,4 @@
+every 1 second:
+    loop all players:
+        if loop-player's offhand tool is sugar:
+            execute console command "effect give %loop-player% minecraft:speed 2 0 true"

@@ -1,0 +1,111 @@
+variables:
+    {getPinged.%player%} = true
+    {sendEmojis.%player%} = true 
+options:
+	#
+	# Color Codes:
+	# (&a Light Green) (&b Aqua) (&c Light Red) (&dLight Purple) (&e Yellow) (&f White)
+	# (&1 Dark Blue) (&2 Dark Green) (&3 Dark Aqua) (&4 Dark Red) (&5 Dark Purple) (&6 Gold) (&7 Light Gray) (&8 Dark Gray) (&9 Blue)
+	#
+	prefix: &7[&9&lCleanbox&7] &8>>
+	prefix_start: &8&l•
+	main_color: &f
+	second_color: &7
+
+command /chatsettings [<text>] [<text>]:
+    trigger:
+        if arg-1 is not set:
+            send ""
+            send "{@prefix_start} {@main_color}/chatsettings getPinged <on/off> {@second_color}&oEnable / disable chat pings"
+            send "{@prefix_start} {@main_color}/chatsettings sendEmojis list {@second_color}&oSee list of custom emojis"
+            send "{@prefix_start} {@main_color}/chatsettings sendEmojis <on/off> {@second_color}&oEnable / disable sending emojis"
+            send "{@prefix_start} {@main_color}/chatsettings help {@second_color}&oSee list off commands"
+            send "{@prefix_start} {@main_color}/chatsettings info {@second_color}&oSee information about chatsettings"
+            send ""
+        else:
+            if arg-1 is "getPinged" or "sendEmojis" or "help" or "info":
+                if arg-1 is "getPinged":
+                    if arg-2 is not set:
+                        send "{@prefix} {@main_color}/chatsettings getPinged <on/off>"
+                    else:
+                        if arg-2 matches "on" or "off":
+                            if arg-2 is "on":
+                                send "{@prefix} {@second_color}You have successfully enabled %arg-1%"
+                                set {getPinged.%player%} to true
+                            else if arg-2 is "off":
+                                send "{@prefix} {@second_color}You have successfully disabled %arg-1%"
+                                set {getPinged.%player%} to false
+                        else:
+                            send "{@prefix} {@main_color}/chatsettings getPinged <on/off>"
+                if arg-1 is "sendEmojis":
+                    if arg-2 is not set:
+                        send "{@prefix} {@main_color}/chatsettings sendEmojis <on/off>"
+                    else:
+                        if arg-2 matches "on" or "off" or "list":
+                            if arg-2 is "on":
+                                send "{@prefix} {@second_color}You have successfully enabled %arg-1%"
+                                set {sendEmojis.%player%} to true
+                            else if arg-2 is "off":
+                                send "{@prefix} {@second_color}You have successfully disabled %arg-1%"
+                                set {sendEmojis.%player%} to false
+                            if arg-2 is "list":
+                                send "{@prefix_start} {@main_color}':)' or = {@second_color}☺"
+                                send "{@prefix_start} {@main_color}':(' or = {@second_color}☹"
+                                send "{@prefix_start} {@main_color}':star:' = {@second_color}★"
+                                send "{@prefix_start} {@main_color}':trademark:' = {@second_color}™"
+                                send "{@prefix_start} {@main_color}':pound:' = {@second_color}£"
+                                send "{@prefix_start} {@main_color}':doller:' = {@second_color}$"
+                                send "{@prefix_start} {@main_color}':euro:' = {@second_color}€"
+                                send "{@prefix_start} {@main_color}':bitcoin:' = {@second_color}Ƀ"
+                        else:
+                            send "{@prefix} {@main_color}/chatsettings sendEmojis <on/off>"
+                if arg-1 is "info":
+                    send ""
+                    send "{@prefix_start} {@main_color}Version 1.1 {@second_color}&oBy asxv"
+                    send ""
+                if arg-1 is "help":
+                    send ""
+                    send "{@prefix_start} {@main_color}/chatsettings getPinged <on/off> {@second_color}&oEnable / disable chat pings"
+                    send "{@prefix_start} {@main_color}/chatsettings sendEmojis <on/off> {@second_color}&oEnable / disable sending emojis"
+                    send "{@prefix_start} {@main_color}/chatsettings help {@second_color}&oSee list off commands"
+                    send "{@prefix_start} {@main_color}/chatsettings info {@second_color}&oSee information about chatsettings"
+                    send ""
+            else:
+                send ""
+                send "{@prefix_start} {@main_color}/chatsettings getPinged <on/off> {@second_color}&oEnable / disable chat pings"
+                send "{@prefix_start} {@main_color}/chatsettings sendEmojis list {@second_color}&oSee list of custom emojis"
+                send "{@prefix_start} {@main_color}/chatsettings sendEmojis <on/off> {@second_color}&oEnable / disable sending emojis"
+                send "{@prefix_start} {@main_color}/chatsettings help {@second_color}&oSee list off commands"
+                send "{@prefix_start} {@main_color}/chatsettings info {@second_color}&oSee information about chatsettings"
+                send ""
+
+on chat:
+    loop all players:
+        if message contains "%loop-player%":
+            replace all "%loop-player%" with "&e@%loop-player%&r" in message
+            if {getPinged.%loop-player%} is true:
+                play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 2 to loop-player
+            else:
+                stop
+on chat:
+    if message contains ":)" or ":(" or ":star:" or ":trademark:" or ":pound:" or ":doller:" or ":euro:" or ":bitcoin:":
+        if {sendEmojis.%player%} is true:
+            replace all ":)" with "☺" in message
+            replace all ":(" with "☹" in message
+            replace all ":star:" with "★" in message
+            replace all ":trademark:" with "™" in message
+            replace all ":pound:" with "£" in message
+            replace all ":doller:" with "$" in message
+            replace all ":euro:" with "€" in message
+            replace all ":bitcoin:" with "Ƀ" in message
+
+every 10 minutes:
+    broadcast ""
+    broadcast "{@prefix} {@main_color}Want to enable / disable chatPings? {@second_color}Well do /chatsettings getPinged <on/off>"
+    broadcast "{@prefix} {@main_color}Want to be able to send custom emojis? {@second_color}Well do /chatsettings sendEmojis <on/off/list>"
+    broadcast ""
+# made by asxv #
+# version 1.1 #
+# version 1.2 will have more features #
+# make sure to not send to nn's #
+# enjoy #

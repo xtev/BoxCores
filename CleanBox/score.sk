@@ -1,0 +1,45 @@
+```variables:
+    {kills.%player%} = 0
+    {deaths.%player%} = 0
+    {kdr.%player%} = 0
+    {killstreak.%player%} = 0
+    {joinss} = 0
+every 1 second:
+    loop all players:
+        wipe loop-player's sidebar
+        set {_online} to number of all players
+        set name of sidebar of loop-player to "&9&lCleanbox &7&l┃ &7S7"
+        set score "&r&r&r" in sidebar of loop-player to 12
+        set score "&9&lServer" in sidebar of loop-player to 5
+        set score "&9&l→ &7Online Players: &9%{_online}% &7/ &9150" in sidebar of loop-player to 4
+        set score "&9&l→ &7Joins: &9%{joinss}%" in sidebar of loop-player to 3
+        set score "&9&l→ &7TPS: &9%tps from the last 1 minute%" in sidebar of loop-player to 2
+        set score "&r" in sidebar of loop-player to 1
+        set score "&9Cleanbox.tebex.io" in sidebar of loop-player to 0
+
+every 1 second:
+    loop all players:
+        set {KDR.%loop-player%} to {kills.%loop-player%} / {deaths.%loop-player%}
+
+on first join:
+    add 1 to {joinss}
+    set {killstreak.%player%} to 0
+    set {deaths.%player} to 0
+    set {kills.%player%} to 0 
+    set {kdr.%player%} to 0
+	
+on death:
+    add 1 to {deaths.%victim%}
+    add 1 to {kills.%attacker%}
+    add 1 to {killstreak.%attacker%}
+    set {killstreak.%player%} to 0
+
+command /resetstatsall:
+    permission: resetstatsall.use
+    permission message: &cYou do not have access to this command!
+    trigger:
+        loop all players:
+            set {kills.%loop-player%} to 0
+            set {deaths.%loop-player%} to 0
+            set {killstreak.%loop-player%} to 0
+            set {KDR.%loop-player%} to 0```

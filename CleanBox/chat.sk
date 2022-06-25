@@ -1,0 +1,25 @@
+variables:
+    {mutechat} = false
+options:
+    prefix: &7[&9&lCleanbox&7] &8>>
+
+    mutechatPermission: skript.mutechat.use
+    mutechatBypassPermission: skript.mutechat.bypass
+    permissionMessage: &cYou do not have access to this command!
+
+command /mutechat:
+    permission: {@mutechatPermission}
+    permission message {@permissionMessage}
+    trigger:
+        if {mutechat} is false:
+            set {mutechat} to true
+            broadcast "{@prefix} &cChat was muted by &9%player%&c!"
+        else:
+            set {mutechat} to false
+            broadcast "{@prefix} &aChat was unmuted by &9%player%&a!"
+
+on chat:
+    if {mutechat} is true:
+        if player doesn't have permission "{@mutechatBypassPermission}":
+            cancel event
+            send "{@prefix} &cThe chat is muted!"

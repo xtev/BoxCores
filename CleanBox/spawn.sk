@@ -1,0 +1,16 @@
+options:
+    prefix: &7[&9&lCleanbox&7] &7»
+
+command setspawn:
+    permission: op 
+    trigger:
+        set {spawn} to location of player
+        send "{@prefix} &aSpawn was set to &6%{spawn}%&a!"
+
+command spawn:
+    trigger:
+        teleport player to {spawn}
+        send "{@prefix} &aYou were teleported to spawn!"
+
+on join:
+    teleport player to {spawn}

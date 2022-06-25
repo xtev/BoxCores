@@ -1,0 +1,12 @@
+options:
+    prefix: &9&lCleanbox &7>>
+
+command /advertisemessage:
+    aliases: /admsg, /admessage, /ad
+    trigger:
+        send ""
+        send "{@prefix} <suggest command:/ad cleanbox BOXPVP | OP | UNIQUE | SEASON 7> &8(&c&lCLICK-HERE&8) &7to copy the [DEFAULT] Ad message."
+        send "{@prefix} <suggest command:/ad cleanbox &dBOXPVP &8| &aOP &8| &9UNIQUE &8| &3SEASON 7> &8(&c&lCLICK-HERE&8) &7to copy the &a[VIP]&7 Ad message."
+        send "{@prefix} <suggest command:/ad cleanbox &8(&d&lCLICK HERE&8) &8(&5&LBOXPVP&8) &8(&3&lSEASON 7 RELEASED8)> &8(&c&lCLICK-HERE&8) &7to copy the &6[LEGAND]&7 Ad message."
+        send "{@prefix} <suggest command:/ad cleanbox &8(&d&lCLICK HERE&8) &8(&5&lBOXPVP&8) &8(&3&lSEASON 7 RELEASED&8)> &8(&c&lCLICK-HERE&8) &7to copy the &3[PATRON]&7 Ad message."
+        send ""
