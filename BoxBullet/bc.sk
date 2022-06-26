@@ -1,0 +1,15 @@
+command /broadcast [<text>]:
+    permission: broadcast.broadcast
+    trigger:
+        if arg-1 is set: 
+            broadcast "&7[&8&lBoxBullet&7] &f%coloured arg-1%"
+        else:
+            send "&cUsage: /broadcast MESSAGE"
+
+command /bc [<text>]:
+    permission: broadcast.broadcast
+    trigger:
+        if arg-1 is set: 
+            broadcast "&7[&8&lBoxBullet&7] &f%coloured arg-1%"
+        else:
+            send "&cUsage: /broadcast MESSAGE"

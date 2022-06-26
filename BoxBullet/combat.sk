@@ -1,0 +1,127 @@
+#config
+options:
+	incombat_actionbar: &cCombat Log | %{combatDelay.%player%}%
+	attacker_actionbar: &cCombat Log | %{combatDelay.%attacker%}%
+	victim_actionbar: &cCombat Log | %{combatDelay.%victim%}%
+	lplayer_actionbar: &cCombat Log | %{combatDelay.%loop-player%}%
+	nocombat_actionbar: &aCombat Log | ✔
+
+	commandBypassPermission: skript.combatlog.bypass
+	permissionMessage: &cYou do not have access to this command!
+
+	messageAttacker: &cYou have combat tagged %victim%
+	messageVictim: &cYou have been combat tagged by %attacker%
+
+	messageLoggedInCombat: &b%player% has logged out while in combat
+	messageCommandInCombat: &cYou can't use commands while in combat!
+
+	messageOutOfCombat: &aYou may now log and use commands!
+
+	prefix: &7[&8&lBoxBullet&7]
+
+on damage:
+	if attacker is not a player:
+		stop
+
+	if victim is a player:
+		if {inCombat.%victim%} is false:
+			send "{@prefix} {@messageVictim}" to victim
+		
+		if {inCombat.%attacker%} is false:
+			send "{@prefix} {@messageAttacker}" to attacker
+		set {combatDelay.%victim%} to 15
+		set {inCombat.%victim%} to true
+		set {inCombat.%attacker%} to true
+		set {combatDelay.%attacker%} to 15
+		send action bar "{@attacker_actionbar}" to attacker
+		send action bar "{@victim_actionbar}" to victim
+
+on death:
+	if victim is player:
+		if {inCombat.%victim%} is true:
+			set {inCombat.%victim%} to false
+			delete {combatDelay.%victim%}
+			send action bar "{@nocombat_actionbar}" to victim
+
+every 2 ticks:
+	loop all players:
+		if {inCombat.%loop-player%} is true:
+			remove 0.10 from {combatDelay.%loop-player%}
+			send action bar "{@lplayer_actionbar}" to loop-player
+			if {combatDelay.%loop-player%} is 0:
+				set {inCombat.%loop-player%} to false
+				send action bar "{@nocombat_actionbar}" to loop-player
+				send "{@prefix} {@messageOutOfCombat}" to loop-player
+
+on leave:
+	if {inCombat.%player%} is true:
+		drop all items in player's inventory at player
+		clear player's inventory
+		delete {combatDelay.%player%}
+		broadcast "{@prefix} {@messageLoggedInCombat}"
+
+on join:
+	if {inCombat.%player%} is true:
+		teleport player to {spawn}
+		set player's health to 40
+		set {inCombat.%player%} to false
+	set {inCombat.%player%} to false
+
+on command:
+	if {inCombat.%player%} is true:
+		if player doesn't have permission "{@commandBypassPermission}":
+			cancel event
+			send "{@prefix} {@messageCommandInCombat}"
+
+command /combatlog [<player>]:	
+	aliases: /ct
+	trigger:
+		if arg-1 isn't set:
+			if {inCombat.%player%} is false:
+				send "{@prefix} &aYou aren't in combat!"
+			else if {combatDelay.%player%} > 0:
+				send "{@prefix} &aYou are in combat for %{combatDelay.%player%}%!"
+		else if {inCombat.%arg-1%} is false:
+			send "{@prefix} &a%arg-1% isn't in combat!"
+		else if {combatDelay.%arg-1%} > 0:
+			send "{@prefix} &a%arg-1% is in combat for %{combatDelay.%arg-1%}%!"
+
+command /combattag [<text>] [<player>]:
+	permission: skript.combattag.use
+	permission message: {@permissionMessage}
+	trigger:
+		if arg-1 is "tag":
+			if arg-2 isn't set:
+				send "{@prefix} &4Please use /combattag tag <player>" to player
+				stop
+			set {combatDelay.%arg-2%} to 15
+			set {inCombat.%arg-2%} to true
+			send action bar "&cCombat Log | %{combatDelay.%arg-2%}%" to arg-2
+			send "{@prefix} &cYou were force combattagged by &4%player%&a!" to player
+			send "{@prefix} &aYou force combattagged &2%arg-2%&a!"
+		else if arg-1 is "untag":
+			if arg-2 isn't set:
+				send "{@prefix} &4Please use /combattag untag <player>" to player
+				stop
+			send "{@prefix} &4Please use /combattag untag <player>" to player 
+			set {inCombat.%arg-2%} to false
+			delete {combatDelay.%arg-2%}
+			send action bar "{@nocombat_actionbar}" to arg-2
+			send "{@prefix} &aYou were force untagged by &2%player%&a!" to arg-2
+			send "{@prefix} &aYou force untagged &2%arg-2%&a!" to player
+		else if arg-1 is "untagall":
+			loop all players:
+				delete {combatDelay.%loop-player%}
+				set {inCombat.%loop-player%} to false
+				send "{@prefix} &aYou were force untagged by &2%player%&a!" to loop-player
+				send action bar "{@nocombat_actionbar}" to loop-player
+				send "{@prefix} &aYou force combattagged everyone!" to player
+		else:
+			send "" to player
+			send "{@prefix} &a/combattag tag <player> &8- &fForce combat tags a player" to player
+			send "{@prefix} &a/combattag untag <player> &8- &fForce untags a player" to player
+			send "{@prefix} &a/combattag untagall &8- &fForce untags everyone online" to player
+			send "" to player
+
+on tab complete of "/combattag":
+    set tab completions for position 1 to "tag", "untag", "untagall"

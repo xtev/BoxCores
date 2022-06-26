@@ -1,0 +1,20 @@
+options:
+    prefix: &7[&8&lBoxBullet&7]
+
+command setspawn:
+    permission: op 
+    trigger:
+        set {spawn} to location of player
+        send "{@prefix} &aSpawn was set to &6%{spawn}%&a!"
+
+command spawn [<player>]:
+    trigger:
+        if arg-1 is set:
+            if player has permission "skript.spawn.other":
+                teleport arg-1 to spawn
+        else:
+            teleport player to {spawn}
+            send "{@prefix} &aYou were teleported to spawn!"
+
+on join:
+    teleport player to {spawn}

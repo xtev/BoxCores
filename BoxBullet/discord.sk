@@ -1,0 +1,8 @@
+options:
+    prefix: &7[&8&lBoxBullet&7]
+
+command /discord:
+    aliases: /community, /discord, /Server
+    trigger:
+        send "{@prefix} <tooltip:&ahttps://discord.gg/vHd9mcCKpz><link:https://discord.gg/vHd9mcCKpz>&ahttps://discord.gg/vHd9mcCKpz." to player
+        play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 2

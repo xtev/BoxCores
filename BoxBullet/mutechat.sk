@@ -1,0 +1,38 @@
+options:
+    prefix: &7[&8&lBoxBullet&7]
+
+variables:
+    {mutechat} = false
+
+function mutechat(p: player):
+    set {mutechat} to true
+    broadcast ""
+    broadcast "{@prefix} &7%{_p}% &cmuted the chat!"
+    broadcast ""
+
+function unmuteChat(p: player):
+    set {mutechat} to false
+    broadcast ""
+    broadcast "{@prefix} &7%{_p}% &aunmuted the chat!"
+    broadcast ""
+
+command /mutechat [<text>]:
+    permission: boxbullet.mutechat.use
+    permission message: &fUnknown command. Type "/help" for help.
+    trigger:
+        if arg-1 is "mute":
+            if {mutechat} is false:
+                mutechat(player)
+        else if arg-1 is "unmute":
+            if {mutechat} is true:
+                unmuteChat(player)
+        else:
+            send "&cUsage: /mutechat mute/unmute"
+on chat:
+    if {mutechat} is true:
+        if player doesn't have permission "boxbullet.mutechat.bypass":
+            cancel event
+            send "{@prefix} &fYou may not talk while the chat is muted"
+
+on tab complete of "/mutechat":
+    set tab completions for position 1 to "mute" and "unmute"

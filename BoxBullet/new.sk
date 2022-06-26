@@ -1,0 +1,18 @@
+on join:
+    if {key::*} doesn't contain player's uuid:
+        execute server command "/cases give %player% gear 1"
+        add player's uuid to {key::*}
+
+command /key [<text>]:
+    trigger:
+        if sender has permission "key.reset":
+            if arg-1 is "reset":
+                clear {key::*}
+                send "&aYou have reseted the key event. This means you have made a new season!"
+            else:
+                send "&cUsage: /key reset"
+        else:
+            send "&cNo permissions!"
+
+on tab complete of "/key":
+    set tab completions for position 1 to "reset"

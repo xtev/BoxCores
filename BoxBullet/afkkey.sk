@@ -1,0 +1,2 @@
+every 20 minutes:
+    execute console command "goldencrates give * afk 2"

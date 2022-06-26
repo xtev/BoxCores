@@ -1,0 +1,2 @@
+every 2 seconds:
+    execute console command "execute as @a at @s if block ~ ~ ~ light run effect give @p minecraft:strength 3 0 true"

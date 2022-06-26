@@ -1,0 +1,64 @@
+options:
+    prefix: &7[&8&lBoxBullet&7]
+
+command /createwarp [<text>] [<text>]:
+    permission: skript.createWarp.use
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if {warp::%arg-1%} isn't set:
+                    set {warp::%arg-1%} to location of block at location of player
+                    set {warpPermission::%arg-1%} to arg-2 
+                    send "{@prefix} &aWarp &6%arg-1% &awas set to &6%{warp::%arg-1%}%&a!"
+                    send "{@prefix} &aPermission for warp &6%arg-1% &awas set to: &6%arg-2%&a"
+                else:
+                    send "{@prefix} &cThis warp is already defined, if you want to remove this warp use /deletewarp <warp name>!"
+            else:
+                send "{@prefix} &c/createwarp <warp name> <permission>"
+        else:
+            send "{@prefix} &c/createwarp <warp name> <permission>"
+
+command /deletewarp [<text>]:
+    aliases: /delwarp
+    permission: skript.delwarp.use
+    trigger:
+        if arg-1 isn't set:
+            send "{@prefix} &c/delwarp <warpname>"
+        else if {warp::%arg-1%} isn't set:
+            send "{@prefix} &cWarp &4%arg-1%&c Isn't a valid warp!"
+        else:
+            delete {warp::%arg-1%}
+            delete {warpPermission::%arg-1%}
+            send "{@prefix} &aWarp &6%arg-1%&a was deleted!"
+            send "{@prefix} &aWarp permission &6%{warpPermission::%arg-1%}%&a was deleted!"
+
+command /warp [<text>]:
+    trigger:
+        if arg-1 isn't set:
+            send "{@prefix} &c/warp <warp name>"
+        else if {warp::%arg-1%} isn't set:
+            send "{@prefix} &cWarp &4%arg-1%&c Isn't a valid warp!"
+        else:
+            if player has permission "%{warpPermission::%arg-1%}%":
+                set {warping.%player%} to true
+                send "{@prefix} &7Warping to &8%arg-1%&7 warp in 1 second!"
+                loop 1 time:
+                    if {warping.%player%} is true:
+                        wait 1 seconds
+                if {warping.%player%} is true:
+                    teleport player to {warp::%arg-1%}
+                    send "{@prefix} &aTeleported you to &6%arg-1%&a!"
+                    set {warping.%player%} to false
+            else:
+                send "{@prefix} &cYou dont have access to this warp!"
+
+on player move:
+    if {warping.%player%} is true:
+        set {warping.%player%} to false
+        send "&cYou won't be warped anymore!"
+
+on tab complete of "/warp":
+    set tab completions for position 1 to "bullet", "bullet+" and "bullet++"
+
+on tab complete of "/delwarp":
+    set tab completions for position 1 to "bullet", "bullet+" and "bullet++"
