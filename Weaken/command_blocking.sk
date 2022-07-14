@@ -1,0 +1,44 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on load:
+	delete {server::cblocks::*}
+	
+	add "me" to {server::cblocks::*}
+	add "minecraft:me" to {server::cblocks::*}
+	add "teammsg" to {server::cblocks::*}
+	add "te" to {server::cblocks::*}
+	add "minecraft:te" to {server::cblocks::*}
+	add "minecraft:teammsg" to {server::cblocks::*}
+	add "minecraft:msg" to {server::cblocks::*}
+	add "minecraft:tell" to {server::cblocks::*}
+	add "minecraft:w" to {server::cblocks::*}
+	add "w" to {server::cblocks::*}
+	add "pl" to {server::cblocks::*}
+	add "bukkit:pl" to {server::cblocks::*}
+	add "plugins" to {server::cblocks::*}
+	add "bukkit:plugins" to {server::cblocks::*}
+	add "?" to {server::cblocks::*}
+	add "bukkit:?" to {server::cblocks::*}
+	add "ver" to {server::cblocks::*}
+	add "bukkit:ver" to {server::cblocks::*}
+	add "version" to {server::cblocks::*}
+	add "bukkit:version" to {server::cblocks::*}
+	add "help" to {server::cblocks::*}
+	add "bukkit:help" to {server::cblocks::*}
+
+on command:
+	if {server::cblocks::*} contains command:
+		if player does not have permission "server.bypasscmdblocking":
+			cancel event
+			message "{@error}That command is blocked"
+
+on craft oak boat:
+  cancel event
+
+on fish:
+	cancel event
+#	if "%event.getState()%" is "BITE" or "CAUGHT_FISH":
+#		cancel event
+		

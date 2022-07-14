@@ -1,0 +1,20 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on portal enter:
+	if distance between player and {server::locations::spawn} < 100:
+		wait 5 ticks
+		teleport player to {server::locations::setspawnportalteleport}
+
+command /setspawnportalteleport:
+	permission: server.setspawnportalteleport
+	permission message: {@error}You do not have the required permission &8(&c&lserver.setspawnportalteleport&8)
+	usage: {@error}Incorrect usage&8: &c&l/setspawnportalteleport
+	trigger:
+		set {_loc} to location(floor(player's x-coord) + 0.5, floor(player's y-coord), floor(player's z-coord) + 0.5, player's world)
+		set {_loc}'s yaw to player's yaw
+		set {_loc}'s pitch to player's pitch
+		set {server::locations::setspawnportalteleport} to {_loc}
+		
+		message "{@prefix}Set the spawn portal teleport location to &b&l%{server::locations::setspawnportalteleport}%"

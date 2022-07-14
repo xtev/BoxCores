@@ -1,0 +1,97 @@
+import:
+	org.bukkit.event.block.BlockDropItemEvent
+	org.bukkit.Material
+
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+#on mine of gold ore:
+#	if player has permission "server.autosmelt":
+#		clear drops
+#		drop 1 gold ingot at location of event-block
+
+#on mine of iron ore:
+#	if player has permission "server.autosmelt":
+#		clear drops
+#		drop 1 iron ingot at location of event-block
+
+on BlockDropItemEvent:
+	if event.getPlayer() has permission "server.autosmelt":
+		if {perks::%event.getPlayer()%::autosmelt} is set:
+			loop event.getItems().size() times:
+				set {_craftItem} to event.getItems().get(loop-value - 1)
+				set {_itemStack} to {_craftItem}.getItemStack()
+				
+				if {_itemStack}.getType() is Material.RAW_IRON:
+					{_itemStack}.setType(Material.IRON_INGOT)
+					{_craftItem}.setItemStack({_itemStack})
+				
+				else if {_itemStack}.getType() is Material.RAW_GOLD:
+					{_itemStack}.setType(Material.GOLD_INGOT)
+					{_craftItem}.setItemStack({_itemStack})
+	
+	if event.getPlayer() has permission "server.telekinesis":
+		if {perks::%event.getPlayer()%::telekinesis} is set:
+			loop event.getItems().size() times:
+				set {_craftItem} to event.getItems().get(loop-value - 1)
+				set {_itemStack} to {_craftItem}.getItemStack()
+				
+				if event.getPlayer() can hold {_itemStack}:
+					event.getPlayer().getInventory().addItem({_itemStack})
+				else:
+					drop {_itemStack} at event.getPlayer()
+				
+				{_craftItem}.remove()
+				
+command /telekinesis:
+	permission: server.telekinesis
+	permission message: &cYou do not have the required permission for this command
+	usage: &cIncorrect usage: /telekinesis
+	trigger:
+		if {perks::%player%::telekinesis} is set:
+			delete {perks::%player%::telekinesis}
+			message "&aDisabled telekinesis"
+		else:
+			set {perks::%player%::telekinesis} to true
+			message "&aEnabled telekinesis"
+	
+command /autosmelt:
+	permission: server.autosmelt
+	permission message: &cYou do not have the required permission for this command
+	usage: &cIncorrect usage: /autosmelt
+	trigger:
+		if {perks::%player%::autosmelt} is set:
+			delete {perks::%player%::autosmelt}
+			message "&aDisabled autosmelt"
+		else:
+			set {perks::%player%::autosmelt} to true
+			message "&aEnabled autosmelt"
+	
+command /bin:
+	trigger:
+		open chest inventory with 4 rows named "&8Trash" to player
+
+command /repairall:
+	permission: server.repairall
+	permission message: {@error}You do not have the required permission &8(&c&lserver.repairall&8)
+	usage: {@error}Incorrect usage&8: &c&l/repairall
+	trigger:
+		set {_xpneeded} to 0
+		loop all items in player's inventory:
+			add durability of loop-item * 0.05 to {_xpneeded}
+		
+		if {_xpneeded} is 0:
+			message "{@error}None of your items need repairing"
+			stop
+		
+		if player's level < {_xpneeded}:
+			message "{@error}You do not have enough levels to repair everything in your inventory &8(&c&l%{_xpneeded}%&c&l levels&8)"
+			stop
+				
+		remove {_xpneeded} from player's level
+		loop all items in player's inventory:
+			if loop-item's max durability - loop-item's damage value < loop-item's max durability:
+				repair loop-item
+		
+		message "{@prefix}Successfully repaired all of your items!"

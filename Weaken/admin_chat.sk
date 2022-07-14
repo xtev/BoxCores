@@ -1,0 +1,23 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+command /staffchat <text>:
+	aliases: /sch
+	permission: server.staffchat
+	permission message: {@error}You do not have the required permission &8(&c&lserver.staffchat&8)
+	usage: {@error}Incorrect usage&8: &c&l/staffchat <message>
+	trigger:	
+		loop all players:
+			if loop-player has permission "server.staffchat":
+				message "&9&lSTAFFCHAT &b%player% &f%arg-1%" to loop-player
+
+command /adminchat <text>:
+	aliases: /ach
+	permission: server.adminchat
+	permission message: {@error}You do not have the required permission &8(&c&lserver.adminchat&8)
+	usage: {@error}Incorrect usage&8: &c&l/adminchat <message>
+	trigger:
+		loop all players:
+			if loop-player has permission "server.adminchat":
+				message "&4&lADMINCHAT &c%player% &f%arg-1%" to loop-player

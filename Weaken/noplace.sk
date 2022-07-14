@@ -1,0 +1,43 @@
+on place:
+	if {noplace::*} contains type of event-item:
+		cancel event
+
+command /addnoplace:
+	permission: server.addnoplace
+	permission message: &cYou do not have the required permission
+	usage: &cIncorrect usage: /addnoplace
+	trigger:
+		if held item of player is not a block:
+			message "&cYou are not holding a block"
+			stop
+		
+		if held item of player is air:
+			message "&cYou can not do this to air"
+			stop
+		
+		if {noplace::*} contains type of held item of player:
+			message "&cThat type item is already unplacable"
+			stop
+		
+		add type of held item of player to {noplace::*}
+		message "&aAdded your held item to the list of unplacable items"
+
+command /removenoplace:
+	permission: server.addnoplace
+	permission message: &cYou do not have the required permission
+	usage: &cIncorrect usage: /removenoplace
+	trigger:
+		if held item of player is not a block:
+			message "&cYou are not holding a block"
+			stop
+		
+		if held item of player is air:
+			message "&cYou can not do this to air"
+			stop
+		
+		if {noplace::*} does not contain type of held item of player:
+			message "&cThat type item is not unplacable"
+			stop
+		
+		remove type of held item of player from {noplace::*}
+		message "&aRemoved your held item from the list of unplacable items"

@@ -1,0 +1,59 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on load:
+	delete {server::autocompact::list::*}
+	
+	set {server::autocompact::list::lapis lazuli} to lapis lazuli block
+	set {server::autocompact::list::redstone} to redstone block
+	set {server::autocompact::list::emerald} to emerald block
+	set {server::autocompact::list::diamond} to diamond block
+	set {server::autocompact::list::iron ingot} to iron block
+	set {server::autocompact::list::gold ingot} to gold block
+	set {server::autocompact::list::coal} to coal block
+
+command /autocompact:
+	aliases: /autoblocks
+	permission: server.autocompact
+	permission message: {@error}You do not have the required permission &8(&c&lserver.autocompact&8)
+	usage: {@error}Incorrect usage&8: &c&l/autocompact
+	trigger:
+		if {server::autocompact::players::%player%} is true:
+			set {server::autocompact::players::%player%} to false
+			message "{@prefix}Auto compact &b&ldisabled"
+		else:
+			set {server::autocompact::players::%player%} to true
+			message "{@prefix}Auto compact &b&lenabled"
+
+
+on command:
+	if command is "blocks" or "compact":
+		if player has permission "server.autocompact":
+			message "&aYou have permission to /autocompact, why not use it instead?"
+
+every 0.5 second:
+	loop all players:
+		if {server::autocompact::players::%loop-player%} is true:
+			if loop-player does not have permission "server.autocompact":
+				set {server::autocompact::players::%loop-player%} to false
+				stop
+			
+			loop {server::autocompact::list::*}:
+				set {_from} to loop-index parsed as item
+				set {_to} to loop-value-2
+				set {_amt} to amount of {_from} in loop-player's inventory
+				set {_amt} to floor({_amt} / 9)
+				
+				if {_amt} <= 0:
+					continue loop
+				
+				{_from}.setAmount({_amt} * 9)
+				{_to}.setAmount({_amt})
+				
+				remove {_from} from loop-player
+				
+				if loop-player can hold {_to}:
+					give {_to} to loop-player
+				else:
+					drop {_to} at loop-player

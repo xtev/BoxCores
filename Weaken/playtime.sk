@@ -1,0 +1,352 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on load:
+	delete {server::playtime::tokenshop::*}
+	
+	set {server::playtime::tokenshop::100levels} to true
+	set {server::playtime::tokenshop::100levels::slot} to 10
+	set {server::playtime::tokenshop::100levels::icon} to 1 experience bottle named "&a100 XP Levels" with lore "&7Cost&8: &a10T"
+	set {server::playtime::tokenshop::100levels::price} to 10
+	set {server::playtime::tokenshop::100levels::item} to 1 paper of unbreaking 10 named "&a100 Experience Levels &7(Right Click)" with lore "&7Right click this item to recieve experience levels"
+
+	set {server::playtime::tokenshop::autocompact} to true
+	set {server::playtime::tokenshop::autocompact::slot} to 11
+	set {server::playtime::tokenshop::autocompact::icon} to 1 paper named "&aAccess To /autocompact" with lore "&7Cost&8: &a250T"
+	set {server::playtime::tokenshop::autocompact::price} to 250
+	set {server::playtime::tokenshop::autocompact::item} to 1 paper of unbreaking 10 named "&a/Autocompact Token &7(Right Click)" with lore "&7Right click this item to recieve access to /autocompact"
+
+	set {server::playtime::tokenshop::repairall} to true
+	set {server::playtime::tokenshop::repairall::slot} to 12
+	set {server::playtime::tokenshop::repairall::icon} to 1 paper named "&aAccess To /repairall" with lore "&7Cost&8: &a250T"
+	set {server::playtime::tokenshop::repairall::price} to 250
+	set {server::playtime::tokenshop::repairall::item} to 1 paper of unbreaking 10 named "&a/Repairall Token &7(Right Click)" with lore "&7Right click this item to recieve access to /repairall"
+
+	set {server::playtime::tokenshop::randomsuffix} to true
+	set {server::playtime::tokenshop::randomsuffix::slot} to 13
+	set {server::playtime::tokenshop::randomsuffix::icon} to 1 paper named "&aRandom Suffix" with lore "&7Cost&8: &a25T"
+	set {server::playtime::tokenshop::randomsuffix::price} to 25
+	set {server::playtime::tokenshop::randomsuffix::item} to 1 paper of unbreaking 10 named "&aRandom Suffix Token &7(Right Click)" with lore "&7Right click this item to recieve a random suffix"
+
+	set {server::playtime::tokenshop::netheriteblock} to true
+	set {server::playtime::tokenshop::netheriteblock::slot} to 14
+	set {server::playtime::tokenshop::netheriteblock::icon} to 64 netherite block named "&a64x Netherite Block" with lore "&7Cost&8: &a50T"
+	set {server::playtime::tokenshop::netheriteblock::price} to 50
+	set {server::playtime::tokenshop::netheriteblock::item} to 64 netherite block
+
+	set {server::playtime::tokenshop::diamondblock} to true
+	set {server::playtime::tokenshop::diamondblock::slot} to 15
+	set {server::playtime::tokenshop::diamondblock::icon} to 64 diamond block named "&a64x Diamond Block" with lore "&7Cost&8: &a25T"
+	set {server::playtime::tokenshop::diamondblock::price} to 25
+	set {server::playtime::tokenshop::diamondblock::item} to 64 diamond block
+
+	set {server::playtime::tokenshop::emeraldblock} to true
+	set {server::playtime::tokenshop::emeraldblock::slot} to 16
+	set {server::playtime::tokenshop::emeraldblock::icon} to 64 emerald block named "&a64x Emerald Block" with lore "&7Cost&8: &a25T"
+	set {server::playtime::tokenshop::emeraldblock::price} to 25
+	set {server::playtime::tokenshop::emeraldblock::item} to 64 emerald block
+
+	set {server::playtime::tokenshop::godapple} to true
+	set {server::playtime::tokenshop::godapple::slot} to 19
+	set {server::playtime::tokenshop::godapple::icon} to 1 enchanted golden apple named "&aEnchanted Golden Apple" with lore "&7Cost&8: &a100T"
+	set {server::playtime::tokenshop::godapple::price} to 100
+	set {server::playtime::tokenshop::godapple::item} to 1 enchanted golden apple
+	
+	set {server::playtime::tokenshop::gapps} to true
+	set {server::playtime::tokenshop::gapps::slot} to 20
+	set {server::playtime::tokenshop::gapps::icon} to 16 golden apple named "&a16x Golden Apple" with lore "&7Cost&8: &a50T"
+	set {server::playtime::tokenshop::gapps::price} to 50
+	set {server::playtime::tokenshop::gapps::item} to 16 golden apple
+
+	set {server::playtime::tokenshop::gcarrots} to true
+	set {server::playtime::tokenshop::gcarrots::slot} to 21
+	set {server::playtime::tokenshop::gcarrots::icon} to 1 golden carrot  named "&a64x Golden Carrot" with lore "&7Cost&8: &a20T"
+	set {server::playtime::tokenshop::gcarrots::price} to 20
+	set {server::playtime::tokenshop::gcarrots::item} to 64 golden carrot
+
+	set {server::playtime::tokenshop::tntcart} to true
+	set {server::playtime::tokenshop::tntcart::slot} to 22
+	set {server::playtime::tokenshop::tntcart::icon} to 1 minecart with tnt named "&aTnt Minecart" with lore "&7Cost&8: &a20T"
+	set {server::playtime::tokenshop::tntcart::price} to 20
+	set {server::playtime::tokenshop::tntcart::item} to 1 minecart with tnt
+
+	set {server::playtime::tokenshop::ironrank} to true
+	set {server::playtime::tokenshop::ironrank::slot} to 23
+	set {server::playtime::tokenshop::ironrank::icon} to 1 iron ingot named "&aIron Rank" with lore "&7Cost&8: &a1500T"
+	set {server::playtime::tokenshop::ironrank::price} to 1500
+	set {server::playtime::tokenshop::ironrank::item} to 1 name tag of fortune 1 named "&dIron Rank Token &7(Right Click)" with lore "&7Right click this to recieve iron rank!"
+
+	set {server::playtime::tokenshop::redstoneblock} to true
+	set {server::playtime::tokenshop::redstoneblock::slot} to 24
+	set {server::playtime::tokenshop::redstoneblock::icon} to 64 redstone block named "&a64x Redstone Block" with lore "&7Cost&8: &a15T"
+	set {server::playtime::tokenshop::redstoneblock::price} to 15
+	set {server::playtime::tokenshop::redstoneblock::item} to 64 redstone block
+
+	set {server::playtime::tokenshop::lapisblock} to true
+	set {server::playtime::tokenshop::lapisblock::slot} to 25
+	set {server::playtime::tokenshop::lapisblock::icon} to 64 lapis block named "&a64x Lapis Block" with lore "&7Cost&8: &a15T"
+	set {server::playtime::tokenshop::lapisblock::price} to 15
+	set {server::playtime::tokenshop::lapisblock::item} to 64 lapis block
+
+	set {server::playtime::tokenshop::redshulker} to true
+	set {server::playtime::tokenshop::redshulker::slot} to 28
+	set {server::playtime::tokenshop::redshulker::icon} to 1 red shulker box named "&aRed Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::redshulker::price} to 30
+	set {server::playtime::tokenshop::redshulker::item} to 1 red shulker box
+
+	set {server::playtime::tokenshop::orangeshulker} to true
+	set {server::playtime::tokenshop::orangeshulker::slot} to 29
+	set {server::playtime::tokenshop::orangeshulker::icon} to 1 orange shulker box named "&aOrange Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::orangeshulker::price} to 30
+	set {server::playtime::tokenshop::orangeshulker::item} to 1 orange shulker box
+
+	set {server::playtime::tokenshop::yellowshulker} to true
+	set {server::playtime::tokenshop::yellowshulker::slot} to 30
+	set {server::playtime::tokenshop::yellowshulker::icon} to 1 yellow shulker box named "&aYellow Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::yellowshulker::price} to 30
+	set {server::playtime::tokenshop::yellowshulker::item} to 1 yellow shulker box
+
+	set {server::playtime::tokenshop::greenshulker} to true
+	set {server::playtime::tokenshop::greenshulker::slot} to 31
+	set {server::playtime::tokenshop::greenshulker::icon} to 1 green shulker box named "&aGreen Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::greenshulker::price} to 30
+	set {server::playtime::tokenshop::greenshulker::item} to 1 green shulker box
+
+	set {server::playtime::tokenshop::blueshulker} to true
+	set {server::playtime::tokenshop::blueshulker::slot} to 32
+	set {server::playtime::tokenshop::blueshulker::icon} to 1 blue shulker box named "&aBlue Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::blueshulker::price} to 30
+	set {server::playtime::tokenshop::blueshulker::item} to 1 blue shulker box
+
+	set {server::playtime::tokenshop::purpleshulker} to true
+	set {server::playtime::tokenshop::purpleshulker::slot} to 33
+	set {server::playtime::tokenshop::purpleshulker::icon} to 1 purple shulker box named "&aPurple Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::purpleshulker::price} to 30
+	set {server::playtime::tokenshop::purpleshulker::item} to 1 purple shulker box
+
+	set {server::playtime::tokenshop::magentashulker} to true
+	set {server::playtime::tokenshop::magentashulker::slot} to 34
+	set {server::playtime::tokenshop::magentashulker::icon} to 1 magenta shulker box named "&aMagenta Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::magentashulker::price} to 30
+	set {server::playtime::tokenshop::magentashulker::item} to 1 magenta shulker box
+
+	set {server::playtime::tokenshop::kitreset} to true
+	set {server::playtime::tokenshop::kitreset::slot} to 37
+	set {server::playtime::tokenshop::kitreset::icon} to 1 diamond sword named "&aKit Reset" with lore "&7Cost&8: &a750T"
+	set {server::playtime::tokenshop::kitreset::price} to 750
+	set {server::playtime::tokenshop::kitreset::item} to 1 paper of unbreaking 10 named "&aKit Reset Token &7(Right Click)" with lore "&7Right click this item to recieve a kit reset!"
+
+	set {server::playtime::tokenshop::coalrank} to true
+	set {server::playtime::tokenshop::coalrank::slot} to 38
+	set {server::playtime::tokenshop::coalrank::icon} to 1 coal named "&aCoal Rank" with lore "&7Cost&8: &a500T"
+	set {server::playtime::tokenshop::coalrank::price} to 500
+	set {server::playtime::tokenshop::coalrank::item} to 1 name tag of fortune 1 named "&dCoal Rank Token &7(Right Click)" with lore "&7Right click this to recieve coal rank!"
+
+	set {server::playtime::tokenshop::diamondkit} to true
+	set {server::playtime::tokenshop::diamondkit::slot} to 39
+	set {server::playtime::tokenshop::diamondkit::icon} to diamond chestplate named "&aDiamond Kit" with lore "&7Cost&8: &a300T"
+	set {server::playtime::tokenshop::diamondkit::price} to 300
+	set {server::playtime::tokenshop::diamondkit::item} to 1 paper of unbreaking 10 named "&aDiamond Kit Token &7(Right Click)" with lore "&7Right click this item to recieve diamond kit!"
+
+	set {server::playtime::tokenshop::whiteshulker} to true
+	set {server::playtime::tokenshop::whiteshulker::slot} to 40
+	set {server::playtime::tokenshop::whiteshulker::icon} to 1 white shulker box named "&aWhite Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::whiteshulker::price} to 30
+	set {server::playtime::tokenshop::whiteshulker::item} to 1 white shulker box
+
+	set {server::playtime::tokenshop::lightgrayshulker} to true
+	set {server::playtime::tokenshop::lightgrayshulker::slot} to 41
+	set {server::playtime::tokenshop::lightgrayshulker::icon} to 1 light gray shulker box named "&aLight Gray Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::lightgrayshulker::price} to 30
+	set {server::playtime::tokenshop::lightgrayshulker::item} to 1 light gray shulker box
+
+	set {server::playtime::tokenshop::grayshulker} to true
+	set {server::playtime::tokenshop::grayshulker::slot} to 42
+	set {server::playtime::tokenshop::grayshulker::icon} to 1 gray shulker box named "&aGray Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::grayshulker::price} to 30
+	set {server::playtime::tokenshop::grayshulker::item} to 1 gray shulker box
+
+	set {server::playtime::tokenshop::blackshulker} to true
+	set {server::playtime::tokenshop::blackshulker::slot} to 43
+	set {server::playtime::tokenshop::blackshulker::icon} to 1 black shulker box named "&aBlack Shulker Box" with lore "&7Cost&8: &a30T"
+	set {server::playtime::tokenshop::blackshulker::price} to 30
+	set {server::playtime::tokenshop::blackshulker::item} to 1 black shulker box
+
+
+function checkToken():
+	if {server::playtime::lasttoken} is not set:
+		set {server::playtime::lasttoken} to now
+	if difference between {server::playtime::lasttoken} and now >= 10 minutes:
+		set {server::playtime::lasttoken} to now
+		loop all players:
+			add 1 to {server::playtime::tokens::%loop-player%}
+			message "{@prefix}You have recieved a &b&lPlaytime Token &7for playing on the server! You now have &b&l%{server::playtime::tokens::%loop-player%}% &b&lTokens&7 Use your playtime tokens on &b&l/tokenshop" to loop-player
+
+every 10 seconds:
+	checkToken()
+
+			
+
+command /tokenpay <player> <integer>:
+	aliases: /tpay
+	permission: server.tokenpay
+	permission message: {@error}You do not have the required permission &8(&c&lserver.tokenpay&8)
+	usage: {@error}Incorrect usage&8: &c&l/tokenpay <player> <number>
+	trigger:
+		if arg-2 < 1:
+			message "{@error}You can not pay less than 1 token"
+			stop
+		
+		if arg-2 > {server::playtime::tokens::%player%}:
+			message "{@error}You do not have that many tokens"
+			stop
+		
+		add arg-2 to {server::playtime::tokens::%arg-1%}
+		remove arg-2 from {server::playtime::tokens::%player%}
+		message "{@prefix}You transferred &b&l%arg-2% &7tokens to &b&l%arg-1%"
+
+command /settokens <offlineplayer> <integer>:
+	permission: server.settokens
+	permission message: {@error}You do not have the required permission &8(&c&lserver.settokens&8)
+	usage: {@error}Incorrect usage&8: &c&l/settokens <player> <number>
+	trigger:
+		set {server::playtime::tokens::%arg-1%} to arg-2
+		message "{@prefix}Set &b&l%arg-1%&7's tokens to &b&l%arg-2%"
+		
+command /tokens [<text>]:
+	permission: server.tokenshop
+	permission message: {@error}You do not have the required permission &8(&c&lserver.tokenshop&8)
+	usage: {@error}Incorrect usage&8: &c&l/tokens
+	trigger:
+		if player has permission "server.tokens.others":
+			if arg-1 is set:
+				set {_p} to arg-1 parsed as offline player
+				if {server::playtime::tokens::%{_p}%} is set:
+					message "{@prefix}&b&l%arg-1% &7has &b&l%{server::playtime::tokens::%{_p}%}% &b&ltokens"
+					stop
+				else:
+					message "{@error}This player does not have any tokens"
+					stop
+		message "{@prefix}You have &b&l%{server::playtime::tokens::%player%}% &b&ltokens"
+		
+command /tokenshop:
+	aliases: /tshop
+	permission: server.tokenshop
+	permission message: {@error}You do not have the required permission &8(&c&lserver.tokenshop&8)
+	usage: {@error}Incorrect usage&8: &c&l/tokenshop
+	trigger:
+		open chest inventory with 6 rows named "&aToken Shop" to player
+		
+		set {_i} to 0
+		loop 9*6 times:
+			set slot {_i} of player's current inventory to gray stained glass pane named " "
+			add 1 to {_i}
+		
+		set {_i} to 10
+		loop 7*4 times:
+			set slot {_i} of player's current inventory to air
+			add 1 to {_i}
+			if mod({_i}, 9) is 8:
+				add 2 to {_i}
+	
+		loop {server::playtime::tokenshop::*}:
+			set slot {server::playtime::tokenshop::%loop-index%::slot} of player's current inventory to {server::playtime::tokenshop::%loop-index%::icon}
+
+on inventory click:
+	if name of event-inventory is "&aToken Shop":	
+		cancel event
+		loop {server::playtime::tokenshop::*}:
+			if event-item is {server::playtime::tokenshop::%loop-index%::icon}:
+				if {server::playtime::tokens::%player%} >= {server::playtime::tokenshop::%loop-index%::price}:
+					remove {server::playtime::tokenshop::%loop-index%::price} from {server::playtime::tokens::%player%}
+					if player can hold {server::playtime::tokenshop::%loop-index%::item}:
+						give player {server::playtime::tokenshop::%loop-index%::item}
+					else:
+						drop {server::playtime::tokenshop::%loop-index%::item} at player
+					message "&c - %{server::playtime::tokenshop::%loop-index%::price}%&cT"
+				else:
+					close player's inventory
+					message "{@error}You do not have enough tokens to purchase that"
+	
+on right click:
+	if target entity of player is set:
+		stop
+	if name of held item of player is "&dIron Rank Token &7(Right Click)":
+		if player has permission "group.iron":
+			message "{@error}You already have iron rank"
+			stop
+			
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		
+		broadcast "&5&l%player%&7 has redeemed a &5&lIron Rank Token&7!"
+		make console execute "/lp user %player% parent switchprimarygroup iron"
+		
+	else if name of held item of player is "&dCoal Rank Token &7(Right Click)":
+		if player has permission "group.coal":
+			message "{@error}You already have coal rank"
+			stop
+			
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		
+		broadcast "&5&l%player%&7 has redeemed a &5&lCoal Rank Token&7!"
+		make console execute "/lp user %player% parent switchprimarygroup coal"
+
+	else if name of held item of player is "&aKit Reset Token &7(Right Click)":
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		
+		broadcast "&5&l%player%&7 has redeemed a &5&lKit Reset Token&7!"
+		make console execute "/kitmanager resetkitcooldowns %player%"
+
+	else if name of held item of player is "&aDiamond Kit Token &7(Right Click)":
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		
+		broadcast "&5&l%player%&7 has redeemed a &5&lDiamond Kit Token&7!"
+		make console execute "/kitmanager forceapplykit %player% diamond"
+
+	else if name of held item of player is "&a/Autocompact Token &7(Right Click)":
+		if player has permission "server.autocompact":
+			message "{@error}You already have /autocompact"
+			stop
+			
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		
+		broadcast "&5&l%player%&7 has redeemed a &5&l/Autocompact Token&7!"
+		make console execute "/lp user %player% permission set server.autocompact true"
+
+	else if name of held item of player is "&a/Repairall Token &7(Right Click)":
+		if player has permission "server.repairall":
+			message "{@error}You already have /repairall"
+			stop
+			
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		
+		broadcast "&5&l%player%&7 has redeemed a &5&l/Repairall Token&7!"
+		make console execute "/lp user %player% permission set server.repairall true"
+
+	else if name of held item of player is "&aRandom Suffix Token &7(Right Click)":
+		
+		loop {server::suffixes::list::*}:
+			set {_x::%loop-index%} to loop-value
+		
+		loop size of {_x::*} times:
+			set {_a} to random element out of indexes of {_x::*}
+			if player does not have permission "server.suffix.%{_a}%":
+				make console execute "/lp user %player% permission set server.suffix.%{_a}% true"
+				broadcast "&5&l%player%&7 has redeemed a &5&lRandom Suffix Token&7 and recieved the &5&l%{server::suffixes::list::%{_a}%}%&7 suffix!"
+				
+				cancel event
+				(held item of player).setAmount((held item of player).getAmount() - 1)
+				stop
+			delete {_x::%{_a}%}
+		
+		message "{@error}You already have all of the suffixes unlocked"
+
+
+

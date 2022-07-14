@@ -1,0 +1,23 @@
+on right click on any shulker box:
+	if target block of player is not event-block:
+		cancel event
+
+on portal create:
+	cancel event
+
+on break of ice:
+	set event-block to air
+
+on damage:
+	if "%damage cause%" is "void":
+		remove resistance from victim
+		remove regeneration from victim
+		kill victim
+
+on right click on rail:
+	loop all entities in radius 3 around event-block:
+		if "%type of loop-entity%" is "explosive minecart":
+			add 1 to {_carts}
+			if {_carts} >= 3:
+				cancel event
+				message "&cStop!"

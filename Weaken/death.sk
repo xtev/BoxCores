@@ -1,0 +1,33 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on death:
+	if victim is a player:
+		if attacker is a player:
+			add 1 to {server::stats::%attacker%::streak}
+
+			if {server::stats::%attacker%::streak} > {server::stats::%attacker%::beststreak}:
+				set {server::stats::%attacker%::beststreak} to {server::stats::%attacker%::streak}
+
+	attacker is a player:
+		set death message to "&9%victim's display name% &7has died to &9%attacker's display name% &7&o[%{server::stats::%attacker%::streak}% streak]"
+
+	else:
+		set death message to "&9%victim's display name% &7has died"
+	
+	if victim is a player:
+		if {server::combatlog::%victim%::a} is true:
+			set death message to "&9%player% &7has logged out during combat"
+			delete {server::combatlog::%victim%::a}
+		delete {server::combatlog::%victim%}
+
+	set {_dm} to death message
+	set death message to ""
+	
+	loop all players:
+		if {server::messages::players::%loop-player%::Death} is true:
+			message {_dm} to loop-player
+
+on respawn:
+	teleport player to {server::locations::spawn}

@@ -1,0 +1,8 @@
+on right click on lever:
+	if {server::levers::*} contains location of event-block:
+		cancel event
+		stop
+	add location of event-block to {server::levers::*}
+	
+every 1 tick:
+	delete {server::levers::*}

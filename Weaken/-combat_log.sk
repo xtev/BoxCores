@@ -1,0 +1,44 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+	combatTime: 20
+
+on damage:
+	if attacker is a player:
+		if victim is a player:
+			if {server::clans::players::%victim%} is set:
+				if {server::clans::players::%attacker%} is set:
+					if {server::clans::players::%victim%} is {server::clans::players::%attacker%}:
+						stop
+			set {server::combatlog::%attacker%} to {@combatTime}
+			set {server::combatlog::%victim%} to {@combatTime}
+
+on kick:
+	set {server::combatlog::%player%::kicked} to true
+
+on load:
+	delete {server::combatlog::*}
+
+function getRemainingCombatLog(p: player) :: number:
+	if {server::combatlog::%{_p}%} is not set:
+		set {server::combatlog::%{_p}%} to 0
+	return {server::combatlog::%{_p}%}
+
+function isInCombat(p: player) :: boolean:
+	if getRemainingCombatLog({_p}) > 0:
+		return true
+	return false
+
+every 0.1 second:
+	loop all players:
+		remove 0.1 from {server::combatlog::%loop-player%}
+		if isInCombat(loop-player) is true:
+			send action bar "&cCombat Log &8| &c%getRemainingCombatLog(loop-player)% seconds" to loop-player
+		else if getRemainingCombatLog(loop-player) > -1:
+			send action bar "&b&lYou are out of combat!" to loop-player
+on command:
+	if player has permission "server.nocmdbypass":
+		stop
+	if isInCombat(player) is true:
+		cancel event
+		message "{@error}You may not use commands during &c&lcombat"

@@ -1,0 +1,47 @@
+command /copyinvradius <number>:
+	permission: op
+	trigger:
+		set {_copied} to 0
+		loop all players:
+			if loop-player is player:
+				continue
+			if distance between player and loop-player <= arg-1:
+				add 1 to {_copied}
+				set {_i} to 0
+				loop 36 times:
+					set slot {_i} of loop-player's inventory to slot {_i} of player's inventory
+					add 1 to {_i}
+				
+				set helmet slot of loop-player to helmet slot of player
+				set chestplate slot of loop-player to chestplate slot of player
+				set leggings slot of loop-player to leggings slot of player
+				set boots slot of loop-player to boots slot of player
+				set off hand item of loop-player to off hand item of player
+		message "&aCopied to %{_copied}% &aplayers"
+
+command /giveallradius <number>:
+	permission: op
+	trigger:
+		set {_copied} to 0
+		loop all players:
+			if loop-player is player:
+				continue
+			if distance between player and loop-player <= arg-1:
+				add 1 to {_copied}
+				if loop-player can hold held item of player:
+					give loop-player held item of player
+				else:
+					drop held item of player at loop-player
+		message "&aGave to %{_copied}% &aplayers"
+
+command /bopstick:
+	permission: *
+	trigger:
+		give player 1 stick of fortune 10 named "&aBop Stick"
+		message "&aHere you go"
+
+on left click:
+	if held item of player is stick of fortune 10 named "&aBop Stick":
+		if target entity of player is a player:
+			make player execute "/spawn %target entity of player%"
+			cancel event

@@ -1,0 +1,76 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+function startKoth():
+	set {server::koth::remaining} to 5 minutes
+
+function endKoth():
+	set {server::koth::lastkoth} to now
+	delete {server::koth::remaining}
+	if {server::koth::capper} is set:
+		broadcast "{@prefix}&b&l%{server::koth::capper}% &7won the koth!"
+		#add 50 to {server::playtime::tokens::%{server::koth::capper}%}
+		make console execute "/crates givekey %{server::koth::capper}% koth"
+
+command /koth <text> [<text>]:
+	permission: server.koth
+	permission message: {@error}You do not have the required permission &8(&c&lserver.koth&8)
+	usage: {@error}Incorrect usage&8: &c&l/koth help
+	trigger:
+		if arg-1 is "forcestart":
+			startKoth()
+			broadcast "{@prefix}Koth has been force started by &b&l%player's displayname%&7! Stand in the &b&lorange &7area in the corner of the map for &b&l10 minutes&7 to win!"
+		
+		if arg-1 is "forceend":
+			endKoth()
+			broadcast "{@prefix}Koth has been force ended by &b&l%player's displayname%"
+		
+		else if arg-1 is "setfrequency":
+			if arg-2 is not set:
+				message "{@error}Incorrect usage: &c&l/koth setfrequency <time>"
+				stop
+			
+			set {_time} to parseTimespan(arg-2)
+			
+			if "%{_time}%" is "<none>":
+				message "{@error}The timespan you provided is not valid, valid examples include: 5m, 1d12h, 100s"
+				stop
+			
+			set {server::koth::frequency} to {_time}
+			message "{@prefix}Set map clear &b&lfrequency&7 to &b&l%{_time}%"
+		else:
+			message "&b&l/koth forcestart"
+			message "&b&l/koth forceend"
+			message "&b&l/koth setfrequency <time>"
+
+every 5 second:
+	set {_time} to difference between now and  {server::koth::lastkoth}
+	if {server::koth::remaining} is not set:
+		if {_time} >= {server::koth::frequency}:
+			startKoth()
+			broadcast "{@prefix}A koth has started! Stand in the &c&lred &7area in the freebuild area for &b&l5 minutes&7 to win!"
+
+every 1 tick:
+	if {server::koth::remaining} is set:
+		if {server::koth::capper} is not set:
+			loop all players:
+				if "%region at loop-player%" contains "kotharea":
+					set {server::koth::capper} to loop-player
+					#broadcast "{@prefix} &b&l%loop-player% &7is now capping koth!"
+					stop
+		else:
+			if {server::koth::capper} is offline:
+				set {server::koth::remaining} to 5 minutes
+				delete {server::koth::capper}
+				stop
+				
+			if "%region at {server::koth::capper}%" does not contain "kotharea":
+				set {server::koth::remaining} to 5 minutes
+				delete {server::koth::capper}
+				stop
+		
+			remove 1 tick from {server::koth::remaining}
+		
+			if {server::koth::remaining} <= 0 ticks:
+				endKoth()

@@ -1,0 +1,256 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on load:
+	create vixio bot:
+		enable the guild members intent
+		login to "ODgzNDE4OTQ2MDM0ODcyMzgw.YTJqAQ.sTXomFBu0vo3B8wTUdhwB2LfO3c" with the name "Weaken"
+
+	mark "Weaken" as Watching "%size of all players%/%maximum players% players"
+	
+	set {server::vixio::channels::minecraft_chat} to "841490541936902164"
+	set {server::vixio::channels::command_log} to "883429012913930271"
+	
+	set {server::vixio::cache::minecraft_chat} to ""
+	set {server::vixio::cache::command_log} to ""
+	
+	loop all players:
+		set {server::vixio::players::%loop-player%} to true
+	
+on skript unload:
+	shutdown "Weaken"
+
+
+
+on skript load:
+	send "**The Server Has Started Up!**" to channel with id {server::vixio::channels::minecraft_chat} with "Weaken"
+
+on skript unload:
+	send "**The Server Has Closed!**" to channel with id {server::vixio::channels::minecraft_chat} with "Weaken"
+
+
+every 3 seconds:
+	mark "Weaken" as Watching "%size of all players%/%maximum players% players"
+
+
+on join:
+	set {server::vixio::players::%player%} to true
+	set {server::vixio::cache::minecraft_chat} to "%{server::vixio::cache::minecraft_chat}%%nl%**%player% joined**"
+
+on quit:
+	set {server::vixio::cache::minecraft_chat} to "%{server::vixio::cache::minecraft_chat}%%nl%**%player% left**"
+
+on chat:
+	wait 1 tick
+	if event is cancelled:
+		stop
+	set {_format} to chat format
+	replace "»" in {_format} with "»**"
+	set {_format} to "**%{_format}%"
+	replace all "@everyone" in {_format} with "everyone"
+	replace all "@here" in {_format} with "here"
+	set {server::vixio::cache::minecraft_chat} to "%{server::vixio::cache::minecraft_chat}%%nl%%uncolored {_format}%"
+
+on command:
+	set {server::vixio::cache::command_log} to "%{server::vixio::cache::command_log}%%nl%`%sender% -> /%complete command%`"
+
+
+
+
+every 2 second:
+	send {server::vixio::cache::minecraft_chat} to channel with id {server::vixio::channels::minecraft_chat} with "Weaken"
+	send {server::vixio::cache::command_log} to channel with id {server::vixio::channels::command_log} with "Weaken"
+
+	set {server::vixio::cache::minecraft_chat} to ""
+	set {server::vixio::cache::command_log} to ""
+
+function isBoosting(p: player) :: boolean:
+	loop discord members of (guild with id "838076834179973130"):
+		if discord id of loop-member is {server::vixio::players::%{_p}%::discordid}:
+			
+			if loop-member has role (role with id "858504288871645195"):
+				return true
+	return false
+
+on guild message received:
+	if discord id of event-channel is {server::vixio::channels::minecraft_chat}:
+		if {server::vixio::discordusers::%discord id of event-user%::mcid} is not set:
+			delete event-message
+			send ":red_circle: | You can not do that without linking your minecraft account with your discord account, please do `/link` in-game to get started." to event-user with "Weaken"
+			stop
+		set {_p} to {server::vixio::discordusers::%discord id of event-user%::mcid} parsed as offline player
+		broadcast "&9Discord &f%{_p}% &7» &f%event-message%"
+		
+on private message received:
+	loop {server::vixio::players::*}:
+		if "%{server::vixio::players::%loop-index%::link}%" is content of event-message:
+			if {server::vixio::players::%loop-index%::discordid} is discord id of event-user:
+				send "This discord account is already linked with a minecraft account, please do `/unlink` in game to un link them" to event-user with "Weaken"
+				stop trigger
+			
+	loop {server::vixio::players::*}:
+		if "%{server::vixio::players::%loop-index%::link}%" is content of event-message:
+			set {server::vixio::players::%loop-index%::discordid} to discord id of event-user
+			set {server::vixio::discordusers::%discord id of event-user%::mcid} to loop-index
+			delete {server::vixio::players::%loop-index%::link}
+			
+			set {temp::p} to loop-index parsed as offline player
+			
+			if {_p} is online:
+				message "{@prefix}You have successfully &b&llinked &7your discord account to your minecraft account!" to {temp::p}
+			
+			send ":white_check_mark: | Linked your discord account with `%{temp::p}%`!" to event-user with "Weaken"
+
+discord command !online:
+	bots: Weaken
+	trigger:
+		delete event-message
+		make embed:
+			set the title of the embed to "Players online:"
+			
+			if size of all players > 0:
+				set the description of the embed to "`%join(all players, nl)%`"
+				set the footer of the embed to "Number of players: %size of all players%"
+				
+			else:
+				set the footer of the embed to "There are no players online."
+				
+			send embed to event-channel with "Weaken"
+
+discord command !koth:
+	bots: Weaken
+	trigger:
+		delete event-message
+		set {_koth} to difference between now and {server::koth::lastkoth}
+		set {_koth} to difference between {server::koth::frequency} and {_koth}
+		
+		set {_kothd} to now
+		add {_koth} to {_kothd}
+		
+		make embed:
+			set the title of the embed to "Next Koth"
+			set the description of the embed to "Next koth is in: %prettifyTimespan({_koth})%%nl%At: %{_kothd}%"
+			set the footer of the embed to ""
+				
+			send embed to event-channel with "Weaken"
+			
+command /link:
+	permission: server.link
+	permission message: {@error}You do not have the required permission &8(&c&lserver.link&8)
+	usage: {@error}Incorrect usage&8: &c&l/link
+	trigger:
+		if {server::vixio::players::%player%::discordid} is set:
+			message "{@error}Your account is already linked to a discord account"
+			stop
+	
+		if {server::vixio::players::%player%::link} is not set:
+			set {server::vixio::players::%player%::link} to random integer between 100000 and 999999
+		
+		message "{@prefix}Your discord link code is &b&l%{server::vixio::players::%player%::link}%"
+		message "{@prefix}To link your discord and minecraft accounts please private message this code to the &8(&b&lWeaken&8) &7bot in our discord"
+
+command /unlink:
+	permission: server.link
+	permission message: {@error}You do not have the required permission &8(&c&lserver.link&8)
+	usage: {@error}Incorrect usage&8: &c&l/unlink
+	trigger:
+		if {server::vixio::players::%player%::discordid} is not set:
+			message "{@error}Your account not linked to a discord account"
+			stop
+	
+		message "{@prefix}Successfully unlinked your account from the discord account it was linked to &8(&b&l%{server::vixio::players::%player%::discordid}%&8)"
+	
+		delete {server::vixio::players::%player%::link}
+		delete {server::vixio::players::%player%::discordid}
+
+command /resetdiscordrewards <player>:
+	permission: server.resetdiscordrewards
+	permission message: {@error}You do not have the required permission &8(&c&lserver.resetdiscordrewards&8)
+	usage: {@error}Incorrect usage&8: &c&l/resetdiscordrewards <player>
+	trigger:
+		delete {server::vixio::players::%arg-1%::claimed::*}
+		delete {server::vixio::discordusers::%{server::vixio::players::%arg-1%::discordid}%::claimed::*}
+		message "{@prefix}Reset &b&l%arg-1%&7's discord rewards"
+	
+command /resetalldiscordrewards:
+	permission: server.resetdiscordrewards
+	permission message: {@error}You do not have the required permission &8(&c&lserver.resetdiscordrewards&8)
+	usage: {@error}Incorrect usage&8: &c&l/resetalldiscordrewards
+	trigger:
+		loop {server::vixio::players::*}:
+			delete {server::vixio::players::%loop-index%::claimed::*}
+		loop {server::vixio::discordusers::*}:
+			delete {server::vixio::discordusers::%loop-index%::claimed::*}
+		message "{@prefix}Reset all discord rewards"
+	
+command /discordredeem [<text>]:
+	permission: server.discordredeem
+	permission message: {@error}You do not have the required permission &8(&c&lserver.discordredeem&8)
+	usage: {@error}Incorrect usage&8: &c&l/discordredeem
+	trigger:
+		if arg-1 is "booster":
+			if {server::vixio::players::%player%::claimed::booster} is set:
+				message "{@error}You have already claimed this reward"
+				stop
+				
+			if {server::vixio::discordusers::%{server::vixio::players::%player%::discordid}%::claimed::booster} is set:
+				message "{@error}You have already claimed this reward"
+				stop
+				
+			if {server::vixio::players::%player%::discordid} is not set:
+				message "{@error}Your discord account is not linked, please link it using /link"
+				stop
+			
+			if isBoosting(player) is false:
+				message "{@error}You are not boosting the discord server!"
+				stop
+			
+			set {server::vixio::discordusers::%{server::vixio::players::%player%::discordid}%::claimed::booster} to true
+			set {server::vixio::players::%player%::claimed::booster} to true
+			make console execute "/crates givekey %player% santa 4"
+			make console execute "/crates givekey %player% present 8"
+			make console execute "/crates givekey %player% elf 16"
+			broadcast "{@prefix}&b%player% &fhas claimed their &bDiscord Booster &frewards!"
+			
+		else if arg-1 is "discord":
+			if {server::vixio::players::%player%::claimed::discord} is set:
+				message "{@error}You have already claimed this reward"
+				stop
+			
+			if {server::vixio::discordusers::%{server::vixio::players::%player%::discordid}%::claimed::discord} is set:
+				message "{@error}You have already claimed this reward"
+				stop
+			
+			if {server::vixio::players::%player%::discordid} is not set:
+				message "{@error}Your discord account is not linked, please link it using /link"
+				stop
+				
+			set {server::vixio::discordusers::%{server::vixio::players::%player%::discordid}%::claimed::discord} to true
+			set {server::vixio::players::%player%::claimed::discord} to true
+			make console execute "/crates givekey %player% elf 8"
+			broadcast "{@prefix}&b%player% &fhas claimed their &bDiscord Join &frewards!"
+			
+		else:
+			message "&7&m                                                  "
+			if {server::vixio::players::%player%::discordid} is not set:
+				message "&fDiscord Reward &8» &c&lUNLINKED &8(&a/link&8)"
+				
+			else if {server::vixio::players::%player%::claimed::discord} is true:
+				message "&fDiscord Reward &8» &c&lCLAIMED"
+				
+			else:
+				message "&fDiscord Reward &8» &a&lUNCLAIMED <cmd:/discordredeem discord>&7&o[CLICK]"
+				
+			if {server::vixio::players::%player%::discordid} is not set:
+				message "&fBooster Reward &8» &c&lUNLINKED &8(&a/link&8)"
+				
+			else if isBoosting(player) is false:
+				message "&fBooster Reward &8» &c&lNOT BOOSTING"
+				
+			else if {server::vixio::players::%player%::claimed::booster} is true:
+				message "&fBooster Reward &8» &c&lCLAIMED"
+				
+			else:
+				message "&fBooster Reward &8» &d&lUNCLAIMED <cmd:/discordredeem booster>&7&o[CLICK]"
+			message "&7&m                                                  "

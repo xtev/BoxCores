@@ -1,0 +1,68 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on join:
+	checkStats(player)
+	
+on load:
+	delete {server::allstats::*}
+	
+	add "deaths" to {server::allstats::*}
+	add "kills" to {server::allstats::*}
+	add "streak" to {server::allstats::*}
+	add "beststreak" to {server::allstats::*}
+	
+	loop all players:
+		checkStats(loop-player)
+	
+function checkStats(p: player):
+	loop {server::allstats::*}:
+		if {server::stats::%{_p}%::%loop-value%} is not set:
+			set {server::stats::%{_p}%::%loop-value%} to 0
+	
+on death:
+	if victim is a player:
+		add 1 to {server::stats::%victim%::deaths}
+		set {server::stats::%victim%::streak} to 0
+		
+		if attacker is a player:
+			add 1 to {server::stats::%attacker%::kills}
+
+command /setstat <player> <text> <integer>:
+	permission: server.setstat
+	permission message: {@error}You do not have the required permission &8(&c&lserver.setstat&8)
+	usage: {@error}Incorrect usage&8: &c&l/setstat <player> <stat> <integer>
+	trigger:
+		if {server::allstats::*} does not contain arg-2:
+			message "{@error}Incorrect stat type: &c&l%{server::allstats::*}%"
+			stop
+		
+		if arg-3 < 0:
+			message "{@error}Stats may not be less than 0"
+			stop
+		
+		set {server::stats::%arg-1%::%arg-2%} to arg-3
+		message "{@prefix}Set &b&l%arg-1%&7's &b&l%arg-2%&7 stat to &b&l%arg-3%"
+
+command /stats [<text>]:
+	permission: server.stats
+	permission message: {@error}You do not have the required permission &8(&c&lserver.stats&8)
+	usage: {@error}Incorrect usage&8: &c&l/stats <player>
+	trigger:
+		set {_p} to player
+		if arg-1 is set:
+			set {_p} to arg-1
+		
+		if {server::stats::%{_p}%::kills} is not set:
+			message "{@error}This player has never been on the server before"
+			stop
+		
+		message ""
+		message " &b&l%{_p}%&7's Stats"
+		message " &8- &7Kills &8» &b%{server::stats::%{_p}%::kills}%"
+		message " &8- &7Deaths &8» &b%{server::stats::%{_p}%::deaths}%"
+		message " &8- &7Killstreak &8» &b%{server::stats::%{_p}%::streak}%"
+		message " &8- &7Best Killstreak &8» &b%{server::stats::%{_p}%::beststreak}%"
+		message ""
+		

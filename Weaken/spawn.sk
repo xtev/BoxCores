@@ -1,0 +1,204 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+	teleportTime: 100
+
+command /spawn [<player>]:
+	permission: server.spawn
+	permission message: {@error}You do not have the required permission &8(&c&lserver.spawn&8)
+	usage: {@error}Incorrect usage&8: &c&l/spawn
+	trigger:
+		if {server::locations::spawn} is not set:
+			message "{@error}The server's spawn location is not set, please contact an admin."
+			stop
+
+		if arg-1 is set:
+			if player has permission "server.spawn.others":
+				teleport arg-1 to {server::locations::spawn}
+				message "{@prefix}Teleported &b&l%arg-1%&7 to spawn."
+				message "{@prefix}You were teleported to &b&lspawn &7by an &b&ladmin&7." to arg-1
+				stop
+		
+		if player has permission "server.spawn.instant":
+			teleport player to {server::locations::spawn}
+			message "{@prefix}You bypassed the teleport timer and teleported to spawn instantly."
+			stop
+		
+		message "{@prefix}Teleporting to &b&lspawn&7 in &b&l%{@teleportTime}/20% &b&lseconds&7."
+		message "{@prefix}If you &b&lmove&7 the teleport will be &b&lcancelled&7."
+		
+		set {_preloc} to player's location
+		set {_health} to player's health
+		
+		set {_i} to 0
+		
+		loop {@teleportTime} times:
+			wait 1 tick
+			if player's health > {_health}:
+				set {_health} to player's health
+			
+			if player's health < {_health}:
+				message "{@error}Your teleport was &c&lcancelled&7 because you lost health."
+				send action bar "&4&lTeleport cancelled" to player
+				stop trigger
+
+			if distance between player's location and {_preloc} > 0.5:
+				message "{@error}Your teleport was &c&lcancelled&7 because you moved."
+				send action bar "&4&lTeleport cancelled" to player
+				stop trigger
+			
+			set {_remaining ticks} to {@teleportTime} - {_i}
+			
+			send action bar "&c&l%floor({_remaining ticks} / 20) + 1% &c&lseconds until teleport" to player
+			add 1 to {_i}
+			
+		teleport player to {server::locations::spawn}
+		send action bar "&b&lTeleported!" to player
+		message "{@prefix}Teleported to &b&lspawn&7."
+
+command /setspawn:
+	permission: server.setspawn
+	permission message: {@error}You do not have the required permission &8(&c&lserver.spawn&8)
+	usage: {@error}Incorrect usage&8: &c&l/setspawn
+	trigger:
+		set {_loc} to location(floor(player's x-coord) + 0.5, floor(player's y-coord), floor(player's z-coord) + 0.5, player's world)
+		set {_loc}'s yaw to player's yaw
+		set {_loc}'s pitch to player's pitch
+		set {server::locations::spawn} to {_loc}
+		
+		message "{@prefix}Set the spawn location to &b&l%{server::locations::spawn}%"
+		
+command /donor [<player>]:
+	permission: server.donor
+	permission message: {@error}You do not have the required permission &8(&c&lserver.donor&8)
+	usage: {@error}Incorrect usage&8: &c&l/donor
+	trigger:
+		if {server::locations::donor} is not set:
+			message "{@error}The server's donor location is not set, please contact an admin."
+			stop
+
+		if arg-1 is set:
+			if player has permission "server.donor.others":
+				teleport arg-1 to {server::locations::donor}
+				message "{@prefix}Teleported &b&l%arg-1%&7 to donor."
+				message "{@prefix}You were teleported to &b&ldonor &7by an &b&ladmin&7." to arg-1
+				stop
+		
+		if player has permission "server.donor.instant":
+			teleport player to {server::locations::donor}
+			message "{@prefix}You bypassed the teleport timer and teleported to donor instantly."
+			stop
+		
+		message "{@prefix}Teleporting to &b&ldonor&7 in &b&l%{@teleportTime}/20% &b&lseconds&7."
+		message "{@prefix}If you &b&lmove&7 the teleport will be &b&lcancelled&7."
+		
+		set {_preloc} to player's location
+		set {_health} to player's health
+		
+		set {_i} to 0
+		
+		loop {@teleportTime} times:
+			wait 1 tick
+			if player's health > {_health}:
+				set {_health} to player's health
+			
+			if player's health < {_health}:
+				message "{@error}Your teleport was &c&lcancelled&7 because you lost health."
+				send action bar "&4&lTeleport cancelled" to player
+				stop trigger	
+			
+			if distance between player's location and {_preloc} > 0.5:
+				message "{@error}Your teleport was &c&lcancelled&7 because you moved."
+				send action bar "&4&lTeleport cancelled" to player
+				stop trigger
+			
+			set {_remaining ticks} to {@teleportTime} - {_i}
+			
+			send action bar "&c&l%floor({_remaining ticks} / 20) + 1% &c&lseconds until teleport" to player
+			add 1 to {_i}
+			
+		teleport player to {server::locations::donor}
+		send action bar "&b&lTeleported!" to player
+		message "{@prefix}Teleported to &b&ldonor&7."
+
+command /setdonor:
+	permission: server.setdonor
+	permission message: {@error}You do not have the required permission &8(&c&lserver.donor&8)
+	usage: {@error}Incorrect usage&8: &c&l/setdonor
+	trigger:
+		set {_loc} to location(floor(player's x-coord) + 0.5, floor(player's y-coord), floor(player's z-coord) + 0.5, player's world)
+		set {_loc}'s yaw to player's yaw
+		set {_loc}'s pitch to player's pitch
+		set {server::locations::donor} to {_loc}
+		
+		message "{@prefix}Set the donor location to &b&l%{server::locations::donor}%"
+
+command /plots [<player>]:
+	permission: server.spawn
+	permission message: {@error}You do not have the required permission &8(&c&lserver.spawn&8)
+	usage: {@error}Incorrect usage&8: &c&l/plots
+	trigger:
+		if {server::locations::plots} is not set:
+			message "{@error}The server's plots location is not set, please contact an admin."
+			stop
+
+		if arg-1 is set:
+			if player has permission "server.plots.others":
+				teleport arg-1 to {server::locations::plots}
+				message "{@prefix}Teleported &b&l%arg-1%&7 to plots."
+				message "{@prefix}You were teleported to &b&lplots &7by an &b&ladmin&7." to arg-1
+				stop
+		
+		if player has permission "server.plots.instant":
+			teleport player to {server::locations::plots}
+			message "{@prefix}You bypassed the teleport timer and teleported to plots instantly."
+			stop
+		
+		message "{@prefix}Teleporting to &b&lplots&7 in &b&l%{@teleportTime}/20% &b&lseconds&7."
+		message "{@prefix}If you &b&lmove&7 the teleport will be &b&lcancelled&7."
+		
+		set {_preloc} to player's location
+		set {_health} to player's health
+		
+		set {_i} to 0
+		
+		loop {@teleportTime} times:
+			wait 1 tick
+			
+			if player's health > {_health}:
+				set {_health} to player's health
+			
+			if player's health < {_health}:
+				message "{@error}Your teleport was &c&lcancelled&7 because you lost health."
+				send action bar "&4&lTeleport cancelled" to player
+				stop trigger
+			
+			if distance between player's location and {_preloc} > 0.5:
+				message "{@error}Your teleport was &c&lcancelled&7 because you moved."
+				send action bar "&4&lTeleport cancelled" to player
+				stop trigger
+			
+			set {_remaining ticks} to {@teleportTime} - {_i}
+			
+			send action bar "&c&l%floor({_remaining ticks} / 20) + 1% &c&lseconds until teleport" to player
+			add 1 to {_i}
+			
+		teleport player to {server::locations::plots}
+		send action bar "&b&lTeleported!" to player
+		message "{@prefix}Teleported to &b&lplots&7."
+
+command /setplots:
+	permission: server.setplots
+	permission message: {@error}You do not have the required permission &8(&c&lserver.plots&8)
+	usage: {@error}Incorrect usage&8: &c&l/setplots
+	trigger:
+		set {_loc} to location(floor(player's x-coord) + 0.5, floor(player's y-coord), floor(player's z-coord) + 0.5, player's world)
+		set {_loc}'s yaw to player's yaw
+		set {_loc}'s pitch to player's pitch
+		set {server::locations::plots} to {_loc}
+		
+		message "{@prefix}Set the plots location to &b&l%{server::locations::plots}%"
+
+on disconnect:
+	if "%region at player%" contains "nolog":
+		teleport player to {server::locations::spawn}

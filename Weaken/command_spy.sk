@@ -1,0 +1,29 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+command /commandspy:
+	aliases: /cspy
+	permission: server.commandspy
+	permission message: {@error}You do not have the required permission &8(&c&lserver.commandspy&8)
+	usage: {@error}Incorrect usage&8: &c&l/commandspy
+	trigger:
+		if {server::commandspy::%player%} is true:
+			set {server::commandspy::%player%} to false
+			message "{@prefix}Commands spy &b&ldisabled"
+		else:
+			set {server::commandspy::%player%} to true
+			message "{@prefix}Commands spy &b&lenabled"
+
+on command:
+	if command is "ach" or "sch":
+		stop
+	if "%sender%" is "@":
+		stop
+	loop all players:
+		if {server::commandspy::%loop-player%} is true:
+			if loop-player has permission "server.commandspy":
+				message "&7[&3CSPY&7] &b%sender%&7 -> &b/%full command%" to loop-player
+			else:
+				set {server::commandspy::%loop-player%} to false
+

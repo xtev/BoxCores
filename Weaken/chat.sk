@@ -1,0 +1,168 @@
+import:
+	java.lang.System
+
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on load:
+	set {server::chat::formats::default} to "&7Player &f"
+	set {server::chat::formats::coal} to "&0Coal &f"
+	set {server::chat::formats::iron} to "&fIron &f"
+	set {server::chat::formats::gold} to "&6Gold &f"
+	set {server::chat::formats::diamond} to "&bDiamond &f"
+	set {server::chat::formats::emerald} to "&aEmerald &f"
+	set {server::chat::formats::obsidian} to "&5Obsidian &f"
+	set {server::chat::formats::bedrock} to "&8Bedrock &f" 
+	set {server::chat::formats::void} to "&8&lVoid &f"
+	set {server::chat::formats::media} to "&d&lMedia &f"
+	
+	set {server::chat::formats::builder} to "&b&lBuilder &f"
+	set {server::chat::formats::helper} to "&a&lHelper &f"
+	set {server::chat::formats::mod} to "&2&lMod &f"
+	set {server::chat::formats::srmod} to "&e&lSr.Mod &f"
+	set {server::chat::formats::admin} to "&9&lAdmin &f"
+	set {server::chat::formats::developer} to "&5&lDev &f"
+	set {server::chat::formats::god} to "&1&lGod &f"
+	set {server::chat::formats::manager} to "&5&lManager &f"
+	set {server::chat::formats::owner} to "&4&lOwner &f"
+
+on join:
+	set join message to " &a&l+ &7%player's display name%"
+	if {server::newunique::%player%} is not set:
+		set join message to "%join message% &7&o[New Player]"
+		set {server::newunique::%player%} to true
+		
+		teleport player to {server::locations::spawn}
+	
+	set {_jm} to join message
+	set join message to ""
+	
+	loop all players:
+		if {server::messages::players::%loop-player%::Join/Leave} is true:
+			message {_jm} to loop-player
+
+on quit:
+	set leave message to " &c&l- &7%player's display name%"
+
+	if {server::combatlog::%player%::kicked} is not set:
+		if isInCombat(player) is true:
+			set {server::combatlog::%player%::a} to true
+			kill player
+			set leave message to ""
+	else:
+		delete {server::combatlog::%player%::kicked}
+
+	set {_jm} to leave message
+	set leave message to ""
+	
+	loop all players:
+		if {_jm} is not "":
+			if {server::messages::players::%loop-player%::Join/Leave} is true:
+				message {_jm} to loop-player
+	
+on chat:
+	if {server::mutechat} is true:
+		if player does not have permission "server.mutechat.bypass":
+			message "{@error}Chat is currently muted!"
+			cancel event
+			stop
+
+	if message starts with {lastmsg::%player%}:
+		if player does not have permission "server.bypassnospam":
+			message "&cPlease do not repeat the same message"
+			cancel event
+			stop
+
+	set {lastmsg::%player%} to message
+
+	loop all players:
+		if loop-player is player:
+			continue loop
+		if player can see loop-player:
+			if message contains "%loop-player%":
+				replace all "%loop-player%" in message with "&b&o@%loop-player%&f"
+			
+	replace all "<3" in message with "&d❤&f"
+	replace all ":heart:" in message with "&d❤&f"
+	replace all ":star:" in message with "&e★&f"
+	replace all ":redstar:" in message with "<##ff0000>★&f"
+	replace all ":sus:" in message with "<##ff0000>&lඞ&f"
+	
+	if player has permission "server.formatchat":
+		set message to colored message
+	
+	set chat format to "&f%player's display name%"
+	
+	if {server::chat::formats::%player's group%} is set:
+		set chat format to "%{server::chat::formats::%player's group%}%%chat format%"
+	
+	if {server::suffixes::players::%player%} is set:
+		set chat format to "%chat format%%{server::suffixes::list::%{server::suffixes::players::%player%}%}%"
+	
+	set chat format to "%chat format% &7» &f%message%"
+	
+	wait 1 tick
+	if event is not cancelled:
+		loop all players:
+			if loop-player is player:
+				continue loop
+			if message contains "%loop-player%":
+				play sound "ENTITY_EXPERIENCE_ORB_PICKUP" to loop-player
+
+on join:
+	apply blindness to player for 1 seconds
+	send title "&3&o• &b&lWelcome back! &3&o•" for 1 seconds
+
+	wait 3 ticks
+	send "&7&m                                          "
+	send "&7                &b&lWeaken"
+	send " &3Discord <url:https://discord.gg/tqGn5hc7hH>&bdiscord.gg/tqGn5hc7hH &8[CLICK]"
+	send " &3Store    <url:https://weaken.tebex.io/>&bweaken.tebex.io  &8[CLICK]"
+	send "&7&m                                          "
+
+command /bc <text>:
+	aliases: /broadcast, /bcast
+	permission: server.broadcast
+	permission message: {@error}You do not have the required permission &8(&c&lserver.broadcast&8)
+	usage: {@error}Incorrect usage&8: &c&l/broadcast <message>
+	trigger:
+		broadcast "<##40D3FC&l>&lWEAKEN &f»&F %colored arg-1%"
+
+command /mutechat:
+	aliases: /mc
+	permission: server.mutechat
+	permission message: {@error}You do not have the required permission &8(&c&lserver.mutechat&8)
+	usage: {@error}Incorrect usage&8: &c&l/mutechat
+	trigger:
+		if {server::mutechat} is true:
+			set {server::mutechat} to false
+			broadcast "&7&m                                   "
+			broadcast "&fChat has been &bunmuted &fby &b%sender%"
+			broadcast "&7&m                                   "
+		else:
+			set {server::mutechat} to true
+			broadcast "&7&m                                   "
+			broadcast "&fChat has been &bmuted &fby &b%sender%"
+			broadcast "&7&m                                   "
+			
+command /clearchat:
+	aliases: /cc
+	permission: server.clearchat
+	permission message: {@error}You do not have the required permission &8(&c&lserver.clearchat&8)
+	usage: {@error}Incorrect usage&8: &c&l/clearchat
+	trigger:
+		loop 250 times:
+			broadcast " "
+			broadcast "  "
+		broadcast "&7&m                                   "
+		broadcast "&fChat has been &bcleared &fby &b%sender%"
+		broadcast "&7&m                                   "
+
+command /links:
+	aliases: /discord
+	trigger:
+		send "&7&m                                          "
+		send " &3Discord <url:https://discord.gg/tqGn5hc7hH>&bdiscord.gg/tqGn5hc7hH &8[CLICK]"
+		send " &3Store    <url:https://weaken.tebex.io/>&bweaken.tebex.io  &8[CLICK]"
+		send "&7&m                                          "

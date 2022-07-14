@@ -1,0 +1,205 @@
+command /trade <player>:
+	permission: server.trade
+	usage: &cIncorrect usage: /trade <player>
+	trigger:
+		
+		if "%region at player%" does not contain "spawn":
+			message "&cYou can only use this command at spawn!"
+			stop
+		
+		if {trade::%player%::request} is arg-1:
+			if {trade::%player%::request} is offline:
+				delete {trade::%player%::request}
+				message "&cThe player is offline"
+				stop
+			
+			if {trade::%{trade::%player%::request}%::trading} is set:
+				message "&cThat player is currently trading"
+				delete {trade::%player%::request}
+				stop
+			
+			if distance between arg-1 and player > 5:
+				message "&cThat player is too far!"
+				delete {trade::%player%::request}
+				stop
+			
+			startTrade(player, {trade::%player%::request})
+			delete {trade::%player%::request}
+		else:
+			if arg-1 is player:
+				message "&cYou can not trade yourself."
+				stop
+			
+			if {trade::%arg-1%::request} is player:
+				message "&cYou have already sent a trade request to that player"
+				stop
+			
+			if distance between arg-1 and player > 5:
+				message "&cThat player is too far!"
+				stop
+			
+			set {trade::%arg-1%::request} to player
+			message "&aYou sent a trade request to %arg-1%"
+			message "&a%player% &ahas sent you a trade request, do /trade %player% &ato accept" to arg-1
+
+command /reset:
+	trigger:
+		delete {trade::*}
+
+on inventory close:
+	if {trade::%player%::trading} is set:
+		cancelTrade(player)
+
+on inventory click:
+	if name of event-inventory is "&8Trading Menu":
+		cancel event
+		if event-inventory is inventory of player:
+			set {_inv} to {trade::%player%::inv}
+			if {trade::%player%::side} is "left":
+				loop 45 times:
+					if mod(loop-value - 1, 9) < 4:
+						if slot (loop-value - 1) of {_inv} is air:
+							set slot (loop-value - 1) of {_inv} to event-item
+							set event-slot to air
+			else:
+				loop 45 times:
+					if mod(loop-value - 1, 9) > 4:
+						if slot (loop-value - 1) of {_inv} is air:
+							set slot (loop-value - 1) of {_inv} to event-item
+							set event-slot to air
+			set {trade::%player%::ready} to false
+			set {trade::%{trade::%player%::trading}%::ready} to false
+		else:
+			set {_inv} to {trade::%player%::inv}
+			set {_side} to {trade::%player%::side}
+			if event-slot.getIndex() > 44:
+				
+				if {trade::%player%::side} is "left":
+					if mod(event-slot.getIndex(), 9) < 4:
+						if {trade::%player%::ready} is true:
+							set {trade::%player%::ready} to false
+						else:
+							set {trade::%player%::ready} to true
+
+				if {trade::%player%::side} is "right":
+					if mod(event-slot.getIndex(), 9) > 4:
+						if {trade::%player%::ready} is true:
+							set {trade::%player%::ready} to false
+						else:
+							set {trade::%player%::ready} to true
+							
+			else:
+				if {_side} is "right":
+					if mod(event-slot.getIndex(), 9) > 4:
+						giveDrop(player, event-item)
+						set event-slot to air
+						set {trade::%player%::ready} to false
+						set {trade::%{trade::%player%::trading}%::ready} to false
+				if {_side} is "left":
+					if mod(event-slot.getIndex(), 9) < 4:
+						giveDrop(player, event-item)
+						set event-slot to air
+						set {trade::%player%::ready} to false
+						set {trade::%{trade::%player%::trading}%::ready} to false
+
+	if {trade::%player%::side} is "left":
+		set {_left} to player
+		set {_right} to {trade::%player%::trading}
+	else:
+		set {_left} to {trade::%player%::trading}
+		set {_right} to player
+		
+	if {trade::%{_left}%::ready} is true:
+		if {trade::%{_right}%::ready} is true:
+			giveTradeItems({_left}, {_right}, true)
+			stopTrade({_left}, {_right})
+			message "&aTrade completed!" to {_left}
+			message "&aTrade completed!" to {_right}
+		
+	loop 9 times:
+		if mod(44 + loop-value, 9) != 4:
+			if mod(44 + loop-value, 9) < 4:
+				if {trade::%{_left}%::ready} is true:
+					set slot (44 + loop-value) of {_inv} to lime stained glass pane named " "
+				else:
+					set slot (44 + loop-value) of {_inv} to red stained glass pane named " "
+			if mod(44 + loop-value, 9) > 4:
+				if {trade::%{_right}%::ready} is true:
+					set slot (44 + loop-value) of {_inv} to lime stained glass pane named " "
+				else:
+					set slot (44 + loop-value) of {_inv} to red stained glass pane named " "
+
+function giveDrop(p: player, i: item):
+	if {_p} can hold {_i}:
+		give {_p} {_i}
+	else:
+		drop {_i} at location of {_p}
+
+function areTrading(p1: player, p2: player) :: boolean:
+	if {trade::%{_p1}%::trading} is {_p2}:
+		if {trade::%{_p2}%::trading} is {_p1}:
+			return true
+	return false
+		
+function cancelTrade(p: player):
+	message "&c%{_p}% &ccancelled the trade!" to {trade::%{_p}%::trading}
+	giveTradeItems({_p}, {trade::%{_p}%::trading}, false)
+	stopTrade({_p}, {trade::%{_p}%::trading})
+
+function giveTradeItems(p1: player, p2: player, success: boolean):
+	set {_inv} to {trade::%{_p1}%::inv}
+	if {trade::%{_p1}%::side} is "left":
+		set {_left} to {_p1}
+		set {_right} to {_p2}
+	else:
+		set {_left} to {_p2}
+		set {_right} to {_p1}
+	loop 45 times:
+		if {_success} is true:
+			if mod(loop-value - 1, 9) > 4:
+				giveDrop({_left}, slot (loop-value - 1) of {_inv})
+				set slot (loop-value - 1) of {_inv} to air
+				
+			else if mod(loop-value - 1, 9) < 4:
+				giveDrop({_right}, slot (loop-value - 1) of {_inv})
+				set slot (loop-value - 1) of {_inv} to air
+				
+		else:
+			if mod(loop-value - 1, 9) > 4:
+				giveDrop({_right}, slot (loop-value - 1) of {_inv})
+				set slot (loop-value - 1) of {_inv} to air
+				
+			else if mod(loop-value - 1, 9) < 4:
+				giveDrop({_left}, slot (loop-value - 1) of {_inv})
+				set slot (loop-value - 1) of {_inv} to air
+
+function stopTrade(p1: player, p2: player):
+	delete {trade::%{_p1}%::*}
+	delete {trade::%{_p2}%::*}
+	close {_p1}'s inventory
+	close {_p2}'s inventory
+
+function startTrade(p1: player, p2: player):
+	set {_inv} to chest inventory with 6 rows named "&8Trading Menu"
+			
+	set {trade::%{_p1}%::trading} to {_p2}
+	set {trade::%{_p1}%::inv} to {_inv}
+	set {trade::%{_p1}%::side} to "left"
+	set {trade::%{_p1}%::ready} to false
+			
+	set {trade::%{_p2}%::trading} to {_p1}
+	set {trade::%{_p2}%::inv} to {_inv}
+	set {trade::%{_p2}%::side} to "right"
+	set {trade::%{_p2}%::ready} to false
+			
+	show {_inv} to {_p1}
+	show {_inv} to {_p2}
+	
+	loop 54 times:
+		set {_i} to loop-value - 1
+		if mod({_i}, 9) = 4:
+			set slot {_i} of {_inv} to gray stained glass pane named " "
+	
+	loop 9 times:
+		if mod(44 + loop-value, 9) != 4:
+			set slot (44 + loop-value) of {_inv} to red stained glass pane named " "

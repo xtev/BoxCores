@@ -1,0 +1,64 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+	shulkers: shulker box or white shulker box or orange shulker box or magenta shulker box or light blue shulker box or pink shulker box or gray shulker box or light gray shulker box or cyan shulker box or purple shulker box or blue shulker box or brown shulker box or green shulker box or red shulker box or black shulker box
+
+
+on place of {@shulkers}:
+    if {shulkercheck::%player's uuid%} is false:
+        send "{@prefix} > &a&lPlacing your private shulker"
+        set {shulkercheck::%player's uuid%} to true
+        set {shulker1::%player's uuid%} to location of event-block
+        add 1 to {shulkerallowed::%player's uuid%}
+        stop
+    if {shulkercheck::%player's uuid%} is true:
+        send "{@prefix} > &c&lYou already have a shulker set"
+        cancel event
+on join:
+    if {shulkercheck::%player's uuid%} is not set:
+        set {shulkercheck::%player's uuid%} to false
+on right click on shulker box or white shulker box or orange shulker box or magenta shulker box or light blue shulker box or pink shulker box or gray shulker box or light gray shulker box or cyan shulker box or purple shulker box or blue shulker box or brown shulker box or green shulker box or red shulker box or black shulker box:
+    if location of event-block is {shulker1::%player's uuid%}:
+        send "{@prefix} > &6&lOpening private shulker"
+    else:
+        send "&c&lThis is not your shulker"
+        cancel event
+on break of shulker box or white shulker box or orange shulker box or magenta shulker box or light blue shulker box or pink shulker box or gray shulker box or light gray shulker box or cyan shulker box or purple shulker box or blue shulker box or brown shulker box or green shulker box or red shulker box or black shulker box:
+    if location of event-block is {shulker1::%player's uuid%}:
+        send "{@prefix} > &c&lBreaking your private shulker"
+        delete {shulker1::%player's uuid%}
+        set {shulkercheck::%player's uuid%} to false
+        remove 1 from {shulkerallowed::%player's uuid%}
+        break event-block
+    if location of event-block is not {shulker1::%player's uuid%}:
+        cancel event
+        
+command /resetshulker:
+    permission: op
+    trigger:
+        delete {shulker1::%player's uuid%}
+        set {shulkercheck::%player's uuid%} to false
+        set {shulkerallowed::%player's uuid%} to 0
+	
+	
+on enter region "shulkers":
+	set the player's gamemode to survival
+		
+command /setshulkerspawn:
+	permission: *
+	trigger:
+		message "&bSet shulker room"
+		set {shulker} to location of player 		
+command /delshulkerspawn:
+	permission: *
+	trigger:
+		delete {shulker}
+		message "&bDeleted shulker spawn"
+		
+on click on note block:
+	teleport the player to {shulker}
+		
+on place:
+    if player is in region "shulkers":
+        target block is not {@shulkers}
+        cancel event 

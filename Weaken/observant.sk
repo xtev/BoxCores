@@ -1,0 +1,53 @@
+on load:
+	delete {server::chatfilter::*}
+	
+	add "a" to {server::chatfilter::*}
+	add "b" to {server::chatfilter::*}
+	add "c" to {server::chatfilter::*}
+	add "d" to {server::chatfilter::*}
+	add "e" to {server::chatfilter::*}
+	add "f" to {server::chatfilter::*}
+	add "g" to {server::chatfilter::*}
+	add "h" to {server::chatfilter::*}
+	add "i" to {server::chatfilter::*}
+	add "j" to {server::chatfilter::*}
+	add "k" to {server::chatfilter::*}
+	add "l" to {server::chatfilter::*}
+	add "m" to {server::chatfilter::*}
+	add "n" to {server::chatfilter::*}
+	add "o" to {server::chatfilter::*}
+	add "p" to {server::chatfilter::*}
+	add "q" to {server::chatfilter::*}
+	add "r" to {server::chatfilter::*}
+	add "s" to {server::chatfilter::*}
+	add "t" to {server::chatfilter::*}
+	add "u" to {server::chatfilter::*}
+	add "v" to {server::chatfilter::*}
+	add "w" to {server::chatfilter::*}
+	add "x" to {server::chatfilter::*}
+	add "y" to {server::chatfilter::*}
+	add "z" to {server::chatfilter::*}
+
+on chat:
+	if player has permission "server.bypasschatfilter":
+		stop
+	set {_msg} to uncolored message
+	replace all "0" in {_msg} with "o"
+	replace all "@" in {_msg} with "a"
+	replace all "7" in {_msg} with "t"
+	replace all "5" in {_msg} with "s"
+	replace all "4" in {_msg} with "a"
+	replace all " " in {_msg} with ""
+	replace all "3" in {_msg} with "e"
+	loop {_msg} split at "":
+		if {server::chatfilter::*} does not contain loop-value:
+			replace all loop-value in {_msg} with ""
+	
+	if {_msg} contains "observant":
+		cancel event
+	
+	if {_msg} contains "pores":
+		cancel event
+		
+	if {_msg} contains "boxserver7":
+		cancel event

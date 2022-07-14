@@ -1,0 +1,8 @@
+on join:
+	if {server::spawnfix::season6::%player%} is not set:
+		set {server::spawnfix::season6::%player%} to true
+		wait 1 tick
+		teleport player to {server::locations::spawn}
+
+on place of sunflower:
+	cancel event

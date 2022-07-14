@@ -1,0 +1,225 @@
+options:
+	maxPlayersPerClan: 10000
+
+on placeholderapi placeholder request for the prefix "player":
+	if identifier is "clan":
+		if {server::clans::players::%player%} is set:
+			set result to " &8[&9&l%{server::clans::players::%player%}%&8]"
+		else:
+			set result to ""
+	
+command /test:
+	permission: op
+	trigger:
+		set {_x} to parse placeholder "player_clan" as player
+		message "%{_x}%"
+
+command /clan <text> [<text>]:
+	aliases: /clans
+	usage: &7Incorrect usage: /clan help
+	trigger:
+		if arg-1 is "create":
+			if arg-2 is not set:
+				message "&7Incorrect usage: /clan create <name>"
+				stop
+			
+			if length of arg-2 > 8:
+				message "&7Clan names can only be up to &98 &7characters."
+				stop
+			
+			if arg 2 does not match "[a-zA-Z]+":
+				message "&7Name must be &9alphabetical."
+				stop
+			
+			if {server::clans::players::%player%} is set:
+				message "&7You're already in a clan!"
+				stop
+			
+			if {server::clans::clans::%arg-2%} is set:
+				message "&7A clan with that name already exists!"
+				stop
+			
+			set {server::clans::players::%player%} to arg-2
+			
+			set {server::clans::clans::%arg-2%} to true
+			set {server::clans::clans::%arg-2%::leader} to player
+			add player to {server::clans::clans::%arg-2%::members::*}
+			
+			broadcast "&9%player% &7has created a clan named &9%arg-2%&7!"
+		
+		else if arg-1 is "disband":
+			if {server::clans::players::%player%} is not set:
+				message "&7You're not in a clan!"
+				stop
+			
+			if {server::clans::clans::%{server::clans::players::%player%}%::leader} is not player:
+				message "&7You aren't the leader of your clan!"
+				stop
+			
+			broadcast "&9%player% &7has disbanded the &9%{server::clans::players::%player%}% &7clan!"
+			set {_clan} to {server::clans::players::%player%}
+			
+			loop {server::clans::clans::%{_clan}%::members::*}:
+				delete {server::clans::players::%loop-value%}
+			
+			delete {server::clans::clans::%{_clan}%::*}
+			delete {server::clans::clans::%{_clan}%}
+			
+		else if arg-1 is "leave":
+			if {server::clans::players::%player%} is not set:
+				message "&7You're not in a clan!"
+				stop
+			
+			if {server::clans::clans::%{server::clans::players::%player%}%::leader} is player:
+				message "&7You cannot leave your own clan! Use /clan disband!"
+				stop
+			
+			loop {server::clans::clans::%{server::clans::players::%player%}%::members::*}:
+				send "&9%player% &7has left the clan!" to loop-value
+			
+			remove player from {server::clans::clans::%{server::clans::players::%player%}%::members::*}
+			delete {server::clans::players::%player%}
+	
+		else if arg-1 is "invite":
+			
+			if {server::clans::players::%player%} is not set:
+				message "&7You're not in a clan!"
+				stop
+			
+			if {server::clans::clans::%{server::clans::players::%player%}%::leader} is not player:
+				message "&7You're not the owner of the clan!"
+				stop
+			
+			if arg-2 is not set:
+				message "&7Incorrect usage: /clan invite <player>"
+				stop
+			
+			set {_p} to arg-2 parsed as player
+			
+			if {_p} is not online:
+				message "&cThat player is not online!"
+				stop
+			
+			if {server::clans::clans::%{server::clans::players::%player%}%::members::*} contains {_p}:
+				message "&7This player is already in the clan"
+			
+			
+			if {server::clans::clans::%{server::clans::players::%player%}%::invites::*} contains {_p}:
+				remove {_p} from {server::clans::clans::%{server::clans::players::%player%}%::invites::*}
+				
+				loop {server::clans::clans::%{server::clans::players::%player%}%::members::*}:
+					send "&9%player% &7revoked &9%{_p}%&7's invite." to loop-value
+			else:
+				add {_p} to {server::clans::clans::%{server::clans::players::%player%}%::invites::*}
+				
+				loop {server::clans::clans::%{server::clans::players::%player%}%::members::*}:
+					send "&9%player% &7invited &9%{_p}% &7to the clan!" to loop-value
+		
+		else if arg-1 is "join":
+			if arg-2 is not set:
+				message "&7Incorrect usage: /clan join <clan name>"
+				stop
+				
+			if {server::clans::players::%player%} is set:
+				message "&7You're already in a clan!"
+				stop
+			
+			if {server::clans::clans::%arg-2%::invites::*} does not contain player:
+				message "&7You weren't invited to this clan!"
+				stop
+			
+			if size of {server::clans::clans::%arg-2%::members::*} >= {@maxPlayersPerClan}:
+				message "&7This clan already has the max amount of players"
+				stop
+			
+			set {server::clans::players::%player%} to {server::clans::players::%{server::clans::clans::%arg-2%::leader}%}
+			
+			loop {server::clans::clans::%{server::clans::players::%player%}%::members::*}:
+				send "&9%player% &7joined the clan!" to loop-value
+			
+			remove player from {server::clans::clans::%arg-2%::invites::*}
+			add player to {server::clans::clans::%arg-2%::members::*}
+			
+			message "&7You joined the &9%arg-2% &7clan!"
+		
+		else if arg-1 is "info":
+			set {_clan} to arg-2
+			if arg-2 is not set:
+				if {server::clans::players::%player%} is set:
+					set {_clan} to {server::clans::players::%player%}
+				else:
+					message "&7Incorrect usage: /clan info <clan name>"
+					stop
+					
+			if {server::clans::clans::%{_clan}%} is not set:
+				message "&7This clan does not exist"
+				stop
+			
+			set {_members::*} to {server::clans::clans::%{_clan}%::members::*}
+			remove {server::clans::clans::%{_clan}%::leader} from {_members::*}
+			
+			loop {_members::*}:
+				if loop-value is online:
+					add "&a%loop-value%&7" to {_display::*}
+				else:
+					add "&7%loop-value%&7" to {_display::*}
+			
+			message ""
+			message "&9%{_clan}%&9's Information:"
+			message ""
+			message "&9Leader: &7%{server::clans::clans::%{_clan}%::leader}%"
+			if size of {_members::*} is more than 0:
+				message "&9Members: &7%{_display::*}%"
+			message ""
+		
+		else if arg-1 is "kick":
+			if {server::clans::players::%player%} is not set:
+				message "&7You're not in a clan!"
+				stop
+
+			if {server::clans::clans::%{server::clans::players::%player%}%::leader} is not player:
+				message "&7You're not the owner of the clan!"
+				stop
+			
+			if arg-2 is not set:
+				message "&7Incorrect usage: /clan kick <player>"
+				stop
+				
+			set {_p} to arg-2 parsed as player
+			
+			if {_p} is not online:
+				message "&cThat player is not online!"
+				stop
+			
+			if {server::clans::clans::%{server::clans::players::%player%}%::members::*} does not contain {_p}:
+				message "&7This player is not in your clan."
+				stop
+			
+			if {_p} is player:
+				message "&7You can not kick yourself"
+				stop
+			
+			remove {_p} from {server::clans::clans::%{server::clans::players::%player%}%::members::*}
+			delete {server::clans::players::%{_p}%}
+			
+			loop {server::clans::clans::%{server::clans::players::%player%}%::members::*}:
+				message "&9%player% &7kicked &9%{_p}% &7from the clan!" to loop-value
+			
+			message "&9%player% &7kicked you from the clan!" to {_p}
+				
+		else:
+			message "&9/clan create <name> &7&oCreates a clan."
+			message "&9/clan invite <player> &7&oInvites a player to your clan"
+			message "&9/clan join <name> &7&oAllows you to join clans."
+			message "&9/clan leave &7&oAllows you to leave your clan."
+			message "&9/clan kick <player> &7&oKicks a player from your clan."
+
+on damage:
+	if victim is attacker:
+		stop
+	if victim is a player:
+		if attacker is a player:
+			if {server::clans::players::%victim%} is set:
+				if {server::clans::players::%victim%} is {server::clans::players::%attacker%}:
+					cancel event
+					message "&9This player is in your clan!" to attacker

@@ -1,0 +1,107 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on load:
+	delete {server::suffixes::list::*}
+	
+	set {server::suffixes::list::pro} to " &8[&aPro&8]"
+	set {server::suffixes::list::rich} to " &8[<##FFD700>Rich&8]"
+	set {server::suffixes::list::poor} to " &8[&7Poor&8]"
+	
+	set {server::suffixes::list::stinky} to " &8[<##8B4513>Stinky&8]" #M4gicxWIzArDry9
+	set {server::suffixes::list::cutiepie} to " &8[<##FF69B4>qtπ&8]" #FireWorkShow
+	set {server::suffixes::list::amogus} to " &8[<##ff0000>&lඞAMOGUSඞ&8]"
+	
+	set {server::suffixes::list::nigeria} to " &8[<##00834E>&lNi&f&lger<##00834E>&lia&8]"
+	set {server::suffixes::list::usa} to " &8[&cU&9S&fA&8]"
+	set {server::suffixes::list::poland} to " &8[<##ffffff>&lPol<##ff0000>&land&8]"
+	
+	set {server::suffixes::list::cum} to " &8[<##ffffff>&lcum&8]" #FireWorkShow
+	set {server::suffixes::list::monke} to " &8[<##975032>&lmonke&8]" #FireWorkShow
+	set {server::suffixes::list::forg} to " &8[<##00ff00>forg&8]" #FireWorkShow
+	
+	set {server::suffixes::list::iscool} to " &8[&fis &b&lCOOL&8]"
+	set {server::suffixes::list::nolife} to " &8[&2NoLife&8]"
+	set {server::suffixes::list::isonfire} to " &8[&fis on &c&lFIRE&8]"
+	
+	set {server::suffixes::list::rgb} to " &8[<##ff0000>R<##00ff00>G<##0000ff>B&8]"
+	set {server::suffixes::list::rainbow} to " &8[<##ff0000>&lR<##ffa500>&la<##ffff00>&li<##008000>&ln<##0000ff>&lb<##4b0082>&lo<##ee82ee>&lw&8]"
+	set {server::suffixes::list::kold} to " &8[<##00ffff>kold&8]"
+
+	set {server::suffixes::list::weaken} to " &8[&b&lWEAKEN&8]"
+	set {server::suffixes::list::minehut} to " &8[&bMine&fHut&8]"
+	set {server::suffixes::list::owner} to " &8[&40wner&8]"
+	
+	set {server::suffixes::list::madcuzbad} to " &8[<##550000>Mad<##aa0000>Cuz<##ff0000>Bad&8]"
+	set {server::suffixes::list::sadcuzmad} to " &8[<##005500>Sad<##00aa00>Cuz<##00ff00>Mad&8]"
+	set {server::suffixes::list::badcuzsad} to " &8[<##000055>Bad<##0000aa>Cuz<##0000ff>Sad&8]"
+	
+	set {server::suffixes::list::egirl} to " &8[&deGirl&8]" #FireWorkShow
+	set {server::suffixes::list::eboy} to " &8[<##00ffff>eBoy&8]"
+	set {server::suffixes::list::cpvper} to " &8[<##cc00ff>cpvper&8]"
+	
+	set {server::suffixes::list::penis} to " &8[<##E8BEAC>&l8=D&8]"
+	
+command /suffix:
+	permission: server.suffix
+	permission message: {@error}You do not have the required permission &8(&c&lserver.suffix&8)
+	usage: {@error}Incorrect usage&8: &c&l/suffix
+	trigger:
+		open chest inventory with 6 rows named "&0Suffix Selector" to player
+		
+		set {_i} to 0
+		loop 54 times:
+			set slot {_i} of player's current inventory to gray stained glass pane named " "
+			add 1 to {_i}
+		
+		set {_i} to 10
+		loop 28 times:
+			set slot {_i} of player's current inventory to air
+			if mod({_i}, 9) is 7:
+				add 2 to {_i}
+			add 1 to {_i}
+		
+		set {_i} to 10
+		loop {server::suffixes::list::*}:
+			if player has permission "server.suffix.%loop-index%":
+				if {server::suffixes::players::%player%} is loop-index:
+					set slot {_i} of player's current inventory to lime dye named loop-value with lore "&aSelected" and "&0%loop-index%"
+				else:
+					set slot {_i} of player's current inventory to gray dye named loop-value with lore "&7Not selected" and "&0%loop-index%"
+			else:
+				set slot {_i} of player's current inventory to red dye named loop-value with lore "&cNo permission" and "&0%loop-index%"
+			if mod({_i}, 9) is 7:
+				add 2 to {_i}
+			add 1 to {_i}
+		
+on inventory click:
+	if name of event-inventory is "&0Suffix Selector":
+		cancel event
+		set {_id} to uncolored (last element of event-item's lore)
+		set {_bsuffix} to {server::suffixes::players::%player%}
+		if event-item is gray dye:
+			if player has permission "server.suffix.%{_id}%":
+				set {server::suffixes::players::%player%} to {_id}
+		
+		if event-item is lime dye:
+			if {server::suffixes::players::%player%} is {_id}:
+				delete {server::suffixes::players::%player%}
+		
+		if {_bsuffix} is not {server::suffixes::players::%player%}:
+			set {_i} to 10
+			loop {server::suffixes::list::*}:
+				if player has permission "server.suffix.%loop-index%":
+					if {server::suffixes::players::%player%} is loop-index:
+						set slot {_i} of player's current inventory to lime dye named loop-value with lore "&aSelected" and "&0%loop-index%"
+					else:
+						set slot {_i} of player's current inventory to gray dye named loop-value with lore "&7Not selected" and "&0%loop-index%"
+				else:
+					set slot {_i} of player's current inventory to red dye named loop-value with lore "&cNo permission" and "&0%loop-index%"
+				if mod({_i}, 9) is 7:
+					add 2 to {_i}
+				add 1 to {_i}
+			
+			
+			
+		

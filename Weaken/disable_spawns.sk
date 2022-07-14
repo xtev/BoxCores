@@ -1,0 +1,3 @@
+on spawn:
+	if "%spawn reason%" is "natural":
+		cancel event

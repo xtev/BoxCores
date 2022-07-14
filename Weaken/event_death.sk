@@ -1,0 +1,3 @@
+on step on dried kelp block:
+	command "/sudo masterwebb spawn %player%"
+	

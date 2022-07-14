@@ -1,0 +1,16 @@
+import:
+	org.bukkit.event.server.TabCompleteEvent
+	java.util.ArrayList
+
+on TabCompleteEvent:
+	set {_x::*} to event.getBuffer() split at " "
+	set {_command} to {_x::1}
+	if {_command} is "/sgive":
+		set {_l} to new ArrayList()
+		loop indexes of {server::items::*}:	
+			if {_x::2} is set:
+				if loop-value starts with {_x::2}:
+					{_l}.add(loop-value)
+			else:
+				{_l}.add(loop-value)
+		event.setCompletions({_l})

@@ -1,0 +1,21 @@
+every 1 second:
+	loop all players:
+		if loop-player has permission "essentials.fly":
+			continue loop
+		if loop-player has permission "server.plotsfly":
+			if loop-player's gamemode is survival:
+				if "%region at loop-player%" contains "plots":
+					if {server::plotsfly::%loop-player%} is not set:
+						set {server::plotsfly::%loop-player%} to true
+						set loop-player's flight mode to true
+						message "&aPlots Fly Enabled" to loop-player
+				else:
+					if {server::plotsfly::%loop-player%} is set:
+						delete {server::plotsfly::%loop-player%}
+						set loop-player's flight mode to false
+						message "&aPlots Fly Disabled" to loop-player
+		else:
+			if {server::plotsfly::%loop-player%} is true:
+				delete {server::plotsfly::%loop-player%}
+				set loop-player's flight mode to false
+				message "&aPlots Fly Disabled" to loop-player

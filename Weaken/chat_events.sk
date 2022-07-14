@@ -1,0 +1,251 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+command /chatevent <text> [<text>]:
+	permission: server.chatevent
+	permission message: {@error}You do not have the required permission &8(&c&lserver.chatevent&8)
+	usage: {@error}Incorrect usage&8: &c&l/mapclear help
+	trigger:
+		if arg-1 is "forcestart":
+			startChatEvent()
+			
+		else if arg-1 is "setfrequency":
+			if arg-2 is not set:
+				message "{@error}Incorrect usage: &c&l/chatevent setfrequency <time>"
+				stop
+			
+			set {_time} to parseTimespan(arg-2)
+			
+			if "%{_time}%" is "<none>":
+				message "{@error}The timespan you provided is not valid, valid examples include: 5m, 1d12h, 100s"
+				stop
+			
+			set {server::chatevents::frequency} to {_time}
+			message "{@prefix}Set chat event &b&lfrequency&7 to &b&l%{_time}%"
+			
+		else if arg-1 is "setduration":
+			if arg-2 is not set:
+				message "{@error}Incorrect usage: &c&l/chatevent setduration <time>"
+				stop
+			
+			set {_time} to parseTimespan(arg-2)
+			
+			if "%{_time}%" is "<none>":
+				message "{@error}The timespan you provided is not valid, valid examples include: 5m, 1d12h, 100s"
+				stop
+			
+			set {server::chatevents::duration} to {_time}
+			message "{@prefix}Set chat event &b&lduration&7 to &b&l%{_time}%"
+			
+		else:
+			message "&b&l/chatevent forcestart"
+			message "&b&l/chatevent setfrequency <time>"
+			message "&b&l/chatevent setduration <time>"
+
+on load:
+	delete {server::chatevents::unscramble::*}
+	delete {server::chatevents::winner}
+	delete {server::chatevents::answer}
+	
+	add "writer" to {server::chatevents::unscramble::*}
+	add "person" to {server::chatevents::unscramble::*}
+	add "injury" to {server::chatevents::unscramble::*}
+	add "republic" to {server::chatevents::unscramble::*}
+	add "failure" to {server::chatevents::unscramble::*}
+	add "climate" to {server::chatevents::unscramble::*}
+	add "setting" to {server::chatevents::unscramble::*}
+	add "girlfriend" to {server::chatevents::unscramble::*}
+	add "artisan" to {server::chatevents::unscramble::*}
+	add "explanation" to {server::chatevents::unscramble::*}
+	add "region" to {server::chatevents::unscramble::*}
+	add "sympathy" to {server::chatevents::unscramble::*}
+	add "emotion" to {server::chatevents::unscramble::*}
+	add "friendship" to {server::chatevents::unscramble::*}
+	add "potato" to {server::chatevents::unscramble::*}
+	add "environment" to {server::chatevents::unscramble::*}
+	add "method" to {server::chatevents::unscramble::*}
+	add "bathroom" to {server::chatevents::unscramble::*}
+	add "member" to {server::chatevents::unscramble::*}
+	add "competition" to {server::chatevents::unscramble::*}
+	add "policy" to {server::chatevents::unscramble::*}
+	add "response" to {server::chatevents::unscramble::*}
+	add "childhood" to {server::chatevents::unscramble::*}
+	add "agency" to {server::chatevents::unscramble::*}
+	add "farmer" to {server::chatevents::unscramble::*}
+	add "sample" to {server::chatevents::unscramble::*}
+	add "drawing" to {server::chatevents::unscramble::*}
+	add "signature" to {server::chatevents::unscramble::*}
+	add "analyst" to {server::chatevents::unscramble::*}
+	add "platform" to {server::chatevents::unscramble::*}
+	add "transportation" to {server::chatevents::unscramble::*}
+	add "county" to {server::chatevents::unscramble::*}
+	add "passion" to {server::chatevents::unscramble::*}
+	add "college" to {server::chatevents::unscramble::*}
+	add "engine" to {server::chatevents::unscramble::*}
+	add "membership" to {server::chatevents::unscramble::*}
+	add "economics" to {server::chatevents::unscramble::*}
+	add "difficulty" to {server::chatevents::unscramble::*}
+	add "interaction" to {server::chatevents::unscramble::*}
+	add "equipment" to {server::chatevents::unscramble::*}
+	add "chapter" to {server::chatevents::unscramble::*}
+	add "atmosphere" to {server::chatevents::unscramble::*}
+	add "strategy" to {server::chatevents::unscramble::*}
+	add "nature" to {server::chatevents::unscramble::*}
+	add "chemistry" to {server::chatevents::unscramble::*}
+	add "player" to {server::chatevents::unscramble::*}
+	add "presentation" to {server::chatevents::unscramble::*}
+	add "consequence" to {server::chatevents::unscramble::*}
+	add "solution" to {server::chatevents::unscramble::*}
+	add "context" to {server::chatevents::unscramble::*}
+	add "Europe" to {server::chatevents::unscramble::*}
+	add "management" to {server::chatevents::unscramble::*}
+	add "lineage" to {server::chatevents::unscramble::*}
+	add "withdrawal" to {server::chatevents::unscramble::*}
+	add "continuation" to {server::chatevents::unscramble::*}
+	add "promote" to {server::chatevents::unscramble::*}
+	add "bedroom" to {server::chatevents::unscramble::*}
+	add "injection" to {server::chatevents::unscramble::*}
+	add "measure" to {server::chatevents::unscramble::*}
+	add "digital" to {server::chatevents::unscramble::*}
+	add "contribution" to {server::chatevents::unscramble::*}
+	add "circumstance" to {server::chatevents::unscramble::*}
+	add "disaster" to {server::chatevents::unscramble::*}
+	add "difference" to {server::chatevents::unscramble::*}
+	add "tissue" to {server::chatevents::unscramble::*}
+	add "ceiling" to {server::chatevents::unscramble::*}
+	add "looting" to {server::chatevents::unscramble::*}
+	add "expand" to {server::chatevents::unscramble::*}
+	add "dominate" to {server::chatevents::unscramble::*}
+	add "salmon" to {server::chatevents::unscramble::*}
+	add "rubbish" to {server::chatevents::unscramble::*}
+	add "country" to {server::chatevents::unscramble::*}
+	add "distance" to {server::chatevents::unscramble::*}
+	add "cigarette" to {server::chatevents::unscramble::*}
+	add "eavesdrop" to {server::chatevents::unscramble::*}
+	add "daughter" to {server::chatevents::unscramble::*}
+	add "brilliance" to {server::chatevents::unscramble::*}
+	add "frozen" to {server::chatevents::unscramble::*}
+	add "master" to {server::chatevents::unscramble::*}
+	add "diplomat" to {server::chatevents::unscramble::*}
+	add "produce" to {server::chatevents::unscramble::*}
+	add "rocket" to {server::chatevents::unscramble::*}
+	add "flourish" to {server::chatevents::unscramble::*}
+	add "expertise" to {server::chatevents::unscramble::*}
+	add "distortion" to {server::chatevents::unscramble::*}
+	add "interest" to {server::chatevents::unscramble::*}
+	add "mislead" to {server::chatevents::unscramble::*}
+	add "introduce" to {server::chatevents::unscramble::*}
+	add "relief" to {server::chatevents::unscramble::*}
+	add "thread" to {server::chatevents::unscramble::*}
+	add "suppress" to {server::chatevents::unscramble::*}
+	add "possible" to {server::chatevents::unscramble::*}
+	add "memory" to {server::chatevents::unscramble::*}
+	add "primary" to {server::chatevents::unscramble::*}
+	add "neglect" to {server::chatevents::unscramble::*}
+	add "eliminate" to {server::chatevents::unscramble::*}
+	add "conceive" to {server::chatevents::unscramble::*}
+	add "tourist" to {server::chatevents::unscramble::*}
+	add "creation" to {server::chatevents::unscramble::*}
+	add "buffet" to {server::chatevents::unscramble::*}
+	add "useful" to {server::chatevents::unscramble::*}
+	add "decline" to {server::chatevents::unscramble::*}
+	add "linger" to {server::chatevents::unscramble::*}
+	add "elephant" to {server::chatevents::unscramble::*}
+	add "bathtub" to {server::chatevents::unscramble::*}
+	add "summary" to {server::chatevents::unscramble::*}
+	add "socialist" to {server::chatevents::unscramble::*}
+	add "memorandum" to {server::chatevents::unscramble::*}
+	add "deteriorate" to {server::chatevents::unscramble::*}
+	add "harvest" to {server::chatevents::unscramble::*}
+	add "family" to {server::chatevents::unscramble::*}
+	add "tactic" to {server::chatevents::unscramble::*}
+	add "authorise" to {server::chatevents::unscramble::*}
+	add "diplomatic" to {server::chatevents::unscramble::*}
+	add "manner" to {server::chatevents::unscramble::*}
+	add "education" to {server::chatevents::unscramble::*}
+	add "shallow" to {server::chatevents::unscramble::*}
+	add "oppose" to {server::chatevents::unscramble::*}
+	add "staircase" to {server::chatevents::unscramble::*}
+	add "poison" to {server::chatevents::unscramble::*}
+	add "appointment" to {server::chatevents::unscramble::*}
+	add "freedom" to {server::chatevents::unscramble::*}
+	add "fortune" to {server::chatevents::unscramble::*}
+	add "indulge" to {server::chatevents::unscramble::*}
+	add "pollution" to {server::chatevents::unscramble::*}
+	add "position" to {server::chatevents::unscramble::*}
+	add "multimedia" to {server::chatevents::unscramble::*}
+	add "earthwax" to {server::chatevents::unscramble::*}
+	add "satisfied" to {server::chatevents::unscramble::*}
+	add "expand" to {server::chatevents::unscramble::*}
+	add "format" to {server::chatevents::unscramble::*}
+	add "session" to {server::chatevents::unscramble::*}
+	add "abnormal" to {server::chatevents::unscramble::*}
+	add "ethics" to {server::chatevents::unscramble::*}
+	add "teenager" to {server::chatevents::unscramble::*}
+	add "charismatic" to {server::chatevents::unscramble::*}
+	add "economic" to {server::chatevents::unscramble::*}
+	add "convert" to {server::chatevents::unscramble::*}
+	add "tournament" to {server::chatevents::unscramble::*}
+	add "grandmother" to {server::chatevents::unscramble::*}
+	add "pressure" to {server::chatevents::unscramble::*}
+	add "parameter" to {server::chatevents::unscramble::*}
+	add "graduate" to {server::chatevents::unscramble::*}
+	add "privilege" to {server::chatevents::unscramble::*}
+	add "public" to {server::chatevents::unscramble::*}
+	add "consumer" to {server::chatevents::unscramble::*}
+	add "correspondence" to {server::chatevents::unscramble::*}
+	add "formulate" to {server::chatevents::unscramble::*}
+	add "commitment" to {server::chatevents::unscramble::*}
+	add "convulsion" to {server::chatevents::unscramble::*}
+
+
+every 10 second:
+	if {server::chatevents::lastevent} is set:
+		if difference between now and {server::chatevents::lastevent} >= {server::chatevents::frequency}:
+			startChatEvent()
+	else:
+		set {server::chatevents::lastevent} to now
+		
+function startChatEvent():
+	delete {server::chatevents::lastevent}
+	delete {server::chatevents::current::winner}
+	delete {server::chatevents::current::answer}
+	
+	set {_word} to random element out of {server::chatevents::unscramble::*}
+	set {_letters::*} to {_word} split at ""
+	
+	set {_scramble} to ""
+	loop size of {_letters::*} times:
+		set {_cl} to random element out of {_letters::*}
+		remove {_cl} from {_letters::*}
+		set {_scramble} to "%{_scramble}%%{_cl}%"
+	
+	set {server::chatevents::current::answer} to {_word}
+	set {server::chatevents::current::prize} to length of {_scramble}
+
+	broadcast "&a&lCHAT EVENTS &8» &7A chat event has started! Unscramble &a%{_scramble}% &7to get &a%{server::chatevents::current::prize}% &7tokens to use in the token shop!"
+	
+	wait {server::chatevents::duration}
+	if {server::chatevents::current::answer} is {_word}:
+		chatEventFail()
+
+function chatEventFail():
+	broadcast "&a&lCHAT EVENTS &8» &7No one guessed the word! The answer was &a%{server::chatevents::current::answer}%"
+	resetChatEvent()
+
+function resetChatEvent():
+	delete {server::chatevents::current::answer}
+	delete {server::chatevents::current::prize}
+	set {server::chatevents::lastevent} to now
+
+function chatEventWin(p: player):
+	add {server::chatevents::current::prize} to {server::playtime::tokens::%{_p}%}
+	broadcast "&a&lCHAT EVENTS &8» &a%{_p}% &7won! They have recieved &a%{server::chatevents::current::prize}% tokens&7, the word was &a%{server::chatevents::current::answer}%"
+	resetChatEvent()
+	
+on chat:
+	if {server::chatevents::current::answer} is set:
+		if message is {server::chatevents::current::answer}:
+			chatEventWin(player)
+			cancel event

@@ -1,0 +1,26 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+command /addcoinspawn:
+	permission: server.addcoinspawn
+	permission message: {@error}You do not have the required permission &8(&c&lserver.addcoinspawn&8)
+	usage: {@error}Incorrect usage&8: &c&l/addcoinspawn
+	trigger:
+		set {server::coinspawns::setting::%player%} to true
+		message "{@prefix}Punch a block to add it as a coin spawn"
+
+
+on left click:
+	if {server::coinspawns::setting::%player%} is true:
+		delete {server::coinspawns::setting::%player%}
+	
+		set {_curr} to location of event-block
+		
+		add {_curr} to {server::coinspawns::spawns::*}
+		message "{@prefix}Added &b&l%{_curr}%&7 as a coin spawn"
+
+on break:
+	if {server::coinspawns::spawns::*} contains location of event-block:
+		clear drops
+		drop {server::items::coin} at location of event-block

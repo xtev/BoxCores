@@ -1,0 +1,60 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+function checkMessageVars(p: player):
+	loop {server::messages::options::*}:
+		if {server::messages::players::%{_p}%::%loop-value%} is not set:
+			set {server::messages::players::%{_p}%::%loop-value%} to true
+
+on load:
+	delete {server::messages::options::*}
+	
+	add "Death" to {server::messages::options::*}
+	add "Join/Leave" to {server::messages::options::*}
+	
+	loop all players:
+		checkMessageVars(loop-player)
+	
+on join:
+	checkMessageVars(player)
+	
+command /messages:
+	permission: server.messages
+	permission message: {@error}You do not have the required permission &8(&c&lserver.messages&8)
+	usage: {@error}Incorrect usage&8: &c&l/messages
+	trigger:
+		open chest inventory with 3 rows named "&e&lMessages Manager" to player
+		
+		set {_i} to 0
+		loop 27 times:
+			set slot {_i} of player's current inventory to gray stained glass pane named " "
+			add 1 to {_i}
+		
+		set {_i} to 11
+		loop {server::messages::options::*}:
+			if {server::messages::players::%player%::%loop-value%} is true:
+				set slot {_i} of player's current inventory to 1 lime dye named "&a%loop-value% &aMessages" with lore "&7Status &8| &aEnabled"
+			else:
+				set slot {_i} of player's current inventory to 1 red dye named "&c%loop-value% &cMessages" with lore "&7Status &8| &cDisabled"
+			add 4 to {_i}
+
+on inventory click:
+	if name of event-inventory is "&e&lMessages Manager":
+		cancel event
+		
+		loop {server::messages::options::*}:
+			if uncolored name of event-item is "%loop-value% Messages":
+				if {server::messages::players::%player%::%loop-value%} is true:
+					set {server::messages::players::%player%::%loop-value%} to false
+				else:
+					set {server::messages::players::%player%::%loop-value%} to true
+				stop loop
+		
+		set {_i} to 11
+		loop {server::messages::options::*}:
+			if {server::messages::players::%player%::%loop-value%} is true:
+				set slot {_i} of player's current inventory to 1 lime dye named "&a%loop-value% &aMessages" with lore "&7Status &8| &aEnabled"
+			else:
+				set slot {_i} of player's current inventory to 1 red dye named "&c%loop-value% &cMessages" with lore "&7Status &8| &cDisabled"
+			add 4 to {_i}

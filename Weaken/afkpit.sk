@@ -1,0 +1,23 @@
+on load:
+	delete {afkpit::rewards::*}
+	
+	loop 15 times:
+		add "elf" to {afkpit::rewards::*}
+	
+	loop 4 times:
+		add "present" to {afkpit::rewards::*}
+	
+	add "santa" to {afkpit::rewards::*}
+	
+every 10 seconds:
+	if {afkpit::lastkey} is not set:
+		set {afkpit::lastkey} to now
+		remove 100 days from {afkpit::lastkey}
+	
+	if difference between now and {afkpit::lastkey} >= 15 minutes:
+		loop all players:
+			if "%region at loop-player%" contains "afkpit":
+				make console execute "crates givekey %loop-player% %random element out of {afkpit::rewards::*}%"
+		broadcast "&3&lAfkPit &8» &fEveryone in the &bAfk Pit &fjust recieved a &brandom key &feach!"
+		set {afkpit::lastkey} to now
+

@@ -1,0 +1,42 @@
+options:
+	godslayerPercentage: 20
+
+on load:
+	delete {server::citems::*}
+
+	add "&b&lIce" to {server::citems::godslayer::*}
+	add "&4&lFire" to {server::citems::godslayer::*}
+	add "&6&lEarth" to {server::citems::godslayer::*}
+	add "&7&lAir" to {server::citems::godslayer::*}
+
+
+
+on damage:
+	
+	set {_percent} to 100
+	
+	if name of held item of attacker is "&6&lGodslayer Axe":
+		loop {server::citems::godslayer::*}:
+			if name of victim's helmet contains loop-value:
+				add {@godslayerPercentage} to {_percent}
+				
+			if name of victim's chestplate contains loop-value:
+				add {@godslayerPercentage} to {_percent}
+				
+			if name of victim's leggings contains loop-value:
+				add {@godslayerPercentage} to {_percent}
+				
+			if name of victim's boots contains loop-value:
+				add {@godslayerPercentage} to {_percent}
+	
+	if name of held item of attacker is "&b&lTitan Sword":
+		remove slowness from victim
+		apply slowness 1 to victim for 3 seconds
+	
+	if name of victim's off hand item is "&7&lStorm Shield":
+		remove 10 from {_percent}
+	
+	if name of victim's off hand item is "&c&lLava Glove":
+		ignite attacker for 5 seconds
+	
+	set damage to damage * ({_percent} / 100)

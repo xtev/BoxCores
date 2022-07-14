@@ -1,0 +1,56 @@
+
+command /helps:
+    trigger:
+        set metadata tag "help" of player to chest inventory with 5 rows named "&cWeaken Help"
+        set slot (0 and 1 and 7 and 8 and 9 and 17 and 27 and 36 and 37 and 43 and 35) of metadata tag "help" of player to black stained glass pane named "&c"
+        set slot (2 and 3 and 4 and 5 and 6 and 18 and 38 and 39 and 41 and 42 and 26) of metadata tag "help" of player to light blue stained glass pane named "&c"
+        set slot 44 of metadata tag "help" of player to oak door named "&cExit"
+        set slot 40 of metadata tag "help" of player to paper named "&bRanks" with lore "&fRight-Click for more info"
+        set slot 10 of metadata tag "help" of player to paper named "&bPlots" with lore "&fCommand: &6/Plots" and "&f" and "&fSmall Plots - 56 Coins - Lasts for 7 days" and "&f" and "&fLarge Plots - 168 Coins - Lasts for 7 days"
+        set slot 11 of metadata tag "help" of player to paper named "&bSuffix" with lore "&fCommand: &6/Suffix" and "&f" and "&fYou can buy Prefixes at &6/buy &for at &6/tokenshop"
+        set slot 12 of metadata tag "help" of player to paper named "&bDonator" with lore "&fCommand: &6/Donor" and "&f" and "&fWhen you buy a rank you get access to a small area to mine"
+        set slot 13 of metadata tag "help" of player to paper named "&bTokens" with lore "&fCommand: &6/Tokens , /Tokenpay , /Tokenshop" and "&f" and "&fEvery 10 minutes you get a token you can spend this at &6/tokenshop"
+        set slot 14 of metadata tag "help" of player to paper named "&bRepair" with lore "&fCommand: &6/Repair" and "&f" and "&fYou need levels to access this command"
+
+
+        play sound "ui.cartgraphy_table.take_result" to player
+        open (metadata tag "help" of player) to player
+
+
+
+
+on inventory click:
+  if event-inventory = (metadata tag "help" of player):
+    cancel event
+    if index of event-slot is 44:
+      close player's inventory
+    if index of event-slot is 40:
+      make the player say "/ranks"
+
+
+command /ranks:
+    trigger:
+        set metadata tag "ranks" of player to chest inventory with 5 rows named "&cWeaken Ranks"
+        set slot (0 and 1 and 7 and 8 and 9 and 17 and 27 and 36 and 37 and 43 and 35) of metadata tag "ranks" of player to black stained glass pane named "&c"
+        set slot (2 and 3 and 4 and 5 and 6 and 18 and 38 and 39 and 41 and 42 and 26) of metadata tag "ranks" of player to light blue stained glass pane named "&c"
+        set slot 44 of metadata tag "ranks" of player to oak door named "&cExit"
+        set slot 40 of metadata tag "ranks" of player to paper named "&bHelp" with lore "&fRight-Click for more"
+        set slot 10 of metadata tag "ranks" of player to coal named "&6Coal Rank"
+        set slot 11 of metadata tag "ranks" of player to iron ingot named "&6Iron Rank"
+        set slot 12 of metadata tag "ranks" of player to gold ingot named "&6Gold Rank"
+        set slot 13 of metadata tag "ranks" of player to diamond named "&6Diamond Rank"
+        set slot 14 of metadata tag "ranks" of player to emerald named "&6Emerald Rank"
+        set slot 15 of metadata tag "ranks" of player to crying obsidian named "&6Obsidian Rank"
+        set slot 16 of metadata tag "ranks" of player to bedrock named "&6Bedrock Rank"
+        set slot 19 of metadata tag "ranks" of player to nether star named "&6Void Rank"
+        open (metadata tag "ranks" of player) to player
+
+
+
+on inventory click:
+  if event-inventory = (metadata tag "ranks" of player):
+    cancel event
+    if index of event-slot is 44:
+      close player's inventory
+    if index of event-slot is 40:
+      make the player say "/helps"

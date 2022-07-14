@@ -1,0 +1,296 @@
+options:
+	prefix: &8[&eKITS&8] &f
+
+command /kit [<text>]:
+	permission: server.kit
+	permission message: &cYou do not have the required permission (server.kit)
+	usage: &cIncorrect usage: /kit
+	trigger:
+		if arg-1 is set:
+			loop {server::kits::kits::*}:
+				if loop-index is arg-1:
+					if player does not have permission {server::kits::kits::%loop-index%::permission}:
+						message "&cYou do not have the required permission (%{server::kits::kits::%loop-index%::permission}%)"
+						stop 
+						
+					set {_cooldown} to {server::kits::players::%player%::cooldowns::%loop-index%}
+					add {server::kits::kits::%loop-index%::cooldown} to {_cooldown}
+					
+					if {_cooldown} > now:
+						message "&cThis kit is on cooldown, please wait another %difference between {_cooldown} and now%"
+						stop
+					
+					loop {server::kits::kits::%loop-index%::items::*}:
+						if player can hold loop-value-2:
+							give player loop-value-2
+						else:
+							drop loop-value-2 at location of player
+					
+					set {server::kits::players::%player%::cooldowns::%loop-index%} to now
+					message "{@prefix}You recieved kit &e%{server::kits::kits::%loop-index%::displayname}%"
+					
+					stop trigger
+	
+		else:
+			open chest inventory with {server::kits::kitgui::size} rows named "&eKits" to player
+			updateKitGui(player)
+
+on inventory click:
+	if name of event-inventory is "&eKits":
+		cancel event
+		set {_l::*} to lore of event-item
+		loop {server::kits::kits::*}:
+			if "%last element of {_l::*}%" is "&8%loop-index%":
+				make player execute "/kit %loop-index%"
+				updateKitGui(player)
+
+function updateKitGui(p: player):
+	loop {server::kits::kitgui::items::*}:
+		set {_n} to loop-index parsed as integer
+		set {_item} to loop-value
+				
+		if {_item} is an oak sign:
+			loop {server::kits::kits::*}:
+				if "%{_item}%" contains "&e%loop-index-2%":
+
+					if {_p} has permission {server::kits::kits::%loop-index-2%::permission}:
+						delete {_cooldown}
+						set {_cooldown} to {server::kits::players::%{_p}%::cooldowns::%loop-index-2%}
+						add {server::kits::kits::%loop-index-2%::cooldown} to {_cooldown}
+						if {_cooldown} > now:
+							set {_item} to orange dye named {server::kits::kits::%loop-index-2%::displayname} with lore "&7Available in: &6%difference between {_cooldown} and now%"
+						else:
+							set {_item} to lime dye named {server::kits::kits::%loop-index-2%::displayname} with lore "&7Available in: &aNow" and "&cMAKE SURE YOU HAVE ENOUGH SPACE" and "&cYOUR ITEMS WILL DROP ON THE FLOOR IF NOT" and "&8%loop-index-2%"
+					else:
+						set {_item} to red dye named {server::kits::kits::%loop-index-2%::displayname} with lore "&cNo permission!"
+					stop loop
+				
+		set slot {_n} - 1 of {_p}'s current inventory to {_item}
+		delete {_item}
+
+command /kitmanager <text> [<text>] [<text>]:
+	permission: server.kitmanager
+	permission message: &cYou do not have the required permission (server.kitmanager)
+	usage: &cIncorrect usage: /kitmanager help
+	trigger:
+		if arg-1 is "create":
+			if arg-2 is not set:
+				message "&cIncorrect usage: /kitmanager create <name>"
+				stop
+				
+			if {server::kits::kits::%arg-2%} is set:
+				message "&cA kit with this name already exists"
+				stop
+			
+			set {server::kits::kits::%arg-2%} to true
+			set {server::kits::kits::%arg-2%::permission} to "server.kit.%arg-2%"
+			set {server::kits::kits::%arg-2%::cooldown} to 1 hour
+			set {server::kits::kits::%arg-2%::displayname} to "Default Kit Name"
+			set {server::kits::kits::%arg-2%::guiitem} to 1 light gray dye
+			
+			message "{@prefix}Created a new kit named &e%arg-2%"
+		
+		else if arg-1 is "delete":
+			if arg-2 is not set:
+				message "&cIncorrect usage: /kitmanager delete <name>"
+				stop
+				
+			if {server::kits::kits::%arg-2%} is not set:
+				message "&cNo kit with this name exists"
+				stop
+			
+			delete {server::kits::kits::%arg-2%::*}
+			delete {server::kits::kits::%arg-2%}
+			
+			message "{@prefix}Deleted kit &e%arg-2%"
+		
+		else if arg-1 is "edititems":
+			if arg-2 is not set:
+				message "&cIncorrect usage: /kitmanager edititems <name>"
+				stop
+				
+			if {server::kits::kits::%arg-2%} is not set:
+				message "&cNo kit with this name exists"
+				stop
+			
+			open chest inventory with 6 rows named "&e&nKit Editor: %arg-2%" to player
+			
+			set {_i} to 0
+			loop {server::kits::kits::%arg-2%::items::*}:
+				set slot {_i} of player's current inventory to loop-value
+				add 1 to {_i}
+			
+			set {server::kits::players::%player%::kitedit::kit} to arg-2
+			
+
+		
+		else if arg-1 is "setcooldown":
+			if arg-3 is not set:
+				message "&cIncorrect usage: /kitmanager setcooldown <name> <time>"
+				stop
+			
+			if {server::kits::kits::%arg-2%} is not set:
+				message "&cNo kit with this name exists"
+				stop
+			
+			set {_cooldown} to parseTimespan(arg-3)
+			
+			if "%{_cooldown}%" is "<none>":
+				message "&cInvalid timespan, valid examples: 1d12h, 5m, 300s"
+				stop
+			
+			set {server::kits::kits::%arg-2%::cooldown} to {_cooldown}
+			
+			message "{@prefix}Set &e%arg-2%&f's cooldown to &e%{_cooldown}%"
+			
+		else if arg-1 is "setpermission":
+			if arg-3 is not set:
+				message "&cIncorrect usage: /kitmanager setpermission <name> <permission>"
+				stop
+			
+			if {server::kits::kits::%arg-2%} is not set:
+				message "&cNo kit with this name exists"
+				stop
+			
+			set {server::kits::kits::%arg-2%::permission} to arg-3
+			
+			message "{@prefix}Set &e%arg-2%&f's permission to &e%arg-3%"
+		
+		else if arg-1 is "setdisplayname":
+			if arg-2 is not set:
+				message "&cIncorrect usage: /kitmanager setdisplayname <name>"
+				stop
+			
+			if {server::kits::kits::%arg-2%} is not set:
+				message "&cNo kit with this name exists"
+				stop
+			
+			message "{@prefix}Please type your desired kit name for &e%arg-2% &fin chat"
+			
+			set {server::kits::players::%player%::kitnameedit} to arg-2
+			
+
+		
+		else if arg-1 is "list":
+			message "{@prefix}Available kits:"
+			loop {server::kits::kits::*}:
+				message ""
+				message "&e%loop-index%&e (%{server::kits::kits::%loop-index%::displayname}%&e) [%size of {server::kits::kits::%loop-index%::items::*}%&e items] [%{server::kits::kits::%loop-index%::cooldown}%&e] [%{server::kits::kits::%loop-index%::permission}%&e]"
+				message formatted "<cmd:/kitmanager setdisplayname %loop-index%>&6[Set Display Name] <cmd:/kitmanager edititems %loop-index%>&6[Set Items]"
+				message formatted "<suggest command:/kitmanager setcooldown %loop-index% >&6[Set Cooldown] <suggest command:/kitmanager setpermission %loop-index% >&6[Set Permission]"
+			message ""
+		
+		else if arg-1 is "editkitgui":
+			if {server::kits::kitgui::size} is not set:
+				set {server::kits::kitgui::size} to 6
+			
+			open chest inventory with {server::kits::kitgui::size} rows named "&e&nKit Gui Editor" to player
+			
+			set {_i} to 0
+			loop {server::kits::kits::*}:
+				set slot {_i} of player's current inventory to oak sign named "&e%loop-index%"
+				add 1 to {_i}
+			
+			set slot {_i} of player's current inventory to 64 gray stained glass pane named " "
+				
+		else if arg-1 is "setkitguisize":
+			if arg-2 is not set:
+				message "&cIncorrect usage: /kitmanager setkitguisize <size>"
+				stop
+			
+			set {_size} to arg-2 parsed as integer
+			if "%{_size}%" is "<none>":
+				message "&cThe size must be a valid integer from 1 to 6!"
+				stop
+			
+			if {_size} < 1:
+				message "&cThe size must be a valid integer from 1 to 6!"
+				stop
+			
+			if {_size} > 6:
+				message "&cThe size must be a valid integer from 1 to 6!"
+				stop
+			
+			set {server::kits::kitgui::size} to {_size}
+			message "{@prefix}Set kit gui size to &e%{_size}%"
+		
+		else if arg-1 is "resetkitcooldowns":
+			if arg-2 is not set:
+				message "&cIncorrect usage: /kitmanager resetkitcooldowns <player>"
+				stop
+			
+			message "{@prefix}Reset &e%arg-2%&f's kit cooldowns"
+			set {_p} to arg-2 parsed as offline player
+			delete {server::kits::players::%{_p}%::cooldowns::*}
+					
+		else if arg-1 is "forceapplykit":
+			if arg-3 is not set:
+				message "&cIncorrect usage: /kitmanager forceapplykit <player> <name>"
+				stop
+			
+			set {_p} to arg-2 parsed as offlineplayer
+			
+			if {_p} is not online:
+				message "&cThat player is not online"
+				stop
+			
+			if {server::kits::kits::%arg-3%} is not set: 
+				message "&cNo kit with this name exists"
+				stop
+			
+			loop {server::kits::kits::%arg-3%::items::*}:
+				if {_p} can hold loop-value:
+					give {_p} loop-value
+				else:
+					drop loop-value at location of {_p}
+			
+			message "{@prefix}Successfully applied kit &e%arg-3%&f to &e%{_p}%"
+			
+		else:
+			message ""
+			message "&eKit help:"
+			message ""
+			message "&e/kitmanager create <name>"
+			message "&e/kitmanager delete <name>"
+			message ""
+			message "&e/kitmanager edititems <name>"
+			message "&e/kitmanager setcooldown <name> <time>"
+			message "&e/kitmanager setpermission <name> <permission>"
+			message "&e/kitmanager setdisplayname <name>"
+			message "&e/kitmanager list"
+			message ""
+			message "&e/kitmanager editkitgui"
+			message "&e/kitmanager setkitguisize <size>"
+			message ""
+			message "&e/kitmanager forceapplykit <player> <name>"
+			message "&e/kitmanager resetkitcooldowns <player>"
+			message ""
+
+on chat:
+	if {server::kits::players::%player%::kitnameedit} is set:
+		cancel event
+		set {server::kits::kits::%{server::kits::players::%player%::kitnameedit}%::displayname} to colored message
+		message "{@prefix}Set &e%{server::kits::players::%player%::kitnameedit}%&f's display name to &e%colored message%"
+		
+		delete {server::kits::players::%player%::kitnameedit}
+
+on inventory close:
+	if name of event-inventory starts with "&e&nKit Editor:":
+		delete {server::kits::kits::%{server::kits::players::%player%::kitedit::kit}%::items::*}
+		set {_i} to 0
+		loop 54 times:
+			if slot {_i} of event-inventory is not air:
+				add slot {_i} of event-inventory to {server::kits::kits::%{server::kits::players::%player%::kitedit::kit}%::items::*}
+			add 1 to {_i}
+
+		message "{@prefix}Successfully updated &e%{server::kits::players::%player%::kitedit::kit}%&f's items"
+		delete {server::kits::players::%player%::kitedit::kit}
+
+on inventory close:
+	if name of event-inventory is "&e&nKit Gui Editor":
+		set {_i} to 0
+		loop 54 times:
+			set {server::kits::kitgui::items::%{_i}%} to slot {_i} of event-inventory
+			add 1 to {_i}
+			
+		message "{@prefix}Successfully updated the kit gui"

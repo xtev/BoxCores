@@ -1,0 +1,58 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on right click:
+	set {_i} to held item of player
+	{_i}.setAmount(1)
+	if {_i} is {server::items::5levels}:
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		add 5 to player's level
+		play sound "entity.player.levelup" to player
+	else if {_i} is {server::items::10levels}:
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		add 10 to player's level
+		play sound "entity.player.levelup" to player
+	else if {_i} is {server::items::30levels}:
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		add 30 to player's level
+		play sound "entity.player.levelup" to player
+	else if {_i} is {server::items::100levels}:
+		cancel event
+		(held item of player).setAmount((held item of player).getAmount() - 1)
+		add 100 to player's level
+		play sound "entity.player.levelup" to player
+
+on load:
+
+	delete {server::items::*}
+	
+	set {server::items::5levels} to 1 paper of unbreaking 10 named "&a5 Experience Levels &7(Right Click)" with lore "&7Right click this item to recieve experience levels"
+	set {server::items::10levels} to 1 paper of unbreaking 10 named "&a10 Experience Levels &7(Right Click)" with lore "&7Right click this item to recieve experience levels"
+	set {server::items::30levels} to 1 paper of unbreaking 10 named "&a30 Experience Levels &7(Right Click)" with lore "&7Right click this item to recieve experience levels"
+	set {server::items::100levels} to 1 paper of unbreaking 10 named "&a100 Experience Levels &7(Right Click)" with lore "&7Right click this item to recieve experience levels"
+	
+	set {server::items::coin} to 1 sunflower of unbreaking 10 named "&6&lCoin"
+	set {server::items::compressed_coin} to 1 sunflower of unbreaking 10 named "&6&lCompressed Coin"
+	
+	loop {server::items::*}:
+		{server::items::%loop-index%}.setAmount(1)
+	
+	
+	
+	
+command /specialgive <text>:
+	aliases: /sgive
+	permission: server.specialgive
+	permission message: {@error}You do not have the required permission &8(&c&lserver.specialgive&8)
+	usage: {@error}Incorrect usage&8: &c&l/specialgive <item>
+	trigger:
+		loop {server::items::*}:
+			if loop-index is arg-1:
+				give player loop-value
+				message "{@prefix}You were given &b&l%loop-index%"
+				stop
+		message "{@error}That is not a valid item: &c&l%indexes of {server::items::*}%"

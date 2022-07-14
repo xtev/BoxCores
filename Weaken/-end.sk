@@ -1,0 +1,10 @@
+on death of endermite:
+	clear drops
+	drop 1 popped chorus fruit with name "<##CE7FD1>&lEnd Shell"
+
+on damage:
+    attacker is endermite
+    increase damage by 450%
+	
+on portal enter:
+	teleport player to {server::locations::spawn}

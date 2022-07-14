@@ -1,0 +1,31 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+command /makeunbreakable:
+	aliases: /mub
+	permission: server.makeunbreakable
+	permission message: {@error}You do not have the required permission &8(&c&lserver.makeunbreakable&8)
+	usage: {@error}Incorrect usage&8: &c&l/makeunbreakable
+	trigger:
+		set held item of player to unbreakable held item of player
+		message "{@prefix}Made your held item unbreakable"
+
+command /rename <text>:
+	aliases: /inm
+	permission: server.rename
+	permission message: {@error}You do not have the required permission &8(&c&lserver.rename&8)
+	usage: {@error}Incorrect usage&8: &c&l/rename <name>
+	trigger:
+		set name of held item of player to formatted arg-1
+		message "{@prefix}Set name of your held item to &b&l%arg-1%"
+
+command /enchant <enchantment> <integer>:
+	aliases: /iec
+	permission: server.enchant
+	permission message: {@error}You do not have the required permission &8(&c&lserver.enchant&8)
+	usage: {@error}Incorrect usage&8: &c&l/enchant <enchant> <level>
+	trigger:
+		set {_ench} to "%arg-1% %arg-2%" parsed as enchantment type
+		enchant held item of player with {_ench}
+		message "{@prefix}Enchanted your held item of player with &b&l%{_ench}%"

@@ -1,0 +1,22 @@
+options:
+	normalCooldown: 6 seconds
+	enchantedCooldown: 5 minutes
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+on eat:
+	if event-item is golden apple:
+		set {_diff} to difference between {server::gapcooldown::%player%::normal} and now
+		if {_diff} < {@normalCooldown}:
+			message "{@prefix}You can not do that yet, please wait another &b&l%difference between {_diff} and {@normalCooldown}%"
+			cancel event
+			stop
+		set {server::gapcooldown::%player%::normal} to now
+
+	else if event-item is enchanted golden apple:
+		set {_diff} to difference between {server::gapcooldown::%player%::enchanted} and now
+		if {_diff} < {@enchantedCooldown}:
+			message "{@prefix}You can not do that yet, please wait another &b&l%difference between {_diff} and {@enchantedCooldown}%"
+			cancel event
+			stop
+		set {server::gapcooldown::%player%::enchanted} to now

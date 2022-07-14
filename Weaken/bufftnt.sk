@@ -1,0 +1,10 @@
+on damage:
+	if "%damage cause%" is "entity explosion":
+		set damage to damage * {tnt damage multiplier}
+
+
+command /settntbuff <number>:
+	permission: server.settntbuff
+	trigger:
+		set {tnt damage multiplier} to arg-1
+		message "&aSet TnT damage multiplier to %arg-1%"

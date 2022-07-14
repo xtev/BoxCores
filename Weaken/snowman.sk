@@ -1,0 +1,118 @@
+options:
+	targetDistance: 10
+
+every 1 second:
+	set {_count} to 0
+	loop all entities:
+		if loop-entity is a snowman:
+			add 1 to {_count}
+	set {globalsnowmen} to {_count}
+	loop all entities:
+		if loop-entity is a snowman:
+			if target of loop-entity is not set:
+				loop entities in radius {@targetDistance} around loop-entity:
+					if loop-entity-2 is a player:
+						if "%region at loop-entity-2%" contains "area":
+							if loop-entity-2's gamemode is not creative or spectator:
+								set target of loop-entity-1 to loop-entity-2
+			else:
+				if target of loop-entity is a player:
+					if gamemode of target of loop-entity is creative or spectator:
+						loop-entity.setTarget(null)
+						stop
+					
+					if "%region at target of loop-entity%" does not contain "area":
+						loop-entity.setTarget(null)
+						stop
+					
+				if distance between target of loop-entity and loop-entity > {@targetDistance}:
+					loop-entity.setTarget(null)
+					stop
+
+on projectile collide:
+	if event-entity is a player:
+		if projectile is a snowball:
+			if shooter is a snowman:
+				damage event-entity by 2
+
+on damage:
+	if victim is a snowman:
+		if "%damage cause%" is "projectile":
+			cancel event
+		if attacker is a player:
+			set target of victim to attacker
+
+on spawn:
+	if event-entity is a snowman:
+		if {globalsnowmen} > 25:
+			cancel event
+		set max health of event-entity to 10
+		set health of event-entity to 10
+	
+on death:
+	if victim is a snow golem:
+		clear drops
+		drop {presents::iron} at victim
+
+on load:
+	delete {presentrewards::*}
+	
+	set {presentrewards::iron} to {presents::iron}.getItemMeta().getDisplayName()
+	add 1 netherite block to {presentrewards::iron::*}
+	add 1 emerald block to {presentrewards::iron::*}
+	add 1 iron block to {presentrewards::iron::*}
+	add 1 gold block to {presentrewards::iron::*}
+	add 1 diamond block to {presentrewards::iron::*}
+
+	set {presentrewards::emerald} to {presents::emerald}.getItemMeta().getDisplayName()
+	add 4 netherite block to {presentrewards::emerald::*}
+	add 16 emerald block to {presentrewards::emerald::*}
+	add 16 iron block to {presentrewards::emerald::*}
+	add 16 gold block to {presentrewards::emerald::*}
+	add 8 diamond block to {presentrewards::emerald::*}
+	add 32 redstone block to {presentrewards::emerald::*}
+	add 64 lapis block to {presentrewards::emerald::*}
+	add 64 coal block to {presentrewards::emerald::*}
+
+	set {presentrewards::gold} to {presents::gold}.getItemMeta().getDisplayName()
+	add {presents::elfhelm} to {presentrewards::gold::*}
+	add {presents::elfchest} to {presentrewards::gold::*}
+	add {presents::elflegs} to {presentrewards::gold::*}
+	add {presents::elfboots} to {presentrewards::gold::*}
+	add {presents::elfsword} to {presentrewards::gold::*}
+
+	set {presentrewards::diamond} to {presents::diamond}.getItemMeta().getDisplayName()
+	add {presents::santahelm} to {presentrewards::diamond::*}
+	add {presents::santachest} to {presentrewards::diamond::*}
+	add {presents::santalegs} to {presentrewards::diamond::*}
+	add {presents::santaboots} to {presentrewards::diamond::*}
+	add {presents::santasword} to {presentrewards::diamond::*}
+	add {presents::santaaxe} to {presentrewards::diamond::*}
+	add {presents::santabow} to {presentrewards::diamond::*}
+
+on right click:
+	loop {presentrewards::*}:
+		if name of held item of player is loop-value:
+			cancel event
+			
+			(held item of player).setAmount((held item of player).getAmount() - 1)
+			set {_reward} to random element out of {presentrewards::%loop-index%::*}
+			play sound "entity.player.levelup" to player
+			
+			if player can hold {_reward}:
+				give player {_reward}
+			else:
+				drop {_reward} at player
+			
+on damage:
+	if victim is a player:
+		if attacker is a player:
+			chance of 70%:
+				if victim's helmet is leather helmet:
+					remove 3 from durability of victim's helmet
+				if victim's chestplate is leather chestplate:
+					remove 3 from durability of victim's chestplate
+				if victim's leggings is leather leggings:
+					remove 3 from durability of victim's leggings
+				if victim's boots is leather boots:
+					remove 3 from durability of victim's boots

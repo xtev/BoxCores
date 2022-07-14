@@ -1,0 +1,118 @@
+import:
+	org.bukkit.Bukkit
+	org.bukkit.scoreboard.DisplaySlot
+
+on load:
+	loop all players:
+		createScoreboard(loop-player)
+
+on unload:
+	loop all players:
+		destroyScoreboard(loop-player)
+
+on join:
+	createScoreboard(player)
+
+on quit:
+	destroyScoreboard(player)
+
+function updateTimers():
+	set {server::scoreboard::nextclear} to {server::mapclear::frequency}
+	remove difference between now and {server::mapclear::lastclear} from {server::scoreboard::nextclear}
+	set {server::scoreboard::nextclear} to prettifyTimespan({server::scoreboard::nextclear})
+	
+	set {server::scoreboard::nextkoth} to {server::koth::frequency}
+	remove difference between now and {server::koth::lastkoth} from {server::scoreboard::nextkoth}
+	set {server::scoreboard::nextkoth} to prettifyTimespan({server::scoreboard::nextkoth})
+	
+every 20 ticks:
+	updateTimers()
+	loop all players:
+		updateScoreboard(loop-player)
+
+function updateScoreboard(p: player):
+	if "%region at {_p}%" contains "afkpit":
+		stop
+
+	if {server::scoreboard::boards::%{_p}%} is not set:
+		stop
+
+	set {_kdr} to "Infinity"
+	if {server::stats::%{_p}%::deaths} is not 0:
+		set {_kdr} to {server::stats::%{_p}%::kills} / {server::stats::%{_p}%::deaths}
+
+	set {_time} to {server::scoreboard::nextclear}
+	set {_koth} to {server::scoreboard::nextkoth}
+	
+	if {server::koth::remaining} is not set:
+		set {_line1} to "&b&lStats"
+		set {_line2} to " &3• &7Kills: &3%{server::stats::%{_p}%::kills}%"
+		set {_line3} to " &3• &7Deaths: &3%{server::stats::%{_p}%::deaths}%"
+		set {_line4} to " &3• &7KDR: &3%{_kdr}%"
+		set {_line5} to " &3• &7Best Killstreak: &3%{server::stats::%{_p}%::beststreak}%"
+		set {_line6} to ""
+		set {_line7} to "&b&lServer"
+		set {_line8} to " &3• &7Next Koth: &3%{_koth}%"
+		set {_line9} to " &3• &7TPS: &3%tps from last minute%"
+		set {_line10} to " &3• &7Online Players: &3%size of all players%&7/&3%max players% &8(&3%size of {server::newunique::*}%&8)"
+		set {_line11} to " &3• &7Next Map Clear: &3%{_time}%"
+		
+	else:
+		set {_capper} to {server::koth::capper}
+		if {server::koth::capper} is not set:
+			set {_capper} to "No One"
+	
+		set {_line1} to "&b&lStats"
+		set {_line2} to " &3• &7Kills: &3%{server::stats::%{_p}%::kills}%"
+		set {_line3} to " &3• &7Deaths: &3%{server::stats::%{_p}%::deaths}%"
+		set {_line4} to ""
+		set {_line5} to "&b&lKoth"
+		set {_line6} to " &3• &7Remaining: &3%prettifyTimespan({server::koth::remaining})%"
+		set {_line7} to " &3• &7Capper: &3%{_capper}%"
+		set {_line8} to ""
+		set {_line9} to "&b&lServer"
+		set {_line10} to " &3• &7TPS: &3%tps from last minute%"
+		set {_line11} to " &3• &7Online Players: &3%size of all players%&7/&3%max players%"
+	
+	
+	set {_i} to 1
+	loop 14 times:
+		if {_line%{_i}%} is set:
+			if {server::scoreboard::boards::%{_p}%::line::%{_i}%}.getPrefix() is not {_line%{_i}%}:
+				{server::scoreboard::boards::%{_p}%::line::%{_i}%}.setPrefix({_line%{_i}%})
+		add 1 to {_i}
+	
+function createScoreboard(p: player):
+	set {_manager} to Bukkit.getScoreboardManager()
+	set {server::scoreboard::boards::%{_p}%} to {_manager}.getNewScoreboard()
+	set {_objective} to {server::scoreboard::boards::%{_p}%}.registerNewObjective("MainScoreboard", "dummy", " &3&l• &b&lWEAKEN &3&l• ")
+	
+	set {_i} to 0
+	
+	loop 14 times:
+	
+		set {_c} to "%{_i}%"
+		set {_c::*} to {_c} split at ""
+		remove all "" from {_c::*}
+		set {_c} to ""
+		loop {_c::*}:	
+			set {_c} to "%{_c}%&%loop-value-2%"
+			
+			
+		set {server::scoreboard::boards::%{_p}%::line::%{_i}%} to {server::scoreboard::boards::%{_p}%}.registerNewTeam("%{_i}%")
+		{server::scoreboard::boards::%{_p}%::line::%{_i}%}.addEntry(formatted "%{_c}%")
+		{_objective}.getScore(formatted "%{_c}%").setScore(13 - {_i})
+		
+		add 1 to {_i}
+	
+	{_objective}.setDisplaySlot(DisplaySlot.SIDEBAR)
+	{_p}.setScoreboard({server::scoreboard::boards::%{_p}%})
+		
+	{server::scoreboard::boards::%{_p}%::line::13}.setPrefix("&7&oweaken.life")
+	
+	updateScoreboard({_p})
+
+function destroyScoreboard(p: player):
+	delete {server::scoreboard::boards::%{_p}%::*}
+	delete {server::scoreboard::boards::%{_p}%}
+	{_p}.getScoreboard().clearSlot(DisplaySlot.SIDEBAR)

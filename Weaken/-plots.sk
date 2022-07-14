@@ -1,0 +1,488 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &3&lWEAKEN &8| &7
+
+every 3 second:
+	updatePlotSigns()
+
+function updatePlotSigns():
+	loop {server::plots::plots::*}:
+		wait 2 ticks
+		if {server::plots::plots::%loop-index%::owner} is set:
+			if now >= {server::plots::plots::%loop-index%::expires}:
+				
+				loop {server::plots::plots::%loop-index%::members::*}:
+					make console execute "/rg removemember %{server::plots::plots::%loop-index-1%::region}% %loop-value-2% -w world"
+				
+				delete {server::plots::plots::%loop-index-1%::owner}
+				delete {server::plots::plots::%loop-index-1%::members::*}
+				delete {server::plots::plots::%loop-index-1%::expires}
+				delete {server::plots::plots::%loop-index-1%::slots}
+	
+		if block at {server::plots::plots::%loop-index%::sign} is not sign:
+			set block at {server::plots::plots::%loop-index%::sign} to oak sign
+		
+		set {_sign} to block at {server::plots::plots::%loop-index%::sign}
+		
+		if {server::plots::plots::%loop-index%::owner} is set:
+			set {_x} to difference between {server::plots::plots::%loop-index%::expires} and now
+			set {_x} to prettifyTimespan({_x})
+			replace all ":" in {_x} with "&8&l:&f"
+			
+			
+			set line 1 of {_sign} to "&4&l[Rented Plot]"
+			set line 2 of {_sign} to "&f&l%{server::plots::plots::%loop-index%::owner}%"
+			set line 3 of {_sign} to "&f%{_x}%"
+			set line 4 of {_sign} to "&f%size of {server::plots::plots::%loop-index%::members::*}%&8/&f%{server::plots::plots::%loop-index%::slots}% &8| &fSlots"
+		
+		else:
+			set line 1 of {_sign} to "&a&l[Rent Plot]"
+			set line 2 of {_sign} to "&fPrice &8| &f%{server::plots::plots::%loop-index%::rent} * 7%&fC"
+			set line 3 of {_sign} to ""
+			set line 4 of {_sign} to ""
+		delete {_sign}
+
+function addMember(id: text, player: text):
+	add "%{_player}%" to {server::plots::plots::%{_id}%::members::*}
+	make console execute "/rg addmember %{server::plots::plots::%{_id}%::region}% %{_player}% -w world"
+
+function removeMember(id: text, player: text):
+	remove "%{_player}%" from {server::plots::plots::%{_id}%::members::*}
+	make console execute "/rg removemember %{server::plots::plots::%{_id}%::region}% %{_player}% -w world"
+
+command /plotmanager <text> [<text>] [<text>]:
+	aliases: /plotman
+	permission: server.plotmanager
+	permission message: {@error}You do not have the required permission &8(&c&lserver.plotmanager&8)
+	usage: {@error}Incorrect usage&8: &c&l/plotmanager help
+	trigger:
+		if arg-1 is "create":
+			if arg-2 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager create <id>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is set:
+				message "{@error}A plot with this id already exists"
+				stop
+			
+			set {server::plots::plots::%arg-2%} to true
+			set {server::plots::plots::%arg-2%::expires} to now
+			set {server::plots::plots::%arg-2%::rent} to 10
+			set {server::plots::plots::%arg-2%::slots} to 1
+			
+			add 7 days to {server::plots::plots::%arg-2%::expires}
+			
+			message "{@prefix}Created a plot with id &b&l%arg-2%"
+			
+		else if arg-1 is "delete":
+			if arg-2 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager delete <id>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			delete {server::plots::plots::%arg-2%::*}
+			delete {server::plots::plots::%arg-2%}
+			
+			message "{@prefix}Deleted the plot with id &b&l%arg-2%"
+		
+		else if arg-1 is "setwgregion":
+			if arg-3 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager setwgregion <id> <region>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			set {server::plots::plots::%arg-2%::region} to arg-3
+			
+			message "{@prefix}Set &b&l%arg-2%&7's region to &b&l%arg-3%"
+		
+		else if arg-1 is "setsign":
+			if arg-2 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager setsign <id>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			message "{@prefix}Please place a sign to set it as &b&l%arg-2%&7's sign"
+			
+			set {server::plots::players::%player%::setplotsign} to true
+			
+			while {server::plots::players::%player%::setplotsign} is true:
+				wait 1 second
+			
+			close player's inventory
+			
+			set {server::plots::plots::%arg-2%::sign} to {server::plots::players::%player%::setplotsign}
+			delete {server::plots::players::%player%::setplotsign}
+			
+			message "{@prefix}Set &b&l%arg-2%&7's sign to &b&l%{server::plots::plots::%arg-2%::sign}%"
+			updatePlotSigns()
+			
+		else if arg-1 is "setrent":
+			if arg-3 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager setrent <id> <price per day>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			set {_rent} to arg-3 parsed as number
+			
+			if "%{_rent}%" is "<none>":
+				message "{@error}Incorrect usage: &c&l/plotmanager setrent <id> <price per day>"
+				stop
+			
+			set {server::plots::plots::%arg-2%::rent} to {_rent}
+			message "{@prefix}Set &b&l%arg-2%&7's rent to &b&l%{_rent}%"
+			updatePlotSigns()
+			
+		else if arg-1 is "setslots":
+			if arg-3 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager setslots <id> <number of slots>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			set {_slots} to arg-3 parsed as number
+			
+			if "%{_slots}%" is "<none>":
+				message "{@error}Incorrect usage: &c&l/plotmanager setslots <id> <number of slots>"
+				stop
+			
+			set {server::plots::plots::%arg-2%::slots} to {_slots}
+			message "{@prefix}Set &b&l%arg-2%&7's slots to &b&l%{_slots}%"
+			updatePlotSigns()
+			
+		else if arg-1 is "add":
+			if arg-3 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager add <id> <member>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			set {_p} to arg-3 parsed as player
+			
+			if {_p} is not online:
+				message "{@error}That player is not online"
+				stop
+			
+			if {server::plots::plots::%arg-2%::members::*} contains "%{_p}%":
+				message "{@error}That player is already a member of that plot"
+				stop
+			
+			addMember(arg-2, "%{_p}%")
+			message "{@prefix}Added &b&l%{_p}%&7 to plot &b&l%arg-2%"
+			updatePlotSigns()
+			
+		else if arg-1 is "kick":
+			if arg-3 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager kick <id> <member>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			set {_p} to arg-3 parsed as player
+			
+			if {server::plots::plots::%arg-2%::members::*} does not contain "%{_p}%":
+				message "{@error}That player is not a member of that plot"
+				stop
+			
+			removeMember(arg-2, {_p})
+			message "{@prefix}Removed &b&l%{_p}%&7 from plot &b&l%arg-2%"
+			updatePlotSigns()
+			
+		else if arg-1 is "setowner":
+			if arg-3 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager setowner <id> <member>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			set {_p} to arg-3 parsed as offline player
+			
+			if {server::plots::plots::%arg-2%::members::*} does not contain "%{_p}%":
+				message "{@error}That player is not a member of that plot"
+				stop
+			
+			set {server::plots::plots::%arg-2%::owner} to {_p}
+			message "{@prefix}Set &b&l%arg-2%&7's owner to &b&l%{_p}%"
+			updatePlotSigns()
+			
+		else if arg-1 is "evict":
+			if arg-2 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager evict <id>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			if "%{server::plots::plots::%arg-2%::members::*}%" is "<none>":
+				message "{@error}This plot has no members"
+				stop
+			
+			message "{@prefix}Evicted &b&l%{server::plots::plots::%arg-2%::members::*}%&7 from &b&l%arg-2%"
+			
+			set {server::plots::plots::%arg-2%::expires} to now
+			remove 5 minutes from {server::plots::plots::%arg-2%::expires}
+			updatePlotSigns()
+		
+		else if arg-1 is "addrent":
+			if arg-3 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager addrent <id> <time>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			if "%{server::plots::plots::%arg-2%::members::*}%" is "<none>":
+				message "{@error}This plot has no members"
+				stop
+			
+			set {_t} to parseTimespan(arg-3)
+			
+			if "%{_t}%" is "<none>":
+				message "{@error}Invalid timespan"
+				stop
+			
+			if {server::plots::plots::%arg-2%::expires} is not set:
+				set {server::plots::plots::%arg-2%::expires} to now
+			
+			set {_exp} to {server::plots::plots::%arg-2%::expires}
+			add {_t} to {_exp}
+			set {server::plots::plots::%arg-2%::expires} to {_exp}
+			updatePlotSigns()
+			
+			message "{@prefix}Extended &b&l%arg-2%&7's rent by &b&l%{_t}%&7 it will expire on &b&l%{_exp}%"
+		
+		else if arg-1 is "info":
+			if arg-2 is not set:
+				message "{@error}Incorrect usage: &c&l/plotmanager info <id>"
+				stop
+			
+			if {server::plots::plots::%arg-2%} is not set:
+				message "{@error}No plot with this id exists"
+				stop
+			
+			message ""
+			message "&bPlot &l%arg-2%"
+			message ""
+			message "&bOwner &8» &f%{server::plots::plots::%arg-2%::owner}%"
+			message "&bMembers &8[&7%size of {server::plots::plots::%arg-2%::members::*}%&8/&7%{server::plots::plots::%arg-2%::slots}%&8]"
+			message "&7%{server::plots::plots::%arg-2%::members::*}%"
+			message ""
+			message "&bSign &8» &f%{server::plots::plots::%arg-2%::sign}%"
+			message "&bWG Region &8» &f%{server::plots::plots::%arg-2%::region}%"
+			message ""
+			message "&bExpires &8» &f%{server::plots::plots::%arg-2%::expires}% &8[&7%prettifyTimespan(difference between now and {server::plots::plots::%arg-2%::expires})%&8]"
+			message formatted "<cmd:/plotman evict %arg-2%>&c&l[CLICK HERE TO EVICT]"
+			message ""
+		
+		else:
+			message ""
+			message "&b/plotmanager create <id>"
+			message "&b/plotmanager delete <id>"
+			message "&b/plotmanager setwgregion <id> <region>"
+			message "&b/plotmanager setsign <id>"
+			message "&b/plotmanager setrent <id> <price per day>"
+			message "&b/plotmanager setslots <id> <number of slots>"
+			message ""
+			message "&b/plotmanager add <id> <member>"
+			message "&b/plotmanager kick <id> <member>"
+			message "&b/plotmanager setowner <id> <member>"
+			message "&b/plotmanager evict <id>"
+			message "&b/plotmanager addrent <id> <time>"
+			message ""
+			message "&b/plotmanager info <id>"
+			message ""
+
+on place of sign:
+	if {server::plots::players::%player%::setplotsign} is true:
+		set {server::plots::players::%player%::setplotsign} to location of event-block
+
+on right click on sign:
+	loop {server::plots::plots::*}:
+		if {server::plots::plots::%loop-index%::sign} is location of event-block:
+			message "{@prefix}Plot id: &b&l%loop-index%"
+			if {server::plots::plots::%loop-index%::owner} is player:	
+				openPlotsMenu(loop-index, player)
+				stop
+			
+			if {server::plots::plots::%loop-index%::owner} is set:
+				message "{@error}Someone has already rented this plot"
+				stop
+			
+			set {_rent} to {server::items::coin}
+			{_rent}.setAmount({server::plots::plots::%loop-index%::rent} * 7)
+			
+			if player does not have {_rent}:
+				message "{@error}You dont have enough coins in your inventory to rent this plot"
+				stop
+			
+			set {server::plots::plots::%loop-index%::slots} to 1
+
+			set {server::plots::plots::%loop-index%::owner} to player
+			addMember(loop-index, "%player%")
+			
+			set {server::plots::plots::%loop-index%::expires} to now
+			add 7 day to {server::plots::plots::%loop-index%::expires}
+			
+			remove {_rent} from player
+			
+			message "{@prefix}This plot is now rented by you"
+			
+function openPlotsMenu(id: text, player: player):
+	if name of {_player}'s current inventory is not "&a&lPlot Managment":
+		open chest inventory with 3 rows named "&a&lPlot Managment" to {_player}
+	
+	set {server::plots::currentplotmenu::%{_player}%} to {_id}
+	
+	set {_i} to 0
+	loop 27 times:
+		set slot {_i} of {_player}'s current inventory to gray stained glass pane named " "
+		add 1 to {_i}
+	
+	set slot 10 of {_player}'s current inventory to paper named "&aMembers" with lore "&7Click to open the members menu"
+	set slot 13 of {_player}'s current inventory to paper named "&aPay Rent" with lore "&7Cost &8| &f%{server::plots::plots::%{_id}%::rent}%&fC" and "&7Remaining Rent &8| &f%prettifyTimespan(difference between now and {server::plots::plots::%{_id}%::expires})%"
+	set slot 16 of {_player}'s current inventory to paper named "&aAdd Slots" with lore "&7Cost &8| &f32C" and "&7Current Slots &8| &f%{server::plots::plots::%{_id}%::slots}%&8/&f14"
+			
+on inventory click:
+	if name of event-inventory is "&a&lPlot Managment":
+		cancel event
+		
+		if name of event-item is "&aMembers":
+			set {_plot} to {server::plots::currentplotmenu::%player%}
+			open chest inventory with 4 rows named "&a&lMember Managment" to player
+			set {_i} to 0
+			loop 36 times:
+				set slot {_i} of player's current inventory to gray stained glass pane named " "
+				add 1 to {_i}
+				
+			set {_i} to 10
+			loop 14 times:
+				set slot {_i} of player's current inventory to barrier named "&cYou can unlock this slot in the main menu"
+				add 1 to {_i}
+				if mod({_i}, 9) is 8:
+					add 2 to {_i}
+					
+			set {_i} to 10
+			loop {server::plots::plots::%{_plot}%::slots} times:
+				set slot {_i} of player's current inventory to player skull named "&eEmpty Member Slot" with lore "&fClick to add a player"
+				add 1 to {_i}
+				if mod({_i}, 9) is 8:
+					add 2 to {_i}
+					
+			set {_i} to 10
+			loop {server::plots::plots::%{_plot}%::members::*}:
+				set {_x} to loop-value parsed as offline player
+				if {_x} is {server::plots::plots::%{_plot}%::owner}:
+					set slot {_i} of player's current inventory to skull of {_x} named "&c&l%loop-value%" with lore "&fPlot Owner"
+				else:
+					set slot {_i} of player's current inventory to skull of {_x} named "&e&l%loop-value%" with lore "&fClick to kick"
+				add 1 to {_i}
+				if mod({_i}, 9) is 8:
+					add 2 to {_i}
+		
+		if name of event-item is "&aPay Rent":
+			set {_plot} to {server::plots::currentplotmenu::%player%}
+			set {_remaining} to difference between now and {server::plots::plots::%{_plot}%::expires}
+			
+			if {_remaining} >= 6 days:
+				close player's inventory
+				message "{@error}You have already extended this plot's expiration time to the maximum"
+				stop
+				
+			set {_rent} to {server::items::coin}
+			{_rent}.setAmount({server::plots::plots::%{_plot}%::rent})
+			
+			if player does not have {_rent}:
+				close player's inventory
+				message "{@error}You dont have enough coins in your inventory to extend this plot's expiration time"
+				stop
+			
+			remove {_rent} from player
+			add 1 day to {server::plots::plots::%{_plot}%::expires}
+			
+			updatePlotSigns()
+			openPlotsMenu({_plot}, player)
+			stop
+			
+		if name of event-item is "&aAdd Slots":
+			set {_plot} to {server::plots::currentplotmenu::%player%}
+			if {server::plots::plots::%{_plot}%::slots} >= 14:
+				close player's inventory
+				message "{@error}This plot already has the max amount of slots"
+				stop
+				
+			set {_rent} to {server::items::coin}
+			{_rent}.setAmount(32)
+			
+			if player does not have {_rent}:
+				close player's inventory
+				message "{@error}You dont have enough coins in your inventory to add a slot to this plot"
+				stop
+			
+			remove {_rent} from player
+			add 1 to {server::plots::plots::%{_plot}%::slots}
+			
+			updatePlotSigns()
+			openPlotsMenu({_plot}, player)
+			stop
+		
+	if name of event-inventory is "&a&lMember Managment":
+		cancel event
+		if uncolored name of event-item is "Empty Member Slot":
+			close player's inventory
+			message "{@prefix}Type the name of the player you wish to add in the chat"
+			
+			set {server::plots::addingmember::%player%} to true
+			while {server::plots::addingmember::%player%} is true:
+				wait 1 second
+			
+			set {_adding} to {server::plots::addingmember::%player%} parsed as player
+			delete {server::plots::addingmember::%player%}
+			
+			if "%{_adding}%" is "<none>":
+				message "{@error}That is not a valid player"
+				stop
+				
+			if {server::plots::plots::%{server::plots::currentplotmenu::%player%}%::members::*} contains "%{_adding}%":
+				message "{@error}That player is already a part of your plot"
+				stop
+				
+			addMember({server::plots::currentplotmenu::%player%}, "%{_adding}%")
+			message "{@prefix}Added &b&l%{_adding}% &7to your plot"
+		
+		loop {server::plots::plots::%{server::plots::currentplotmenu::%player%}%::members::*}:
+			if loop-value is not {server::plots::plots::%{server::plots::currentplotmenu::%player%}%::owner}:
+				if uncolored name of event-item is "%loop-value%":
+					close player's inventory
+					removeMember({server::plots::currentplotmenu::%player%}, loop-value)
+					message "{@prefix}Removed &b&l%loop-value% &7from your plot"
+					stop
+			
+			
+on chat:
+	if {server::plots::addingmember::%player%} is true:
+		cancel event
+		set {_m} to message
+		set {_m} to uncolored {_m}
+		replace all "@" in {_m} with ""
+		set {server::plots::addingmember::%player%} to {_m}

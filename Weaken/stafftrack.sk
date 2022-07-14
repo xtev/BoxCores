@@ -1,0 +1,68 @@
+on join:
+	if player has permission "server.stafftrack":
+		if {stafftrack::%player's uuid%} is not set:
+			set {stafftrack::%player's uuid%} to true
+			
+		set {stafftrack::%player's uuid%::lastjoin} to now
+		set {stafftrack::%player's uuid%::messages} to 0
+		delete {stafftrack::%player's uuid%::lastleave}
+
+on disconnect:
+	if player has permission "server.stafftrack":
+		if {stafftrack::%player's uuid%::lastjoin} is set:
+			set {_id} to random uuid
+			set {stafftrack::%player's uuid%::periods::%{_id}%} to true
+			set {stafftrack::%player's uuid%::periods::%{_id}%::join} to {stafftrack::%player's uuid%::lastjoin}
+			set {stafftrack::%player's uuid%::periods::%{_id}%::messages} to {stafftrack::%player's uuid%::messages}
+			set {stafftrack::%player's uuid%::periods::%{_id}%::length} to difference between {stafftrack::%player's uuid%::lastjoin} and now
+			
+			delete {stafftrack::%player's uuid%::lastjoin}
+			delete {stafftrack::%player's uuid%::messages}
+			set {stafftrack::%player's uuid%::lastleave} to now
+
+on chat:
+	if player has permission "server.stafftrack":
+		wait 1 tick
+		if event is not cancelled:
+			add 1 to {stafftrack::%player's uuid%::messages}
+
+on load:
+	loop {stafftrack::*}:
+		loop {stafftrack::%loop-index%::periods::*}:
+			if difference between {stafftrack::%loop-index-1%::periods::%loop-index-2%::join} and now >= 7 days:
+				delete {stafftrack::%loop-index-1%::periods::%loop-index-2%::*}
+				delete {stafftrack::%loop-index-1%::periods::%loop-index-2%}
+
+command /staffcheck <offlineplayer>:
+	permission: server.staffcheck
+	permission message: &cYou dont have enough permissions to do this
+	usage: &cIncorrect usage: /staffcheck <player>
+	trigger:
+		if {stafftrack::%arg-1's uuid%} is not set:
+			message "&cThis player does not have any timings registered"
+			stop
+		
+		set {_timeon} to 0 seconds
+		set {_joins} to 0
+		set {_messages} to 0
+		
+		loop {stafftrack::%arg-1's uuid%::periods::*}:
+			if difference between {stafftrack::%arg-1's uuid%::periods::%loop-index%::join} and now < 7 days:
+				add {stafftrack::%arg-1's uuid%::periods::%loop-index%::length} to {_timeon}
+				add {stafftrack::%arg-1's uuid%::periods::%loop-index%::messages} to {_messages}
+				add 1 to {_joins}
+		
+		message ""
+		message "&e%arg-1%&e's last 7 days:"
+		message ""
+		message "&eJoined: %{_joins}%&e times"
+		message "&eOnline for: %{_timeon}%"
+		message "&eSent messages: %{_messages}%"
+		message ""
+		
+		if arg-1 is online:
+			message "&eCurrently: &aONLINE &efor %difference between {stafftrack::%arg-1's uuid%::lastjoin} and now%"
+			message "&eSent messages: %{stafftrack::%arg-1's uuid%::messages}%"
+		else:
+			message "&eCurrently: &cOFFLINE &efor %difference between {stafftrack::%arg-1's uuid%::lastleave} and now%"
+		message ""

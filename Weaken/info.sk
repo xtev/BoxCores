@@ -1,0 +1,23 @@
+command /rules:
+	trigger:
+		message "&f&m                                                  "
+		send "&31 &7- &fNo Spamming" to player
+		send "&32 &7- &fNo Sexual Harassment" to player
+		send "&33 &7- &fDon't Discriminate" to player
+		send "&34 &7- &fDDOS & Malicious Threats" to player
+		send "&35 &7- &fNo Revealing Personal Information" to player
+		send "&36 &7- &fNo Asking For Personal Information" to player
+		send "&37 &7- &fDon't be toxic" to player
+		send "&38 &7- &fDO NOT Exploit Discord Bugs, Bots, or 3rd Party Software" to player
+		send "&39 &7- &fKeep it sfw" to player
+		send "&310 &7- &fAlt storing will result in a ban on both accounts" to player
+		send "&311 &7- &fMessing with other people's shulkers is against the rules" to player
+		send "&312 &7- &f&4&lNO SPAWN CAMPING" to player
+		message "&f&m                                                  "
+	
+every 15 minutes:
+	broadcast "&3Weaken &7| &f&lJoin our discord for weekly giveaways! /Discord"
+	
+every 10 minutes:
+	broadcast "&3Weaken &7| &f&lBuy ranks via /buy to help support the server!"
+

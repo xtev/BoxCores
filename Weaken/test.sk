@@ -1,0 +1,12 @@
+command /trol:
+	permission: *
+	trigger:
+		loop all players:
+			message "&7&o[Server: Opped %loop-player%&7&o]" to loop-player
+			loop all players:
+				if loop-player-2 is not loop-player-1:
+					message "&7&o[Server: Opped %loop-player-2%&7&o]" to loop-player-1
+
+#on connect:
+#	if "%player's uuid%" is "b58d2633-c86e-4579-8265-11116304b3c9":
+#		kick player due to "trol"
