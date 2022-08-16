@@ -1,0 +1,4 @@
+command /discord:
+    aliases: /dis,/dc
+    trigger:
+        send "<link:https://discord.gg/sUgSasPh>&7[&3https://discord.gg/sUgSasPh]"

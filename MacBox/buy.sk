@@ -1,0 +1,3 @@
+command /autobroadcastbuy:
+ trigger:
+  execute console command "say §x§f§f§7§c§0§4§lM§x§f§f§7§c§0§4§la§x§f§f§7§c§0§4§lc§x§0§0§0§0§0§0§lB§x§0§0§0§0§0§0§lo§x§0§0§0§0§0§0§lxBox -- §x§f§f§f§f§f§fMake sure to do §x§0§9§f§f§0§a§l/buy §x§f§f§f§f§f§fif you like the server! :D"

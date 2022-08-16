@@ -1,0 +1,3 @@
+on death of player:
+   apply regeneration 10 to the attacker for 5 second
+   apply fire resistance 1 to the attacker for 30 seconds

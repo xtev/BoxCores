@@ -1,0 +1,816 @@
+# Custom Enchants Version 1.0.0
+# By MinecraftMan1013#7242
+# If you have any problems, join my support discord!
+# https://discord.gg/gkbfB6V
+
+options:
+	# <!> WARNING <!>
+	# do NOT change this once you have released items with enchants!
+	# Items that have the old enchant color will NOT work!
+	Enchant Color: &7
+	
+	# The location of the script
+	# If the script is in a folder, set this to "<folder name>/"
+	File Location: CustomEnchants
+	
+# IMPORTANT: All chances are WITHOUT the % sign
+
+# ————————————————————————————————————————————————————————
+
+# Explode
+	# Should the "Explode" enchant ONLY explode ores AND ore block types (diamond blocks, gold blocks, etc)?
+	Ores only: true
+
+	# Which items should explode NOT destroy?
+	Block Blacklist: bedrock, beacon, and obsidian
+
+	Explode 1 Radius: 6
+	Explode 2 Radius: 1.5
+	Explode 3 Radius: 2
+	Explode 4 Radius: 2.25
+	Explode 5 Radius: 2.5
+	Explode 6 Radius: 3
+	Explode 7 Radius: 3.25
+
+# Luck of the Draw
+# IMPORTANT: Put the chance WITHOUT the %
+	LOTD 1 Chance: 15%
+	LOTD 2 Chance: 50%
+	LOTD 3 Chance: 30%
+	LOTD 4 Chance: 45%
+	LOTD 5 Chance: 50%
+
+# Bomber
+	Bomber Chance: 25%
+	Bomber Explosion Power: 2
+	# How much should players within the explosion radius get damaged?
+	Bomber Damage: 4
+
+# Witch
+	Witch 1 Chance: 15%
+	Witch 2 Chance: 25%
+	Witch 3 Chance: 30%
+	Witch 4 Chance: 45%
+	Witch 5 Chance: 50%
+
+	Witch 1 Cooldown: 30 seconds
+	Witch 2 Cooldown: 25 seconds
+	Witch 3 Cooldown: 20 seconds
+	Witch 4 Cooldown: 15 seconds
+	Witch 5 Cooldown: 10 seconds
+
+# COMING SOON
+# # Machine Gun
+# 	Machine Gun Speed: 2
+# 	# How many arrows should the machine gun shoot per click?
+# 	Machine Gun Shoots: 5
+# 	# Should the machine gun take the arrows from the player?
+# 	# Set to 'false' if you want infinite ammo (arrows are ammo)
+# 	Machine Gun Remove Arrow: true
+
+# ————————————————————————————————————————————————————————
+
+# Do not touch the lines below this please :)
+	PossibleEnchants: Explode (explode), Telepathy (tele), Unbreakable (unb || break), Luck of the Draw (LOTD || luck), Team (team), Bomber (bomb || bomber), Sniper (snipe || sniper), Witch (witch)
+	Enchants: "Explode", "Telepathy", "Unbreakable", "Luck of the Draw", "Team", "Bomber", "Sniper", and "Witch"
+
+command /customenchants [<text>] [<text>] [<int>]:
+	aliases: ce
+	permission: ce.*
+	permission message: &cYou don't have permission to do that!
+	executable by: players
+	trigger:
+		if arg-1 is not set:
+			send formatted "&8————————————————————————"
+			send formatted "<sgt:/ce add ><tooltip:Click me to get the command!>&7/ce add (enchant) (level) - Add an enchant to a tool"
+			send formatted "<sgt:/ce remove ><tooltip:Click me to get the command!>&7/ce remove (enchant) - Remove an enchant from your tool"
+			send formatted "<sgt:/ce info><tooltip:Click me to get the command!>&7/ce info (enchant) - Get info about a specific enchant"
+			send formatted "<cmd:/ce list><tooltip:Click me to get a list of enchants!>&7/ce list - Get a list of possible enchants"
+			send formatted "<cmd:/ce support><tooltip:Click me to get support!>&7/ce support - Get support for this script"
+			send formatted "<cmd:/ce gui><tooltip:Click me to open the Enchant Manager GUI!>&7/ce gui - Open a GUI where you can manage enchants"
+			send formatted "<cmd:/ce reload><tooltip:Click me to reload the script!>&7/ce reload - Reload the script"
+			send formatted "&8————————————————————————"
+			stop
+		else if arg-1 is "list":
+			send "&2Possible Enchants: &a{@PossibleEnchants}"
+			stop
+
+# ————————————————————————
+
+# INFO CATEGORY
+		else if arg-1 is "info":
+			if arg-2 is not set:
+				send "&2Possible Enchants: &a{@PossibleEnchants}"
+				stop
+			else if arg-2 is "explode":
+				send "&2Info about &2&lExplode&2: &aChance of exploding a small radius around you."
+				stop
+			else if arg-2 is "tele" or "telepathy":
+				send "&2Info about &2&lTelepathy&2: &aWhen you mine a block, it goes directly to your inventory."
+				stop
+			else if arg-2 is "unb" or "unbreakable" or "break":
+				send "&2Info about &2&lUnbreakable&2: &aMakes your tool unbreakable."
+				stop
+			else if arg-2 is "lotd" or "luck":
+				send "&2Info about &2&lLuck of the Draw&2: &aChance of multiplying the drops."
+			else if arg-2 is "team":
+				send "&2Info about &2&lTeam&2: &aTests to see if both the attacker and the victim have the same level of this enchant. If they do, the damage is cancelled."
+			else if arg-2 is "bomber" or "bomb":
+				send "&2Info about &2&lBomber&2: &aChance of making an explosion when hit with an arrow."
+			else if arg-2 is "snipe" or "sniper":
+				send "&2Info about &2&lSniper&2: &aWhen you shift with a bow in your hand, your FOV zooms in, and you can launch arrows at fast speeds"
+				send "&2&lNOTE:&a The level of the enchant that you have is the speed that the arrow will fire!"
+			else if arg-2 is "team":
+				send "&2Info about &2&lTeam&2: &aAdds ""teams"" to Minecraft (read next line)"
+				send "&2&lNOTE:&a The level of the enchant that you have is the team number. If two players have the same team number, then they will not be able to damage each other."
+			else if arg-2 is "witch":
+				send "&2Info about &2&lWitch&2: &aWhen someone gets hit, there is a chance that they will get poisoned"
+				send "&2&lNOTE:&a The level of the enchant that you have on your sword is the level of poison the victim gets."
+			else if arg-2 is "healer":
+				send "&2Info about &2&lHealer&2: &aWhen in combat with someone, the attacker gets healed sometimes"
+			# COMING SOON
+			# else if arg-2 is "mg" or "machine":
+			# 	send "&2Info about &2&lMachine Gun&2: &aRepeatedly shoots arrows from a player."
+			else:
+				send "&2Possible Enchants: &a{@PossibleEnchants}"
+
+# ————————————————————————
+
+# RELOAD
+		else if arg-1 is "reload" or "rl":
+			if arg-2 is not set:
+				execute player command "/sk reload {@File Location}"
+			else:
+				execute player command "/sk reload {@File Location}%arg-2%"
+
+# ————————————————————————
+
+# GUI
+		else if arg-1 is "gui" or "manage" or "manager":
+			CE_openManager(player)
+
+# ————————————————————————
+
+# REMOVE CATEGORY
+
+		else if arg-1 is "remove":
+			if arg-2 is set:
+				if arg-2 is not "lotd":
+					if "%lore of player's tool%" contains arg-2:
+						if "%lore of player's tool%" is not "<none>":
+							set {_removeLoreLine} to CE_getLoreLine(player, arg-2)
+							delete line {_removeLoreLine} of lore of player's tool
+							send "&aRemoved the enchant!"
+						else:
+							send "&cEnchant not found!"
+					else:
+						send "&cEnchant not found!"
+				else:
+					if "%lore of player's tool%" is not "<none>":
+						set {_removeLoreLine} to CE_getLoreLine(player, "Luck")
+						delete line {_removeLoreLine} of lore of player's tool
+						send "&aRemoved the enchant!"
+					else:
+						send "&cEnchant not found!"
+			else:
+				send "&cYou need to supply an enchant to remove!"
+
+# ————————————————————————
+
+# ADD/APPLY CATEGORY
+		else if arg-1 is "add" or "apply":
+			if player's held item is air:
+				send "&cPlease hold an item!"
+				stop
+			else if arg-2 is not set:
+				make player say "/ce"
+				stop
+			
+# EXPLODE
+			else if arg-2 is "explode":
+				if player's held item is a pickaxe or an axe or a shovel:
+					set {_ifLore} to CE_getLoreLine(player, "Explode")
+					if {_ifLore} is set:
+						send "&cYou already have this enchant on your tool!"
+						stop
+					if arg-3 is not set:
+						CE_applyEnchant(player, "Explode 1")
+					if arg-3 is set:
+						if arg-3 is 1:
+							execute player command "/ce add explode"
+							stop
+						if arg-3 <= 7:
+							CE_applyEnchant(player, "Explode %arg-3%")
+						else:
+							send "&cNeed a lesser enchant value!"
+							stop
+				else:
+					send "&cYou need to hold a pickaxe, an axe, or a shovel to use this enchant!"
+# TELEPATHY
+			else if arg-2 is "tele" or "telepathy":
+				set {_ifLore} to CE_getLoreLine(player, "Telepathy")
+				if {_ifLore} is set:
+					send "&cYou already have this enchant on your tool!"
+					stop
+				if player's held item is a pickaxe or an axe or a shovel:
+					CE_applyEnchant(player, "Telepathy")
+				else:
+					send "&cYou need to hold a pickaxe, an axe, or a shovel to use this enchant!"
+			
+# UNBREAKABLE
+			else if arg-2 is "unb" or "break" or "unbreakable":
+				set {_ifLore} to CE_getLoreLine(player, "Unbreakable")
+				if {_ifLore} is set:
+					send "&cYou already have this enchant on your tool!"
+					stop
+				CE_applyEnchant(player, "Unbreakable")
+
+# LUCK OF THE DRAW
+			else if arg-2 is "lotd" or "luck":
+				set {_ifLore} to CE_getLoreLine(player, "Luck of the Draw")
+				if {_ifLore} is set:
+					send "&cYou already have this enchant on your tool!"
+					stop
+				if player's held item is a pickaxe or an axe or a shovel:
+					if arg-3 is not set:
+						CE_applyEnchant(player, "Luck of the Draw 1")
+					else if arg-3 <= 5:
+						CE_applyEnchant(player, "Luck of the Draw %arg-3%")
+					else:
+						send "&cNeed a lesser enchant value!"
+				else:
+					send "&cYou need to hold a pickaxe, an axe, or a shovel to use this enchant!"
+			
+# TEAM
+			else if arg-2 is "team":
+				set {_ifLore} to CE_getLoreLine(player, "Team")
+				if {_ifLore} is set:
+					send "&cYou already have this enchant on your tool!"
+					stop
+				if player's held item is a chestplate:
+					if arg-3 is not set:
+						CE_applyEnchant(player, "Team 1")
+					else:
+						CE_applyEnchant(player, "Team %arg-3%")
+				else:
+					send "&cYou need to hold a chestplate to use this enchant!"
+
+# BOMBER
+			else if arg-2 is "bomber" or "bomb":
+				if "%player's tool%" contains "bow":
+					CE_applyEnchant(player, "Bomber")
+				else:
+					send "&cYou need to hold a bow or crossbow to use this enchant!"
+				
+# SNIPER
+			else if arg-2 is "snipe" or "sniper":
+				set {_ifLore} to CE_getLoreLine(player, "Sniper")
+				if {_ifLore} is set:
+					send "&cYou already have this enchant on your tool!"
+					stop
+				if  player's tool is a bow:
+					if arg-3 is not set:
+						CE_applyEnchant(player, "Sniper 1")
+					else:
+						CE_applyEnchant(player, "Sniper %arg-3%")
+				else:
+					send "&cYou need to hold a bow to use this enchant!"
+# WITCH
+			else if arg-2 is "witch":
+				set {_ifLore} to CE_getLoreLine(player, "Witch")
+				if {_ifLore} is set:
+					send "&cYou already have this enchant on your tool!"
+					stop
+				if  player's tool is a sword:
+					if arg-3 > 5:
+						send "&cNeed a lesser enchant value!"
+					else if arg-3 is not set:
+						CE_applyEnchant(player, "Witch 1")
+					else:
+						CE_applyEnchant(player, "Witch %arg-3%")
+				else:
+					send "&cYou need to hold a sword or an axe to use this enchant!"
+
+# MEDIC
+			else if arg-2 is "medic":
+				set {_ifLore} to CE_getLoreLine(player, "Medic")
+				if {_ifLore} is set:
+					send "&cYou already have this enchant on your tool!"
+					stop
+				if  player's tool is a sword or an axe:
+					if arg-3 > 5:
+						send "&cNeed a lesser enchant value!"
+					else if arg-3 is not set:
+						CE_applyEnchant(player, "Medic 1")
+					else:
+						CE_applyEnchant(player, "Medic %arg-3%")
+				else:
+					send "&cYou need to hold a sword or an axe to use this enchant!"
+
+# ————————————————————————
+
+# SUPPORT
+		else if arg-1 is "support" or "discord":
+			send formatted "<link:https://discord.gg/gkbfB6V>&aDo you need support for Custom Enchants? Click here to join my discord!"
+
+		else:
+			execute player command "/ce"
+
+# ————————————————————————
+
+# ACTIONS CATEGORY
+
+on script load:
+	delete {Enchants::*}
+	delete {ExplodeBlacklist::*}
+	set {Enchants::*} to {@Enchants}
+	set {ExplodeBlacklist::*} to {@Block Blacklist}
+
+on mine:
+# EXPLODE
+	if "%lore of player's tool%" contains "{@Enchant Color}Explode":
+		set {_oresOnly} to {@Ores only}
+		if "%lore of player's tool%" contains "{@Enchant Color}Explode 1":
+			loop blocks in radius {@Explode 1 Radius} around event-block:
+				if {_oresOnly} is true:
+					if loop-block is an ore or an iron block or a gold block or a diamond block or a netherite block:
+						create a fake explosion at loop-block
+						give loop-block to player
+						set loop-block to air
+				else if {ExplodeBlacklist::*} does not contain loop-block:
+					create a fake explosion at loop-block
+					give loop-block to player
+					set loop-block to air
+		else if "%lore of player's tool%" contains "{@Enchant Color}Explode 2":
+			loop blocks in radius {@Explode 2 Radius} around event-block:
+				if {_oresOnly} is true:
+					if loop-block is an ore or an iron block or a gold block or a diamond block or a netherite block:
+						create a fake explosion at loop-block
+						give loop-block to player
+						set loop-block to air
+				else if {ExplodeBlacklist::*} does not contain loop-block:
+					create a fake explosion at loop-block
+					give loop-block to player
+					set loop-block to air
+		else if "%lore of player's tool%" contains "{@Enchant Color}Explode 3":
+			loop blocks in radius {@Explode 3 Radius} around event-block:
+				if {_oresOnly} is true:
+					if loop-block is an ore or an iron block or a gold block or a diamond block or a netherite block:
+						create a fake explosion at loop-block
+						give loop-block to player
+						set loop-block to air
+				else if {ExplodeBlacklist::*} does not contain loop-block:
+					create a fake explosion at loop-block
+					give loop-block to player
+					set loop-block to air
+		else if "%lore of player's tool%" contains "{@Enchant Color}Explode 4":
+			loop blocks in radius {@Explode 4 Radius} around event-block:
+				if {_oresOnly} is true:
+					if loop-block is an ore or an iron block or a gold block or a diamond block or a netherite block:
+						create a fake explosion at loop-block
+						give loop-block to player
+						set loop-block to air
+				else if {ExplodeBlacklist::*} does not contain loop-block:
+					create a fake explosion at loop-block
+					give loop-block to player
+					set loop-block to air
+		else if "%lore of player's tool%" contains "{@Enchant Color}Explode 5":
+			loop blocks in radius {@Explode 5 Radius} around event-block:
+				if {_oresOnly} is true:
+					if loop-block is an ore or an iron block or a gold block or a diamond block or a netherite block:
+						create a fake explosion at loop-block
+						give loop-block to player
+						set loop-block to air
+				else if {ExplodeBlacklist::*} does not contain loop-block:
+					create a fake explosion at loop-block
+					give loop-block to player
+					set loop-block to air
+		else if "%lore of player's tool%" contains "{@Enchant Color}Explode 6":
+			loop blocks in radius {@Explode 6 Radius} around event-block:
+				if {_oresOnly} is true:
+					if loop-block is an ore or an iron block or a gold block or a diamond block or a netherite block:
+						create a fake explosion at loop-block
+						give loop-block to player
+						set loop-block to air
+				else if {ExplodeBlacklist::*} does not contain loop-block:
+					create a fake explosion at loop-block
+					give loop-block to player
+					set loop-block to air
+		else if "%lore of player's tool%" contains "{@Enchant Color}Explode 7":
+			loop blocks in radius {@Explode 7 Radius} around event-block:
+				if {_oresOnly} is true:
+					if loop-block is an ore or an iron block or a gold block or a diamond block or a netherite block:
+						create a fake explosion at loop-block
+						give loop-block to player
+						set loop-block to air
+				else if {ExplodeBlacklist::*} does not contain loop-block:
+					create a fake explosion at loop-block
+					give loop-block to player
+					set loop-block to air
+
+# LUCK OF THE DRAW
+	if "%lore of player's tool%" contains "{@Enchant Color}Luck of the Draw":
+		set {_drops::*} to the drops of event-block using player's tool
+		cancel drops
+		if "%lore of player's tool%" contains "{@Enchant Color}Luck of the Draw 1":
+			chance of {@LOTD 1 Chance}:
+				add {_drops::*} to {_drops::*}
+		else if "%lore of player's tool%" contains "{@Enchant Color}Luck of the Draw 2":
+			chance of {@LOTD 2 Chance}:
+				add {_drops::*} to {_drops::*}
+		else if "%lore of player's tool%" contains "{@Enchant Color}Luck of the Draw 3":
+			chance of {@LOTD 3 Chance}:
+				add {_drops::*} to {_drops::*}
+		else if "%lore of player's tool%" contains "{@Enchant Color}Luck of the Draw 4":
+			chance of {@LOTD 4 Chance}:
+				add {_drops::*} to {_drops::*}
+		else if "%lore of player's tool%" contains "{@Enchant Color}Luck of the Draw 5":
+			chance of {@LOTD 5 Chance}:
+				add {_drops::*} to {_drops::*}
+
+
+# TELEPATHY
+	if "%lore of player's tool%" contains "{@Enchant Color}Telepathy":
+		cancel drops
+		if {_drops::*} is set:
+			give player {_drops::*}
+			delete {_drops::*}
+		else:
+			give drops of event-block using player's tool to player
+	
+# -----EXTRA----- #
+	drop {_drops::*} at event-location
+
+# UNBREAKABLE
+on item damage:
+	if "%lore of event-item%" contains "{@Enchant Color}Unbreakable":
+		if event-item is player's tool:
+			repair player's tool
+		else:
+			if event-item is player's helmet:
+				repair player's helmet
+			else if event-item is player's chestplate:
+				repair player's chestplate
+			else if event-item is player's leggings:
+				repair player's leggings
+			else if event-item is player's boots:
+				repair player's boots
+
+# TEAM
+on damage:
+	if attacker's chestplate is not air:
+		if "%lore of attacker's chestplate%" contains "{@Enchant Color}Team":
+			set {_attackerTeam} to CE_getEnchantLevelOnChestplate(attacker, "Team")
+			if victim's chestplate is not air:
+				if "%lore of victim's chestplate%" contains "{@Enchant Color}Team":
+					set {_victimTeam} to CE_getEnchantLevelOnChestplate(victim, "Team")
+					if {_attackerTeam} = {_victimTeam}:
+						cancel event
+
+# WITCH
+	if "%lore of attacker's tool%" contains "{@Enchant Color}Witch":
+		if {WitchCooldown::%attacker's uuid%} is not set:
+			set {_witchTier} to CE_getEnchantLevel(attacker, "Witch")
+			if {_witchTier} is 1:
+				chance of {@Witch 1 Chance}:
+					set {WitchCooldown::%attacker's uuid%} to true
+					apply poison of tier 1 to victim for 3 seconds
+					wait {@Witch 1 Cooldown}
+					delete {WitchCooldown::%attacker's uuid%}
+					send "&aYour witch cooldown has expired!" to attacker
+			else if {_witchTier} is 2:
+				chance of {@Witch 2 Chance}:
+					set {WitchCooldown::%attacker's uuid%} to true
+					apply poison of tier 2 to victim for 3 seconds
+					wait {@Witch 2 Cooldown}
+					delete {WitchCooldown::%attacker's uuid%}
+					send "&aYour witch cooldown has expired!" to attacker
+			else if {_witchTier} is 3:
+				chance of {@Witch 3 Chance}:
+					set {WitchCooldown::%attacker's uuid%} to true
+					apply poison of tier 3 to victim for 3 seconds
+					wait {@Witch 3 Cooldown}
+					delete {WitchCooldown::%attacker's uuid%}
+					send "&aYour witch cooldown has expired!" to attacker
+			else if {_witchTier} is 4:
+				chance of {@Witch 4 Chance}:
+					set {WitchCooldown::%attacker's uuid%} to true
+					apply poison of tier 4 to victim for 3 seconds
+					wait {@Witch 4 Cooldown}
+					delete {WitchCooldown::%attacker's uuid%}
+					send "&aYour witch cooldown has expired!" to attacker
+			else if {_witchTier} is 5:
+				chance of {@Witch 5 Chance}:
+					set {WitchCooldown::%attacker's uuid%} to true
+					apply poison of tier 5 to victim for 3 seconds
+					wait {@Witch 5 Cooldown}
+					delete {WitchCooldown::%attacker's uuid%}
+					send "&aYour witch cooldown has expired!" to attacker
+			else:
+				chance of {@Witch 1 Chance}:
+					set {WitchCooldown::%attacker's uuid%} to true
+					apply poison of tier 1 to victim for 3 seconds
+					wait {@Witch 1 Cooldown}
+					delete {WitchCooldown::%attacker's uuid%}
+					send "&aYour witch cooldown has expired!" to attacker
+
+command /resetwitch:
+	permission: op
+	trigger:
+		delete {WitchCooldown::%player's uuid%}
+
+# BOMBER (Part 1)
+on shoot:
+	projectile is an arrow
+	chance of {@Bomber Chance}:
+		if "%lore of shooter's tool%" contains "{@Enchant Color}Bomber":
+			set {Lore::%shooter's uuid%::*} to "%lore of shooter's tool%"
+
+# SNIPER (Part 1)
+	if shooter is sneaking:
+		if "%lore of shooter's tool%" contains "{@Enchant Color}Sniper":
+			if {Shooting::%shooter%} is not set:
+				set {Shooting::%shooter%} to true
+				cancel event
+				remove 1 arrow from shooter's inventory
+				set {_sniperSpeed} to CE_getEnchantLevel(shooter, "Sniper")
+				shoot an arrow from shooter at speed {_sniperSpeed}
+		
+# BOMBER (Part 2)
+on projectile hit:
+	if "%{Lore::%shooter's uuid%::*}%" contains "{@Enchant Color}Bomber":
+		delete {Lore::%shooter's uuid%::*}
+		make a safe explosion with power {@Bomber Explosion Power} at event-location
+		loop all players in radius {@Bomber Explosion Power} of projectile:
+			damage loop-player by {@Bomber Damage}
+
+# SNIPER (Part 2)
+	if {Shooting::%shooter%} is set:
+		delete {Shooting::%shooter%}
+
+on sneak toggle:
+	if player is not sneaking:
+		if player's tool is a bow:
+			if "%lore of player's tool%" contains "{@Enchant Color}Sniper":
+				apply potion of slowness 255 without particles to player for 1 day
+	else:
+		if "%lore of player's tool%" contains "{@Enchant Color}Sniper":
+			remove slowness from player
+
+# ————————————————————————————————————————————————
+
+# FUNCTIONS
+
+function CE_getEnchantLevel(p: player, enchant: text) :: number:
+	set {_lore::*} to lore of {_p}'s tool
+	set {_size} to size of {_lore::*}
+	loop {_size} times:
+		if {_lore::%loop-number%} contains "{@Enchant Color}%{_enchant}%":
+			set {_loreLine} to loop-number
+			stop loop
+	if {_loreLine} is not set:
+		return 0
+	set {_enchantLevel} to the last character of {_lore::%{_loreLine}%}
+	set {_enchantLevel} to {_enchantLevel} parsed as a number
+	return {_enchantLevel}
+
+function CE_getEnchantLevelOnChestplate(p: player, enchant: text) :: number:
+	set {_lore::*} to lore of {_p}'s chestplate
+	set {_size} to size of {_lore::*}
+	loop {_size} times:
+		if {_lore::%loop-number%} contains "{@Enchant Color}%{_enchant}%":
+			set {_loreLine} to loop-number
+			stop loop
+		else:
+			return 0
+	set {_enchantLevel} to the last character of {_lore::%{_loreLine}%}
+	set {_enchantLevel} to {_enchantLevel} parsed as a number
+	return {_enchantLevel}
+
+function CE_applyEnchant(p: player, type: text):
+	set {_item} to {_p}'s held item
+	set {_slot} to index of {_p}'s hotbar slot
+	set {_lore::*} to lore of {_p}'s tool
+	set slot {_slot} of {_p} to air
+	add "{@Enchant Color}%{_type}%" to {_newLore::*}
+	add {_lore::*} to {_newLore::*}
+	set slot {_slot} of {_p}'s inventory to {_item} with lore {_newLore::*}
+	stop
+
+function CE_getLoreLine(p: player, testFor: text) :: number:
+	set {_lore::*} to lore of {_p}'s tool
+	set {_size} to size of {_lore::*}
+	set {_loopTimes} to 0
+	loop {_size} times:
+		if {_lore::%loop-number%} contains "{@Enchant Color}%{_testFor}%":
+			set {_loreLine} to loop-number
+			return {_loreLine}
+			stop loop
+		else:
+			if {_loopTimes} >= {_size}:
+				return 0
+
+function CE_openManager(p: player):
+	if {_p}'s tool is not a block:
+		set {_CE_Manager} to a new chest inventory with 3 row with name "{@Enchant Color}&lCE Manager - Home"
+
+		loop 27 times:
+			set slot (loop-number - 1) of {_CE_Manager} to black stained glass pane named "&a"
+		set slot 10 of {_CE_Manager} to lime concrete named "&aAdd an enchant"
+		set slot 13 of {_CE_Manager} to {_p}'s tool
+		set slot 16 of {_CE_Manager} to red concrete named "&cRemove an enchant"
+		set slot 26 of {_CE_Manager} to barrier named "&4Close"
+
+		open {_CE_Manager} to {_p}
+	else:
+		send "&cHold a tool to enchant!" to {_p}
+
+function CE_openAddEnchantGUI(p: player):
+	set {_addEnchantGUI} to a new chest inventory with 4 rows with name "&a&lCE Manager - Add"
+	loop 36 times:
+		set slot (loop-number - 1) of {_addEnchantGUI} to black stained glass pane named "&a"
+	set {_format} to 10
+	loop {Enchants::*}:
+		if {_format} is 17:
+			add 2 to {_format}
+		set {_tools::*} to CE_getRequiredTools(loop-value)
+		set {_tool} to type of {_p}'s tool
+		if loop-value is not "Team" or "Sniper" or "Unbreakable":
+			if {_tools::*} contains {_tool}:
+				set slot {_format} of {_addEnchantGUI} to lime concrete named "&a%loop-value%"
+			else:
+				set slot {_format} of {_addEnchantGUI} to barrier named "&a%loop-value%" with lore "&cYou don't have the required" and "&ctool to use this enchant!"
+		else if loop-value is "Unbreakable":
+			set slot {_format} of {_addEnchantGUI} to lime concrete named "&a%loop-value%"
+		else if loop-value is "Sniper":
+			if {_tools::*} contains {_tool}:
+				set slot {_format} of {_addEnchantGUI} to lime concrete named "&a%loop-value%" with lore "&7The level of which you specify" and "&7will be the amount of power the arrow has!"
+			else:
+				set slot {_format} of {_addEnchantGUI} to barrier named "&a%loop-value%" with lore "&cYou don't have the required" and "&ctool to use this enchant!"
+		else if loop-value is "Team":
+			if {_tools::*} contains {_tool}:
+				set slot {_format} of {_addEnchantGUI} to lime concrete named "&a%loop-value%" with lore "&7The level of which you specify" and "&7will be the team number of the player!" and "&7If two players have the same value of ""Team""," and "&7then the damage will be cancelled!"
+			else:
+				set slot {_format} of {_addEnchantGUI} to barrier named "&a%loop-value%" with lore "&cYou don't have the required" and "&ctool to use this enchant!"
+		add 1 to {_format}
+	set slot 35 of {_addEnchantGUI} to barrier named "&4Go Back"
+	open {_addEnchantGUI} to {_p}
+
+function CE_openRemoveEnchantGUI(p: player):
+	set {_removeEnchantGUI} to a new chest inventory with 4 rows with name "&c&lCE Manager - Remove"
+	
+	set slots (all numbers from 0 to 35) of {_removeEnchantGUI} to black stained glass pane named "&a"
+	
+	set {_format} to 10
+	loop {Enchants::*}:
+		if "%lore of {_p}'s tool%" does not contain loop-value:
+			continue loop
+		if {_format} is 17:
+			add 2 to {_format}
+		set slot {_format} of {_removeEnchantGUI} to red concrete named "&c%loop-value%"
+		add 1 to {_format}
+	set slot 35 of {_removeEnchantGUI} to barrier named "&4Go Back"
+
+	if slot 10 of {_removeEnchantGUI} is black stained glass pane:
+		close {_p}'s inventory
+		send "&cYou have no enchants on your tool!" to {_p}
+		stop
+	
+	open {_removeEnchantGUI} to {_p}
+
+function CE_openExplodeGUI(p: player):
+	set {_explodeGUI} to a new chest inventory with 3 rows with name "&a&lCE Manager - Explode"
+	loop 27 times:
+		set slot (loop-number - 1) of {_explodeGUI} to black stained glass pane named "&a"
+	set {_formatExplode} to 10
+	loop 7 times:
+		set slot {_formatExplode} of {_explodeGUI} to tnt named "&aExplode %{_formatExplode} - 9%"
+		add 1 to {_formatExplode}
+	set slot 26 of {_explodeGUI} to barrier named "&4Go Back"
+	open {_explodeGUI} to {_p}
+
+function CE_openLuckGUI(p: player):
+	set {_LOTD_GUI} to a new chest inventory with 3 rows with name "&a&lCE Manager - LOTD"
+	loop 27 times:
+		set slot (loop-number - 1) of {_LOTD_GUI} to black stained glass pane named "&a"
+		add 1 to {_formatLOTD}
+	set slot 11 of {_LOTD_GUI} to coal named "&aLuck of the Draw 1"
+	set slot 12 of {_LOTD_GUI} to iron ingot named "&aLuck of the Draw 2"
+	set slot 13 of {_LOTD_GUI} to gold ingot named "&aLuck of the Draw 3"
+	set slot 14 of {_LOTD_GUI} to lapis named "&aLuck of the Draw 4"
+	set slot 15 of {_LOTD_GUI} to diamond named "&aLuck of the Draw 5"
+	set slot 26 of {_LOTD_GUI} to barrier named "&4Go Back"
+	open {_LOTD_GUI} to {_p}
+
+function CE_openWitchGUI(p: player):
+	set {_witchGUI} to a new chest inventory with 3 rows with name "&a&lCE Manager - Witch"
+	loop 27 times:
+		set slot (loop-number - 1) of {_witchGUI} to black stained glass pane named "&a"
+		add 1 to {_formatLOTD}
+	set slot 11 of {_witchGUI} to splash potion of poison named "&aWitch 1"
+	set slot 12 of {_witchGUI} to splash potion of poison named "&aWitch 2"
+	set slot 13 of {_witchGUI} to splash potion of poison named "&aWitch 3"
+	set slot 14 of {_witchGUI} to splash potion of poison named "&aWitch 4"
+	set slot 15 of {_witchGUI} to splash potion of poison named "&aWitch 5"
+	set slot 26 of {_witchGUI} to barrier named "&4Go Back"
+	open {_witchGUI} to {_p}
+
+function CE_getRequiredTools(enchant: text) :: items:
+	set {_enchant} to lowercase {_enchant}
+	if {_enchant} is "explode", "telepathy", "luck of the draw" or "lotd":
+		return pickaxe, axe and shovel
+	else if {_enchant} is "team":
+		return chestplate
+	else if {_enchant} is "bomber" or "sniper":
+		return bow and crossbow
+	else if {_enchant} is "medic" or "witch":
+		return sword and axe
+	else if {_enchant} is "unbreakable":
+		return all items
+
+# ————————————————————————
+
+# GUI ACTIONS
+
+on inventory click:
+	event-inventory is not player's inventory
+	if name of event-inventory contains "Explode" or "LOTD" or "Witch":
+		if event-item is barrier:
+			CE_openAddEnchantGUI(player)
+		
+		if name of event-inventory is "&a&lCE Manager - LOTD":
+			cancel event
+			if name of event-item is "&aLuck of the Draw 1":
+				execute player command "/ce add lotd 1"
+			else if name of event-item is "&aLuck of the Draw 2":
+				execute player command "/ce add lotd 2"
+			else if name of event-item is "&aLuck of the Draw 3":
+				execute player command "/ce add lotd 3"
+			else if name of event-item is "&aLuck of the Draw 4":
+				execute player command "/ce add lotd 4"
+			else if name of event-item is "&aLuck of the Draw 5":
+				execute player command "/ce add lotd 5"
+		
+		else if name of event-inventory is "&a&lCE Manager - Explode":
+			cancel event
+			if event-item is tnt:
+				set {_lvl} to the last character of (name of event-item)
+				execute player command "/ce add explode %{_lvl}%"
+		
+		else if name of event-inventory is "&a&lCE Manager - Witch":
+			cancel event
+			if event-item is a splash potion of poison:
+				set {_lvl} to the last character of (name of event-item)
+				execute player command "/ce add witch %{_lvl}%"
+
+	else if name of event-inventory contains "CE Manager":
+		cancel event
+		if name of event-item is "&4Close":
+			close player's inventory
+		else if name of event-item is "&aAdd an enchant":
+			CE_openAddEnchantGUI(player)
+		else if name of event-item is  "&cRemove an enchant":
+			CE_openRemoveEnchantGUI(player)
+
+		else if index of event-slot is 35:
+			if name of event-inventory is "&a&lCE Manager - Add" or "&c&lCE Manager - Remove":
+				CE_openManager(player)
+			else if name of event-inventory is "&a&lCE Manager - Explode":
+				CE_openAddEnchantGUI(player)
+			else if name of event-inventory is "&a&lCE Manager - Witch":
+				CE_openAddEnchantGUI(player)
+		else if name of event-item is not "&a":
+			if event-item is red concrete:
+				if name of event-item contains "Luck of the Draw":
+					execute player command "/ce remove lotd"
+					stop
+				loop {Enchants::*}:
+					if name of event-item contains loop-value:
+						execute player command "/ce remove %uncolored loop-value%"
+			else if event-item is lime concrete:
+				if name of event-item contains "Luck of the Draw":
+					CE_openLuckGUI(player)
+					stop
+				else if name of event-item contains "Explode":
+					CE_openExplodeGUI(player)
+					stop
+				else if name of event-item contains "Team":
+					close player's inventory
+					send formatted "<sgt:/ce add team >&aClick me and type in what value of the ""Team"" enchant you want!"
+					stop
+				else if name of event-item contains "Witch":
+					CE_openWitchGUI(player)
+					stop
+				else if name of event-item contains "Sniper":
+					close player's inventory
+					send formatted "<sgt:/ce add sniper >&aClick me and type in what value of the ""Sniper"" enchant you want!"
+					stop
+				loop {Enchants::*}:
+					if name of event-item contains loop-value:
+						execute player command "/ce add %uncolored loop-value%"
+
+# ————————————————————————
+
+# ANVIL
+
+# on script load:

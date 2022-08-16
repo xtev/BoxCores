@@ -1,0 +1,20 @@
+command /mutechat:
+    permission: skript.mutechat
+    permission message: &cYou do not have permission to execute this command!
+    trigger:
+        if {Globalchat} is not set:
+            set {Globalchat} to true
+            broadcast "&cChat Muted by &f%player%&c!"
+            stop trigger
+
+        if {Globalchat} is set:
+            clear {Globalchat}
+            broadcast "&aChat Unmuted by &f%player%&a!"
+
+on chat:
+    if {Globalchat} is true:
+        if player has permission "skript.mutechat.bypass":
+            stop trigger
+        else:
+            cancel event
+            send "&cChat is currently muted."

@@ -1,0 +1,25 @@
+command /setspawn:
+  permission: op
+  trigger:
+    set {spawn} to location of block at location of player
+    send "set spawn to: %{spawn}%" to player
+	
+command /spawn:
+    trigger:
+        send "&bTeleporting you to Spawn in &c&l5 &bseconds."
+ 
+        set {_cooldown} to 100
+   
+        set {_loc} to location of player
+        while {_cooldown} is not 0:
+     
+            remove 1 from {_cooldown}
+             
+            if distance between {_loc} and player is not 0:
+                send "&c&lYou have moved, teleportation cancelled."
+                stop
+             
+            set {_loc} to location of player
+         
+            wait a tick
+        teleport executor to {spawn}

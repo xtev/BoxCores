@@ -1,0 +1,16 @@
+on right click with blaze rod:
+ remove blaze rod from player
+ give player stick
+ summon fireball at player's head
+ wait 0.25 seconds
+ summon fireball at player's head
+ wait 0.25 seconds
+ summon fireball at player's head
+ wait 0.25 seconds
+ summon fireball at player's head
+ wait 0.25 seconds
+ summon fireball at player's head
+ wait 0.25 seconds
+ wait 60 seconds
+ remove stick from player
+ give player blaze rod
