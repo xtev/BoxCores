@@ -1,0 +1,13 @@
+options:
+	message: &cNo Permission!
+	SoundPH: BLOCK_NOTE_BLOCK_PLING
+	SoundPH-Volume: 1
+	SoundPH-Pitch: -5
+
+# Do not edit this code if you dont know what you are doing!
+
+on command:
+	if command is "pl" or "plugins" or "help" or "about" or "op" or "bukkit:pl" or "bukkit:plugins":
+		cancel event
+		send "{@message}"
+		play sound "{@SoundPH}" with volume {@SoundPH-Volume} and pitch {@SoundPH-Pitch}

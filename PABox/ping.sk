@@ -1,0 +1,17 @@
+on chat:
+    loop all players:
+        if message contains "%loop-player%":
+            replace "%loop-player%" with "&b@%loop-player%&f" in message
+            if {pingsound::%loop-player's uuid%} is true:
+                play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 1 to loop-player
+
+command /togglepingsound:
+    cooldown: 3 seconds
+    cooldown message: &cYou are on cooldown! &8(&c%remaining%&8)
+    trigger:
+        if {pingsound::%player's uuid%} is not set:
+            set {pingsound::%player's uuid%} to true
+            send "&aYou enabled the Ping Sound!"
+        if {pingsound::%player's uuid%} is true:
+            delete {pingsound::%player's uuid%}
+            send "&cYou disabled the Ping Sound!"

@@ -1,0 +1,49 @@
+options:
+    commandpermission: commandblocker.use
+    commandpermissionmessage: You don't have permission to use this command.
+    commandusage: /cb (add | remove | list) (command)
+    commandaliases: /commandblocker
+    color: &c
+    color2: &4
+    commandaddmessage: Command has been added to the command blocker.
+    commandremovemessage: Command has been removed from the command blocker.
+    commanddisabledmessage: HAHAHHAHAHA .
+    commandalreadyinlist: HAHAHHAHAHA .
+    commandnotinlist: HAHAHHAHAHA .
+    commandblockbypasspermission: commandblocker.bypass
+
+
+command /cb <text> [<text>]:
+    permission: {@commandpermission}
+    permission message: {@commandpermissionmessage}
+    usage: {@commandusage}
+    aliases: {@commandaliases}
+    trigger:
+        if arg-1 is "list":
+            if arg-2 isn't set:
+                send "{@color}Blocked Commands:" and "{@color2}%{blockedcommands::*}%" to player
+            else:
+                send "{@commandusage}" to player
+        if arg-1 is "add":
+            if arg-2 is set:
+                if {blockedcommands::*} doesn't contain arg-2:
+                    add arg-2 to {blockedcommands::*}
+                    send "{@commandaddmessage}" to player
+                else:
+                    send "{@color}{@commandalreadyinlist}" to player
+        if arg-1 is "remove":
+            if arg-2 is set:
+                if {blockedcommands::*} contains arg-2:
+                    remove arg-2 from {blockedcommands::*}
+                    send "{@commandremovemessage}" to player
+                else:
+                    send "{@color}{@commandnotinlist}" to player
+
+on command:
+    if {blockedcommands::*} contains command:
+        if player doesn't have permission "{@commandblockbypasspermission}":
+            send "{@color}{@commanddisabledmessage}" to player 
+            cancel event
+
+on load:
+    send "&c[CommandBlocker] Don't include slashes when blocking commands!" to all ops

@@ -1,0 +1,29 @@
+options:
+ #Title that is displayed in chat
+ title: <##ffff67>PAbox &8|
+ #Main color
+ c1: <##ffff67>
+
+command /setspawn:
+ trigger:
+  player has permission "spawn.set":
+   set {spawn::location} to location of player
+   send "{@title} &7The spawn has been set to your location!"
+  else:
+   send "{@title} &cSeems like you don't have the required permissions!"
+
+command /spawn:
+ cooldown: 5 seconds
+ #cooldown bypass: spawn.cooldown.bypass
+ cooldown message: {@title} &7Wait {@c1}%remaining% &7before using this command again!
+ trigger:
+  set {_loc} to "%x-coordinate of location of player% %y-coordinate of location of player% %z-coordinate of location of player%"
+  loop 5 times:
+   set {_loc2} to "%x-coordinate of location of player% %y-coordinate of location of player% %z-coordinate of location of player%"
+   if {_loc2} = {_loc}:
+    send "{@title} &7Teleport in {@c1}%6 - loop-value% &7seconds!"
+    wait 1 seconds
+   else:
+    send "{@title} &7Teleportation cancelled!"
+    exit
+  teleport player to {spawn::location}

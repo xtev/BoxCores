@@ -1,0 +1,3 @@
+every 30 minutes:
+    execute console command "crate givekey * afk 1"
+    broadcast "&7AFK For often keyalls! Next keyall in 30 minutes"

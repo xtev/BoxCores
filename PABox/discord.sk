@@ -1,0 +1,10 @@
+command /discord:
+    trigger:
+        message "&6&l-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪"
+        message "          &5Join our Discord Server!"
+        message "&2<link:https://discord.gg/KHzPB3cc>              &3&lCLICK ME!<reset>"
+        message "&6&l-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪-▪"
+
+command /discord:
+    Trigger:
+        Send "&b<https://discord.gg/KHzPB3cc&3EClick me!<reset>"

@@ -1,0 +1,34 @@
+command /sc [<text>]:
+    permission: staff.chat
+    trigger:
+        if arg-1 is not set:
+            if {staffchat::%player%} is true:
+                set {staffchat::%player%} to false
+                send "&aToggle staff chat"
+            else:
+                set {staffchat::%player%} to true
+                send "&aToggle staff chat"
+        if arg-1 is set:
+            loop all players:
+                if loop-player has permission "staff.chat":
+                    send "&4&lSTAFFCHAT &c%player% &7%arg-1%" to loop-player
+command /mutechat:
+    permission: mutechat
+    trigger:
+        if {mutechat} is true:
+            set {mutechat} to false
+            broadcast "&4&lWywyBox &7Chat Unmuted by %player%"
+        else:
+            set {mutechat} to true
+            broadcast "&4&lWywyBox &7Chat Muted by %player%"
+on chat:
+    if {staffchat::%player%} is true:
+        loop all players:
+            if loop-player has permission "staff.chat":
+                send "&4&lSTAFFCHAT &c%player% &7%message%" to loop-player
+                cancel event
+    if player has permission "mutechat.bypass":
+        stop
+    if {mutechat} is true:
+        cancel event
+        send "&cchat is muted"

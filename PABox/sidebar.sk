@@ -1,0 +1,50 @@
+every 1 second:
+    loop all players:
+        wipe loop-player's sidebar
+        set {_online} to number of all players
+        set name of sidebar of loop-player to "&b&oPAbox | Season 1&7&l"
+        set score "&r" in sidebar of loop-player to 12
+        set score "&b&l&oPlayer" in sidebar of loop-player to 11
+        set score "&8&l➜ &fKills: &f%{kills.%loop-player%}%" in sidebar of loop-player to 10
+        set score "&8&l➜ &fDeaths: &f%{deaths.%loop-player%}%" in sidebar of loop-player to 9
+        set score "&8&l➜ &fStreak: &f%{killstreak.%loop-player%}%" in sidebar of loop-player to 8
+        set score "&8&l➜ &fKdr: &f%{kdr.%loop-player%}%" in sidebar of loop-player to 7
+        set score "&b&l&oServer" in sidebar of loop-player to 6
+        set score "&8&l➜ &fOnline Players: &f%{_online}% / %max players%" in sidebar of loop-player to 5
+        set score "&8&l➜ &fPing &f%loop-player's ping%&fms&f." in sidebar of loop-player to 4
+        set score "&8&l➜ &fTPS: &f%tps from the last 1 minute%" in sidebar of loop-player to 3
+        set score "&r" in sidebar of loop-player to 1
+        set score "&b&oPAbox.tebex.io" in sidebar of loop-player to 0
+
+every 1 second:
+    loop all players:
+        set {KDR.%loop-player%} to {kills.%loop-player%} / {deaths.%loop-player%}
+
+on first join:
+    add 1 to {unique.joinss}
+    set {killstreak.%player%} to 0
+
+on death:
+    add 1 to {deaths.%victim%}
+    add 1 to {kills.%attacker%}
+    add 1 to {killstreak.%attacker%}
+    set {killstreak.%player%} to 0
+
+command /resetstatsall:
+    permission: resetstatsall.use
+    permission message: &cYou do not have access to this command!
+    trigger:
+        loop all players:
+            set {kills.%loop-player%} to 0
+            set {deaths.%loop-player%} to 0
+            set {killstreak.%loop-player%} to 0
+            set {KDR.%loop-player%} to 0
+            add loop-player to {StatsReset::*}
+
+on join:
+    if {StatsReset::*} doesn't contain player:
+        add player to {StatsReset::*}
+        set {kills.%player%} to 0
+        set {deaths.%player%} to 0
+        set {killstreak.%player%} to 0
+        set {KDR.%player%} to 0

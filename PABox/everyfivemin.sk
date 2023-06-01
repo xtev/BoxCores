@@ -1,0 +1,16 @@
+every 200 seconds:
+    if {msg} is not set:
+        set {msg} to 2
+        broadcast "&b&lPA&f&lBox » &6Dont Forget to /ad & join the discord server /discord"
+    else if {msg} is 1:
+        set {msg} to 2
+        broadcast "&b&lPA&f&lBox » &a /buy to help out the server"
+    else if {msg} is 2:
+        set {msg} to 3
+        broadcast "&b&lPA&f&lBox » &b/ad to help out the server"
+    else if {msg} is 3:
+        set {msg} to 4
+        broadcast ""
+    else if {msg} is 4:
+        set {msg} to 1
+        broadcast "&b&lPA&f&lBox » &bDont forget to /discord"
