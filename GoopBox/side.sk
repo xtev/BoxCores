@@ -1,0 +1,40 @@
+on load:
+    loop all players:
+        reloadScoreboard(loop-player)
+
+on join:
+    reloadScoreboard(player)
+    loop all players:
+        reloadScoreboard(loop-player)
+
+every 15 seconds:
+    loop all players:
+        reloadScoreboard(loop-player)
+        set {_loopy::%loop-player%} to loop-player
+    
+   
+	
+function reloadScoreboard(p: player):
+    set {_uuid} to {_p}'s uuid
+    set {_online} to number of all players
+    set {_pr} to {_p}'s prefix
+    set {_kdr} to "%{Killss::%{_p}%} / {Deathss::%{_p}%}%"
+    if {_kdr} contains "Infinity" or "NaN":
+        set {_kdr} to 0
+	
+    
+    clear scoreboard of {_p}
+    set title of {_p} scoreboard to "&6&lBOXPVP &7| &dS6 "
+    set line 11 of {_p} scoreboards to "&1"
+    set line 10 of {_p} scoreboards to "&6&lPlayer"
+    set line 9 of {_p} scoreboards to "&6→ &rKills:&b %{Killss::%{_p}%} ? 0%"
+    set line 8 of {_p} scoreboards to "&6→ &rDeaths:&b %{Deathss::%{_p}%} ? 0%"
+    set line 7 of {_p} scoreboards to "&6→ &rKDR:&b %{_kdr}%"
+    set line 7 of {_p} scoreboards to "&6→ &rStreak:&b %{killstreaks::%{_p}%} ? 0%"
+    set line 6 of {_p} scoreboards to "&6&lServer"
+    set line 5 of {_p} scoreboards to "&6→&r Online Players:&b %{_online}% / %maximum amount of players%"
+    set line 6 of {_p} scoreboards to "&6→&r Joins:&b %{joinss3a}%"
+    set line 3 of {_p} scoreboards to "&6→&r TPS:&b %tps from the last minute%"
+    set line 2 of {_p} scoreboards to "&3"
+    set line 1 of {_p} scoreboards to "&6&lgoop.minehut.gg"
+    toggle board of {_p}

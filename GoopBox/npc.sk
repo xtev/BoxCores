@@ -1,0 +1,35 @@
+command asdaslkdj:
+    trigger:
+        set metadata tag "playerItem" of player to chest inventory with 6 rows named "&e&LITEMS"
+        set slot 1 of metadata tag "playerItem" of player to experience bottle named "&b&LSPECIAL ITEMS" with lore "&b| &7These are items with abilities!"
+        set slot 19 of metadata tag "playerItem" of player to feather named "&fSpeed &fTotem" with lore "&a| &a&lABILITY &f- &fGives you speed II%nl% &f%nl%&c| &cRequired %nl%&c| &f16x Compressed Gold Blocks%nl%&c| &f???"
+        set slot 28 of metadata tag "playerItem" of player to nether wart named "&cStrength &fTotem" with lore "&a| &a&lABILITY &f- &fGives you strength I%nl% &f%nl%&c| &cRequired %nl%&c| &f???"
+        open (metadata tag "playerItem" of player) for player
+
+
+on inventory click:
+    if event-inventory = (metadata tag "playerItem" of player):
+        cancel event
+
+        if event-slot is 19:
+            if player has diamond block:
+                remove 1 diamond block from player
+                give player feather named "&fSpeed &fTotem" with lore "&a| &a&lABILITY &f- &fGives you speed II"
+                close player's inventory
+        if event-slot is 28:
+            if player has diamond block:
+                remove 1 diamond block from player
+                give player nether wart named "&cStrength &fTotem" with lore "&a| &a&lABILITY &f- &fGives you strength I"
+                close player's inventory
+				
+
+every 5 seconds:
+    loop all players:
+        if loop-player has feather named "&fSpeed &fTotem":
+            apply speed 2 to loop-player for 5 seconds
+        if loop-player has nether wart named "&cStrength &fTotem":
+            apply strength 1 to loop-player for 5 seconds
+			
+command /dog:
+	trigger:
+		

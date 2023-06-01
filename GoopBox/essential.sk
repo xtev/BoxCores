@@ -1,0 +1,52 @@
+command /gmc:
+	permission: staff.gmc
+	trigger:
+		gamemode(player, "creative")
+		
+		
+		
+command /gms:
+	permission: staff.gms
+	trigger:
+		gamemode(player, "survival")
+		
+		
+		
+command /gmsp:
+	permission: staff.gmsp
+	trigger:
+		gamemode(player, "spectator")
+		
+		
+		
+function gamemode(p: player, t: text):
+	if {_t} is "creative":
+		set {_p}'s gamemode to creative
+		send "&6&lGAMEMODE CHANGE%NL%&f%Nl%&fYou changed your gamemode to &ecreative&f!" to {_p}
+	if {_t} is "survival":
+		set {_p}'s gamemode to survival
+		send "&6&lGAMEMODE CHANGE%NL%&f%Nl%&fYou changed your gamemode to &esurvival&f!" to {_p}
+	if {_t} is "spectator":
+		set {_p}'s gamemode to spectator
+		send "&6&lGAMEMODE CHANGE%NL%&f%Nl%&fYou changed your gamemode to &espectator&f!" to {_p}
+		
+command /fly:
+	trigger:
+		if player's flight mode is true:
+			set player's flight mode to false
+			send "&6&lFLIGHT %nl% %nl%&fYou have stopped &eflying&f!"
+			stop
+		if player's flight mode is false:
+			set player's flight mode to true
+			send "&6&lFLIGHT %nl% %nl%&fYou are now &eflying&f!"
+			stop
+			
+on quit:
+	set quit message to "&8&l[&4&l-&8&l] %player's prefix% %player% "
+	
+on join:
+		if {played::%player%} is true:
+				set join message to "&8&l[&a&l+&8&l] %player's prefix% %player% "
+		else if {played::%player%} is not set:
+				set join message to "&8&l[&a&l+&8&l] Welcome %player's prefix% %player% "
+				set {played::%player%} to true

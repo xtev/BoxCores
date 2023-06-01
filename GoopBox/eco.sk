@@ -1,0 +1,83 @@
+on join:
+    wait 1 tick
+    if yaml path "Topaz" in "plugins/dataStore/playerStore/%player's uuid%.yml" has value:
+        stop
+    else:
+        set yaml value "Topaz" in "plugins/dataStore/playerStore/%player's uuid%.yml" to 0
+        
+on join:
+	load yaml "plugins/dataStore/playerStore/%player's uuid%.yml" as "plugins/dataStore/playerStore/%player's uuid%.yml"
+        
+on quit:
+	save yaml "plugins/dataStore/playerStore/%player's uuid%.yml"
+	wait 1 tick
+	unload "plugins/dataStore/playerStore/%player's uuid%.yml"
+    
+every 30 minutes:
+	loop all players:
+		save yaml "plugins/dataStore/playerStore/%loop-player's uuid%.yml"
+          
+command /topaz [<text>] [<offlineplayer>] [<integer>]:
+	trigger:
+		if arg-1 is set:
+			sender has permission "*"
+			if arg-2 is set:
+				if arg-3 is set:
+					if arg-1 is "add":
+						if arg-3 is greater than 0:
+							addTopaz(arg-2, arg-3)
+							send "&eYou added ✧%format(arg-3)%&e to %arg-2%&e's topaz." to sender where [sender is not console]
+							send "&e✧%format(arg-3)%&e was added to your topaz." to arg-2
+						else:
+							send "&cYou must add more than 0 to the players topaz." to sender
+					else if arg-1 is "remove":
+						set {_current} to getTopaz(arg-2)
+						set {_new} to {_current} - arg-3
+						if {_new} is less than 1:
+							removeTopaz(arg-2, arg-3)
+							send "&eYou removed ✧%format(arg-3)%&e from %arg-2%&e's topaz." to sender
+							send "&eThey now have ✧%format(getTopaz(arg-2))%&e." to sender
+							send "&c✧%format(arg-3)%&c was taken from your topaz." to arg-2
+							send "&cYou now have ✧%format(getTopaz(arg-2))%&c." to arg-2
+						else:
+							removeTopaz(arg-2, arg-3)
+							send "&eYou removed ✧%format(arg-3)%&e from %arg-2%&e's topaz." to sender
+							send "&eThey now have ✧%format(getTopaz(arg-2))%&e." to sender
+							send "&c✧%format(arg-3)%&c was taken from your topaz." to arg-2
+							send "&cYou now have ✧%format(getTopaz(arg-2))%&c." to arg-2
+					else if arg-1 is "set":
+						if arg-3 is greater than or equal to 0:
+							setTopaz(arg-2, arg-3)
+							send "&eYou set %arg-2%&e's topaz to ✧%format(arg-3)%&e." to sender
+							send "&eYour topaz has been set to ✧%format(arg-3)%&e." to arg-2
+						else:
+							send "&cYou must set the player's topaz to more than 0" to sender
+					else:
+						send "&cUnknown action <add/remove/set>" to sender where [sender is not console]
+				else:
+					send "&cMissing arguments &f/topaz <add/remove/set> <player> <integer>" to sender where [sender is not console]
+			else:
+				send "&cMissing arguments &f/topaz <add/remove/set> <player> <integer>" to sender where [sender is not console]
+		else:
+			send "&eYou have ✧%format(getTopaz(sender) ? 0)%&e." to sender
+          
+function addTopaz(p: player, amt: integer):
+	set {_uid} to {_p}'s uuid
+	set yaml value "Topaz" from "plugins/dataStore/playerStore/%{_uid}%.yml" to yaml value "Topaz" from "plugins/dataStore/playerStore/%{_uid}%.yml" + {_amt}
+
+function setTopaz(p: player, amt: integer):
+	set {_uid} to {_p}'s uuid
+	set yaml value "Topaz" from "plugins/dataStore/playerStore/%{_uid}%.yml" to {_amt}
+
+function removeTopaz(p: player, amt: integer) :: boolean:
+	set {_uid} to {_p}'s uuid
+	set {_t} to (yaml value "Topaz" from "plugins/dataStore/playerStore/%{_uid}%.yml" - {_amt}) 
+	{_t} < 0:
+		return false
+	set yaml value "Topaz" from "plugins/dataStore/playerStore/%{_uid}%.yml" to getTopaz({_p}) - {_amt}
+	return true
+	
+function getTopaz(p: player) :: integer:
+	set {_uid} to {_p}'s uuid
+	return yaml value "Topaz" from "plugins/dataStore/playerStore/%{_uid}%.yml" ? 0
+	

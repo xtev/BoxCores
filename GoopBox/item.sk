@@ -1,0 +1,14 @@
+command /citem [<text>] [<text>]:
+    permission: op
+    trigger:
+        if arg 1 is "rename":
+            set name of player's tool to colored arg 2
+        if arg 1 is "addlore":
+            set lore of player's tool to colored arg 2
+			
+			
+command /enchant [<enchantment type>]:
+    permission: op
+    trigger:
+        if arg 1 is set:
+            enchant player's held item with arg 1

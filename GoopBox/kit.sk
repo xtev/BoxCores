@@ -1,0 +1,430 @@
+options:
+    iArmor1: iron helmet named "&6&lDefault &7Helmet"
+    iArmor2: iron chestplate named "&6&lDefault &7Chestplate"
+    iArmor3: iron leggings named "&6&lDefault &7Leggings"
+    iArmor4: iron boots named "&6&lDefault &7Boots"
+    dArmor1: diamond helmet named "&b&lDiamond &7Helmet"
+    dArmor2: diamond chestplate named "&b&lDiamond &7Chestplate"
+    dArmor3: diamond leggings named "&b&lDDiamond &7Leggings"
+    dArmor4: diamond boots named "&b&lDiamond &7Boots"
+    rArmor1: iron helmet named "&c&lRespawn &7Helmet"
+    rArmor2: iron chestplate named "&c&lRespawn &7Chestplate"
+    rArmor3: iron leggings named "&c&lRespawn &7Leggings"
+    rArmor4: iron boots named "&c&lRespawn &7Boots"
+    shield: shield
+    iSword: iron sword named "&6&lDefault &7Sword"
+    dSword: diamond sword named "&b&lDiamond &7Sword"
+
+# ------------------------------------------- KITS START ------------------------------------------- #
+        
+command kit:
+    aliases: kits
+    trigger:
+        kitOpen(player)
+    
+function kitOpen(p: player):
+    set {_u} to {_p}'s uuid
+    
+    
+    set {_difference} to difference between {kit::default::time::%{_u}%} and now
+    set {_t1} to difference between {_difference} and 600 seconds
+    if {_difference} >= 600 seconds:
+        delete {kit::default::%{_u}%}
+        delete {kit::default::time::%{_u}%}
+        
+    set {_difference} to difference between {kit::daily::time::%{_u}%} and now
+    set {_t2} to difference between {_difference} and 600 seconds
+    if {_difference} >= 600 seconds:
+        delete {kit::daily::%{_u}%}
+        delete {kit::daily::time::%{_u}%}
+        
+        
+    set metadata tag "playerKits" of {_p} to chest inventory with 3 rows named "&e&LKITS"    
+    
+    
+    if {kit::default::%{_u}%} is not set:
+        set slot 11 of metadata tag "playerKits" of {_p} to iron sword named "&6&lDEFAULT KIT" with lore "&6 | &fThis kit can be used every 10 minutes!", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"    
+        
+        
+    if {kit::default::%{_u}%} is true:
+        set slot 11 of metadata tag "playerKits" of {_p} to iron sword named "&6&lDEFAULT KIT" with lore "&cPlease wait %{_t1}%"
+        
+        
+    if {kit::daily::%{_u}%} is not set:
+        set slot 13 of metadata tag "playerKits" of {_p} to diamond sword named "&b&lDAILY KIT" with lore "&b | &fThis kit can be used daily", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"
+        
+        
+    if {kit::daily::%{_u}%} is true:
+        set slot 13 of metadata tag "playerKits" of {_p} to diamond sword named "&b&lDAILY KIT" with lore "&cPlease wait %{_t2}%"
+        
+    set slot 15 of metadata tag "playerKits" of {_p} to emerald named "&b&lDONATOR &7KITS" with lore "&f&oDonator kits!"
+        
+        
+    open (metadata tag "playerKits" of {_p}) to {_p}
+
+
+
+function donatorKits(p: player):
+
+    set {_u} to {_p}'s uuid
+
+    set metadata tag "donorKits" of {_p} to chest inventory with 4 rows named "&e&LDONATOR KITS" 
+	
+    set slot 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42 of metadata tag "donorKits" of {_p} to gray stained glass pane named "&F"
+
+    set slot 9 of metadata tag "donorKits" of {_p} to copper ingot named "&8&lBRONZE KIT" with lore "&8 | &fThis kit can be every 10 minutes!", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"
+
+    set slot 11 of metadata tag "donorKits" of {_p} to iron ingot named "&7&lIRON KIT" with lore "&8 | &fThis kit can be every 10 minutes!", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"
+
+    set slot 13 of metadata tag "donorKits" of {_p} to gold ingot named "&e&lGOLD KIT" with lore "&8 | &fThis kit can be every 10 minutes!", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"
+
+    set slot 15 of metadata tag "donorKits" of {_p} to diamond named "&b&lDIAMOND KIT" with lore "&b | &fThis kit can be every 10 minutes!", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"
+
+    set slot 17 of metadata tag "donorKits" of {_p} to emerald named "&2&lEMERALD KIT" with lore "&2 | &fThis kit can be every 10 minutes!", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"
+
+    set slot 30 of metadata tag "donorKits" of {_p} to amethyst cluster named "&5&lCRYSTAL KIT" with lore "&2 | &fThis kit can be every 10 minutes!", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"
+
+    set slot 32 of metadata tag "donorKits" of {_p} to ancient debris named "&4&lANCIENT KIT" with lore "&2 | &fThis kit can be every 10 minutes!", "", "&f                     <> &c&LWARNING &f<>" and "&CTHIS REMOVES YOUR CURRENT SET YOU ARE WEARING!"
+
+
+    open (metadata tag "donorKits" of {_p}) for {_p}
+ 
+on inventory click:
+    if event-inventory = (metadata tag "playerKits" of player):
+        cancel event
+        
+        
+        
+        if index of event-slot is 11:
+            if {kit::default::%player's uuid%} is not set:
+                set {kit::default::%player's uuid%} to true
+                set {kit::default::time::%player's uuid%} to now
+                set {_enchant} to protection 3
+                set {_armor1} to {@iArmor1}
+                enchant {_armor1} with protection 3
+                set {_armor2} to {@iArmor2}
+                enchant {_armor2} with protection 3
+                set {_armor3} to {@iArmor3}
+                enchant {_armor3} with protection 3
+                set {_armor4} to {@iArmor4}
+                enchant {_armor4} with protection 3
+                set {_sword} to {@iSword}
+                enchant {_sword} with sharpness 3
+                give player {_sword}
+                give player {@shield}
+                equip player with {_armor1}
+                equip player with {_armor2}
+                equip player with {_armor3}
+                equip player with {_armor4}
+                close player's inventory
+                send title "&6&lKIT" with subtitle "&fYou used the default kit!"
+                
+            else:
+                set {_difference} to difference between {kit::default::time::%player's uuid%} and now
+                set {_t} to difference between {_difference} and 600 seconds
+                if {_difference} >= 600 seconds:
+                    delete {kit::default::%player's uuid%}
+                    delete {kit::default::time::%player's uuid%}
+                else:
+                    send "&CYou need to wait %{_t}%&c!"
+                    kitOpen(player)
+                
+            
+            
+        if index of event-slot is 13:
+            if {kit::daily::%player's uuid%} is not set:
+                set {kit::daily::%player's uuid%} to true
+                set {kit::daily::time::%player's uuid%} to now
+                set {_enchant} to protection 3
+                set {_armor1} to {@dArmor1}
+                enchant {_armor1} with protection 3
+                set {_armor2} to {@dArmor2}
+                enchant {_armor2} with protection 3
+                set {_armor3} to {@dArmor3}
+                enchant {_armor3} with protection 3
+                set {_armor4} to {@dArmor4}
+                enchant {_armor4} with protection 3
+                set {_sword} to {@dSword}
+                enchant {_sword} with sharpness 3
+                give player {_sword}
+                give player {@shield}
+                equip player with {_armor1}
+                equip player with {_armor2}
+                equip player with {_armor3}
+                equip player with {_armor4}
+                close player's inventory
+                send title "&6&lKIT" with subtitle "&fYou used the daily kit!"
+                
+            else:
+                set {_difference} to difference between {kit::daily::time::%player's uuid%} and now
+                set {_t} to difference between {_difference} and 86400 seconds
+                if {_difference} >= 86400 seconds:
+                    delete {kit::daily::%player's uuid%}
+                    delete {kit::daily::time::%player's uuid%}
+                else:
+                    send "&CYou need to wait %{_t}%&c!"
+                    kitOpen(player)
+        
+        if index of event-slot is 15:
+            donatorKits(player)
+
+    if event-inventory = (metadata tag "donorKits" of player):
+        cancel event
+
+        if index of event-slot is 9:
+            if player has permission "bronze.kit":
+
+                if {kit::bronze::%player's uuid%} is not set:
+                    set {kit::bronze::%player's uuid%} to true
+                    set {kit::bronze::time::%player's uuid%} to now
+                    set {_armor1} to {@dArmor1}
+                    enchant {_armor1} with protection 1
+                    set {_armor2} to {@dArmor2}
+                    enchant {_armor2} with protection 1
+                    set {_armor3} to {@dArmor3}
+                    enchant {_armor3} with protection 1
+                    set {_armor4} to {@dArmor4}
+                    enchant {_armor4} with protection 1
+                    set {_sword} to {@dSword}
+                    enchant {_sword} with sharpness 1
+                    give player {_sword}
+                    give player {@shield}
+                    equip player with {_armor1}
+                    equip player with {_armor2}
+                    equip player with {_armor3}
+                    equip player with {_armor4}
+                    close player's inventory
+                    send title "&6&lKIT" with subtitle "&fYou used the Bronze kit!"
+                
+                else:
+                    set {_difference} to difference between {kit::bronze::time::%player's uuid%} and now
+                    set {_t} to difference between {_difference} and 600 seconds
+                    if {_difference} >= 600 seconds:
+                        delete {kit::bronze::%player's uuid%}
+                        delete {kit::bronze::time::%player's uuid%}
+                    else:
+                        send "&CYou need to wait %{_t}%&c!"
+                        kitOpen(player)
+        if index of event-slot is 11:
+            if player has permission "iron.kit":
+
+                if {kit::iron::%player's uuid%} is not set:
+                    set {kit::iron::%player's uuid%} to true
+                    set {kit::iron::time::%player's uuid%} to now
+                    set {_armor1} to {@dArmor1}
+                    enchant {_armor1} with protection 2
+                    set {_armor2} to {@dArmor2}
+                    enchant {_armor2} with protection 2
+                    set {_armor3} to {@dArmor3}
+                    enchant {_armor3} with protection 2
+                    set {_armor4} to {@dArmor4}
+                    enchant {_armor4} with protection 2
+                    set {_sword} to {@dSword}
+                    enchant {_sword} with sharpness 2
+                    give player {_sword}
+                    give player {@shield}
+                    equip player with {_armor1}
+                    equip player with {_armor2}
+                    equip player with {_armor3}
+                    equip player with {_armor4}
+                    close player's inventory
+                    send title "&6&lKIT" with subtitle "&fYou used the Iron kit!"
+                
+                else:
+                    set {_difference} to difference between {kit::iron::time::%player's uuid%} and now
+                    set {_t} to difference between {_difference} and 600 seconds
+                    if {_difference} >= 600 seconds:
+                        delete {kit::iron::%player's uuid%}
+                        delete {kit::iron::time::%player's uuid%}
+                    else:
+                        send "&CYou need to wait %{_t}%&c!"
+                        kitOpen(player)
+        if index of event-slot is 13:
+            if player has permission "gold.kit":
+
+                if {kit::gold::%player's uuid%} is not set:
+                    set {kit::gold::%player's uuid%} to true
+                    set {kit::gold::time::%player's uuid%} to now
+                    set {_armor1} to {@dArmor1}
+                    enchant {_armor1} with protection 3
+                    set {_armor2} to {@dArmor2}
+                    enchant {_armor2} with protection 3
+                    set {_armor3} to {@dArmor3}
+                    enchant {_armor3} with protection 3
+                    set {_armor4} to {@dArmor4}
+                    enchant {_armor4} with protection 3
+                    set {_sword} to {@dSword}
+                    enchant {_sword} with sharpness 3
+                    give player {_sword}
+                    give player {@shield}
+                    equip player with {_armor1}
+                    equip player with {_armor2}
+                    equip player with {_armor3}
+                    equip player with {_armor4}
+                    close player's inventory
+                    send title "&6&lKIT" with subtitle "&fYou used the Gold kit!"
+                
+                else:
+                    set {_difference} to difference between {kit::gold::time::%player's uuid%} and now
+                    set {_t} to difference between {_difference} and 600 seconds
+                    if {_difference} >= 600 seconds:
+                        delete {kit::gold::%player's uuid%}
+                        delete {kit::gold::time::%player's uuid%}
+                    else:
+                        send "&CYou need to wait %{_t}%&c!"
+                        kitOpen(player)
+        if index of event-slot is 15:
+            if player has permission "diamond.kit":
+
+                if {kit::diamond::%player's uuid%} is not set:
+                    set {kit::diamond::%player's uuid%} to true
+                    set {kit::diamond::time::%player's uuid%} to now
+                    set {_armor1} to {@dArmor1}
+                    enchant {_armor1} with protection 3
+                    set {_armor2} to {@dArmor2}
+                    enchant {_armor2} with protection 3
+                    set {_armor3} to {@dArmor3}
+                    enchant {_armor3} with protection 3
+                    set {_armor4} to {@dArmor4}
+                    enchant {_armor4} with protection 3
+                    set {_sword} to {@dSword}
+                    enchant {_sword} with sharpness 3
+                    give player {_sword}
+                    give player {@shield}
+                    equip player with {_armor1}
+                    equip player with {_armor2}
+                    equip player with {_armor3}
+                    equip player with {_armor4}
+                    close player's inventory
+                    send title "&6&lKIT" with subtitle "&fYou used the Diamond kit!"
+                
+                else:
+                    set {_difference} to difference between {kit::diamond::time::%player's uuid%} and now
+                    set {_t} to difference between {_difference} and 600 seconds
+                    if {_difference} >= 600 seconds:
+                        delete {kit::diamond::%player's uuid%}
+                        delete {kit::diamond::time::%player's uuid%}
+                    else:
+                        send "&CYou need to wait %{_t}%&c!"
+                        kitOpen(player)
+        if index of event-slot is 17:
+            if player has permission "emerald.kit":
+
+                if {kit::emerald::%player's uuid%} is not set:
+                    set {kit::emerald::%player's uuid%} to true
+                    set {kit::emerald::time::%player's uuid%} to now
+                    set {_armor1} to {@dArmor1}
+                    enchant {_armor1} with protection 4
+                    set {_armor2} to {@dArmor2}
+                    enchant {_armor2} with protection 4
+                    set {_armor3} to {@dArmor3}
+                    enchant {_armor3} with protection 4
+                    set {_armor4} to {@dArmor4}
+                    enchant {_armor4} with protection 4
+                    set {_sword} to {@dSword}
+                    enchant {_sword} with sharpness 4
+                    give player {_sword}
+                    give player {@shield}
+                    equip player with {_armor1}
+                    equip player with {_armor2}
+                    equip player with {_armor3}
+                    equip player with {_armor4}
+                    close player's inventory
+                    send title "&6&lKIT" with subtitle "&fYou used the Emerald kit!"
+                
+                else:
+                    set {_difference} to difference between {kit::emerald::time::%player's uuid%} and now
+                    set {_t} to difference between {_difference} and 600 seconds
+                    if {_difference} >= 600 seconds:
+                        delete {kit::emerald::%player's uuid%}
+                        delete {kit::emerald::time::%player's uuid%}
+                    else:
+                        send "&CYou need to wait %{_t}%&c!"
+                        kitOpen(player)
+        if index of event-slot is 21:
+            if player has permission "crystal.kit":
+
+                if {kit::crystal::%player's uuid%} is not set:
+                    set {kit::crystal::%player's uuid%} to true
+                    set {kit::crystal::time::%player's uuid%} to now
+                    set {_armor1} to {@dArmor1}
+                    enchant {_armor1} with protection 5
+                    set {_armor2} to {@dArmor2}
+                    enchant {_armor2} with protection 5
+                    set {_armor3} to {@dArmor3}
+                    enchant {_armor3} with protection 5
+                    set {_armor4} to {@dArmor4}
+                    enchant {_armor4} with protection 5
+                    set {_sword} to {@dSword}
+                    enchant {_sword} with sharpness 5
+                    give player {_sword}
+                    give player {@shield}
+                    equip player with {_armor1}
+                    equip player with {_armor2}
+                    equip player with {_armor3}
+                    equip player with {_armor4}
+                    close player's inventory
+                    send title "&6&lKIT" with subtitle "&fYou used the Crystal kit!"
+                
+                else:
+                    set {_difference} to difference between {kit::crystal::time::%player's uuid%} and now
+                    set {_t} to difference between {_difference} and 600 seconds
+                    if {_difference} >= 600 seconds:
+                        delete {kit::crystal::%player's uuid%}
+                        delete {kit::crystal::time::%player's uuid%}
+                    else:
+                        send "&CYou need to wait %{_t}%&c!"
+                        kitOpen(player)
+        if index of event-slot is 23:
+            if player has permission "ancient.kit":
+
+                if {kit::ancient::%player's uuid%} is not set:
+                    set {kit::ancient::%player's uuid%} to true
+                    set {kit::ancient::time::%player's uuid%} to now
+                    set {_armor1} to {@dArmor1}
+                    enchant {_armor1} with protection 5
+                    set {_armor2} to {@dArmor2}
+                    enchant {_armor2} with protection 5
+                    set {_armor3} to {@dArmor3}
+                    enchant {_armor3} with protection 5
+                    set {_armor4} to {@dArmor4}
+                    enchant {_armor4} with protection 5
+                    set {_sword} to {@dSword}
+                    enchant {_sword} with sharpness 5
+                    give player {_sword}
+                    give player {@shield}
+                    equip player with {_armor1}
+                    equip player with {_armor2}
+                    equip player with {_armor3}
+                    equip player with {_armor4}
+                    close player's inventory
+                    send title "&6&lKIT" with subtitle "&fYou used the Ancient kit!"
+                
+                else:
+                    set {_difference} to difference between {kit::ancient::time::%player's uuid%} and now
+                    set {_t} to difference between {_difference} and 600 seconds
+                    if {_difference} >= 600 seconds:
+                        delete {kit::ancient::%player's uuid%}
+                        delete {kit::ancient::time::%player's uuid%}
+                    else:
+                        send "&CYou need to wait %{_t}%&c!"
+                        kitOpen(player)
+            
+                    
+function deathKit(p: player):
+    set {_u} to {_p}'s uuid
+    set {_armor1} to {@rArmor1}
+    set {_armor2} to {@rArmor2}
+    set {_armor3} to {@rArmor3}
+    set {_armor4} to {@rArmor4}
+    set {_sword} to {@iSword}
+    give {_p} {_sword}
+    give {_p} {@shield}
+    equip {_p} with {_armor1}
+    equip {_p} with {_armor2}
+    equip {_p} with {_armor3}
+    equip {_p} with {_armor4}
+    
+on respawn:
+    deathKit(player)
+    send title "&c&lYOU DIED" with subtitle "&fDon't worry! &a+ &fRespawn Kit"
