@@ -1,0 +1,11 @@
+command /bc [<text>]:
+    aliases: bc, broadcast, announce, bcc
+    permission: bc.use
+    trigger:
+        broadcast "","&b&lAlert &8&l|&f %colored arg-1%",""
+        send title "&b&lAlert" with subtitle "%colored arg-1%" to all players
+        play sound "entity.experience_orb.pickup" with volume 0.5 to all players
+
+on death:
+		send title "&b&LYOU DIED" to victim for 20 ticks
+		

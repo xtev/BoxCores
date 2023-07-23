@@ -1,0 +1,29 @@
+command /report [<player>] [<text>]:
+    cooldown: 10 seconds
+    cooldown message: &6&lRizzBox &fYou need to wait &l%remaining time% &rto use this command again!
+    trigger:
+        if arg-1 is not set:
+            send "&7Usage: &c/report [player] [reason]" to player
+        else if arg-2 is not set:
+            send "&7Usage: &c/report [player] [reason]" to player
+
+        else if arg-2 is set:
+            send "" to player
+            send "&a&lPlayer has been reported!" to player
+            send "" to player
+
+
+            loop all players:
+                if loop-player has permission "skript.reports":
+                    send "" to loop-player
+                    send "&c&lREPORT!" to loop-player
+                    send "&6%player% &7reported &6%arg-1%" to loop-player
+                    send "&7Reason: &6%arg-2%" to loop-player
+                    send "" to loop-player
+                    play sound "block.note_block.chime" to loop-player
+					
+					
+					
+					
+#        else if arg-1 is not set:
+#            send "&7Usage: &c/report [player] [reason]" to player

@@ -1,0 +1,24 @@
+options:
+    Prefix: &6&lRIZZBOX
+
+command setafk:
+  permission: op
+  trigger:
+    set {afkitem::item} to player's tool
+    send "&6The Afk Item Has Been Set To %{afkitem::item}%"
+
+every 20 minutes:
+  loop all players:
+    if loop-player is in the region "afk":
+      give loop-player 1 of {afkitem::item}
+      send "" to loop-player
+      send "&fYou got an&b AFK Key &ffor being AFK!" to loop-player
+      send "" to loop-player
+	  
+every 20 minutes:
+      broadcast ""
+      broadcast ""
+      broadcast "{@Prefix} &fAll players in the AFK Area just got &fa&b AFK Key!"
+      broadcast ""
+      broadcast ""
+

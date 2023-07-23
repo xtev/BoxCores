@@ -1,0 +1,160 @@
+
+variables:
+    {freeze.maincolor} = "&3"
+    {freeze.seccolor} = "&b"
+    {freeze.errorcolor} = "&c"
+    {freeze.%player%.value} = false
+
+on any movement:
+    {freeze.%player%.value}
+    cancel the event
+    set {_checktime} to now
+    subtract 2 seconds from {_checktime}
+    {freeze.%player%.lastused} is less than {_checktime}
+    send title "&4&lWarning:" with subtitle "&fYou are currently &4&lfrozen &fby staff" for 5 seconds
+    set {freeze.%player%.lastused} to now
+
+on command:
+    {freeze.%player%.value}
+    cancel the event
+    message "%{freeze.errorcolor}%You are frozen and cannot execute commands"
+	
+command /sshelp:
+    permission: freeze.freeze
+    permission message: &9Permissions> &7You do not have permission to do that.
+    trigger:
+        set {_prefix} to "&6&l&nRIZZBOX &7&r"
+        player does not have permission "op":
+            send "%{_prefix}% &7/freeze <player>"
+            send "%{_prefix}% &7/unfreeze <player>"
+            send "%{_prefix}% &7/setss - sets the ss location"
+            send "%{_prefix}% &7/spawn - where the player goes after the ss"
+
+
+
+command /setss <text>:
+    permission: op
+    permission message: &9Permissions> &7You do not have permission to do that.
+    trigger:
+        set {_prefix} to "&6&l&nRIZZBOX &7&r"
+        if arg-1 is "sstp":
+            set {global.survival.spawn} to player's position
+            send "%{_prefix}% &7The ss location has been set"
+        if arg-1 is "spawntp":
+            set {global.survival.spawn2} to player's position
+            send "%{_prefix}% &7The ss spawn location has been set"
+        if arg-1 is "stafftp":
+            set {global.survival.spawn3} to player's position
+            send "%{_prefix}% &7The staff ss location has been set"
+
+command /ss [<player>]:
+    permission: freeze.freeze
+    permission message: &9Permissions> &7You do not have permission to do that.
+    trigger:
+        if arg-1 is "Topcodiz_cool" or "__barney":
+            message "&clol"
+            stop
+        player is arg 1:
+            player does not have permission "freeze.freeze":
+                message "%{freeze.errorcolor}%You don't have permission to do that"
+                stop
+            message "%{freeze.errorcolor}%You can't freeze yourself"
+            stop
+        set {freeze.%arg-1%} to true
+        set {_prefix} to "&6&l&nRIZZBOX&b &7&r"
+        arg 1 is not set:
+            message "%{freeze.errorcolor}%Wrong syntax! Usage: /freeze <player>"
+            stop
+        {freeze.%arg 1%.value} is not set:
+            set {freeze.%arg 1%.value} to false
+        player is arg 1:
+            player does not have permission "freeze.freeze":
+                message "%{freeze.errorcolor}%You don't have permission to do that"
+                stop
+            message "%{freeze.errorcolor}%You can't freeze yourself"
+            stop
+        not {freeze.%arg 1%.value}:
+            player does not have permission "freeze.freeze":
+                message "%{freeze.errorcolor}%You don't have permission to do that"
+                stop
+            set {freeze.%arg 1%.value} to true
+            set {_templastused} to now
+            subtract 1 hour from {_templastused}
+            set {freeze.%arg 1%.lastused} to {_templastused}
+            teleport arg-1 to {global.survival.spawn}
+            message "%{_prefix}%You froze %{freeze.seccolor}%%arg 1%"
+            message "" to arg-1
+            message "" to arg-1
+            message "" to arg-1
+            message "" to arg-1
+            message "&6           &m                                             " to arg-1
+            message "" to arg-1
+            message "%{_prefix}%&f&lYou have been frozen by %{freeze.seccolor}%%player%" to arg 1
+            message "" to arg-1
+            message "        &f&lIf you leave you will be &4&lbanned!" to arg-1
+            message "" to arg-1
+            message "                 &f&lJoin the Discord" to arg-1
+            message "          &3<link:https://discord.gg/zTPNBxMwwc>             &3&lCLICK ME!<reset>" to arg-1
+            message "" to arg-1
+            message "&6           &m                                             " to arg-1
+            message "" to arg-1
+            message "" to arg-1
+            send arg-1 title "&4&lWARNING:" with subtitle "&fYou are currently &4&lfrozen &fby staff" for 5 seconds
+            broadcast ""
+            broadcast "&6&l&nRIZZBOX &f%arg-1% &7is getting ss'd by &f%player%"
+            broadcast ""
+            play sound "entity.dragon_fireball.explode" at volume 10 at pitch 1 to arg-1\
+            teleport player to {global.survival.spawn3}
+            stop
+
+every 30 seconds:
+    loop all players:
+        if {freeze.%loop-player%} is true:
+            message " " to loop-player
+            message " " to loop-player
+            message " " to loop-player
+            message " " to loop-player
+            message "&6           &m                                             " to loop-player
+            message " " to loop-player
+            message "            &f&lYou have been frozen" to loop-player
+            message " " to loop-player
+            message "        &f&lIf you leave you will be &4&lbanned!" to loop-player
+            message " " to loop-player
+            message "                 &f&lJoin the Discord" to loop-player
+            message "          &3<link:https://discord.gg/zTPNBxMwwc>             &3&lCLICK ME!<reset>" to loop-player
+            message " " to loop-player
+            message "&6           &m                                             " to loop-player
+            message " " to loop-player
+            message " " to loop-player
+            send loop-player title "&4&lWARNING:" with subtitle "&fYou are currently &4&lfrozen &fby staff" for 5 seconds
+			
+			
+command /unss [<player>]:
+    trigger:
+        set {freeze.%arg-1%} to false
+        set {_prefix} to "&6&l&nRIZZBOX &7&r"
+        player does not have permission "freeze.unfreeze":
+            message "%{freeze.errorcolor}%You don't have permission to do that"
+            stop
+        set {freeze.%arg 1%.value} to false
+        set {_templastused} to now
+        subtract 1 hour from {_templastused}
+        set {freeze.%arg 1%.lastused} to {_templastused}
+        teleport arg-1 to {global.survival.spawn2}
+        message "%{_prefix}%You unfroze %{freeze.seccolor}%%arg 1%"
+        send arg-1 title "&2&lUNFROZEN:" with subtitle "&fYou have been &2unfrozen &fby staff" for 5 seconds
+        play sound "entity.dragon_fireball.explode" at volume 10 at pitch 1 to arg-1
+		
+on quit:		
+   if {freeze.%player%} is true:
+      execute console command "tempban %player% 14d leaving while in ss"
+   
+on join:
+    if {freeze.%player%} is true:
+        set {freeze.%player%} to false
+        set {freeze.%player%.value} to false
+        teleport player to {global.survival.spawn2}
+        
+        
+on tab complete of "setss":
+    set tab completions for position 1 to "spawntp" and "sstp" and "stafftp"
