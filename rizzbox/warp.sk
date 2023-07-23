@@ -1,0 +1,61 @@
+command /warp [<text>]:
+    trigger:
+        arg 1 is "booster":
+            player has permission "rank.booster":
+                send "&7Traveling to &5&l%arg 1%&7 in 3 Seconds"
+                wait 3 seconds
+                teleport player to {warplocation::%arg 1%}
+                play sound "block.portal.trigger" at pitch 2 to player
+        arg 1 is "hero":
+            player has permission "rank.hero":
+                send "&7Traveling to &3&l%arg 1%&7 in 3 Seconds"
+                wait 3 seconds
+                teleport player to {warplocation::%arg 1%}
+                play sound "block.portal.trigger" at pitch 2 to player
+        arg 1 is "legend":
+            player has permission "rank.legend":
+                send "&7Traveling to &6&l%arg 1%&7 in 3 Seconds"
+                wait 3 seconds
+                teleport player to {warplocation::%arg 1%}
+                play sound "block.portal.trigger" at pitch 2 to player
+        arg 1 is "god":
+            player has permission "rank.god":
+                send "&7Traveling to &b&l%arg 1%&7 in 3 Seconds"
+                wait 3 seconds
+                teleport player to {warplocation::%arg 1%}
+                play sound "block.portal.trigger" at pitch 2 to player
+        arg 1 is "immortal":
+            player has permission "rank.immortal":
+                send "&7Traveling to &d&l%arg 1%&7 in 3 Seconds"
+                wait 3 seconds
+                teleport player to {warplocation::%arg 1%}
+                play sound "block.portal.trigger" at pitch 2 to player
+        arg 1 is "overlord":
+            player has permission "rank.overlord" :
+                send "&7Traveling to &4&l%arg 1%&7 in 3 Seconds"
+                wait 3 seconds
+                teleport player to {warplocation::%arg 1%}
+                play sound "block.portal.trigger" at pitch 2 to player
+        arg 1 is "custom":
+            player has permission "rank.custom":
+                send "&7Traveling to &9&l%arg 1%&7 in 3 Seconds"
+                wait 3 seconds
+                teleport player to {warplocation::%arg 1%}
+                play sound "block.portal.trigger" at pitch 2 to player
+        arg 1 is "media":
+            player has permission "rank.media":
+                send "&7Traveling to &f&l%arg 1%&7 in 3 Seconds"
+                wait 3 seconds
+                teleport player to {warplocation::%arg 1%}
+                play sound "block.portal.trigger" at pitch 2 to player
+
+on tab complete of "/warp":
+	set tab completions for postion 2 to "Hero", "Legend", "God", "Immortal", "Overlord", "Media"
+
+command /setwarp [<text>]:
+    permission: op
+    usage: &c&lERROR&8: &fDid you mean /setwarp <booster, hero, legend, god, immortal, overlord, media, or custom>
+    trigger:
+        arg 1 is set:
+            arg 1 is "booster", "hero", "legend", "god", "immortal", "overlord", "custom", or "media":
+                set {warplocation::%arg 1%} to location of player

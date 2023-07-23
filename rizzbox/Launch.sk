@@ -1,0 +1,4 @@
+on step on warped nylium:
+  push player up at speed 3
+  push player forward at speed 4
+  play sound "entity.firework_rocket.launch" at volume 10 at pitch 2 to player

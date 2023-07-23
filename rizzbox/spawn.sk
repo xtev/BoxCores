@@ -1,0 +1,87 @@
+command /setspawn:
+    permission: op
+    trigger:
+        set {_prefix} to "&6&lRizzBox> &r"
+        set {spawn} to player's position
+        send "%{_prefix}% &7The spawn location has been set"
+	
+command /spawn:
+    trigger:
+    
+        send "&7[&6&lRizz&e&lBox&7] &bTeleporting you to Spawn in &c&l5 &bseconds."
+ 
+        set {_cooldown} to 100
+   
+        set {_loc} to location of player
+        while {_cooldown} is not 0:
+     
+            remove 1 from {_cooldown}
+             
+            if distance between {_loc} and player is not 0:
+                send "&c&lYou have moved, teleportation cancelled."
+                stop
+             
+            set {_loc} to location of player
+         
+            wait a tick
+        teleport executor to {spawn}
+        
+        
+options:
+	error: &4&lERROR &8| &7
+	prefix: &6&lRIZZBOX &7
+
+
+command /setstat <player> <text> <integer>:
+	permission: server.setstat
+	permission message: {@error}You do not have the required permission &8(&c&lserver.setstat&8)
+	usage: {@error}Incorrect usage&8: &c&l/setstat <player> <stat> <integer>
+	trigger:
+		if {server::allstats::*} does not contain arg-2:
+			message "{@error}Incorrect stat type: &c&l%{server::allstats::*}%"
+			stop
+		
+		if arg-3 < 0:
+			message "{@error}Stats may not be less than 0"
+			stop
+		
+		set {server::stats::%arg-1%::%arg-2%} to arg-3
+		message "{@prefix}Set &b&l%arg-1%&7's &b&l%arg-2%&7 stat to &b&l%arg-3%"
+
+command /stats [<text>]:
+	permission: server.stats
+	permission message: {@error}You do not have the required permission &8(&c&lserver.stats&8)
+	usage: {@error}Incorrect usage&8: &c&l/stats <player>
+	trigger:
+		set {_p} to player
+		if arg-1 is set:
+			set {_p} to arg-1
+		
+		if {server::stats::%{_p}%::kills} is not set:
+			message "{@error}This player has never been on the server before"
+			stop
+		
+		message ""
+		message " &b&l%{_p}%&7's Stats"
+		message " &8- &7Kills &8» &b%{server::stats::%{_p}%::kills}%"
+		message " &8- &7Deaths &8» &b%{server::stats::%{_p}%::deaths}%"
+		message " &8- &7Killstreak &8» &b%{server::stats::%{_p}%::streak}%"
+		message " &8- &7Best Killstreak &8» &b%{server::stats::%{_p}%::beststreak}%"
+		message ""
+        
+command test <player>:
+   permission: op
+   trigger:
+      loop all items in the inventory of arg-1:
+         loop-item is a red shulker box named "&x&e&a&0&0&0&0&lA&x&e&5&0&3&0&c&lb&x&e&0&0&5&1&9&lu&x&d&b&0&8&2&5&ls&x&d&6&0&a&3&2&le &x&d&0&0&d&3&e&lK&x&c&b&0&f&4&b&li&x&c&6&1&2&5&7&lt &x&c&1&1&4&6&4&lV&x&b&c&1&7&7&0&l4"
+         remove loop-item from arg-1's inventory
+         
+on first join:
+	execute console command "goldencrates givekey %player% gear 2"
+    
+command slurs [<player>]:
+    permission: slur
+    permission message: "Soz bud can't do that "
+    trigger:
+        execute console command "mute %arg-1% 1d Slur"
+        execute console command "clearchat"

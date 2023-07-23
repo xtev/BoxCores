@@ -1,0 +1,12 @@
+command /sm:
+	trigger:
+		if {staffmode::%uuid of player%} is not set:
+			set {staffmode::%uuid of player%} to true
+			set {staffinv::%uuid of player%::inventory} to the player's serialized inventory
+			wait 1 tick
+			clear player's inventory
+			message "Turned on"
+		else:
+			delete {staffmode::%uuid of player%}
+			message "Turned off"
+			restore inventory of player from {staffinv::%uuid of player%::inventory}

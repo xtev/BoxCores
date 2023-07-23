@@ -1,0 +1,40 @@
+function coin(amount: number) :: itemstack:
+    set {_coin} to sunflower named "&7[&e&lCOIN&7]"
+    set amount of {_coin} to {_amount}
+    set {_coin} to {_coin} with lore "&7Value: %{_amount}%"
+    return {_coin}
+
+command /bounty set <player> <integer>:
+    description: Set a bounty on a player
+    permission: bounty.set
+    trigger:
+        if arg-2 is less than 1:
+            send "&cThe bounty amount must be at least 1 coin." to player
+            stop
+        set {_target} to arg-1 parsed as offline player
+        set {_amount} to arg-2
+        set {bounty::%uuid of {_target}%} to {_amount}
+        broadcast "&aA bounty of &e%{_amount}% coins &ahas been placed on &c%{_target}%&a."
+
+command /bounty list:
+    description: Show the list of current bounties
+    permission: bounty.list
+    trigger:
+        create a gui with virtual chest inventory with 6 rows named "&aCurrent Bounties":
+            loop {bounty::*}:
+                set {_uuid} to loop-value
+                set {_bounty} to {bounty::%{_uuid}%}
+                set {_player} to offline player with uuid {_uuid}
+                format gui slot (loop-index - 1) of player with player head of {_player} named "&c%{_player}%" with lore "&eBounty: %{_bounty}% coins" to close then run:
+                    send "&aYou clicked on the bounty for &c%{_player}%&a with a reward of &e%{_bounty}% coins&a." to player
+        open last gui to player
+
+on death of player:
+    set {_victim} to victim
+    set {_killer} to attacker
+    if {bounty::%uuid of {_victim}%} is set:
+        set {_bounty} to {bounty::%uuid of {_victim}%}
+        delete {bounty::%uuid of {_victim}%}
+        give coin({_bounty}) to {_killer}
+        send "&aYou have claimed the &e%{_bounty}% coins &abounty on &c%{_victim}%&a." to {_killer}
+        broadcast "&a%{_killer}% &ahas claimed the &e%{_bounty}% coins &abounty on &c%{_victim}%&a."
