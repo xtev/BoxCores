@@ -1,3 +1,0 @@
-    
-on leaving of region "afk2":
-    make console execute command "lp user %player% parent remove afk"

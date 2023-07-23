@@ -1,8 +1,0 @@
-command test1 <player>:
-   permission: op
-   trigger:
-      loop all players:
-         if loop-player has permission "op":
-            message ""
-            message formatted "<cmd:/tempban %arg-1% 14d leaving in ss >&cBan<reset>&f  or  <cmd: >&adont ban<reset> &3"
-            message ""

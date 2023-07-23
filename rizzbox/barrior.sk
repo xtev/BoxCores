@@ -1,3 +1,0 @@
-on step on barrier:
-       teleport player to {global.survival.spawn2}
-       message "&4&lYou where detected out of the map"

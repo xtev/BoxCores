@@ -1,3 +1,0 @@
-command /Kanye:
-    trigger:
-        send " &d&lKanye 2024 "

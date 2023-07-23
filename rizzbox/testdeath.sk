@@ -1,4 +1,0 @@
-on respawn:
-    wait 2 seconds
-    execute console command "/serveritem give pickaxe 1 %player%"
-    send "&cYou have been given a pickaxe because you died, get to mining!"

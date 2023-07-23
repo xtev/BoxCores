@@ -1,5 +1,0 @@
-command /killeffect:
-    aliases: /kill, /effects
-    trigger:
-	set {_g} to a new chest inventory with 3 row with name "&b&lCustom GUI"
-	set slot 12 of {_g} to paper named "&7&lClick Me"

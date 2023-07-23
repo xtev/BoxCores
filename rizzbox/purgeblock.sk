@@ -1,4 +1,0 @@
-command /skript:pergechat:
-   permission: op
-   trigger:
-      message "no" to player

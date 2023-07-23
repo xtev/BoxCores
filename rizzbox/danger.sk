@@ -1,4 +1,0 @@
-on right click with Firework Rocket:
-  if player is in region "danger":
-    cancel event
-    send "&cYou can't use Firework Rockets in here!"

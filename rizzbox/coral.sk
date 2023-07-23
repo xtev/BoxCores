@@ -1,6 +1,0 @@
-on place of brain coral:
-    cancel event
-    send " &4Hey &fyou can't place that block here!" to player
-on place of fire coral:
-    cancel event
-    send " &4Hey &fyou can't place that block here!" to player

@@ -1,7 +1,0 @@
-options:
-    prefix: &6&lRIZZBOX &7
-on death:
-    if attacker is a player:
-        if victim is a player:
-            set {_weapon} to name of attacker's tool
-            set the death message to "{@prefix} &a&n%attacker%&a 🗡 &7Has killed &c&n%victim%&c ☠ &7 using %{_weapon} ? "&9&l&nFists"%"
