@@ -1,0 +1,19 @@
+every 10 minutes:
+    loop all players:
+        if loop-player is in region "afk":
+            chance of 60%:
+                execute console command "crates key give %loop-player% stormtrooper 3"
+            chance of 5%:
+                execute console command "crates key give %loop-player% obi-wan 1"
+            chance of 35%: 
+                execute console command "crates key give %loop-player% yoda 1"
+            chance of 1%: 
+                execute console command "crates key give %loop-player% luke 1"
+
+on region enter:
+    if event-region is "afk" parsed as region:
+        send title "&a&lEntering AFK Area" to player
+
+on region exit:
+    if event-region is "afk" parsed as region:
+        Send title "&c&lLeaving AFK Area" to player

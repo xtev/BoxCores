@@ -1,0 +1,10 @@
+every 10 minutes:
+    command "mrl reset vip "
+    command "mrl reset mvp "
+    command "mrl reset Diamond rank"
+    command "mrl reset Netherite rank"
+    command "mrl reset  Emperor"
+    command "mrl reset  custom"
+    command "mrl reset Media "
+    command "mrl reset  staffmine"
+    command "broadcast Rank mines have been reset!"

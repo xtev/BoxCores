@@ -1,0 +1,4 @@
+on mine of diamond ore, diamond block, iron ore, iron block, gold block, gold ore, emerald ore, emerald block, netherite block, beacon:
+	chance of 1%:
+		make console execute command "crate key give %player% mine_key 1"
+		send "&aYou got a Mine Key!" to player

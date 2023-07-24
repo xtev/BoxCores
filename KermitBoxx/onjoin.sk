@@ -1,0 +1,3 @@
+on first join:
+    wait 5 ticks
+    teleport player to {server::locations::spawn}

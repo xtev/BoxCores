@@ -1,0 +1,7 @@
+on death:
+    if attacker is a player:
+        if victim is a player:
+            set {_weapon} to name of attacker's tool
+            set {_lore::*} to lore of attacker's tool
+            set {_split::*} to {_lore} split at " "
+            set the death message to "&A&n%attacker%&c &8&lHas killed &c&n%victim%&8&l using %{_weapon} ?"&a&l&nFists"%"

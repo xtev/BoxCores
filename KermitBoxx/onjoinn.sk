@@ -1,0 +1,5 @@
+on join:
+    set join message to  "&8&l&a&L+&8&l &7%player%"
+
+on quit:
+    set leave message to  "&8&l&c&L-&8&l &7%player%"

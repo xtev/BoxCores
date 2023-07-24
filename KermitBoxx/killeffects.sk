@@ -1,0 +1,166 @@
+options:
+    prefix: YourServer
+
+on join:
+    if {effects::list::*} doesn't contain player's uuid:
+        add player's uuid to {effect::list::*}
+        set {selected::effect::%player's uuid%} to 1
+
+command killeffects:
+    aliases: killeffect 
+    trigger:
+        set metadata tag "def" of player to chest inventory with 5 rows named "&4&lKill Effects"
+        set {_i} to 0
+        loop 58 times:
+            set slot {_i} of metadata tag "def" of player to gray stained glass pane named "&r"
+            add 1 to {_i}
+        if {selected::effect::%player's uuid%} = 1:
+            set slot 10 of metadata tag "def" of player to lime dye named "&a&lDefault Effect &8(&aSelected&8)" with lore "&aThis is free (Totem Effect)"
+            set slot 13 of metadata tag "def" of player to red dye named "&c&lBleedout Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shoping zone in Spawn"
+            set slot 16 of metadata tag "def" of player to red dye named "&c&lExplosion Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 28 of metadata tag "def" of player to red dye named "&c&lThunder Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 31 of metadata tag "def" of player to red dye named "&c&lFirework Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            set slot 34 of metadata tag "def" of player to red dye named "&c&lSmoke Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            open (metadata tag "def" of player) to player
+        else if {selected::effect::%player's uuid%} = 2:
+            set slot 10 of metadata tag "def" of player to red dye named "&c&lDefault Effect &8(&cUnselected&8)" with lore "&cThis is free (Totem Effect)"
+            set slot 13 of metadata tag "def" of player to lime dye named "&a&lBleedout Effect &8(&aSelected&8)" with lore "&aUnlocked at Danny in the shoping zone in Spawn"
+            set slot 16 of metadata tag "def" of player to red dye named "&c&lExplosion Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 28 of metadata tag "def" of player to red dye named "&c&lThunder Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 31 of metadata tag "def" of player to red dye named "&c&lFirework Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            set slot 34 of metadata tag "def" of player to red dye named "&c&lSmoke Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            open (metadata tag "def" of player) to player
+        else if {selected::effect::%player's uuid%} = 3:
+            set slot 10 of metadata tag "def" of player to red dye named "&c&lDefault Effect &8(&cUnselected&8)" with lore "&cThis is free (Totem Effect)"
+            set slot 13 of metadata tag "def" of player to red dye named "&c&lBleedout Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shoping zone in Spawn"
+            set slot 16 of metadata tag "def" of player to lime dye named "&a&lExplosion Effect &8(&aSelected&8)" with lore "&aUnlocked once bought at /buy"
+            set slot 28 of metadata tag "def" of player to red dye named "&c&lThunder Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 31 of metadata tag "def" of player to red dye named "&c&lFirework Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            set slot 34 of metadata tag "def" of player to red dye named "&c&lSmoke Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            open (metadata tag "def" of player) to player
+        else if {selected::effect::%player's uuid%} = 4:
+            set slot 10 of metadata tag "def" of player to red dye named "&c&lDefault Effect &8(&cUnselected&8)" with lore "&cThis is free (Totem Effect)"
+            set slot 13 of metadata tag "def" of player to red dye named "&c&lBleedout Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shoping zone in Spawn"
+            set slot 16 of metadata tag "def" of player to red dye named "&c&lExplosion Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 28 of metadata tag "def" of player to lime dye named "&a&lThunder Effect &8(&aSelected&8)" with lore "&aUnlocked once bought at /buy"
+            set slot 31 of metadata tag "def" of player to red dye named "&c&lFirework Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            set slot 34 of metadata tag "def" of player to red dye named "&c&lSmoke Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            open (metadata tag "def" of player) to player
+        else if {selected::effect::%player's uuid%} = 5:
+            set slot 10 of metadata tag "def" of player to red dye named "&c&lDefault Effect &8(&cUnselected&8)" with lore "&cThis is free (Totem Effect)"
+            set slot 13 of metadata tag "def" of player to red dye named "&c&lBleedout Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shoping zone in Spawn"
+            set slot 16 of metadata tag "def" of player to red dye named "&c&lExplosion Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 28 of metadata tag "def" of player to red dye named "&c&lThunder Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 31 of metadata tag "def" of player to lime dye named "&a&lFirework Effect &8(&aSelected&8)" with lore "&aUnlocked at Danny in the shopping zone in Spawn"
+            set slot 34 of metadata tag "def" of player to red dye named "&c&lSmoke Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            open (metadata tag "def" of player) to player
+        else if {selected::effect::%player's uuid%} = 6:
+            set slot 10 of metadata tag "def" of player to red dye named "&c&lDefault Effect &8(&cUnselected&8)" with lore "&cThis is free (Totem Effect)"
+            set slot 13 of metadata tag "def" of player to red dye named "&c&lBleedout Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shoping zone in Spawn"
+            set slot 16 of metadata tag "def" of player to red dye named "&c&lExplosion Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 28 of metadata tag "def" of player to red dye named "&c&lThunder Effect &8(&cUnselected&8)" with lore "&cUnlocked once bought at /buy"
+            set slot 31 of metadata tag "def" of player to red dye named "&c&lFirework Effect &8(&cUnselected&8)" with lore "&cUnlocked at Danny in the shopping zone in Spawn"
+            set slot 34 of metadata tag "def" of player to lime dye named "&a&lSmoke Effect &8(&aSelected&8)" with lore "&aUnlocked at Danny in the shopping zone in Spawn"
+            open (metadata tag "def" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "def" of player):
+        cancel event
+        if index of event-slot = 10:
+            set {selected::effect::%player's uuid%} to 1
+            close player's inventory
+            send title "&4&lNew Effect:" with subtitle "You selected the Default Effect!" to player
+            play sound "entity.player.levelup" at volume 1 at pitch 1 to player
+            send "{@prefix} &fYou selected the Default effect!"
+        if index of event-slot = 13:
+            if player has permission "effect.bleedout":
+                set {selected::effect::%player's uuid%} to 2
+                close player's inventory
+                send title "&4&lNew Effect:" with subtitle "You selected the Bleedout Effect!" to player
+                play sound "entity.player.levelup" at volume 1 at pitch 1 to player
+                send "{@prefix} &fYou selected the Bleedout effect!"
+            else:
+                close player's inventory
+                send title "&4&lError:" with subtitle "&8(&ceffects.bleedout&8)" to player
+                play sound "entity.villager.no" at volume 1 at pitch 1 to player
+        if index of event-slot = 16:
+            if player has permission "effect.explosion":
+                set {selected::effect::%player's uuid%} to 3
+                close player's inventory
+                send title "&4&lNew Effect:" with subtitle "You selected the Explosion Effect!" to player
+                play sound "entity.player.levelup" at volume 1 at pitch 1 to player
+                send "{@prefix} &fYou selected the Explosion effect!"
+            else:
+                close player's inventory
+                send title "&4&lError:" with subtitle "&8(&ceffects.explosion&8)" to player
+                play sound "entity.villager.no" at volume 1 at pitch 1 to player
+        if index of event-slot = 28:
+            if player has permission "effect.thunder":
+                set {selected::effect::%player's uuid%} to 4
+                close player's inventory
+                send title "&4&lNew Effect:" with subtitle "You selected the Thunder Effect!" to player
+                play sound "entity.player.levelup" at volume 1 at pitch 1 to player
+                send "{@prefix} &fYou selected the Thunder effect!"
+            else:
+                close player's inventory
+                send title "&4&lError:" with subtitle "&8(&ceffects.thunder&8)" to player
+                play sound "entity.villager.no" at volume 1 at pitch 1 to player
+        if index of event-slot = 31:
+            if player has permission "effect.firework":
+                set {selected::effect::%player's uuid%} to 5
+                close player's inventory
+                send title "&4&lNew Effect:" with subtitle "You selected the Firework Effect!" to player
+                play sound "entity.player.levelup" at volume 1 at pitch 1 to player
+                send "{@prefix} &fYou selected the Firework effect!"
+            else:
+                close player's inventory
+                send title "&4&lError:" with subtitle "&8(&ceffects.firework&8)" to player
+                play sound "entity.villager.no" at volume 1 at pitch 1 to player
+        if index of event-slot = 34:
+            if player has permission "effect.smoke":
+                set {selected::effect::%player's uuid%} to 6
+                close player's inventory
+                send title "&4&lNew Effect:" with subtitle "You selected the Smoke Effect!" to player
+                play sound "entity.player.levelup" at volume 1 at pitch 1 to player
+                send "{@prefix} &fYou selected the Smoke effect!"
+            else:
+                close player's inventory
+                send title "&4&lError:" with subtitle "&8(&ceffects.smoke&8)" to player
+                play sound "entity.villager.no" at volume 1 at pitch 1 to player
+        
+on death:
+    if victim is player:
+        if attacker is player:
+            #default
+            if {selected::effect::%uuid of attacker%} = 1:
+                make 10 of totem_of_undying using diamond at event-location
+                loop all players in radius 10 of event-location:
+                    play sound "item.totem.use" at volume 1 at pitch 1 to loop-player
+
+            #bleedout
+            if {selected::effect::%uuid of attacker%} = 2:
+                make 10 of heart at event-location with offset vector(0, 2, 0)
+                loop all players in radius 10 of event-location:
+                    play sound "entity.enderman.death" at volume 1 at pitch 1 to loop-player
+            
+            #explosion
+            if {selected::effect::%uuid of attacker%} = 3:
+                create an explosion of force 0 at event-location
+                make 10 of explosion_emitter at event-location
+            
+           #thunder
+            if {selected::effect::%uuid of attacker%} = 4:
+                execute console command "/smite %victim%"
+            
+            #firework
+            if {selected::effect::%uuid of attacker%} = 5:
+                launch trailing flickering star coloured purple, blue and red fading to pink at event-location
+                launch trailing flickering star coloured purple, blue and red fading to pink at event-location
+                loop all players in radius 10 of event-location:
+                    play sound "entity.firework_rocket.launch" at volume 1 at pitch 1 to loop-player
+            
+            #smoke
+            if {selected::effect::%uuid of attacker%} = 6:
+                make 10 of angry_villager at event-location with offset vector(0, 2, 0)
+                loop all players in radius 10 of event-location:
+                    play sound "block.campfire.crackle" at volume 1 at pitch 1 to loop-player

@@ -1,0 +1,3 @@
+on right click:
+	If "%event-block%" contain "note":
+		teleport player to {startmine}

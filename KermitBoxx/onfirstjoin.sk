@@ -1,0 +1,3 @@
+on first join:
+	make console execute command "crate key give %player% yoda 4"
+	braoadcast "&a%player%&7 Join for the first timee!"

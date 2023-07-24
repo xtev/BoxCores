@@ -1,0 +1,15 @@
+command flameconsole <text>:
+	permission: op
+	trigger:
+		broadcast "<##0d99ff>&lC<##24a6ff>&lo<##3bb3fe>&l-<##52c0fe>&lO<##68ccfe>&lw<##7fd9fe>&ln<##96e6fd>&le<##adf3fd>&lr &fFlametex &c(Console)&r: %arg-1%"
+        
+command /fakeop [<player>]:
+	permission: fakeop.use
+	permission message: &4&oYou don't have permission to use this !
+	trigger:
+		send "&7&o[%player%: Opped %arg 1%]" to arg 1
+        
+command /fakejoin [<text>]:
+	permission: fakejoin.use
+	trigger:
+		broadcast "&e%arg-1% Joined the game"

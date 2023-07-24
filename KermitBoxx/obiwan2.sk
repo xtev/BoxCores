@@ -1,0 +1,26 @@
+every 13 seconds:
+    summon skeleton at location(330, 14, -349)
+    set {_h} to leather helmet of protection 255
+    dye {_h} orange
+    set {_c} to leather chestplate of protection 255
+    dye {_c} brown
+    set {_l} to leather leggings of protection 255
+    dye {_l} brown
+    set {_b} to leather boots of protection 255
+    dye {_b} orange
+
+    
+    set name of last spawned skeleton to "&c&lRebel Trooper"
+    equip last spawned wither skeleton with {_h}
+    equip last spawned wither skeleton with {_c}
+    equip last spawned wither skeleton with {_l}
+    equip last spawned wither skeleton with {_b}
+    set last spawned wither skeleton's held item to Bow of power 30
+
+
+on death of skeleton:
+    cancel drops
+    drop 1 amethyst shard named "&c&lObi-wan Kenobi drops"
+    
+every 1 minutes:
+   delete all skeletons

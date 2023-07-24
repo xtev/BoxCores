@@ -1,0 +1,100 @@
+options:
+    prefix: &4&lBOSS &7| &e
+    bossname: &e&lObi-wan Kenobi
+    loc: 290.441, 14, -402.777
+
+on load:
+    kill {bb}
+    delete {bb}
+    set {helixbossdrop4} to Allium named "&c&lThe last Shard.." with lore "&eDropped by Obi-wan Kenobi"
+
+function helixboss3(l: location):
+    if {hb} is not set:
+        summon adult zombie at {_l}
+        set {hb3} to last spawned zombie
+        set {_h} to skull of "kermitmyfrog606" parsed as offline player
+        set {_c} to leather chestplate
+        set {_l} to leather pants
+        set {_b} to leather boots
+        dye {_c} dark gray
+        dye {_l} gray
+        dye {_b} black
+        enchant {_c} with protection 9
+        enchant {_l} with protection 9
+        enchant {_b} with protection 9
+        set helmet of {hb3} to {_h}
+        set chestplate of {hb3} to {_c}
+        set leggings of {hb3} to {_l}
+        set boots of {hb3} to {_b}
+        set tool of {hb3} to diamond sword of sharpness 50
+        set max health of {hb3} to 300
+        heal {hb3}
+        set display name of {hb3} to "{@bossname} &c%health of {hb3}%/%max health of {hb3}%❤"
+        broadcast "{@prefix}{@bossname} has spawned!"
+        play sound "block.end_portal.spawn" to all players
+
+command /spawnobiwanboss:
+    permission: op
+    trigger:
+        helixboss3(player's location)
+
+on damage:
+    if victim is {hb3}:
+        set display name of {hb3} to "{@bossname} &c%health of {hb3}%/%max health of {hb3}%❤"
+
+on death:
+    if victim is {hb3}:
+        clear drops
+        delete {hb3}
+        play sound "block.respawn_anchor.set_spawn" to all players
+        broadcast "{@prefix}{@bossname} &6has been killed by &d%attacker%!"
+        drop {helixbossdrop4} 
+
+every 5 seconds:
+    if {hb3} is set:
+        set {_c} to a random integer between 1 and 5
+        if {_c} is 1: #Pull Players
+            loop all players in radius 7 of {hb3}:
+                if loop-player's gamemode is survival:
+                    push loop-player forward at speed 2
+                    apply slowness of tier 5 to loop-player for 4 seconds
+                    play sound "entity.llama.swag" to loop-player
+        if {_c} is 2: #Wither + Blindness
+            loop all players in radius 5 of {hb3}:
+                if loop-player's gamemode is survival:
+                    apply wither of tier 3 to loop-player for 1 seconds
+                    apply blindness of tier 2 to loop-player for 3 seconds
+                    play sound "entity.wither_skeleton.hurt" to loop-player
+        if {_c} is 3: #Knockback + Wither:
+            loop all players in radius 5 of {hb3}:
+                if loop-player's gamemode is survival:
+                    push loop-player up at speed 4
+                    push loop-player backwards at speed 6
+                    play sound "entity.wither_skeleton.hurt" to loop-player
+                    apply wither of tier 2 to loop-player for 5 seconds
+        if {_c} is 4: #Syphon
+            loop all players in radius 5 of {hb3}:
+                if loop-player's gamemode is survival:
+                    damage loop-player by 3 hearts
+                    apply blindness of tier 2 to loop-player for 4 seconds
+                    play sound "entity.player.attack.crit" to loop-player
+                    send "{@prefix}{@bossname} &ahas syphoned 3 hearts of your health!" to loop-player
+            heal {hb3} by 15 hearts
+        if {_c} is 5: #Buff
+            loop all players in radius 6 of {hb3}:
+                if loop-player's gamemode is survival:
+                    apply strength of tier 4 to {hb3} for 7 seconds
+                    apply weakness of tier 3 to loop-player for 7 seconds
+                    play sound "entity.splash_potion.break" to loop-player
+					
+on right click:
+    if player's tool is nether star named "&e&lObi-wans Core" with lore "&eRight click to summon the Obi-wan boss!":
+        if "%region at player%" contains "Obiwan":
+            if {hb3} is not set:
+                helixboss3(player's location)
+                remove 1 of player's tool from player's inventory
+
+command /getobiwanscore:
+    permission: op
+    trigger:
+        give player nether star named "&e&lObi-wans Core" with lore "&eRight click to summon the Obi-wan boss!"

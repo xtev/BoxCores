@@ -1,0 +1,4 @@
+on place:
+    if event-block is water:
+        if player is in region "plots":
+            cancel event

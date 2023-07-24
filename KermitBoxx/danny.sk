@@ -1,0 +1,300 @@
+on citizen right click:
+    if citizen is 14:
+        if {server::danny::allowed} is true:
+            set metadata tag "trader" of player to chest inventory with 6 rows named "&e&lMerchant"
+            set {_i} to 0
+            loop 58 times:
+                set slot {_i} of metadata tag "trader" of player to gray stained glass pane named "&r"
+                add 1 to {_i}
+            set slot 10 of metadata tag "trader" of player to {merchant::item::1} with lore "&e&lPRiCE: &f⛃%formatNum({merchant::price::1})%"
+            set slot 12 of metadata tag "trader" of player to {merchant::item::2} with lore "&e&lPRiCE: &f⛃%formatNum({merchant::price::2})%"
+            set slot 14 of metadata tag "trader" of player to {merchant::item::3} with lore "&e&lPRiCE: &f⛃%formatNum({merchant::price::3})%"
+            set slot 16 of metadata tag "trader" of player to {merchant::item::4} with lore "&e&lPRiCE: &f⛃%formatNum({merchant::price::4})%"
+            set slot 37 of metadata tag "trader" of player to {merchant::item::5} with lore "&e&lPRiCE: &f⛃%formatNum({merchant::price::5})%"
+            set slot 39 of metadata tag "trader" of player to {merchant::item::6} with lore "&e&lPRiCE: &f⛃%formatNum({merchant::price::6})%"
+            set slot 41 of metadata tag "trader" of player to {merchant::item::7} with lore "&e&lPRiCE: &f⛃%formatNum({merchant::price::7})%"
+            set slot 43 of metadata tag "trader" of player to {merchant::item::8} with lore "&e&lPRiCE: &f⛃%formatNum({merchant::price::8})%"
+            open (metadata tag "trader" of player) to player
+        else:
+            play sound "entity.villager.no" at volume 1 at pitch 1 to player
+            send title "&4&lError:" with subtitle "&fDanny is unavailable right now!" to player
+            send "&7[&eDanny&7]: &cI am closed right now! Please come back at &4In a few days or when we make a annoucement in our discord when we are opening!"
+
+
+
+function confirmItem(slot: integer, price: integer, p: player):
+
+    set metadata tag "confirm.%{_slot}%" of {_p} to chest inventory with 1 row named "&6&lConfirmation"
+    set {_i} to 0
+    loop 10 times:
+        set slot {_i} of metadata tag "confirm.%{_slot}%" of {_p} to gray stained glass pane named "&r"
+        add 1 to {_i}
+    set slot 2 of metadata tag "confirm.%{_slot}%" of {_p} to lime stained glass pane named "&a&lPurchase" with lore "&e&lPRiCE: &f⛃%formatNum({_price})%"
+    set slot 4 of metadata tag "confirm.%{_slot}%" of {_p} to barrier named "&4&lBack"
+    set slot 6 of metadata tag "confirm.%{_slot}%" of {_p} to red stained glass pane named "&c&lCancel" with lore "&e&lPRiCE: &f⛃%formatNum({_price})%"
+    open (metadata tag "confirm.%{_slot}%" of {_p}) to {_p}
+
+function buyItem(slot: integer, price: integer, p: player):
+
+    if {balance::%{_p}'s uuid%} >= {_price}:
+        remove {_price} from {balance::%{_p}'s uuid%}
+        send "&7Successfully purchesed &8%{merchant::item::%{_slot}%}% &7for &8⛃%formatNum({_price})%&7!" to {_p}
+        close {_p}'s inventory
+        send title "&a&lSuccess:" with subtitle "&aYou bought: &2%{merchant::item::%{_slot}%}% &afor &2⛃%formatNum({_price})%&a!" to {_p}
+        play sound "entity.villager.celebrate" at volume 1 at pitch 1 to {_p}
+        if {_slot} is 6 or 7 or 8:
+            if {_slot} is 6:
+                execute console command "lp user %{_p}% permission set effect.bleedout"
+            if {_slot} is 7:
+                execute console command "lp user %{_p}% permission set effect.firework"
+            if {_slot} is 8:
+                execute console command "lp user %{_p}% permission set effect.smoke"
+        else:
+            give {_p} {merchant::item::%{_slot}%}
+    else:
+        close {_p}'s inventory
+        play sound "entity.villager.no" at volume 1 at pitch 1 to {_p}
+        send title "&4&lInsufficient funds!" with subtitle "&fYou have &c⛃%{balance::%{_p}'s uuid%} ? 0 %&7/&c⛃%formatNum({_price})%&7!" to {_p}
+        send "&4&lInsufficient funds! &fYou are missing &c⛃%formatNum({_price} - {balance::%{_p}'s uuid%})%&7!" to {_p}
+
+on load:
+    set {merchant::item::6} to red dye named "&c&lBleedout Effect"
+    set {merchant::item::7} to red dye named "&c&lFirework Effect"
+    set {merchant::item::8} to red dye named "&c&lSmoke Effect"
+    set {merchant::price::6} to 30
+    set {merchant::price::7} to 30
+    set {merchant::price::8} to 30
+
+on inventory click:
+    if event-inventory = (metadata tag "trader" of player):
+        cancel event
+        if index of event-slot = 10:
+            if {merchant::item::1} is set:
+                confirmItem(1, {merchant::price::1}, player)
+        if index of event-slot = 12:
+            if {merchant::item::2} is set:
+                confirmItem(2, {merchant::price::2}, player)
+        if index of event-slot = 14:
+            if {merchant::item::3} is set:
+                confirmItem(3, {merchant::price::3}, player)
+        if index of event-slot = 16:
+            if {merchant::item::4} is set:
+                confirmItem(4, {merchant::price::4}, player)
+        if index of event-slot = 37:
+            if {merchant::item::5} is set:
+                confirmItem(5, {merchant::price::5}, player)
+        if index of event-slot = 39:
+            if {merchant::item::6} is set:
+                confirmItem(6, {merchant::price::6}, player)
+        if index of event-slot = 41:
+            if {merchant::item::7} is set:
+                confirmItem(7, {merchant::price::7}, player)
+        if index of event-slot = 43:
+            if {merchant::item::8} is set:
+                confirmItem(8, {merchant::price::8}, player)
+    if event-inventory = (metadata tag "confirm.1" of player):
+        cancel event
+        if index of event-slot = 2:
+            buyItem(1, {merchant::price::1}, player)
+        if index of event-slot = 4:
+            open (metadata tag "trader" of player) to player
+        if index of event-slot = 6:
+            close player's inventory
+    if event-inventory = (metadata tag "confirm.2" of player):
+        cancel event
+        if index of event-slot = 2:
+            buyItem(2, {merchant::price::2}, player)
+        if index of event-slot = 4:
+            open (metadata tag "trader" of player) to player
+        if index of event-slot = 6:
+            close player's inventory
+    if event-inventory = (metadata tag "confirm.3" of player):
+        cancel event
+        if index of event-slot = 2:
+            buyItem(3, {merchant::price::3}, player)
+        if index of event-slot = 4:
+            open (metadata tag "trader" of player) to player
+        if index of event-slot = 6:
+            close player's inventory
+    if event-inventory = (metadata tag "confirm.4" of player):
+        cancel event
+        if index of event-slot = 2:
+            buyItem(4, {merchant::price::4}, player)
+        if index of event-slot = 4:
+            open (metadata tag "trader" of player) to player
+        if index of event-slot = 6:
+            close player's inventory
+    if event-inventory = (metadata tag "confirm.5" of player):
+        cancel event
+        if index of event-slot = 2:
+            buyItem(5, {merchant::price::5}, player)
+        if index of event-slot = 4:
+            open (metadata tag "trader" of player) to player
+        if index of event-slot = 6:
+            close player's inventory
+    if event-inventory = (metadata tag "confirm.6" of player):
+        cancel event
+        if index of event-slot = 2:
+            buyItem(6, {merchant::price::6}, player)
+        if index of event-slot = 4:
+            open (metadata tag "trader" of player) to player
+        if index of event-slot = 6:
+            close player's inventory
+    if event-inventory = (metadata tag "confirm.7" of player):
+        cancel event
+        if index of event-slot = 2:
+            buyItem(7, {merchant::price::7}, player)
+        if index of event-slot = 4:
+            open (metadata tag "trader" of player) to player
+        if index of event-slot = 6:
+            close player's inventory
+    if event-inventory = (metadata tag "confirm.8" of player):
+        cancel event
+        if index of event-slot = 2:
+            buyItem(8, {merchant::price::8}, player)
+        if index of event-slot = 4:
+            open (metadata tag "trader" of player) to player
+        if index of event-slot = 6:
+            close player's inventory
+
+
+command merchantsetitem [<integer>] [<integer>]:
+    permission: merchantsetitem.set
+    permission message: &4&lError: &cYou don't have permission to run this command!
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if player's tool is set:
+                    if arg-1 < 6:
+                        set {merchant::item::%arg-1%} to player's tool
+                        set {merchant::price::%arg-1%} to arg-2
+                        send "&aYou have set the slot &2%arg-1%&a to &2%player's held item%&a!%nl%&aPrice: %formatNum(arg-2)%"
+                    else:
+                        send "&4&lError: &cYou may only set slots up to 5!"
+                        send title "&4&lError:" with subtitle "&fThere is no such slot as %arg-2%!"
+                        play sound "entity.villager.no" at volume 1 at pitch 1 to player
+            else:
+                send "&4&lError: &c/merchantsetitem (slot) (price)&7!"
+                send title "&4&lUsage:" with subtitle "&f/merchantsetitem (slot) (price)!" to player
+                play sound "entity.villager.no" at volume 1 at pitch 1 to player
+        else:
+            send "&4&lError: &c/merchantsetitem (slot) (price)&7!" 
+            send title "&4&lUsage:" with subtitle "&f/merchantsetitem (slot) (price)!" to player
+            play sound "entity.villager.no" at volume 1 at pitch 1 to player
+
+command toggledanny:
+	permission: merchantdanny.enable
+	permission message: &4&lError: &cYou don't have permission to run this command!
+	trigger:
+		set {server::danny::allowed} to true
+		play sound "entity.villager.celebrate" at volume 1 at pitch 1 to player
+		send title "&a&lSuccess" with subtitle "Danny is now opened for 10 minutes!" to player
+		send "&a&lSuccess: &fDanny is now opened for 10 minutes!"
+		broadcast "&7[&eDanny&7]&7: &fI am now open for the next 10 minutes! Find me at spawn in the shopping zone"
+		play sound "entity.experience_orb.pickup" at volume 1 to all players
+		wait 10 minutes
+		set {server::danny::allowed} to false
+		loop all players:
+			play sound "entity.illusioner.mirror_move" at volume 1 at pitch 1 to loop-player
+		broadcast "&7[&eDanny&7]&7: &fI am now gone! Bye..."
+
+options:
+	prefix: &e&lYourServer &8•&f
+
+command credits <player>:
+	trigger:
+		if arg-1 is set:
+			if "%arg-1%" doesn't match "\w+":
+				sendError(player, "Illegal characters!")
+				stop
+			set {_u} to arg-1's uuid
+			if {joins::*} contains {_u}:
+				send "{@prefix} &f%arg-1%&f's Credits: &a⛃%regex({balance::%{_u}%})%"
+			else:
+				sendError(player, "&cInvalid Player!")
+
+command credit <player>:
+	trigger:
+		if arg-1 is set:
+			if "%arg-1%" doesn't match "\w+":
+				sendError(player, "Illegal characters!")
+				stop
+			set {_u} to arg-1's uuid
+			if {joins::*} contains {_u}:
+				send "{@prefix} &f%arg-1%&f's Credits: &a⛃%regex({balance::%{_u}%})%"
+			else:
+				sendError(player, "&cInvalid Player!")
+
+command creditpay <player> <number>:
+	trigger:
+		if arg-1 is not set:
+			sendError(player, "&cInvalid Syntax! /creditpay <player> <amount>")
+		else:
+			if arg-2 is not set:
+				sendError(player, "&cInvalid Syntax! /creditpay <player> <amount>")
+			else:
+				if arg-2 >= 1:
+					if {balance::%player's uuid%} >= arg-2:
+						remove arg-2 from {balance::%player's uuid%}
+						add arg-2 to {balance::%arg-1's uuid%}
+						send "{@prefix} &fSuccessfully paid &3%arg-1% &a⛃%regex(arg-2)%"
+						send "{@prefix} &fReceived &a⛃%formatNum(arg-2)% &ffrom &3%player%" to arg-1
+					else:
+						sendError(player, "&cInvalid Balance!")
+				else:
+					sendError(player, "&cYou need to send at least $1!")
+
+command eco <text> <offline player> <number>:
+	permission: op
+	trigger:
+		if arg-1 is "set":
+			set {balance::%arg-2's uuid%} to arg-3
+		else if arg-1 is "add":
+			add arg-3 to {balance::%arg-2's uuid%}
+		else if arg-1 is "remove":
+			remove arg-3 from {balance::%arg-2's uuid%}
+
+
+command credittop:
+	trigger:
+		set {_list::*} to sort((indices of {balance::*}), {balance::*})
+		set {_pos} to 1
+		send "" and "{@prefix} &7Showing Baltop Leaderboard" and ""
+		loop {_list::*}:
+			set {_player} to ("%loop-value%" parsed as offline player)
+			set {_uuid} to ({_player} parsed as offline player)'s uuid
+			send "&3##%{_pos}% &7- &b%{_player}% &8- &a⛃%regex({balance::%loop-value%})%"
+			add 1 to {_pos}
+			if {_pos} > 10:
+				send ""
+				stop
+
+function sendError(p: player, m: text):
+	send "&c&lError: &c%{_m}%" to {_p}
+
+function regex(n: object) :: text:
+    if "%{_n}%" contains ".":
+        set {_s::*} to split "%{_n}%" at "."
+        set {_n} to "%({_s::1})%.%last 2 characters of {_s::2}%"
+        return "%{_n}%"
+    else:
+        set {_n} to ("%{_n}%")
+        return "%{_n} ? 0%"
+	
+on join:
+	if {joins::*} does not contain player's uuid:
+		add player's uuid to {joins::*}
+		set {balance::%player's uuid%} to 1
+
+function sort(indices: strings, values: numbers, descending: boolean = true) :: strings:
+    loop {_indices::*}:
+        add 1 to {_f}
+        set {_sort::%{_values::%loop-index%}%.%{_f}%} to loop-value
+    return (reversed {_sort::*}) if {_descending} is true, else {_sort::*}        
+    
+function formatNum(n: number) :: string:
+    set {_l::*} to split "K,M,B,T,Qn,Qi,Sx" at ","
+    set {_i} to min(floor(log({_n})/3), size of {_l::*})
+    return "%{_n}%" if {_i} <= 0
+    set {_i2} to 1000^{_i}
+    return "%{_n}/{_i2}%%{_l::%{_i}%}%"   

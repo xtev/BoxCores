@@ -1,0 +1,23 @@
+command /aplot:
+    permission: op
+    trigger:
+        loop 100 times:
+            make player execute "/plotman create %loop-value%"
+            make player execute "/plotman setrent %loop-value% 10"
+            make player execute "/plotman setwgregion %loop-value% plot%loop-value%"
+            make player execute "/rg setpriority plot%loop-value% 100000000"
+            make player execute "/rg flag plot%loop-value% block-place -g members allow"
+            make player execute "/rg flag plot%loop-value% block-break -g members allow"
+
+command /setplotloc:
+	permission: server.setplot
+	trigger:
+		send "&aSet plots to your current location"
+		set {server::locations::plots} to player's location
+
+on rightclick:
+	if event-entity's name is "plots":
+		teleport player to {server::locations::plots}
+		send "&r"
+		send "&8(&aTeleported to plots&8)"
+		send "&b"

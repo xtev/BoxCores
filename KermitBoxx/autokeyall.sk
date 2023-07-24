@@ -1,0 +1,28 @@
+on first join:
+    add 1 to {autokeyall}
+    if {autokeyall} = 20:
+        set {autokeyall} to 0
+        broadcast "&c&lKEYALL IN 5s GO SPAWN"
+        wait 1 second
+        broadcast "&c&lKEYALL IN 4s GO SPAWN"
+        wait 1 second
+        broadcast "&c&lKEYALL IN 3s GO SPAWN"
+        wait 1 second
+        broadcast "&c&lKEYALL IN 2s GO SPAWN"
+        wait 1 second
+        broadcast "&c&lKEYALL IN 1s GO SPAWN"
+        wait 1 second
+        broadcast "&c&lKEYALL"
+        make console execute command "crate key give * stormtrooper 3"
+    else:
+        broadcast "&a%player% joined for the first time! &8[&a%{autokeyall}%&7/&a20&8]"
+
+        
+command /autokeyall:
+    trigger:
+        send "&8[&a%{autokeyall}%&7/&a20&8] &7For a keyall" to player
+        
+command /resetautokeyall:
+	permission: op
+	trigger:
+		set {autokeyall} to 0

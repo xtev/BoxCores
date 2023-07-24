@@ -1,0 +1,3 @@
+every 15 minutes:
+    command "mrl reset skulls "
+    command "broadcast &E&lSKULLS HAVE BEEN RESET "

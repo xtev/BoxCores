@@ -1,0 +1,19 @@
+command /cc:
+    description: Clear chat for all players
+    permission: cc.clear
+    trigger:
+        loop 300 times:
+            broadcast " "
+        broadcast "&6&m-----------------------------------------"
+        broadcast "&b&lChat has been cleared by %player%!"
+        broadcast "&6&m-----------------------------------------"
+
+command /clearchat:
+    description: Clear chat for all players
+    permission: cc.clear
+    trigger:
+        loop 300 times:
+            broadcast " "
+        broadcast "&6&m-----------------------------------------"
+        broadcast "&b&lChat has been cleared by %player%!"
+        broadcast "&6&m-----------------------------------------"

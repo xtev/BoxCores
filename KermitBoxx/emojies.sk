@@ -1,0 +1,62 @@
+
+options:
+    er: &4&lPlease Wait A Bit Before Using This Command Again
+    p: &e&lChat Actions &8&l|&7
+
+on chat:
+    {chatemoji.%player's uuid%} is set:
+    #checks to see if they have it enabled or not, if they dont have it set does nothing
+        replace all ":skull:" in message with "&f☠"
+        replace all "<3" or ":heart:" in message with "&d❤"
+        replace all ":toxic:" in message with "&a☢"
+        replace all ":fire:" in message with "&6🔥"
+        replace all ":wave:" or ":waves:" in message with "&b🌊"
+        replace all ":fingerup:" in message with "&6✌"
+        replace all ":star:" or ":stars:" in message with "&e★"
+        replace all ":check:" or ":tick:" in message with "&a✔"
+        replace all ":cross:" in message with "&4✘"
+        replace all ":face1:" in message with "&a^_^"
+        replace all ":face2:" in message with "&d｡◕‿ ◕｡"
+        replace all ":face3:" in message with "&a^◕‿◕^"
+        replace all ":face4:" in message with "&e-‿-"
+        replace all ":face5:" in message with "&c*^_^*"
+        replace all ":face6:" in message with "&6^︵^"
+        #you dont need 1 million on chat events
+
+command /emojis:
+    trigger:
+        send "&e&lChat Actions &8&l| ------------"
+        send "{@p} :skull: &8| &f☠"
+        send "{@p} <3 &8| &d❤"
+        send "{@p} :toxic: &8| &a☢"
+        send "{@p} :fire: &8| &6🔥"
+        send "{@p} :wave:/:waves: &8| &b🌊"
+        send "{@p} :fingerup: &8| &6✌"
+        send "{@p} :star: &8| &e★"
+        send "{@p} :check:/:tick: &8| &a✔"
+        send "{@p} :cross: &8| &4✘"
+        send "{@p} :face1: &8| &a^_^"
+        send "{@p} :face2: &8| &d｡◕‿ ◕｡"
+        send "{@p} :face3: &8| &a^◕‿◕^"
+        send "{@p} :face4: &8| &e-‿-"
+        send "{@p} :face5: &8| &c*^_^*"
+        send "{@p} :face6: &8| &6^︵^"
+        #u dont need 'send "" to player' in a command event, it already defaults to that, only needed for titles/action bars'
+
+command /toggleemojis:
+    cooldown: 5 seconds
+    cooldown message: {@er} Please wait 5 seconds before doing this.
+    trigger:
+        {chatemoji.%player's uuid%} is set:
+        #checks if chat emojis are enabled already
+            send "{@p} disable message"
+            delete {chatemoji.%player's uuid%}
+            stop
+            #basically a fancy way of doing else but looks cooler
+        send "{@p} enable message"
+        set {chatemoji.%player's uuid%} to true
+            
+
+on first join:
+    set {chatemoji.%player's uuid%} to false
+    #makes it so it doesnt default to on

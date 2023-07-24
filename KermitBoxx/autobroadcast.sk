@@ -1,0 +1,16 @@
+Every 5 minutes:
+		broadcast "&8&m-------------------------------------"
+		broadcast "&b&lMake Sure To Use &9&L/Discord "
+		broadcast "&8&m-------------------------------------"
+		wait 8 minutes
+		broadcast "&8&m-------------------------------------"
+		broadcast "&E&lEvery 15 Minutes if you Afk in Afk area you get a &c&LAFK KEY"
+		broadcast "&8&m-------------------------------------"
+		wait 10 minutes
+		broadcast "&8&m-------------------------------------"
+		broadcast "&d&lAdvertise the server for some keyalls!"
+		broadcast "&8&m-------------------------------------"
+		wait 12 minutes
+		broadcast "&8&m-------------------------------------"
+		broadcast "&dWant to gain a advantage over other players??? Do /buy to support the server or to buy ranks from &b&LYourServer!"
+		broadcast "&8&m-------------------------------------"

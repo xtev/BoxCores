@@ -1,0 +1,8 @@
+on place of green candle:
+    cancel event
+    
+on place of red candle:
+    cancel event
+    
+on place of red mushroom:
+    cancel event

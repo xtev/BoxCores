@@ -1,0 +1,12 @@
+on fish:
+    cancel event
+    
+on place painting:
+    cancel event
+    
+on place item frame:
+    cancel event
+    
+on damage:
+    victim is item frame
+    cancel event
