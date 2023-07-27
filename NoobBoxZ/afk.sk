@@ -1,0 +1,13 @@
+on region enter:
+    wait 2 ticks
+    if "%region at player%" contains "afk":
+
+every 8 minutes:
+    loop all players:
+        if "%region at loop-player%" contains "afk":
+            chance of 50%:
+                execute console command "crates key give %loop-player% afk 1"
+            chance of 20%:
+                execute console command "crates key give %loop-player% casino 1"
+            chance of 5%:
+                execute console command "crates key give %loop-player% gear 1"

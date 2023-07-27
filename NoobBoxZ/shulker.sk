@@ -1,0 +1,41 @@
+on place:
+    If "%event-block%" contain " shulker box":
+        send "&aProtection set at &6%location of event-block%"
+        set {mysterygift.%location of event-block%} to uuid of event-player
+
+on break:
+    If "%event-block%" contain " shulker box":
+        if player is op:
+            send "&aProtection removed at &6%location of event-block%"
+            delete {mysterygift.%location of event-block%}
+            stop
+        if {mysterygift.%location of event-block%} is uuid of event-player:
+            send "&aProtection removed at &6%location of event-block%"
+            delete {mysterygift.%location of event-block%}
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "spawn %event-player%"
+
+on rightclick:
+    If "%event-block%" contain " shulker box":
+        if player is op:
+            stop
+        if {mysterygift.%location of event-block%} is uuid of event-player:
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "spawn %event-player%"
+
+on place of hopper or normal rail or powered rail or detector rail or activator rail: #yep, isn't mine!
+    if "%block above event-block%" contain " shulker box":
+        if player is op:
+            stop
+        if {mysterygift.%location of block above event-block%} is uuid of event-player:
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "spawn %event-player%"

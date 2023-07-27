@@ -1,0 +1,5 @@
+﻿on death of player:
+    victim is a player:
+        attacker is a player:
+            set {_weapon} to name of attacker's tool
+            set the death message to "&6&lNoob&e&lBox&6&lZ &8» &c&n%attacker%&6 has killed &b&n%victim%&6 using %{_weapon}%"

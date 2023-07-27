@@ -1,0 +1,3 @@
+command /nv:
+    trigger:
+        apply potion of night vision of tier 999999 to the player for 1 hour

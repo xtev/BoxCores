@@ -1,0 +1,11 @@
+options:
+	prefix: &8[&6&lNoob&e&lBox&6&lZ&8]
+	SoundD: BLOCK_NOTE_BLOCK_PLING
+	SoundD-Volume: 1
+	SoundD-Pitch: 2
+
+command /discord:
+	aliases: /community, /dc
+	trigger:
+		send "{@prefix} &7Join the &bDiscord <tooltip:&6Click to open the &bDiscord><link:https://discord.gg/7DjAw4pmPf>&ehere." to player
+		play sound "{@SoundD}" with volume {@SoundD-Volume} and pitch {@SoundD-Pitch}

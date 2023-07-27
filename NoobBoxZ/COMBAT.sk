@@ -1,0 +1,75 @@
+options:
+    #Change the combat cooldown here:
+    cooldown: 15
+
+
+
+
+
+
+
+variables:
+    {combat.log::%player%} = 0
+
+
+
+
+
+
+
+
+
+on damage:
+    if the attacker is a player:
+        if the victim is a player:
+            if {combat.log.%victim%} is not set:
+                set {combat.log.%victim%} to 1
+                set {combat.count.%victim%} to {@cooldown}
+                send "&4You are in combat" to victim
+
+                set {combat.log.%attacker%} to 1
+                set {combat.count.%attacker%} to {@cooldown}
+                send "&4You are in combat" to attacker
+
+            else if {combat.log.%victim%} is set:
+                set {combat.count.%attacker%} to {@cooldown}
+
+                set {combat.count.%victim%} to {@cooldown}
+
+
+
+
+
+on quit:
+    if {combat.log.%player%} is set:
+        make console execute command "/kill %player%"
+        clear {combat.log.%player%}
+        broadcast "&6&lNoob&e&lBox&6&lZ &8» &c%player% logged out in combat"
+
+
+
+on death:
+    force the victim to respawn
+    clear {combat.count.%victim%}
+    clear {combat.log.%victim%}
+
+
+on command:
+    if {combat.log.%player%} is set:
+        if player does not have permissions "op":
+            cancel event
+            send "&cYou cannot do commands while in combat!" to player
+
+
+
+
+every 1 seconds:
+    loop all players:
+        if {combat.count.%loop-player%} is set:
+            if {combat.count.%loop-player%} is greater than 0:
+                remove 1 from {combat.count.%loop-player%}
+                send action bar "&4Combat &7| &c%{combat.count.%loop-player%}%" to loop-player
+            else if {combat.count.%loop-player%} is less than or equal to 0:
+                clear {combat.log.%loop-player%}
+                clear {combat.count.%loop-player%}
+                send "&cYou are no longer in combat" to loop-player

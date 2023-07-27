@@ -1,0 +1,3 @@
+on chat:
+    if message contains "=expand":
+        broadcast "&6&LNoob&e&lbox&6&lz &8&l>> &a%player% seems suspicious of using hacks."

@@ -1,0 +1,43 @@
+command /setSSROOM:
+    permission: ss.setSS
+    trigger:
+        set {ssROOM} to location of block at location of player
+        send "&8[&6&lNoob&e&lBox&6&lZ&8] &7ss room was set to &9%{ssROOM}%" 
+
+command /ss [<player>]:
+    permission: ss.screanshare
+    trigger:
+        if arg-1 isn't set:
+            send "&8[&6&lNoob&e&lBox&6&lZ&8] &7You must also inclued a player in the command such as the person you want to SS!"
+            stop
+        else:
+            teleport arg-1 to {ssROOM}
+            teleport player to {SSROOM}
+            send "&8[&6&lNoob&e&lBox&6&lZ&8] &7You have been teleported to the SS room with &9%arg-1%&7 in order to ss them." to player
+            send "&8[&6&lNoob&e&lBox&6&lZ&8] &7You have been sent to the SS room by &9%player%&7 DO NOT LEAVE, &7please join screenshare vc in &9<link:https://discord.gg/7DjAw4pmPf>https://discord.gg/7DjAw4pmPf" to arg-1
+            broadcast "&8[&6&lNoob&e&lBox&6&lZ&8] &7%arg-1% &7is getting screen shared by &9%player%"
+            set {beingSS::%arg-1's uuid%} to true
+
+command /stopss [<player>]:
+    permission: ss.stopss
+    trigger:
+        if arg-1 isn't set:
+            send "&8[&6&lNoob&e&lBox&6&lZ&8] &cPlease select a player that you want to stop the ss off, /stopss PLAYER"
+        else:
+            execute console command "spawn %arg-1%"
+            send "&8[&6&lNoob&e&lBox&6&lZ&8] &aYou are no longer being ssed!" to arg-1
+            delete {beingSS::%arg-1's uuid%}
+on command:
+    if {beingSS::%player's uuid%} is set:
+        cancel event
+
+on disconnect:
+    if {beingSS::%player's uuid%} is set:
+        ban player due to "&cYou may not log out while being SSed" for 14 days
+        broadcast "&8[&6&lNoob&e&lBox&6&lZ&8] &9%player% &7logged out while being SSed so they were banned for &98 &7days!"
+        delete {beingSS::%player's uuid%}
+		
+command ssunban <text>:
+	permission: ss.stopss
+	trigger:
+		unban arg-1

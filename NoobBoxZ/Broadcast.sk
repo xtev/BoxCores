@@ -1,0 +1,19 @@
+every 4 minutes:
+	broadcast "&6&lNoob&e&lBox&6&lZ"
+	broadcast "&7Buy Ranks At &6&l&n/Buy"
+	play sound "block.note_block.bell" with volume 1 and pitch 1 at all players for all players
+
+every 7 minutes:
+	broadcast "&6&lNoob&e&lBox&6&lZ"
+	broadcast "&7Did you know? you can apply for &d&lMedia Rank &7by posting video join &b/discord for more info!"
+	play sound "block.note_block.bell" with volume 1 and pitch 1 at all players for all players
+	
+every 14 minutes:
+	broadcast "&6&lNoob&e&lBox&6&lZ"
+	broadcast "&7How To Get Money? &7Use &6&l&n/Shop"
+	play sound "block.note_block.bell" with volume 1 and pitch 1 at all players for all players
+	
+every 18 minutes:
+	broadcast "&6&lNoob&e&lBox&6&lZ"
+	broadcast "&7Join Discord By Using &b&l/discord"
+	play sound "block.note_block.bell" with volume 1 and pitch 1 at all players for all players

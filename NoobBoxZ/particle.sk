@@ -1,0 +1,5 @@
+on death:
+	if victim is a player:
+		execute console command "execute at %victim% run particle minecraft:soul ~ ~ ~ 1 2 1 0.2 400"
+		play sound "item.totem.use" with volume 1 and pitch 1 at victim
+		

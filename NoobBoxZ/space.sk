@@ -1,0 +1,4 @@
+on place of shulker box or light blue shulker box or yellow shulker box or red shulker box or blue shulker box or lime shulker box:
+	if "%region at event-block%" contains "box":
+		send "&c&lHey! &7Sorry, but you can't place that block here." to player
+		cancel event

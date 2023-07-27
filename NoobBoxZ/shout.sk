@@ -1,0 +1,6 @@
+command /shout [<text>] [<player>]:
+	permission: shout.rank
+	cooldown: 30 second
+	cooldown message: wait %remaining time% to use this command again
+	trigger:
+		broadcast "&6&lSHOUT &4&l- &b&l%player% &8&l| &e%colored arg-1%"

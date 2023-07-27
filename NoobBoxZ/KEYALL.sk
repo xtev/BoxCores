@@ -1,0 +1,41 @@
+command /keyallS:
+	permission: keyall.small
+	trigger:
+		broadcast "&7&l&m&n------------------------------------------------"
+		broadcast "&6&lNoob&e&lBox&6&lZ &8» &aKeyall in 10 seconds go spawn now!"
+		broadcast "&6Doing By &a%player%"
+		broadcast "&7&l&m&n------------------------------------------------"
+		send title "&4&lKEYALL" with subtitle "&c&lIn 10 Seconds Go Spawn Now!" to all players for 10 seconds
+		play sound "entity.firework_rocket.launch" with volume 1 and pitch 1 at all players for all players
+		wait 10 seconds
+		execute console command "crates key giveall afk 3"
+		execute console command "crates key giveall keyall 1"
+		
+command /keyallB:
+	permission: keyall.big
+	trigger:
+		broadcast "&7&l&m&n------------------------------------------------"
+		broadcast "&6&lNoob&e&lBox&6&lZ &8» &aKeyall in 10 seconds go spawn now!"
+		broadcast "&6Doing By &a%player%"
+		broadcast "&7&l&m&n------------------------------------------------"
+		send title "&4&lKEYALL" with subtitle "&c&lIn 10 Seconds Go Spawn Now!" to all players for 10 seconds
+		play sound "entity.firework_rocket.launch" with volume 1 and pitch 1 at all players for all players
+		wait 10 seconds
+		execute console command "crates key giveall casino 1"
+		execute console command "crates key giveall afk 5"
+		execute console command "crates key giveall keyall 2"
+
+command /keyallvb:
+	permission: keyall.verybig
+	trigger:
+		broadcast "&7&l&m&n------------------------------------------------"
+		broadcast "&6&lNoob&e&lBox&6&lZ &8» &aKeyall in 10 seconds go spawn now!"
+		broadcast "&6Doing By &a%player%"
+		broadcast "&7&l&m&n------------------------------------------------"
+		send title "&4&lKEYALL" with subtitle "&c&lIn 10 Seconds Go Spawn Now!" to all players for 10 seconds
+		play sound "entity.firework_rocket.launch" with volume 1 and pitch 1 at all players for all players
+		wait 10 seconds
+		execute console command "crates key giveall afk 7"
+		execute console command "crates key giveall keyall 3"
+		execute console command "crates key giveall gear 1"
+		execute console command "crates key giveall casino 1"		

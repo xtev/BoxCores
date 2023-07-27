@@ -1,0 +1,76 @@
+on command "/pl":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/plugins":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/bukkit:pl":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/bukkit:plugins":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/plugin":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/bukkit:?":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/bukkit:? 2":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/bukkit:? 3":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/bukkit:? 4":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/bukkit:? 5":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"
+		
+on command "/bukkit:? 6":
+	if player is op:
+		stop
+	else:
+		cancel event
+		send "&6&lNoob&e&lBox&6&lZ &4You don't have permission to do this command!"

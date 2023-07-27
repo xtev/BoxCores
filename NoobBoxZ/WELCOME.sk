@@ -1,0 +1,12 @@
+on first join:
+	execute console command "crates key give %player% gear 2"
+
+on command "/sell":
+	cancel event
+	execute console command "sudo %player% shop"
+on command "/sellall":
+	cancel event
+	execute console command "sudo %player% shop"
+on command "/sellgui":
+	cancel event
+	execute console command "sudo %player% shop"

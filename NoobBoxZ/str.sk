@@ -1,0 +1,20 @@
+every 10 ticks:
+    loop all players:
+        if "%region at loop-player%" contains "str":
+            chance of 100%:
+            apply potion of strength of tier 2 to loop-player for 10 tick
+			
+on region leave:
+  "%region%" contains "str":
+    remove strength from player
+	
+	
+every 10 ticks:
+    loop all players:
+        if "%region at loop-player%" contains "danger":
+            chance of 100%:
+            apply potion of strength of tier 3 to loop-player for 10 tick
+			
+on region leave:
+  "%region%" contains "danger":
+    remove strength from player

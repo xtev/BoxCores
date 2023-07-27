@@ -1,0 +1,13 @@
+command /aoe [<text>] [<player>]:
+    permission: op
+    trigger:
+        broadcast "&a&lANNOUNCEMENT &8&l|&f %colored arg-1%"
+        send title "&a&lANNOUNCEMENT" with subtitle "%colored arg-1%" to all players for 2 seconds
+        play sound "block.note_block.guitar" with volume 1 and pitch 1 at all players for all players
+
+command /ty [<text>]:
+    permission: op
+    trigger:
+        broadcast "&6&lNoob&e&lBox&6&lZ &8&l|&f %colored arg-1%"
+        send title "&6&lNoob&e&lBox&6&lZ" with subtitle "%colored arg-1%" to all players for 3 seconds
+        play sound "entity.ender_dragon.ambient" with volume 1 and pitch 1 at all players for all players

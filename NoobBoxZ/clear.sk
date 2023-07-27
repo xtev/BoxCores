@@ -1,0 +1,13 @@
+every 10 minutes:
+	broadcast "&6&lNoob&e&lBox&6&lZ &7Clear all items in 5"
+	wait 1 seconds
+	broadcast "&6&lNoob&e&lBox&6&lZ &7Clear all items in 4"
+	wait 1 seconds
+	broadcast "&6&lNoob&e&lBox&6&lZ &7Clear all items in 3"
+	wait 1 seconds
+	broadcast "&6&lNoob&e&lBox&6&lZ &7Clear all items in 2"
+	wait 1 seconds
+	broadcast "&6&lNoob&e&lBox&6&lZ &7Clear all items in 1"
+	wait 1 seconds
+	broadcast "&6&lNoob&e&lBox&6&lZ &7Clearing Items"
+	execute console command "essentials:killall drops 3"
