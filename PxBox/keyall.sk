@@ -1,0 +1,34 @@
+command /keyall <text>:
+    permission: Keyall.Keyall
+    trigger:
+        if arg-1 is "10":
+            execute console command "/excellentcrates key give * AFK 3"
+            execute console command "/excellentcrates key give * casino 1"
+            send title "&b&lKeyall" with subtitle "&b&l%player% &f&lHas done a keyall!" to players
+        if arg-1 is "25":
+            execute console command "/excellentcrates key give * AFK 3"
+            execute console command "/excellentcrates key give * gear 1"
+            send title "&b&lKeyall" with subtitle "&b&l%player% &f&lHas done a keyall!" to players
+        if arg-1 is "35":
+            execute console command "/excellentcrates key give * gear 1"
+            execute console command "/excellentcrates key give * casino 1"
+            execute console command "/excellentcrates key give * offhand 1"
+            send title "&b&lKeyall" with subtitle "&b&l%player% &f&lHas done a keyall!" to players
+        if arg-1 is "45":
+            execute console command "/excellentcrates key give * gear 1"
+            execute console command "/excellentcrates key give * casino 2"
+            execute console command "/excellentcrates key give * offhand 2"
+            send title "&b&lKeyall" with subtitle "&b&l%player% &f&lHas done a keyall!" to players
+        if arg-1 is "50":
+            execute console command "/excellentcrates key give * gear 2"
+            execute console command "/excellentcrates key give * casino 3"
+            execute console command "/excellentcrates key give * offhand 3"
+            send title "&b&lKeyall" with subtitle "&b&l%player% &f&lHas done a keyall!" to players
+        if arg-1 is "60":
+            execute console command "/excellentcrates key give * gear 3"
+            execute console command "/excellentcrates key give * casino 3"
+            execute console command "/excellentcrates key give * offhand 3"
+            send title "&b&lKeyall" with subtitle "&b&l%player% &f&lHas done a keyall!" to players
+
+on tab complete of "keyall":
+    set tab completions for position 1 to "10" and "25" and "35" and "45" and "50" and "60"

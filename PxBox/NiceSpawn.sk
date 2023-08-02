@@ -1,0 +1,15 @@
+command /setworldspawn1:
+    trigger:
+        if player has permission "spawn.sk":
+            set {spawn} to player's location
+            send "Set spawn to your location!"
+        else:
+            send "No permission!"
+			
+on death:
+	if victim is a player:
+		teleport player to {spawn}
+		
+on death:
+	teleport victim to {spawn}
+	

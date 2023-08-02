@@ -1,0 +1,143 @@
+options:
+	kothWorld: Void
+	place: Strength Room
+every 1 hour:
+	set {kothBoolean} to true
+	broadcast "&a&l[KOTH] &eKOTH is now capturable. Head to the strength room."
+	delete {kothcapt}
+	clear {stopkothglitch::*}
+
+command /kothenable:
+	permission: op
+	trigger:
+		if {kothBoolean} is false:
+			set {kothBoolean} to true
+			delete {kothcapt}
+			broadcast "&a&l[KOTH] &eKOTH is now capturable. Head to the strength room."
+function clearDuplicates(l: objects) :: objects:
+	set {_t::*} to {_l::*}
+	loop {_t::*}:
+		remove loop-value from {_t::*}
+		{_t::*} contains loop-value
+		remove loop-value from {_l::*}
+	return {_l::*}
+on region enter:
+	if "%event-region%" contains "koth in world {@kothWorld}":
+		if {kothBoolean} is true:
+			loop {koth::*}:
+				if "%region at loop-value%" does not contain "koth in world {@kothWorld}":
+					clear {koth::%loop-index%}
+			set {koth::*} to clearDuplicates({koth::*})
+			if {koth::*} does not contain {_p}:
+				if {stopkothglitch::*} doesn't contain player:
+					add player to {koth::*}
+					if {koth::1} is player:
+						if {kothcapt} is not player:
+							kothMsg("%{koth::1}%", "Is Capturing!")
+							kothcap(player)
+						else:
+							recapKoth(player)
+		else:
+			send "&a&l[KOTH] &eKoth isn't enabled at the moment. Come back later."
+function recapKoth(p: player):
+	while {koth::1} is {_p}:
+		if {kothcount2} < {kothtaker}:
+			add 1 to {kothcount2}
+			kothActionBar({_p},{kothcount2},{kothtaker})
+		wait 0.5 second
+
+on death:
+	if victim is a player:
+		{koth::*} contains "%victim%":
+			abandonKoth(victim)
+			
+on teleport:
+	if {koth::*} contains player:
+		remove player from {koth::*}
+		
+on quit:
+	if {koth::*} contains player:
+		abandonKoth(player)
+		
+on load:
+	set {kothtaker} to 100
+	set {kothcapamt} to 100
+
+function kothcap(p: player):
+	if {kothBoolean} is true:
+		set {_q} to {_p}'s uuid
+		if {kothcapt} is set:
+			if {kothcapt} is not {_p}:
+				if {kothcount2} is not set:
+					set {kothcount2} to {kothtaker}
+		if {kothcount::%{_q}%} is not set:
+			set {kothcount::%{_q}%} to 0
+		wait 1 second
+		while {_p} is {koth::1}:
+			if "%region at {_p}%" contains "koth in world {@kothWorld}":
+				if {kothcapt} is not set:
+					set {kothman} to {_p}
+					if {koth::2} is not set:
+						add 1 to {kothcount::%{_q}%}
+						kothActionBar({_p},{kothcount::%{_q}%},{kothcapamt})
+					if {kothcount::%{_q}%} is round({kothcapamt}/2):
+						kothMsg("%{_p}%", "&e&lis capturing the &e&lKoth")
+					else if {kothcount::%{_q}%} is {kothcapamt}:
+						send "&a&l[KOTH] &6&l%{_p}% &ehas captured the &6&lKoth!" to all players where ["%input's world%" is "{@kothWorld}"]
+						execute console command "/crate key give %{_p}% koth 1"
+						#kothMsg("%{_p}%", "&7has captured the &eElestra Koth&7!%nl%&7Visit the {@kothWorld} to capture the koth &8(&e/warp mine&8)")
+						set {kothcapt} to {_p}
+						clear {kothcount::*}
+						recapKoth({_p})
+						set {kothBoolean} to false
+				else if {kothcapt} is not {_p}:
+					if {kothcount2} is round({kothtaker}*.75):
+						kothMsg("%{kothcapt}%", "&eis losing control of the koth! &8[&c&l75%%&8]")
+					else if {kothcount2} is round({kothtaker}*.50):
+						kothMsg("%{kothcapt}%", "&eis losing control of the koth! &8[&c&l50%%&8]")
+					else if {kothcount2} is round({kothtaker}*.25):
+						kothMsg("%{kothcapt}%", "&eis losing control of the koth! &8[&c&l25%%&8]")
+					else if {kothcount2} is 0:
+						kothMsg("%{kothcapt}%", "&ehas lost control of the &e&lKoth&7.")
+						delete {kothcapt}
+						set {kothcount2} to {kothtaker}
+					if {koth::2} is not set:
+						remove 1 from {kothcount2}
+						kothActionBar({_p},{kothcount2},{kothtaker})
+				else:
+					stop
+				add {_p} to {stopkothglitch::*}
+				wait 2 seconds
+				remove {_p} from {stopkothglitch::*}
+			else:
+				abandonKoth({_p})
+				stop
+function kothMsg(who: text,what: text):
+	send "&a&l[KOTH] &e%{_who}% %{_what}%" to all players where ["%input's world%" is "{@kothWorld}"]
+on region exit:
+	if "%event-region%" contains "koth in world {@kothWorld}":
+		if {koth::*} contains player:
+			abandonKoth(player)
+		
+function abandonKoth(p: player):
+	set {_capper} to {koth::1}
+	remove {_p} from {koth::*}
+	loop {koth::*}:
+		if "%region at loop-value%" does not contain "koth in world {@kothWorld}":
+			clear {koth::%loop-index%}
+	loop {koth::*}:
+		add loop-value to {_l::*}
+	set {koth::*} to {_l::*}
+	if {_capper} is not {koth::1}:
+		if {koth::1} is set:
+			if {koth::1} is not {kothcapt}:
+				kothcap({koth::1})
+			else:
+				recapKoth({koth::1})
+function kothActionBar(p: player,per: number,div: number):
+	set {_lines::*} to split  "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |" at " "
+	set {_linenum} to ceil((({_per})/{_div})*50)
+	replace "|" with "&c|" in {_lines::%{_linenum}%}
+	set {_lines2} to join {_lines::*} with ""
+	send action bar "&8[&a%{_lines2}%&8] &8[&4&l%{_per}/{_div}*100%%%&8]" to {_p}
+	play sound "entity.experience_orb.pickup" with volume 0.5 to {_p}

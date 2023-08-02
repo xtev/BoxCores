@@ -1,0 +1,6 @@
+on death of player:
+    if attacker is a player:
+        if victim is a player:
+            play sound "minecraft:item.totem.use" with volume 1 and pitch 1 to victim
+            play sound "minecraft:item.totem.use" with volume 1 and pitch 1 to attacker
+            make 20 of item particle using totem of undying at location of victim

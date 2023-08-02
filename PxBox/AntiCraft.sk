@@ -1,0 +1,15 @@
+on craft of a boat:
+       cancel event
+       send "&c&lYou can’t craft this item!"
+	   
+on place of boat:	
+       cancel event
+       send "&c&lYou can’t place this item!"
+	   
+on entering a vehicle:
+       cancel event
+       send "&c&lYou can’t place this item!"
+	   
+on craft of a minecart:
+       cancel event
+       send "&c&lYou can’t craft this item!"
