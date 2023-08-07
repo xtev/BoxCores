@@ -1,0 +1,7 @@
+on death of player:
+    if attacker is a player:
+        if victim is a player:
+            play sound "minecraft:item.shield.break" with volume 1 and pitch 1 to attacker
+            make 200 of item particle using redstone at location of victim
+            make 150 of item particle using coal at location of victim
+            make 100 of item particle using diamond at location of victim

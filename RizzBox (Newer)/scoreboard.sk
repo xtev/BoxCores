@@ -1,0 +1,103 @@
+# Here customize your scoreboard if you don't like it.
+
+function hexfix(f: text) :: text:
+    return formatted (join (regex split (join (regex split {_f} by "(?<=(&##([a-fA-f0-9]{6})))") by ">") by "&##(?=([a-fA-f0-9]{6}))") by "<##")
+
+every 5 seconds:
+    loop all players:
+        set title of loop-player's scoreboard to "&8「&f&l%font("RizzBox")%&8」"
+        set line 10 of loop-player's scoreboard to "&1 "
+        set line 9 of loop-player's scoreboard to "%hexfix(loop-player's prefix)%&8- &f&l%loop-player%"
+        set line 8 of loop-player's scoreboard to "&8┃ &6&l%font("Playtime")%: &7%{h::%loop-player's uuid%} ? 0%h, %{m::%loop-player's uuid%} ? 0%m"
+        set line 7 of loop-player's scoreboard to "&8┃ &6&l%font("Kills")%: &7%{kills::%uuid of loop-player%} ? 0%"
+        set line 4 of loop-player's scoreboard to "&8┃ &6&l%font("Online Players")%: &7%size of all players%"
+        set line 3 of loop-player's scoreboard to "&8┃ &6&l%font("TPS")%: &7%rounded 1st element of tps%"
+        set line 2 of loop-player's scoreboard to "&2 "
+        set line 1 of loop-player's scoreboard to "&b&l%font("IP")%: &7play.rizzbox.com"
+
+every 1 second:
+    if {koth::remaining} is not set:
+        loop all players:
+            set line 5 of loop-player's scoreboard to "&8┃ &6&l%font("NEXT KOTH IN")%: &7%{server::nextkoth}% minutes"
+    else:
+        loop all players:
+            set line 5 of loop-player's scoreboard to "&8┃ &6&l%font("Koth")%: &7%{koth::capper} ? "no one"%"
+
+
+# Playtime & Kills for the player, don't change it.
+
+every second:
+    loop all players:
+        add 1 to {s::%loop-player's uuid%}
+        if {s::%loop-player's uuid%} > 59:
+            remove 60 from {s::%loop-player's uuid%} 
+            add 1 to {m::%loop-player's uuid%}
+        if {m::%loop-player's uuid%} > 59:
+            remove 60 from {m::%loop-player's uuid%}
+            add 1 to {h::%loop-player's uuid%}
+
+command /playtime [<offlineplayer>]:
+    trigger:
+        arg isn't set:
+            wait 1 tick
+            send ""
+            send "&f&l    Your Playtime &8(&7%player%&8)"
+            send ""
+            send "&7%{h::%player's uuid%} ? 0% seconds, %{m::%player's uuid%} ? 0% minutes, %{h::%player's uuid%} ? 0% hours"
+            send ""
+        else:
+            wait 1 tick
+            send ""
+            send "&f&l    Playtime of &7%arg 1%"
+            send ""
+            send "&7%{h::%arg 1's uuid%} ? 0% seconds, %{m::%arg 1's uuid%} ? 0% minutes, %{h::%arg 1's uuid%} ? 0% hours"
+            send ""
+
+command /resetplaytime <offlineplayer>:
+    permission: op
+    trigger:
+        delete {h::%arg 1's uuid%}
+        delete {m::%arg 1's uuid%}
+        delete {s::%arg 1's uuid%}
+
+on death:
+    victim is a player
+    attacker is a player
+    add 1 to {kills::%uuid of attacker%}
+
+# DONT CHANGE ANYTHING HERE KYUAIKZ!!! 
+
+function formattedTime(first: date, second: date) :: string:
+    set {_x} to unix timestamp of {_first}
+    set {_y} to unix timestamp of {_second}
+    set {_diff} to difference between {_x} and {_y}
+    set {_seconds} to round({_diff})
+    set {_final} to "%{_seconds}%s"
+    if {_seconds} > 60:
+        set {_minutes} to floor({_seconds}/60)
+        subtract {_minutes}*60 from {_seconds}
+        set {_final} to "%{_minutes}%m %{_seconds}%s"
+        if {_minutes} > 60:
+            set {_hours} to floor({_minutes}/60)
+            subtract {_hours}*60 from {_minutes}
+            set {_final} to "%{_hours}%h %{_minutes}%m %{_seconds}%s"
+    return {_final}
+    
+function font(s: string) :: string:
+    set {_a::*} to "aᴀ|bʙ|cᴄ|dᴅ|eᴇ|fꜰ|gɢ|hʜ|iɪ|jᴊ|kᴋ|lʟ|mᴍ|nɴ|oᴏ|pᴘ|rʀ|sѕ|tᴛ|uᴜ|wᴡ|xх|yʏ|zᴢ" split at "|"
+    loop {_a::*}:
+        delete {_a::%loop-index%}
+        set {_a::%first character of loop-value%} to last character of loop-value
+    set {_s::*} to {_s} split at ""
+    loop {_s::*}:
+        add 1 to {_n}
+        set {_s::%loop-index%} to {_a::%loop-value%} if {_a::%loop-value%} exists
+    delete {_s::%{_n}%}
+    return join {_s::*} with ""
+
+function capitalizeFirst(text: texts) :: texts:
+    loop {_text::*}:
+        set {_first-char} to first character of loop-value
+        set {_remaining} to last (length of loop-value - 1) characters of loop-value
+        set {_output::%loop-index%} to "%{_first-char} in upper case%%{_remaining}%"
+    return {_output::*}

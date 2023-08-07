@@ -1,0 +1,3 @@
+on block break:
+    if event-block is Moss Block, Green Concrete Powder, Flowering Azalea Leaves, Acacia Leaves, Jungle Leaves, Oak Leaves, Green Stained Glass, Jungle Fence, Jungle Planks, Jungle Slab, Stripped Jungle Wood, Jungle Stairs or Dark Oak Leaves:
+        cancel event

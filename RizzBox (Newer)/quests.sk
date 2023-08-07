@@ -1,0 +1,179 @@
+
+
+every 1 minute:
+	loop all players:
+		if {timeplayed::%loop-player%} = 180:
+			stop
+		else:
+			add 1 to {timeplayed::%loop-player%}
+			if {timeplayed::%loop-player%} = 180:
+				send "&7&lYou have completed the quest &7&l&nPlay for 3 hours" to loop-player
+function quests(p: player):
+	set metadata tag "quests" of {_p} to chest inventory with 3 rows named "&7&l&nClick to select a quest."
+	set slot 0 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 1 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 2 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 3 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 4 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 5 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 6 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 7 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 8 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 9 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 17 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 18 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 19 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 20 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 21 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 22 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 23 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 24 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 25 of metadata tag "quests" of {_p} to gray glass pane named " "
+	set slot 26 of metadata tag "quests" of {_p} to gray glass pane named " "
+	if {goldenapple::%{_p}%} = 32:
+		set slot 10 of metadata tag "quests" of {_p} to golden apple of mending named "&6&lCompleted" with lore "&aClick to claim prize"
+	else:
+		set slot 10 of metadata tag "quests" of {_p} to golden apple of mending named "&6&lConsume 32 golden apples" with lore "&6&lProgress" and "&6(%{goldenapple::%{_p}%}% / 32)"
+	if {goldenquest::%{_p}%} = true:
+		set slot 10 of metadata tag "quests" of {_p} to barrier of mending named "&6&lClaimed" with lore "&6Come back later to do this quest again!"
+	if {obimined::%{_p}%} = 128:
+		set slot 16 of metadata tag "quests" of {_p} to obsidian of mending named "&5&lCompleted" with lore "&5Click to claim prize"
+	else:
+		set slot 16 of metadata tag "quests" of {_p} to obsidian of mending named "&5&lMine 128 Obsidian" with lore "&5&lProgess" and "&5(%{obimined::%{_p}%}% / 128}"
+	if {obiquest::%{_p}%} = true:
+		set slot 16 of metadata tag "quests" of {_p} to barrier of mending named "&5&lClaimed" with lore "&5Come back later to do this quest again!"
+	if {timeplayed::%{_p}%} = 180:
+		set slot 12 of metadata tag "quests" of {_p} to clock named "&e&lCompleted" with lore "&eClick to claim prize"
+	else:
+		set slot 12 of metadata tag "quests" of {_p} to clock named "&e&lPlay for 3 hours" with lore "&e&lProgress:" and "&e%{timeplayed::%{_p}%}% / 180"
+	if {timequest::%{_p}%} = true:
+		set slot 12 of metadata tag "quests" of {_p} to barrier of mending named "&e&lClaimed" with lore "&eCome back later to do this quest again!"
+
+
+	if {killsquest::%{_p}%} = 15:
+		set slot 14 of metadata tag "quests" of {_p} to netherite sword named "&c&lCompleted" with lore "&cClick to claim prize"
+	else:
+		set slot 14 of metadata tag "quests" of {_p} to netherite sword named "&c&lKill 15 Players" with lore "&c&lProgress:" and "&c%{killsquest::%{_p}%}% / 15"
+	if {killsquest::%{_p}%} = true:
+		set slot 14 of metadata tag "quests" of {_p} to barrier of mending named "&c&lClaimed" with lore "&cCome back later to do this quest again!"
+        
+        
+	open (metadata tag "quests" of {_p}) to {_p}
+every 6 hours:
+	loop all players:
+		if {goldenquest::%loop-player%} = true:
+			send "&6&lRizzBox |&b&l Your golden apple quest can now be redone" to loop-player
+			clear {goldenquest::%loop-player%}
+			set {goldenapple::%loop-player%} to 0
+		if {obiquest::%loop-player%} = true:
+			send "&6&lRizzBox |&b&l Your mine obsidian quest can now be redone" to loop-player
+			clear {obiquest::%loop-player%}
+			set {obimined::%loop-player%} to 0
+		if {timequest::%loop-player%} = true:
+			send "&6&lRizzBox |&b&l Your playtime quest can now be redone" to loop-player
+			clear {timequest::%loop-player%}
+			set {timeplayed::%loop-player%} to 0	
+		if {killsquest::%loop-player%} = true:
+			send "&6&lRizzBox |&b&l Your Kills quest can now be redone" to loop-player
+			clear {killsquest::%loop-player%}
+			set {killsquest::%loop-player%} to 0	
+command /resetquests:
+	permission: op
+	trigger:
+		loop all players:
+			if {goldenquest::%loop-player%} = true:
+				send "&6&lRizzBox |&b&l Your golden apple quest can now be redone" to loop-player
+				clear {goldenquest::%loop-player%}
+				set {goldenapple::%loop-player%} to 0
+			if {obiquest::%loop-player%} = true:
+				send "&6&lRizzBox |&b&l Your mine obsidian quest can now be redone" to loop-player
+				clear {obiquest::%loop-player%}
+				set {obimined::%loop-player%} to 0
+			if {timequest::%loop-player%} = true:
+				send "&6&lRizzBox |&b&l Your playtime quest can now be redone" to loop-player
+				clear {timequest::%loop-player%}
+				set {timeplayed::%loop-player%} to 0	
+			if {killsquest::%loop-player%} = true:
+				send "&6&lRizzBox |&b&l Your Kills quest can now be redone" to loop-player
+				clear {killsquest::%loop-player%}
+				set {killsquest::%loop-player%} to 0	                
+on eating of golden apple:
+	if {goldenapple::%player%} = 32:
+		stop
+	else:
+		add 1 to {goldenapple::%player%}
+		if {goldenapple::%player%} = 32:
+			send "&6&lYou have completed the quest &6&l&nConsume 32 Golden Apples"
+on block break of obsidian:
+	if event-block is obsidian:
+		if player's gamemode is survival:
+			if {obimined::%player%} = 128:
+				stop
+			else:
+				add 1 to {obimined::%player%}
+				if {obimined::%player%} = 128:
+					send "&5&lYou have completed the quest &5&l&nMine 128 obsidan"
+
+on death of player:
+	if {killsquest::%attacker%} = 15:
+		stop
+	else:
+		add 1 to {killsquest::%attacker%}
+		if {killsquest::%attacker%} = 15:
+			send "&c&lYou have completed the quest &c&l&nKill 15 Players" to attacker
+    
+    
+    
+command /questgui:
+	trigger:
+		quests(player)
+on inventory click:
+	if name of event-item is " " or "&6&lClaimed" or "&5&lClaimed" or "&e&lClaimed" or "&c&lClaimed":
+		cancel event
+		stop
+	if name of event-item is "&6&lCompleted":
+		name of player's inventory is "&7&l&nClick to select a quest."
+		cancel event
+		execute console command "excellentcrates key give %player% quest_key 1"
+		set {goldenquest::%player%} to true
+		close player's inventory
+		stop
+	if name of event-item is "&5&lCompleted":
+		cancel event
+		execute console command "excellentcrates key give %player% quest_key 1"
+		set {obiquest::%player%} to true
+		close player's inventory
+		stop
+	if name of event-item is "&e&lCompleted":
+		cancel event
+		execute console command "excellentcrates key give %player% quest_key 1"
+		set {timequest::%player%} to true
+		close player's inventory
+		stop
+	if name of event-item is "&c&lCompleted":
+		cancel event
+		execute console command "excellentcrates key give %player% quest_key 1"
+		set {killsquest::%player%} to true
+		close player's inventory
+		stop
+	if name of event-item is "&6&lConsume 32 golden apples":
+		cancel event
+		send "&6&lEat golden apples to complete this quest"
+		stop
+	if name of event-item is "&5&lMine 128 Obsidian":
+		cancel event
+		send "&5&lMine obsidan to complete this quest"
+		stop
+	if name of event-item is "&5&lCompleted":
+		cancel event
+		execute console command "excellentcrates key give %player% quest_key 1"
+		set {obiquest::%player%} to true
+		stop
+	if name of event-item is "&e&lPlay for 3 hours":
+		cancel event
+		send "&e&lPlay the server for 3 hours to complete this quest"
+		stop
+	if name of event-item is "&c&lKill 15 Players":
+		cancel event
+		send "&c&lKill 15 players to complete this quest"
+		stop

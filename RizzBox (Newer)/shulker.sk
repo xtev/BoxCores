@@ -1,0 +1,51 @@
+on place:
+    If "%event-block%" contain " shulker box":
+        send "&f&lShulker Placed"
+        set {mysterygift.%location of event-block%} to uuid of event-player
+
+on break:
+    If "%event-block%" contain " shulker box":
+        if player is op:
+            send "&f&lShulker Removed"
+            delete {mysterygift.%location of event-block%}
+            stop
+        if {mysterygift.%location of event-block%} is uuid of event-player:
+            send "&f&lShulker Removed"
+            delete {mysterygift.%location of event-block%}
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "spawn %event-player%"
+
+on rightclick:
+    If "%event-block%" contain " shulker box":
+        if player is op:
+            stop
+        if {mysterygift.%location of event-block%} is uuid of event-player:
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "spawn %event-player%"
+
+on place of hopper or normal rail or powered rail or detector rail or activator rail: #yep, isn't mine!
+    if "%block above event-block%" contain " shulker box":
+        if player is op:
+            stop
+        if {mysterygift.%location of block above event-block%} is uuid of event-player:
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "spawn %event-player%"
+
+on place of any shulker box:
+    if "%region at event-block%" contains "map":
+        send "&a&lYou can only place shulkers in the Shulker Room." to player
+        cancel event
+
+on place:
+    if event-block is not any shulker box:
+        if "%region at player%" contains "shulkerarea":
+            cancel event

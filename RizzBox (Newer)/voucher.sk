@@ -1,0 +1,34 @@
+options:
+    prefix: &6&lRizzBox &7&l&o>>
+
+command /setvoucher [<text>] [<text>]:
+    permission: staff.vouncher
+    permission message: &cSorry you need staff.voucher to make rank vouchers! 😦
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                send "{@prefix} &aSet %name of player's tool%&r&a to give players &3&l%arg-1%&r&a rank for &3&l%arg-2%&r&a time"
+                set {voucher.%player's tool%} to true
+                set {rank.%player's tool%} to arg-1
+                set {time.%player's tool%} to arg-2
+            else:
+                send "{@prefix}&cInvaild Args &7 /setvoucher <Rank> <time>"
+        else:
+            send "{@prefix}&cInvaild Args &7 /setvoucher <Rank> <time>"
+
+command /removevoucher:
+    permission: staff.vouncher
+    permission message: &cSorry you need staff.voucher to clear rank vouchers! 😦
+    trigger:
+        if {voucher.%player's tool%} is set:
+            send "&aVoucher Cleared!"
+            clear {voucher.%player's tool%}
+            clear {rank.%player's tool%}
+            clear {time.%player's tool%}
+        else:
+            send "{@prefix} &cThis item is not a vouncher!"
+on right click:
+    if {voucher.%player's tool%} is set:
+        execute console command "lp user %player% parent addtemp %{rank.%player's tool%}% %{time.%player's tool%}%"
+        send "{@prefix}&a You have claimed your &3&l%{rank.%player's tool%}%&a rank for &3&l%{time.%player's tool%}%"
+        set player's tool to air

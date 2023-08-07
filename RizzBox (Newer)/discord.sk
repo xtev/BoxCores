@@ -1,0 +1,16 @@
+command /discord:
+    trigger:
+        message "&6&l--------------------------------------"
+        message "                &bJoin our Discord Server!"
+        message "          &2<link:https://discord.gg/rizzbox>             &3&lCLICK ME!<reset>" to player
+        message "&6&l--------------------------------------"
+        
+        
+command /store:
+    trigger:
+        message "&6&l--------------------------------------"
+        message "                &bVisit the store!"
+        message "          &2<link:https://store.rizzbox.com>             &3&lCLICK ME!<reset>" to player
+        message "&6&l--------------------------------------"
+        
+        

@@ -1,0 +1,12 @@
+on place of dead tube coral:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on place of fire coral:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on place of wither rose:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on place of orange tulip:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player

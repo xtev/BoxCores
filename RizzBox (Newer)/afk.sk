@@ -1,0 +1,11 @@
+every 20 minutes:
+  loop all players:
+    if "%region at loop-player%" contains "afkpit":
+      chance of 80%:
+        execute console command "crate key give %loop-player% afk 1"
+      chance of 10%: 
+        execute console command "crate key give %loop-player% Casino 1"
+      chance of 5%:
+        execute console command "crate key give %loop-player% Jungle 1"
+      chance of 5%:
+        execute console command "crate key give %loop-player% gear 1"
