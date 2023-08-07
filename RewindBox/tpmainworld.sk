@@ -1,0 +1,3 @@
+on join:
+  wait 5 ticks
+  make console execute command "/mv tp %player% valorant"

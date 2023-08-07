@@ -1,0 +1,20 @@
+variables:
+    {getPinged.%player%} = true
+    {sendEmojis.%player%} = true 
+
+
+on chat:
+    loop all players:
+        if message contains "%loop-player%":
+            replace all "%loop-player%" with "&b@%loop-player%&r" in message
+            if {getPinged.%loop-player%} is true:
+                play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 1 to loop-player
+            else:
+                stop
+on chat:
+    if message contains ":)" or ":(" or "<3" or "💀":
+        if {sendEmojis.%player%} is true:
+            replace all ":)" with "☺" in message
+            replace all ":(" with "☹" in message
+            replace all "<3" with "&c❤&f" in message
+            replace all "💀" with "&7☠&f" in message

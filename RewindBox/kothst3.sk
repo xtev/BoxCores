@@ -1,0 +1,8 @@
+on region enter:
+    if "%region%" contains "koth1":
+        apply strength 2 to the player for 1 days
+        apply fire resistance 1 to the player for 1 days
+on region leave:
+    if "%region%" contains "koth1":
+        remove strength from the player
+        remove fire resistance from the player

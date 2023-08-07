@@ -1,0 +1,4 @@
+on bucket empty:
+    loop blocks in radius 8 of event-block:
+        if light blue concrete powder or pink concrete powder contains type of loop-block:
+            cancel event

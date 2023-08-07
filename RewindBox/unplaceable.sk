@@ -1,0 +1,3 @@
+on block place:
+    if event-block is Hay Bale, Blaze Powder, Bamboo, Player Head, Brain Coral, Brown Mushroom, Spruce Button, Tube Coral, Bamboo, Red Candle, Yellow Candle or End Crystal:
+        cancel event

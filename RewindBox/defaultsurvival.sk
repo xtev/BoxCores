@@ -1,0 +1,4 @@
+on join:
+  wait 1 ticks
+  make console execute command "/gms %player%"
+  make console execute command "/fly %player% off"

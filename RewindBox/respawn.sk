@@ -1,0 +1,2 @@
+on respawn:
+  teleport player to location(-403.500, 88, -1019,  world "valorant")

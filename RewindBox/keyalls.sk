@@ -1,0 +1,18 @@
+command /keyallADMIN:
+    permission: keyall.ADMIN
+    trigger:
+        broadcast "&7&l&m&n------------------------------------------------"
+        broadcast "&e&lRewindBox &8» &aKeyall in 10 seconds go spawn now!"
+        broadcast "&a&lKeyall By &e%player%"
+        broadcast "&7&l&m&n-------------------------------------------------"
+        send title "&4&lKEYALL" with subtitle "&c&lIn 10 Seconds Go Spawn Now!" to all players for 10 seconds
+        play sound "entity.firework_rocket.launch" with volume 1 at all players
+        play sound "entity.firework_rocket.launch" with volume 1 at all players 
+        play sound "entity.firework_rocket.launch" with volume 1 at all players
+        play sound "entity.firework_rocket.launch" with volume 1 at all players   
+        play sound "entity.firework_rocket.launch" with volume 1 at all players
+        play sound "entity.firework_rocket.launch" with volume 1 at all players                 
+        wait 10 seconds
+        execute console command "crates key giveall afk 3"
+        execute console command "crates key giveall keyall 5"
+        execute console command "crates key giveall gear 1" 

@@ -1,0 +1,22 @@
+every 5 minutes:
+   loop all players:
+      if "%region at loop-player%" contains "afk":
+         give loop-player {afkreward}
+
+every tick:
+   loop all players:
+      if "%region at loop-player%" contains "afk":
+         if {afk::%loop-player%} is not set:
+            send "&7You will now recieve afk rewards." to loop-player
+            set {afk::%loop-player%} to true
+      else:
+         delete {afk::%loop-player%}
+    
+
+    
+    
+command /setafkreward:
+   permission: op
+   trigger:
+      send "&aSet afk reward to your held item."
+      set {afkreward} to player's tool

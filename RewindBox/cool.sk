@@ -1,0 +1,110 @@
+options:
+	error: &cBALLS &8| &7
+	prefix: &e&lRewindBox &7
+
+on load:
+	delete {server::cblocks::*}
+	
+	add "me" to {cmdblock}
+	add "minecraft:me" to {cmdblock}
+	add "teammsg" to {cmdblock}
+	add "te" to {server::cblocks::*}
+	add "minecraft:te" to {server::cblocks::*}
+	add "minecraft:teammsg" to {server::cblocks::*}
+	add "minecraft:msg" to {server::cblocks::*}
+	add "minecraft:tell" to {server::cblocks::*}
+	add "minecraft:w" to {server::cblocks::*}
+	add "w" to {server::cblocks::*}
+	add "pl" to {server::cblocks::*}
+	add "bukkit:pl" to {server::cblocks::*}
+	add "plugins" to {server::cblocks::*}
+	add "bukkit:plugins" to {server::cblocks::*}
+	add "?" to {server::cblocks::*}
+	add "bukkit:?" to {server::cblocks::*}
+	add "ver" to {server::cblocks::*}
+	add "bukkit:ver" to {server::cblocks::*}
+	add "version" to {server::cblocks::*}
+	add "bukkit:version" to {server::cblocks::*}
+	add "help" to {server::cblocks::*}
+	add "bukkit:help" to {server::cblocks::*}
+	add "about" to {cmdblock}
+
+on command:
+	if {cmdblock} contains command:
+		if player does not have permission "server.bypasscmdblocking":
+			cancel event
+			message "{@error}That command is blocked"
+
+on craft oak boat:
+  cancel event
+
+on fish:
+	cancel event
+#	if "%event.getState()%" is "BITE" or "CAUGHT_FISH":
+#		cancel event
+on command "about":
+    cancel event
+command /about:
+  trigger:
+    send "&cno no no"
+
+
+command /?:
+  trigger:
+    send "&cno no no"
+
+
+command /plugins:
+  trigger:
+    send "&cno no no"
+    
+command /sm:
+  trigger:
+    send "&cno no no"
+    
+command /skript:sm:
+  trigger:
+    send "&cno no no"
+command /plugin:
+  trigger:
+    send "&cno no no"
+
+command /pl:
+  trigger:
+    send "&cno no no"
+command /ver:
+  trigger:
+    send "&cno no no"
+command /version :
+  trigger:
+    send "&cno no no"
+command /bukkit:version:
+  trigger:
+    send "&cno no no"
+command /bukkit:ver:
+  trigger:
+    send "&cno no no"
+command /nuke:
+  trigger:
+    send "&cno no no"
+command /reload:
+  trigger:
+    send "&cno no no"
+command /minecraft::
+  trigger:
+    send "&cno no no"
+command /minecraft:tm:
+  trigger:
+    send "&cno no no"
+command /minecraft:teammsg:
+  trigger:
+    send "&cno no no"
+command /teammsg:
+  trigger:
+    send "&cno no no"
+command /teamme:
+  trigger:
+    send "&cno no no"
+command /minecraft:me:
+  trigger:
+    send "&cno no no"

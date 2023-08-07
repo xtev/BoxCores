@@ -1,0 +1,4 @@
+on join:
+    if {rankkey::*} does not contain player's uuid:
+        add player's uuid to {rankkey::*}
+        execute console command "crates key give %player% rank 1"

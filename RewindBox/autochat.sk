@@ -1,0 +1,14 @@
+every 10 minutes:
+        message "" to players
+        message "                &b&lJoin our Discord Server!" to players
+        message "          &6<link:https://discord.gg/76Axrc9Wwd>            &3&lCLICK ME!<reset>" to players
+        message "" to players
+        play sound "block.note_block.pling" to players        
+        
+        
+every 20 minutes:
+        message "" to players
+        message "                       &b&lBuy a Rank!" to players
+        message "      &b&lyou can purchase a rank by doing /buy" to players
+        message "      &b&lto get exlusive mines and perks" to players
+        play sound "block.note_block.pling" to players

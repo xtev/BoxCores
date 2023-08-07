@@ -1,0 +1,31 @@
+ 
+on damage:
+    if {fall.dmg} is false:
+        if damage cause is fall:
+            cancel event
+
+function mapclear():
+    set {_pos1} to location(-391.5, 124.5, -1102.5, "valorant")
+    set {_pos2} to location(-241.5, 56.5, -936.5, "valorant")
+    set blocks within {_pos1} and {_pos2} to air
+    console command "cm reset coal", "cm reset diamond", "cm reset netherite", "cm reset gold", "cm reset emerald", "cm reset wood", and "cm reset iron"
+    wait 1 tick
+    broadcast "", "&b&lRewindBox &7» &aThe map has been cleared and all mines have been reset!", and ""
+    set {map.clear} to 60
+    set {fall.dmg} to false
+    wait 30 seconds
+    set {fall.dmg} to true
+
+every 1 minute:
+    if {map.clear} is 0:
+        set {map.clear} to 60
+        mapclear()
+    else:
+        remove 1 from {map.clear}
+
+command mapclear:
+    permission: server.mapclear
+    permission message: &cYou may not use this command.
+    trigger:
+        mapclear()
+        wait 10 ticks

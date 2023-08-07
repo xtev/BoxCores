@@ -1,0 +1,16 @@
+on region enter:
+    if "%region%" contains "stroom":
+        apply strength 3 to the player for 1 days
+        apply fire resistance to the player for 1 days
+on region leave:
+    if "%region%" contains "stroom":
+        remove strength from the player
+        remove fire resistance from the player
+on region enter:
+    if "%region%" contains "bedrock":
+        apply strength 2 to the player for 1 days
+        apply fire resistance to the player for 1 days
+on region leave:
+    if "%region%" contains "bedrock":
+        remove strength from the player
+        remove fire resistance from the player

@@ -1,0 +1,4 @@
+on first join:
+  wait 5 ticks
+  make console execute command "/crates key give %player% gear 2"
+  

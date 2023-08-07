@@ -1,0 +1,71 @@
+on place:
+    If "%event-block%" contain " shulker box":
+        send "&f&lShulker Placed"
+        set {mysterygift.%location of event-block%} to uuid of event-player
+
+on break:
+    If "%event-block%" contain " shulker box":
+        if player is op:
+            send "&f&lShulker Removed"
+            delete {mysterygift.%location of event-block%}
+            stop
+        if {mysterygift.%location of event-block%} is uuid of event-player:
+            send "&f&lShulker Removed"
+            delete {mysterygift.%location of event-block%}
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "mv tp %event-player% valorant"
+
+on rightclick:
+    If "%event-block%" contain " shulker box":
+        if player is op:
+            stop
+        if {mysterygift.%location of event-block%} is uuid of event-player:
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "mv tp %event-player% valorant"
+
+on place of hopper or normal rail or powered rail or detector rail or activator rail: #yep, isn't mine!
+    if "%block above event-block%" contain " shulker box":
+        if player is op:
+            stop
+        if {mysterygift.%location of block above event-block%} is uuid of event-player:
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "spawn %event-player%"
+
+on place of any shulker box:
+    if "%region at event-block%" contains "map":
+        send "&a&lYou can only place shulkers in the Shulker Room." to player
+        cancel event
+
+on place:
+    if event-block is water:
+        if "%region at player%" contains "plot":
+            send "&cWater Placement isnt allowed here." to player
+            cancel event
+on place:
+    if event-block is item frame:
+        if "%region at player%" contains "map":
+            send "&cYou can only place item frames in plots!." to player
+            cancel event
+on place:
+    if event-block is water:
+        if "%region at player%" contains "shulkerroom":
+            send "&cWater Placement isnt allowed here." to player
+            cancel event
+on join:
+	apply blindness to player for 1 seconds
+	send title "&a&lWelcome back" for 1 seconds
+
+	wait 3 ticks
+	send "&7&m                                          "
+	send "&7                &b&lRewindBox"
+	send " &3Discord <url:https://discord.gg/76Axrc9Wwd>&bdiscord.gg/76Axrc9Wwd &8[CLICK]"
+	send " &3Store <url:https://store.rizzbox.com/category/ranks/>&brewindbox-ranks  &8[CLICK]"
+	send "&7&m                                          "

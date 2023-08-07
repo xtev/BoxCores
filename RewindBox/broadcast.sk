@@ -1,0 +1,8 @@
+command /broadcast <text>:
+    permission: server.broadcast
+    aliases: /bc, /announce, /bc
+    trigger:
+        broadcast ""
+        broadcast "§x§0§8§4§c§f§b§lR§x§1§d§6§1§f§b§lE§x§3§1§7§6§f§c§lW§x§4§6§8§b§f§c§lI§x§5§b§a§0§f§c§lN§x§6§f§b§4§f§c§lD§x§8§4§c§9§f§d§lB§x§9§8§d§e§f§d§lO§x§a§d§f§3§f§d§lX &7&l| &f%arg-1%"
+        broadcast ""
+        play sound "BLOCK_NOTE_BLOCK_PLING" to all players

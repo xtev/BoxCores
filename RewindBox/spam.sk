@@ -1,0 +1,31 @@
+variables:
+  {chatmuted} = false
+options:
+  prefix: &b&lRewindBox |&b
+command /chat [<string>] [<text>]:
+  permission: staff.chat
+  trigger:
+    if arg-1 is "mute" or "toggle":
+      if {chatmuted} = false:
+        set {chatmuted} to true
+        broadcast "{@prefix} Chat has been muted by %player%"
+        stop
+      else:
+        set {chatmuted} to false
+        broadcast "{@prefix} Chat has been unmuted by %player%"
+        stop
+    if arg-1 is not set:
+      send "{@prefix} /chat <mute or cooldown> <cooldown in seconds>"
+on chat:
+  if {chatmuted} = false:
+    if difference between {lastChat::%player%} and now < 2 seconds:
+      cancel event
+      send "{@prefix} Please Wait 2 seconds"
+    else:
+      set {lastchat::%player%} to now
+  if {chatmuted} = true:
+    if player has permission "staff.talkchat":
+      stop
+    else:
+      cancel event
+      send "{@prefix} Chat is muted"

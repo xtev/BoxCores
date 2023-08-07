@@ -1,0 +1,8 @@
+on click: 
+    if player's tool is a bow:
+        cancel event
+on shoot:
+    if projectile is an arrow:
+        cancel event
+on right click with bow: 
+    cancel event

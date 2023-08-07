@@ -1,0 +1,11 @@
+on death of player:
+    if attacker is not a player:
+        if attacker is set:
+            set the death message to "&f[§x§0§8§4§c§f§b§lR§x§1§d§6§1§f§b§lE§x§3§1§7§6§f§c§lW§x§4§6§8§b§f§c§lI§x§5§b§a§0§f§c§lN§x§6§f§b§4§f§c§lD§x§8§4§c§9§f§d§lB§x§9§8§d§e§f§d§lO§x§a§d§f§3§f§d§lX&f] &a&l&n%attacker%&r &7has killed &c&l&n%victim%&r &7using %name of attacker's tool%"
+
+    if damage was caused by potion:
+        set the death message to "&4☠ &c%victim% &7was killed by magic"
+
+    if attacker is a player:
+        if attacker is set:
+            set the death message to "&f[§x§0§8§4§c§f§b§lR§x§1§d§6§1§f§b§lE§x§3§1§7§6§f§c§lW§x§4§6§8§b§f§c§lI§x§5§b§a§0§f§c§lN§x§6§f§b§4§f§c§lD§x§8§4§c§9§f§d§lB§x§9§8§d§e§f§d§lO§x§a§d§f§3§f§d§lX&f] &a&l&n%attacker%&r &7has killed &c&l&n%victim%&r &7using %name of attacker's tool%"

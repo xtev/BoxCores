@@ -1,0 +1,21 @@
+every 1 hour:
+		execute console command "aoe &a&lClear Shulker Room In &a&l10"
+		wait 1 seconds
+		execute console command "aoe &4&lClear Shulker Room In &4&l9"
+		wait 1 seconds
+		execute console command "aoe &a&lClear Shulker Room In &a&l8"
+		wait 1 seconds
+		execute console command "aoe &4&lClear Shulker Room In &4&l6"
+		wait 1 seconds
+		execute console command "aoe &a&lClear Shulker Room In &a&l5"
+		wait 1 seconds
+		execute console command "aoe &4&lClear Shulker Room In &4&l4"
+		wait 1 seconds
+		execute console command "aoe &a&lClear Shulker Room In &a&l3"
+		wait 1 seconds
+		execute console command "aoe &4&lClear Shulker Room In &4&l2"
+		wait 1 seconds
+		execute console command "aoe &a&lClear Shulker Room In &a&l1"
+		wait 1 seconds
+		execute console command "cm reset shulker"
+		execute console command "ty &d&lCleared Shulker Room!"

@@ -1,0 +1,4 @@
+command /discord:
+    trigger:
+        message "              &bJoin the Discord!"
+        message "&2<link:https://discord.gg/76Axrc9Wwd>                   &3&lCLICK ME!<reset>"
