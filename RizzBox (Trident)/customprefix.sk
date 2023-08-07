@@ -1,0 +1,9 @@
+command /setprefix <text>:
+    permission: myplugin.setprefix
+    trigger:
+        if {_prefix} is not set:
+            set {_prefix} to arg-1
+            execute console command "/lp user %player% meta addprefix 100 %arg-1% "
+            send "Prefix set to '%arg-1%'." to player
+        else:
+            send "You can only set the prefix once." to player

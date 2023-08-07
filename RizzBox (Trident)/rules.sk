@@ -1,0 +1,16 @@
+command /rules:
+    trigger:
+        send "&b&l-----------------------"
+        send "&4Rules"
+        send "&dRule 1: No Hacking"
+        send "&dRule 2: Do NOT post malicious links or files in the server that can steal information or harm others computers"
+        send "&dRule 3: No NSFW"
+        send "&dRule 4: No Ddos/Doxxing Threats"
+        send "&dRule 5: Respect Others"
+        send "&dRule 6: Don't be racist/say racist things or slurs"
+        send "&dRule 7: No spamming "
+        send "&dRule 8: No staff disrespect"
+        send "&dRule 10: No naked killing"
+        send "&dRule 11: No 4v1ing"
+        send "&dRule 12: &4&lHave FUN!"
+        send "&b&l-----------------------"

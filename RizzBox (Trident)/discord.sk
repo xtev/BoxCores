@@ -1,0 +1,6 @@
+command /discord:
+    trigger:
+        message "&6&l--------------------------------------"
+        message "                &bJoin our Discord Server!"
+        message "          &2<link:https://discord.gg/kFPR28Qaff>             &3&lCLICK ME!<reset>" to player
+        message "&6&l--------------------------------------"

@@ -1,0 +1,24 @@
+command /prefix [<text>]:
+    permission: prefix.admin
+    permission message: You do not have permission to use this command.
+    aliases: /setprefix, /prefixset
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a prefix. Usage: /prefix <prefix>"
+            stop
+        if length of arg-1 is greater than 16:
+            send "&cPrefix is too long. Maximum length is 16 characters."
+            stop
+        if "&" is not in arg-1:
+            send "&cPlease use color codes. Example: &6[Owner]"
+            stop
+        set {prefix} to "&r" & arg-1
+        set {player} to last player
+        if not {prefix.cooldown.%player%} is set:
+            lp user %player% meta prefix set {prefix}
+            send "&aPrefix set to {prefix}."
+            set {prefix.cooldown.%player%} to true
+            wait 24 hours
+            delete {prefix.cooldown.%player%}
+        else:
+            send "&cYou can only set your prefix once every 24 hours."

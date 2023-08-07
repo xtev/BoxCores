@@ -1,0 +1,2 @@
+on first join:
+  execute console command "/excellentcrates key give %player% Gear 1"

@@ -1,0 +1,23 @@
+on first join:
+	add 1 to {autokeyall}
+	if {autokeyall} = 25:
+		set {autokeyall} to 0
+		broadcast "&c&lKEYALL IN 5S GO SPAWN"
+		wait 1 second
+		broadcast "&c&lKEYALL IN 3S GO SPAWN"
+		wait 1 second
+		broadcast "&c&lKEYALL IN 3S GO SPAWN"
+		wait 1 second
+		broadcast "&c&lKEYALL IN 2S GO SPAWN"
+		wait 1 second
+		broadcast "&c&lKEYALL IN 1S GO SPAWN"
+		wait 1 second
+		broadcast "&c&lKEYALL"
+		make console execute command "keyll4re"
+	else:
+		broadcast "&a%player% joined for the first time! &8[&a%{autokeyall}%&7/&a25&8]"
+		add 1 to {autokeyall}
+        
+command /autokeyall:
+	trigger:
+		send "&8[&a%{autokeyall}%&7/&a25&8] &7For a keyall" to player
