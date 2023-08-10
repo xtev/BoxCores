@@ -1,0 +1,18 @@
+
+
+options:
+   prefix: &4&lYourServert &8&l|
+   permsmsg: &eIm sorry but it seems u dont have permission for this command if u think this is a mistake contact the server owner
+   id:937390215801217065
+   botty:Moderation
+
+command /backup <offline player>:
+    permission: staff.srmod
+    trigger:
+        if arg-1 is player:
+            send "weirdo" to player
+        else if arg-1 is not player:
+            player command "irp restore %arg-1%"
+            post "%player% just used /backup %arg-1%" to text channel with id "1130569175572697192"
+on command:
+    post "%player ? Console% used command /%command% %arguments%" to text channel with id "1130569176679972954"

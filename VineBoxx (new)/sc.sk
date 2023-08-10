@@ -1,0 +1,28 @@
+options:
+    prefix: &6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw
+every 1 second:
+    loop all players:
+        set title of loop-player's scoreboard to "{@prefix}"
+        set line 11 of loop-player's scoreboard to "&6&lᴘʟᴀʏᴇʀ &e%loop-player%"
+        set line 10 of loop-player's scoreboard to " "
+        set line 9 of loop-player's scoreboard to "&f| &6Kills&f: %{kills::%loop-player's uuid%} ? 0%"
+        set line 8 of loop-player's scoreboard to "&f| &6Deaths&f: %{deaths::%loop-player's uuid%} ? 0%"
+        set line 7 of loop-player's scoreboard to "&f| &6KDR: &f%{KDR.%uuid of loop-player%}%"
+        set line 6 of loop-player's scoreboard to " "
+        set line 5 of loop-player's scoreboard to "&f| &eTps&f: %tps from last minute%"
+        set line 4 of loop-player's scoreboard to "&f| &eOnline players&f: %number of all players% &f/ %max player count%"
+        set line 3 of loop-player's scoreboard to "&f| &eUnique joins: &f%amount of {joins::*} ? 0%"
+        set line 2 of loop-player's scoreboard to ""
+        set line 1 of loop-player's scoreboard to "&6&kw &6ᴠɪɴᴇ&eʙᴏxx.ᴍɪɴᴇʜᴜᴛ.ɢɢ &e&kw"
+on death:
+    add 1 to {kills::%attacker's uuid%}
+
+on death:
+    add 1 to {deaths::%victim's uuid%}
+
+on first join:
+    add 1 to {joins::*}
+	if {KDR.%uuid of %loop-player%} is not set:
+    	set score "&f| &6KDR: &f%{KDR.%uuid of player%}%"
+    else if {KDR.%uuid of loop-player%} is set:
+    	set score "&f| &6KDR: &f%{KDR.%uuid of player%}%" 2

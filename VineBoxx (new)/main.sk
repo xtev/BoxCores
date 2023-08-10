@@ -1,0 +1,34 @@
+command /makesay [<player>] [<text>]:
+	permission: makesay.cmd
+	trigger:
+		make arg-1 say arg-2
+command /makeexecute [<player>] [<text>]:
+	permission: makeexecute.cmd
+	trigger:
+		make arg-1 execute arg-2
+
+
+#CHAT COLOR
+on chat:
+	if player is op:
+		replace all "&" with "§" in message
+		
+#PROTECTION SYSTEM
+on place:
+	player isn't op:
+		set {_block} to event-block's location
+		wait 30 minutes
+	set block at {_block} to air
+	
+#BROADCAST
+command /broadcast [<text>]:
+    aliases: bc 
+
+    permission: custom.command.broadcast
+
+    permission message: &cYou do not have permission to use this command.
+    trigger:
+        if arg 1 is not set:
+            message "&eUsage: &d/broadcast &a&l&oVine&c&l&oBoxx&7&o>> <message>"
+        else:
+            broadcast colored arg 1

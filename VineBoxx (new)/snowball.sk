@@ -1,0 +1,15 @@
+on right click with a snowball:
+    name of player's tool is "&5&lSwap!"
+    {swap.cooldown::%player%} isn't true
+    set {swap.cooldown::%player%} to true
+    shoot a snowball from player
+    wait 16 seconds
+    set {swap.cooldown::%player%} to false
+on damage:
+    projectile exists
+    projectile is a snowball
+    name of attacker's tool is "&5&lSwap!"
+    set {_this} to victim's location
+    set {_that} to attacker's location
+    teleport victim to {_that}
+    teleport attacker to {_this}

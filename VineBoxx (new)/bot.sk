@@ -1,0 +1,67 @@
+define new bot named "VineBoxxLinking":
+    token: "MTEzNzcwNTU3OTQxOTI3NTM4NA.GeI-Cq.oaS242IUvmox-p2HEb49f7VHQxaIhxS8uW6iy4"
+    intents: default intents
+
+		
+command link:
+    trigger:
+        if {verifieda::%player%::player} is not set:
+            set {_code} to a random integer between 11111 and 99999
+            set {code::%{_code}%} to player
+            send "Your unique is %{_code}%. Run the command !link %{_code}% on our discord to link your account. This code will be deleted in 1 minute."
+            wait 1 minute
+            delete {code::%{_code}%}
+        else:
+            send "&B&Lyou already have your account linked!"
+		
+discord command link [<text>]:
+    prefixes: !
+    trigger:
+        if arg-1 is not set:
+            reply with "Syntax: !link (code)"
+            stop
+        if {code::%arg-1%} is not set:
+            reply with "Invalid code"
+            stop
+        if {verifieda::%discord id of event-member%::discord} is not set:
+
+            set {discord::%discord id of event-member%::username} to {code::%arg-1%}
+            set {verifieda::%{code::%arg-1%}%::player} to true
+            set {verifieda::%discord id of event-member%::discord} to true
+            reply with "You have linked with the Minecraft account %{code::%arg-1%}%."
+            execute console command "crate givekey %{code::%arg-1%}% rank 1"
+        else:
+            reply with "Already Verified"
+            
+discord command online:
+  prefixes: "!"
+  trigger:
+    if event-channel is not set:
+      stop
+    set {_players} to size of online players
+    make embed:
+      set title of embed to "Current Player Count"
+      set description of embed to "There are currently %{_players}% players online."
+
+      set embed color of the embed to orange
+
+      set thumbnail of embed  to "https://cdn.discordapp.com/attachments/1062399858830495835/1100090164937769091/static_15.png"
+      set timestamp of embed to now
+      reply with last embed
+
+every second:
+    set {_online} to number of all players
+    set {_} to "%{_online}% player(s)"
+
+    set the presence of the bot named "VineBoxxLinking" to watching {_}
+    
+discord command help:
+	prefixes: *
+	trigger:
+		reply with "Prefix: *"
+		reply with "*help: Opens this menu"
+		reply with "*online: See how many players are online"
+		reply with "*!ink: Link your minecraft account to the discord"
+on join:
+  wait 40 ticks
+  send player title "&c&lNew Discord!" with subtitle "&bYou can link your account again, /link" for 4 seconds

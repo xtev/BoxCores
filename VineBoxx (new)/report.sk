@@ -1,0 +1,55 @@
+command helpop <text>:
+    cooldown: 10 seconds
+    cooldown message: &cWait 10 seconds before using that command again! This command is really appearent to the staff so don't worry they 100%% seen it
+    trigger:
+        if arg-1 is set:
+            send "&dYour help request has been sent! Please wait patiently for staff to take actions." to player
+            send "&aHelp request from &e%player%&d: &e%arg-1%" to all players where [input has permission "staff"]
+
+command report <offline player> <text>:
+    cooldown: 25 seconds
+    cooldown message: &cYou must wait 25 seconds before reporting again!
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                send "&aYou have reported &e%arg-1% &afor &e%arg-2%&a!" to player
+                send "&aYou have been reported by &e%player% &afor &e%arg-2%&a!" to arg-1
+                send "&e%player% &ahas reported &e%arg-1% &afor &e%arg-2%&a!" to all players where [input has permission "staff"]
+                post "%player% reported **%arg-1%** for **%arg-2%**" to text channel with id "1130569178135412806"
+            else:
+                send "&cYou need to enter a reason to report!" to player
+        else:
+            send "&cYou need to pick a player to report first!" to player
+variables:
+	{staffchat.%player%} = false
+
+command /staffchat [<text>]:
+	trigger:
+		if arg 1 is not set:
+			if player has permission "staffc.sk":
+				send "&eLooks like you forgot to type wether to turn staffchat on or off!" to player
+				send "&eUse the command like this &6&l/staffchat on/off"
+			else:
+				send "&eYou do not have the required permission to do this!"
+		if arg 1 is "on":
+			set {staffchat.%player%} to true
+			send "&eStaff chat turned &aon"
+		if arg 1 is "off":
+			set {staffchat.%player%} to false
+			send "&eStaff chat turned &coff"
+
+on chat:
+	if {staffchat.%player%} is true:
+		cancel event
+		loop all players:
+			if loop-player has permission "staff":
+				send "&e[STAFF] &6%player%: &7%message%" to loop-player
+
+
+command /sc [<text>]:
+	permission: staffc.sk
+	trigger:
+		loop all players:
+			if loop-player has permission "staff":
+				send "&e[STAFF] &6%player%: &7%arg 1%" to loop-player
+		

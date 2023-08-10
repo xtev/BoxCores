@@ -1,0 +1,12 @@
+on first join:
+    wait 5 ticks
+    send title "&fWelcome to &6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw" with subtitle "&fᴇɴᴊᴏʏ ʏᴏᴜʀᴇ ᴛɪᴍᴇ!" for 5 seconds
+    teleport player to {spawn}
+on join:
+    set join message to "&7&l[&a&l+&7&l] &7%player%"
+on quit:
+    set quit message to "&7&l[&c&l-&7&l] &7%player%"
+    
+on first join: 
+    set join message to "&7&l[&a&lNEW&7&l] &7%player%"
+    execute console command "spawnpoint %player% 1298 5 394"

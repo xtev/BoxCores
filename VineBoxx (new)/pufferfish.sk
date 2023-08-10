@@ -1,0 +1,22 @@
+on damage:
+    if attacker's tool is Pufferfish named "&6&lAnnoying &5&lPufferfish":
+        if {pfcd::%attacker's uuid%} is false:
+            apply poison 6 to victim for 8 seconds
+            apply wither 4 to victim for 5 seconds
+            apply slowness 4 to victim for 5 seconds
+            apply weakness 2 to victim for 5 seconds
+            apply nausea 4 to victim for 6 seconds
+            apply blindness of tier 4 to victim for 7 seconds
+            set {pfcd::%attacker's uuid%} to true
+            wait 30 seconds
+            set {pfcd::%attacker's uuid%} to false
+        else:
+            cancel event
+            send "&cYou can't use this item for another 30 seconds!" to attacker
+on join:
+    set {pfcd::%player's uuid%} to false
+command removecdpfall:
+    permission: op
+    trigger:
+        loop all players:
+            set {pfcd::%loop-player's uuid%} to false

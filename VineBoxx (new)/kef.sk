@@ -1,0 +1,6 @@
+on damage:
+	attacker is a player #If you want the effects to only appear for PvP
+	execute console command "execute %victim% ~ ~ ~ /particle reddust ~ ~0.8 ~ 0.5 1 0.5 0 1000 25
+on death:
+    play sound "item.totem.use" at victim's location
+    play particles "totem_of_undying" at victim's location offset by (0, 1, 0)

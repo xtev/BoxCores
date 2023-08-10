@@ -1,0 +1,31 @@
+command /punish <offline player> <text>:
+    permission: staff
+    description: Punish a player
+    usage: /punish <player> <why>
+    aliases: p, pun, punishment
+    permission message: You do not have permission to use this command!
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-2 is "staff_dissrespect":
+                    player command "tempmute %arg-1% 1h You have been muted for staff dissrespect! &e-%player%"
+                    send "&a%arg-1% has been muted for staff dissrespect!" to player
+                if arg-2 is "spam":
+                    player command "tempmute %arg-1% 1h You have been muted for spamming! &e-%player%"
+                    send "&a%arg-1% has been muted for spamming!" to player
+                if arg-2 is "advertising":
+                    player command "tempmute %arg-1% 2d You have been muted for advertising! &e-%player%"
+                    send "&a%arg-1% has been muted for advertising!" to player
+                if arg-2 is "hacking":
+                    player command "tempban %arg-1% 6d You have been banned for hacking! &e-%player%"
+                    send "&a%arg-1% has been banned for hacking!" to player
+                if arg-2 is "inappropriate":
+                    player command "tempban %arg-1% 1d You have been banned for inappropriate skin! &e-%player%"
+                    send "&a%arg-1% has been banned for inappropriate skin!" to player
+                if arg-2 is "alting":
+                    player command "tempban %arg-1% 14d You have been banned for alting! &e-%player%"
+                    send "&a%arg-1% has been banned for alting!" to player
+            else:
+                send "&cUsage: /punish <player> <why>"
+        else:
+            send "&cUsage: /punish <player> <why>"

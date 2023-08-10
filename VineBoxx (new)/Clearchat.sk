@@ -1,0 +1,8 @@
+command /cc: 
+  permission: skript.clearchat
+  aliases: clearchat
+  trigger: 
+    loop 500 times: 
+      broadcast "&8 "
+      broadcast " "
+    broadcast "&bChat has been cleared by &f%player%&b!"

@@ -1,0 +1,52 @@
+options:
+	Version: 1.0 # « DO NOT EDIT
+	APILink: https://raw.githubusercontent.com/Diplodocolus/MidnightCore/Master/APIVer.ver # « DO NOT EDIT
+	Prefix: &4&lVineAntiLag &7» # « Prefix of the plugin
+	CheckForUpdates: true # « Auto checks for updates
+	AutoClearDelay: 300 # « AutoClearDelay in seconds
+	Permission: ClearLag.Admin # « Main permission
+	PermissionMessage: {@Prefix} &cNo Permission # « Main permission message
+
+command /ClearLag [<text>]:
+	aliases: /CL, /Lag
+	permission: {@Permission}
+	permission message: {@PermissionMessage}
+	trigger:
+		if arg-1 is not set:
+			send "&c&m----------------&7[&4&lClearLag&7]&c&m----------------" to player
+			send "&7&lPrefix &7» &c{@Prefix}" to player
+			send "&7&lVersion &7» &c{@Version}" to player
+			send "&4&lCommands:" to player
+			send "&7&l/ClearLag Clear &7» &8Clears all entities" to player
+			send "&7&l/ClearLag Help &7» &8Shows this" to player
+			send "&7&l/ClearLag Reload &7» &8Reloads the skript" to player
+			send "&c&m----------------&7[&4&lClearLag&7]&c&m----------------" to player
+		else if arg-1 is "Clear" or "clear":
+			send "{@Prefix} &fRemoving entities in 5 seconds" to all players
+			wait 5 seconds
+			send "{@Prefix} &fSuccesfully removed &c%size of dropped items% &fitems" to all players
+			delete dropped items
+			stop
+		else if arg-1 is "Reload" or "reload":
+			send "{@Prefix} &fReloading ClearLag" to all players
+			execute console command "/sk reload %script%"
+			wait 3 ticks
+			send "{@Prefix} &fSuccesfully Reloaded" to all players
+		else if arg-1 is "Help" or "help":
+			send "&c&m----------------&7[&4&lClearLag&7]&c&m----------------" to player
+			send "&7&lPrefix &7» &c{@Prefix}" to player
+			send "&7&lVersion &7» &c{@Version}" to player
+			send "&4&lCommands:" to player
+			send "&7&l/ClearLag Clear &7» &8Clears all entities" to player
+			send "&7&l/ClearLag Help &7» &8Shows this" to player
+			send "&7&l/ClearLag Reload &7» &8Reloads the skript" to player
+			send "&c&m----------------&7[&4&lClearLag&7]&c&m----------------" to player
+#
+# «Auto Clear»
+#
+every {@AutoClearDelay} seconds:
+	send "{@Prefix} &fRemoving entities in 5 seconds" to all players
+	wait 5 seconds
+	send "{@Prefix} &fSuccesfully removed &c%size of dropped items% &fitems" to all players
+	delete dropped items
+	stop

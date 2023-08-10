@@ -1,0 +1,35 @@
+on first join:
+    make console execute "crate givekey %player% gear 2"
+
+every 10 minutes: 
+    execute console command "goldencrates givekey * playtime" 
+    broadcast "&b&lVineboxx &7> &7&lYou Earned A Afk playtimekey! Next key In &8&n20 Minutes"
+  
+command keyall <text>:
+    permission: keyall.staff
+    permission message: Bro wanna keys? /ad the server!
+    usage: &cUsage: /keyall <type> (types: Small, Medium, Big, Huge)
+    trigger:
+        if arg-1 is not set:
+            send "&cUsage: /keyall <type> (types: Small, Medium, Big, Huge)"
+            stop
+        if arg-1 is set:
+            send player title "&1&lVine&b&lBoxx" with subtitle "&5%player% &aactivated %arg-1% keyall!"
+            play sound "DRAGON_BREATH" at player
+            if arg-1 is "Small":
+                execute console command "crate givekey * afk 1"
+                execute console command "crate givekey * gear"
+            if arg-1 is "Medium":
+                execute console command "crate givekey * afk 2"
+                execute console command "crate givekey * gear 2"
+                execute console command "crate givekey * aura"
+            if arg-1 is "Big":
+                execute console command "crate givekey * afk 3"
+                execute console command "crate givekey * gear 3"
+                execute console command "crate givekey * aura 2"
+                execute console command "crate givekey * casino"
+            if arg-1 is "Huge":
+                execute console command "crate givekey * afk 4"
+                execute console command "crate givekey * gear 4"
+                execute console command "crate givekey * aura 3"
+                execute console command "crate givekey * casino 2"

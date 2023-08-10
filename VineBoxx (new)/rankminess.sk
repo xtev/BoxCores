@@ -1,0 +1,192 @@
+command /setmine [<text>]:
+  permission: op
+  permission message: &c&lERROR &8▏ &fU dont have perms to do this.
+  trigger:
+    if arg 1 is not set:
+      send "&6&lᴡᴀʀᴘs &8▏ &fSay one warp u wanna tp."
+    else:
+      send "&aWarp position %arg 1% established in:"
+      send "&7%location of player%"
+      wait 1 tick
+      set {warp_%arg 1%} to location of player
+
+command /delmine [<text>]:
+  permission: op
+  permission message: &c&lERROR &8▏ &fThat command does not exist.
+  trigger:
+    if arg 1 is not set:
+      send "&6&lᴡᴀʀᴘs &8▏&fsᴘᴇᴄɪғɪᴇs ᴛʜᴇ ɴᴀᴍᴇ ᴏғ ᴛʜᴇ ᴡᴀʀᴘ."
+    else:
+      if {warp_%arg 1%} is not set:
+        send "&6&lᴡᴀʀᴘs &8▏ &fSpecifies the name of the warp."
+      else:
+        send "&aWarp %arg 1% eliminado."
+        wait 1 tick
+        clear {warp_%arg 1%}
+
+command /mine [<text>]:
+  usage: /mine [warp]
+  permission: op
+  permission message: &c&lERROR &8▏ &fThat command does not exist.
+  cooldown: 3 seconds
+  cooldown message: &cYou are on cooldown for this command. Please wait a few moments and try again..
+  trigger:
+    if arg 1 is not set:
+      send ""
+      send "&e&lLife &f&lBlock"
+      send "&7List of The Warps"
+      send ""
+      send ""
+      send "&a/MrBeast MrBeast &7- &fMrBeast Rank Mine."
+      send ""
+    else:
+      if {warp_%arg 1%} is not set:
+        send "&6&lᴡᴀʀᴘs &8▏ &fᴛʜᴀᴛ ᴡᴀʀᴘ ᴅᴏᴇs ɴᴏᴛ ᴇxɪsᴛ."
+      else:
+        send "&7ᴛᴇʟᴇᴘᴏʀᴛɪɴɢ, ᴅᴏɴ'ᴛ ᴍᴏᴠᴇ, ᴡᴀɪᴛ &e3 sᴇᴄᴏɴᴅs..."
+        set {warp.cooldown::%player%} to true
+        wait 3 seconds
+        wait 2 seconds
+        wait 1 seconds
+        if {warp.cooldown::%player%} is set:
+          clear {warp.cooldown::%player%}
+          teleport player to {warp_%arg 1%}
+          send "&aʏᴏᴜ ʜᴀᴠᴇ ʙᴇᴇɴ sᴜᴄᴄᴇssғᴜʟʟʏ ᴛᴇʟᴇᴘᴏʀᴛᴇᴅ ᴛᴏ ᴡᴀʀᴘ!"
+
+command /mrbeastw:
+	aliases: /warplist
+	trigger:
+		send ""
+		send "&e&lLife &f&lBlock"
+		send "&7List of The Warps"
+		send ""
+		send "&a/mrbeast MrBeast &7- &fMrBeast Rank Mine."
+		send ""
+		send "&a/vip vip &7- &fMrBeast Rank Mine."
+
+
+on damage of player:
+  if {warp.cooldown::%victim%} is set:
+    clear {warp.cooldown::%victim%}
+    send "&6&lᴡᴀʀᴘs &8▏ &fʏᴏᴜ ʜᴀᴠᴇ ᴛᴀᴋᴇɴ ᴅᴀᴍᴀɢᴇ, ᴛᴇʟᴇᴘᴏʀᴛ ᴄᴀɴᴄᴇʟʟᴇᴅ." to victim
+
+on player move:
+  if {warp.cooldown::%player%} is set:
+    clear {warp.cooldown::%player%}
+    send "&6&lᴡᴀʀᴘs &8▏ &fʏᴏᴜ ʜᴀᴠᴇ ᴍᴏᴠᴇᴅ, ᴛᴇʟᴇᴘᴏʀᴛ ᴄᴀɴᴄᴇʟʟᴇᴅ."
+
+command /mvp [<text>]:
+  usage: /mvp [warp]
+  permission: warps.use.mvp
+  permission message: &c&lERROR &8▏ &fThat command does not exist.
+  cooldown: 3 seconds
+  cooldown message: &cYou are on cooldown for this command. Please wait a few moments and try again..
+  trigger:
+    if arg 1 is not set:
+      send ""
+      send "&e&lLife &f&lBlock"
+      send "&7List of The Warps"
+      send ""
+      send ""
+      send "&a/mvp mvp &7- &fmvp Rank Mine."
+      send ""
+    else:
+      if {warp_%arg 1%} is not set:
+        send "&6&lᴡᴀʀᴘs &8▏ &fᴛʜᴀᴛ ᴡᴀʀᴘ ᴅᴏᴇs ɴᴏᴛ ᴇxɪsᴛ."
+      else:
+        send "&7ᴛᴇʟᴇᴘᴏʀᴛɪɴɢ, ᴅᴏɴ'ᴛ ᴍᴏᴠᴇ, ᴡᴀɪᴛ &e3 sᴇᴄᴏɴᴅs..."
+        set {warp.cooldown::%player%} to true
+        wait 3 seconds
+        wait 2 seconds
+        wait 1 seconds
+        if {warp.cooldown::%player%} is set:
+          clear {warp.cooldown::%player%}
+          teleport player to {warp_%arg 1%}
+          send "&aʏᴏᴜ ʜᴀᴠᴇ ʙᴇᴇɴ sᴜᴄᴄᴇssғᴜʟʟʏ ᴛᴇʟᴇᴘᴏʀᴛᴇᴅ ᴛᴏ ᴡᴀʀᴘ!"
+
+command /overlord [<text>]:
+  usage: /overlord [warp]
+  permission: warps.use.overlord
+  permission message: &c&lERROR &8▏ &fThat command does not exist.
+  cooldown: 3 seconds
+  cooldown message: &cYou are on cooldown for this command. Please wait a few moments and try again..
+  trigger:
+    if arg 1 is not set:
+      send ""
+      send "&e&lLife &f&lBlock"
+      send "&7List of The Warps"
+      send ""
+      send ""
+      send "&a/overlord overlord &7- &foverlord Rank Mine."
+      send ""
+    else:
+      if {warp_%arg 1%} is not set:
+        send "&6&lᴡᴀʀᴘs &8▏ &fᴛʜᴀᴛ ᴡᴀʀᴘ ᴅᴏᴇs ɴᴏᴛ ᴇxɪsᴛ."
+      else:
+        send "&7ᴛᴇʟᴇᴘᴏʀᴛɪɴɢ, ᴅᴏɴ'ᴛ ᴍᴏᴠᴇ, ᴡᴀɪᴛ &e3 sᴇᴄᴏɴᴅs..."
+        set {warp.cooldown::%player%} to true
+        wait 3 seconds
+        wait 2 seconds
+        wait 1 seconds
+        if {warp.cooldown::%player%} is set:
+          clear {warp.cooldown::%player%}
+          teleport player to {warp_%arg 1%}
+          send "&aʏᴏᴜ ʜᴀᴠᴇ ʙᴇᴇɴ sᴜᴄᴄᴇssғᴜʟʟʏ ᴛᴇʟᴇᴘᴏʀᴛᴇᴅ ᴛᴏ ᴡᴀʀᴘ!"
+
+command /vine [<text>]:
+  usage: /vine [warp]
+  permission: warps.use.vine
+  permission message: &c&lERROR &8▏ &fThat command does not exist.
+  cooldown: 3 seconds
+  cooldown message: &cYou are on cooldown for this command. Please wait a few moments and try again..
+  trigger:
+    if arg 1 is not set:
+      send ""
+      send "&e&lLife &f&lBlock"
+      send "&7List of The Warps"
+      send ""
+      send ""
+      send "&a/vine vine &7- &fvine Rank Mine."
+      send ""
+    else:
+      if {warp_%arg 1%} is not set:
+        send "&6&lᴡᴀʀᴘs &8▏ &fᴛʜᴀᴛ ᴡᴀʀᴘ ᴅᴏᴇs ɴᴏᴛ ᴇxɪsᴛ."
+      else:
+        send "&7ᴛᴇʟᴇᴘᴏʀᴛɪɴɢ, ᴅᴏɴ'ᴛ ᴍᴏᴠᴇ, ᴡᴀɪᴛ &e3 sᴇᴄᴏɴᴅs..."
+        set {warp.cooldown::%player%} to true
+        wait 3 seconds
+        wait 2 seconds
+        wait 1 seconds
+        if {warp.cooldown::%player%} is set:
+          clear {warp.cooldown::%player%}
+          teleport player to {warp_%arg 1%}
+          send "&aʏᴏᴜ ʜᴀᴠᴇ ʙᴇᴇɴ sᴜᴄᴄᴇssғᴜʟʟʏ ᴛᴇʟᴇᴘᴏʀᴛᴇᴅ ᴛᴏ ᴡᴀʀᴘ!"
+
+command /vip [<text>]:
+  usage: /vip [warp]
+  permission: warps.use.vip
+  permission message: &c&lERROR &8▏ &fThat command does not exist.
+  cooldown: 3 seconds
+  cooldown message: &cYou are on cooldown for this command. Please wait a few moments and try again..
+  trigger:
+    if arg 1 is not set:
+      send ""
+      send "&e&lLife &f&lBlock"
+      send "&7List of The Warps"
+      send ""
+      send ""
+      send "&a/vip vip &7- &fvip Rank Mine."
+      send ""
+    else:
+      if {warp_%arg 1%} is not set:
+        send "&6&lᴡᴀʀᴘs &8▏ &fᴛʜᴀᴛ ᴡᴀʀᴘ ᴅᴏᴇs ɴᴏᴛ ᴇxɪsᴛ."
+      else:
+        send "&7ᴛᴇʟᴇᴘᴏʀᴛɪɴɢ, ᴅᴏɴ'ᴛ ᴍᴏᴠᴇ, ᴡᴀɪᴛ &e3 sᴇᴄᴏɴᴅs..."
+        set {warp.cooldown::%player%} to true
+        wait 3 seconds
+        wait 2 seconds
+        wait 1 seconds
+        if {warp.cooldown::%player%} is set:
+          clear {warp.cooldown::%player%}
+          teleport player to {warp_%arg 1%}
+          send "&aʏᴏᴜ ʜᴀᴠᴇ ʙᴇᴇɴ sᴜᴄᴄᴇssғᴜʟʟʏ ᴛᴇʟᴇᴘᴏʀᴛᴇᴅ ᴛᴏ ᴡᴀʀᴘ!"

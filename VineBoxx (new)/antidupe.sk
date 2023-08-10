@@ -1,0 +1,24 @@
+on fish:
+    cancel event
+    
+on place painting:
+    cancel event
+    
+on place item frame:
+    cancel event
+    
+on damage:
+    victim is item frame
+    cancel event
+command /plugins:
+    trigger:
+        send "Plugins (1): &aVineBoxx Core By Hax" to player
+command /pl:
+    trigger:
+        send "Plugins (1): &aVineBoxx Core By Hax" to player
+command /bukkit:plugins:
+    trigger:
+        send "Plugins (1): &aVineBoxx Core By Hax" to player
+command /bukkit:pl:
+    trigger:
+        send "Plugins (1): &aVineBoxx Core By Hax" to player

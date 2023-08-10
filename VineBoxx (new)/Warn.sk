@@ -1,0 +1,55 @@
+command /warn [<offlineplayer>] [<text>]:
+    permission: warn.sk
+    permission message: &cYou do not have permission to execute this command!
+    usage: /warn <player> [reason]
+    trigger:
+        if arg 1 is set:
+            if arg 2 is not set:
+                add "(No reason given) &7- [%now%]" to {warns::%arg 1's uuid%::*}
+                broadcast "&c%arg-1% &7has been &cwarned &7by &c%player% &7for &c%arg-2%"
+            if arg 2 is set:
+                add "%colored arg 2% &7- [%now%]" to {warns::%arg 1's uuid%::*}
+                broadcast "&c%arg-1% &7has been &cwarned &7by &c%player% &7for &c%arg-2%"
+        else:
+            send "&cPlease provide a player"
+
+command /unwarn <player> <int>:
+    usage: /unwarn <player> <warn nr>
+    permission: warn.sk
+    permission message: &cYou do not have permission to execute this command!
+    trigger:
+        if {warns::%arg 1's uuid%::%arg 2%} is set:
+            delete {warns::%arg 1's uuid%::%arg 2%}
+            send "&cWarn deleted"
+            loop {warns::%arg 1's uuid%::*}:
+                add loop-value to {_warns::*}
+            clear {warns::%arg 1's uuid%::*}
+            loop {_warns::*}:
+                add loop-value to {warns::%arg 1's uuid%::*}
+        else:
+            send "&4This warn number wasn't found"
+
+command /clearwarns <player>:
+    permission: warn.sk
+    permission message: &cYou do not have permission to execute this command!
+    trigger:
+        delete {warns::%arg's uuid%::*}
+        send "&cWarns deleted"
+        send "&cYour warns were cleared" to arg
+
+command /warns [<offlineplayer>]:
+    permission: warn.sk
+    permission message: &cYou do not have permission to execute this command!
+    usage: /warns [player]
+    trigger:
+        if arg is set:
+            send "&f%arg% &7has &c%size of {warns::%arg's uuid%::*}% &7warns."
+            loop {warns::%arg's uuid%::*}:
+                send "%loop-index% &7- %loop-value%"
+        else:
+            send "&cChecking warns of all online players..."
+            loop all players:
+                if size of {warns::%loop-player's uuid%::*} >= 1:
+                    send "&f%loop-player% &7has &c%size of {warns::%loop-player's uuid%::*}% &7warns."
+                    loop {warns::%loop-player's uuid%::*}:
+                        send "%loop-index-1% &7- %loop-value-2%"

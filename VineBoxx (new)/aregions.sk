@@ -1,0 +1,19 @@
+on region enter:
+    if "%region%" contains "strr":
+        if {cooldowntitle::%player's uuid%} is false:
+            send player title "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw" with subtitle "&4&lsᴛʀᴇɴɢᴛʜ ʀᴏᴏᴍ" for 3 seconds
+            set {cooldowntitle::%player's uuid%} to true
+            wait 30 seconds
+            set {cooldowntitle::%player's uuid%} to false
+on join:
+    set {cooldowntitle::%player's uuid%} to false
+	
+on region:
+    if %player% is in "event":
+    make console execute /clear %player%
+	
+every 1 second:
+    loop all players:
+        if loop-player is in region "strr":
+            apply potion of strength 3 to loop-player for 1 second
+            apply potion of fire resistance to loop-player for 1 second

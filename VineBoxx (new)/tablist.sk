@@ -1,0 +1,18 @@
+options:
+    ServerName: &6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw 
+    DiscordServer: /discord
+    Store: /buy
+    Color1: &6
+    Color2: &e
+    Color3: &f
+    FooterText: &6&lSummer &e&lTheme &f● &7&lS2
+on join:
+    while player is online:
+        set tablist header of player to "%nl%{@ServerName}%nl%%nl%{@Color1}ᴅɪsᴄᴏʀᴅ{@Color3} • {@Color2}{@DiscordServer}%nl%{@Color1}sᴛᴏʀᴇ {@Color3}• {@Color2}{@Store}%nl%"
+        set {_tps::*} to tps
+        set tablist footer of player to "%nl%{@Color3}( {@Color2}ᴛᴘs {@Color3}• {@Color1}%{_tps::1}%{@Color3} | {@Color2}ᴘɪɴɢ {@Color3}• {@Color1}%player's ping%{@Color3} | {@Color2}ᴏɴʟɪɴᴇ {@Color3}• {@Color1}%size of all players%{@Color3} )%nl%{@FooterText}%nl%"
+        if player has permission "donor" or "staff":
+            set tablist name of player to "%player's prefix% &f%player%"
+        else:
+            set tablist name of player to "%player's prefix% %player%"
+        wait 2 seconds

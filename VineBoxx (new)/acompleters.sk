@@ -1,0 +1,20 @@
+on tab complete of "/check":
+    set tab completions for position 1 to "check" and "clear" and "cheating" and "refused" and "ss"
+on tab complete of "/ss":
+    set tab completions for position 1 to "check" and "clear" and "cheating" and "refused" and "ss"
+on tab complete of "/punish":
+    set tab completions for position 2 to "staff_dissrespect" and "spam" and "advertising" and "hacking" and "inappropriate" and "alting"
+on tab complete of "/pun":
+    set tab completions for position 2 to "staff_dissrespect" and "spam" and "advertising" and "hacking" and "inappropriate" and "alting"
+on tab complete of "/p":
+    set tab completions for position 2 to "staff_dissrespect" and "spam" and "advertising" and "hacking" and "inappropriate" and "alting"
+on tab complete of "/punishment":
+    set tab completions for position 2 to "staff_dissrespect" and "spam" and "advertising" and "hacking" and "inappropriate" and "alting"
+on damage:
+  if attacker's tool is blaze rod named "§x§F§F§0§0§0§0&lB§x§F§F§0§E§0§0&la§x§F§F§1§C§0§0&ln §x§F§F§2§A§0§0&lH§x§F§F§3§8§0§0&la§x§F§F§4§6§0§0&lm§x§F§F§5§4§0§0&lm§x§F§F§6§2§0§0&le§x§F§F§7§0§0§0&lr":
+    attacker command "tempban %victim% 7d The ban hammer has been spoken!"
+    broadcast "&5%attacker% &4Banned &6%victim% &cThe Ban Hammer has been spoken!"
+    kill victim
+    loop 2 times:
+      create fake explosion at victim
+      strike lightning at victim

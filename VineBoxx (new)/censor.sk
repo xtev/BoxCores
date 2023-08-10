@@ -1,0 +1,382 @@
+options:
+  no: &cPlease Do not swear!
+  replace: &8[&4CENSORED&8] &7
+  author: https://github.com/HAX-MC/
+
+
+on chat:
+  if message contains "nigger":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg":
+    replace all "nigg" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "niga":
+    replace all "niga" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "niger":
+    replace all "niger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n.i.g.ger":
+    replace all "n.i.g.ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n.igger":
+    replace all "n.igger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n.i.gger":
+    replace all "n.i.gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni.gger":
+    replace all "ni.gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni.g.ger":
+    replace all "ni.g.ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg.er":
+    replace all "nigg.er" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg.e.r":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg.e.r":
+    replace all "nigge.r" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigge.r":
+    replace all "n.i.gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigger":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "niger":
+    replace all "niger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n_i_g_ger":
+    replace all "n_i_g_ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n_igger":
+    replace all "n_igger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n_i_gger":
+    replace all "n_i_gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni_gger":
+    replace all "ni_gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni_g_ger":
+    replace all "ni_g_ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg_er":
+    replace all "nigg_er" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg_e_r":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg_e_r":
+    replace all "nigge_r" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigge_r":
+    replace all "n_i_gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigger":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "niger":
+    replace all "niger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n&i&g&ger":
+    replace all "n&i&g&ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n&igger":
+    replace all "n&igger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n&i&gger":
+    replace all "n&i&gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni&gger":
+    replace all "ni&gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni&g&ger":
+    replace all "ni&g&ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg&er":
+    replace all "nigg&er" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg&e&r":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg&e&r":
+    replace all "nigge&r" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigge&r":
+    replace all "n&i&gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigger":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "niger":
+    replace all "niger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n*i*g*ger":
+    replace all "n*i*g*ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n*igger":
+    replace all "n*igger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n*i*gger":
+    replace all "n*i*gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni*gger":
+    replace all "ni*gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni*g*ger":
+    replace all "ni*g*ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg*er":
+    replace all "nigg*er" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg*e*r":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg*e*r":
+    replace all "nigge*r" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigge*r":
+    replace all "n*i*gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigger":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "niger":
+    replace all "niger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n i g ger":
+    replace all "n i g ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n igger":
+    replace all "n igger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "n i gger":
+    replace all "n i gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni gger":
+    replace all "ni gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ni g ger":
+    replace all "ni g ger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg er":
+    replace all "nigg er" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg e r":
+    replace all "nigger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigg e r":
+    replace all "nigge r" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "nigge r":
+    replace all "n i gger" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k y s":
+    replace all "k y s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k _y _s":
+    replace all "k _y _s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k _y s":
+    replace all "k _y s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ky _s":
+    replace all "ky _s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k y s":
+    replace all "k y s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k.y.s":
+    replace all "k.y.s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k.y s":
+    replace all "k.y s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ky.s":
+    replace all "ky.s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ki.ll":
+    replace all "ki.ll" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k.ill":
+    replace all "k.ill" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k.i.ll":
+    replace all "k.i.ll" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k.i.l.l":
+    replace all "k.i.l.l" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "kil.l":
+    replace all "kil.l" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "kill":
+    replace all "kill" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ki_ll":
+    replace all "ki_ll" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k_ill":
+    replace all "k_ill" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k_i_ll":
+    replace all "k_i_ll" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k_i_l_l":
+    replace all "k_i_l_l" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "kil_l":
+    replace all "kil_l" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "kill":
+    replace all "kill" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ki-ll":
+    replace all "ki-ll" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k-ill":
+    replace all "k-ill" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k-i-ll":
+    replace all "k-i-ll" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k-i-l-l":
+    replace all "k-i-l-l" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "kil-l":
+    replace all "kil-l" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "kill":
+    replace all "kill" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ki ll":
+    replace all "ki ll" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k ill":
+    replace all "k ill" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k i ll":
+    replace all "k i ll" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k i l l":
+    replace all "k i l l" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "kil l":
+    replace all "kil l" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "dick":
+    replace all "dick" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "dic.k":
+    replace all "dic.k" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "di.ck":
+    replace all "di.ck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d.ick":
+    replace all "d.ick" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d.i.ck":
+    replace all "d.i.ck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d.i.c.k":
+    replace all "d.i.c.k" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "dic_k":
+    replace all "dic_k" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "di_ck":
+    replace all "di_ck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d_ick":
+    replace all "d_ick" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d_i_ck":
+    replace all "d_i_ck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d_i_c_k":
+    replace all "d_i_c_k" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "dic-k":
+    replace all "dic-k" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "di-ck":
+    replace all "di-ck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d-ick":
+    replace all "d-ick" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d-i-ck":
+    replace all "d-i-ck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d-i-c-k":
+    replace all "d-i-c-k" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "dic k":
+    replace all "dic k" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "di ck":
+    replace all "di ck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d ick":
+    replace all "d ick" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d i ck":
+    replace all "d i ck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "d i c k":
+    replace all "d i c k" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "shit":
+    replace all "shit" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "slut":
+    replace all "slut" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "bitch":
+    replace all "bitch" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "cock":
+    replace all "cock" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "cunt":
+    replace all "cunt" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "fuck":
+    replace all "fuck" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "kys":
+    replace all "kys" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k.y.s":
+    replace all "k.y.s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k.ys":
+    replace all "k.ys" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ky.s":
+    replace all "ky.s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k y s":
+    replace all "k y s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k ys":
+    replace all "k ys" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ky s":
+    replace all "ky s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k_y_s":
+    replace all "k_y_s" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "k_ys":
+    replace all "k_ys" with "{@replace}" in message
+    send "{@no}" to player
+  if message contains "ky_s":
+    replace all "ky_s" with "{@replace}" in message
+    send "{@no}" to player

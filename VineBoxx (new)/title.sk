@@ -1,0 +1,8 @@
+command /title <text>:
+    permission: server.title
+    trigger:
+        send title "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw" with subtitle arg-1 to all players
+        broadcast ""
+        broadcast "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw | &f%arg-1% "
+        broadcast ""
+        play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 2

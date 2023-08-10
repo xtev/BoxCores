@@ -1,0 +1,49 @@
+command /giverank [<player>] [<text>]:
+    permission: op
+    permission message: &cYou do not have permission to use this command.
+    trigger:
+        if arg-2 is "vip":
+            execute console command "lp user %arg-1% parent set vip"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            broadcast "&5%arg-1% &eJust Bought &a&lVIP &eRank!"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            loop all players:
+                send title "§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE" with subtitle "&5%arg-1% &aJust Bought &7&lStone &aRank!" to loop-player
+        if arg-2 is "iron":
+            execute console command "lp user %arg-1% parent set iron"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            broadcast "&5%arg-1% &aJust Bought &f&lIRON &aRank!"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            loop all players:
+                send title "§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE" with subtitle "&5%arg-1% &aJust Bought &f&lIRON &aRank!" to loop-player
+        if arg-2 is "gold":
+            execute console command "lp user %arg-1% parent set gold"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            broadcast "&5%arg-1% &aJust Bought &e&lGOLD &aRank!"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            loop all players:
+                send title "§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE" with subtitle "&5%arg-1% &aJust Bought &e&lGOLD &aRank!" to loop-player
+        if arg-2 is "diamond":
+            execute console command "lp user %arg-1% parent set DIAMOND"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            broadcast "&5%arg-1% &aJust Bought &b&lDIAMOND &aRank!"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            loop all players:
+                send title "§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE" with subtitle "&5%arg-1% &aJust Bought &b&lDIAMOND &aRank!" to loop-player
+        if arg-2 is "netherite":
+            execute console command "lp user %arg-1% parent set netherite"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            broadcast "&5%arg-1% &aJust Bought &0&lNETHERITE &aRank!"
+            broadcast "&6----§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE----"
+            broadcast "&7"
+            loop all players:
+                send title "§x§f§f§0§0§0§0S§x§f§f§3§4§0§4T§x§f§f§6§8§0§8O§x§f§f§9§c§0§bR§x§f§f§d§0§0§fE" with subtitle "&5%arg-1% &aJust Bought &0&lNETHERITE &aRank!" to loop-player

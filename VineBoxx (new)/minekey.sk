@@ -1,0 +1,56 @@
+on mine ore:
+	chance of 2%:
+		execute console command "crates key give %player% mine 1"
+		send "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw &7| &6Youve earned a &8&lMine key! &6for mining" to player
+		play sound "entity.firework_rocket.large_blast_far" with volume 10 to the player
+		play firework explosion at event-block
+			
+on mine diamond block:
+	chance of 2%:
+		execute console command "crates key give %player% mine 1"
+		send "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw &7| &6Youve earned a &8&lMine key! &6for mining" to player
+        play sound "entity.firework_rocket.large_blast_far" with volume 10 to the player
+		play firework explosion at event-block
+			
+on mine emerald block:
+	chance of 2%:
+		execute console command "crates key give %player% mine 1"
+		send "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw &7| &6Youve earned a &8&lMine key! &6for mining" to player
+        play sound "entity.firework_rocket.large_blast_far" with volume 10 to the player
+		play firework explosion at event-block
+			
+on mine netherite block:
+	chance of 2%:
+		execute console command "crates key give %player% mine 1"
+		send "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw &7| &6Youve earned a &8&lMine key! &6for mining" to player
+        play sound "entity.firework_rocket.large_blast_far" with volume 10 to the player
+		play firework explosion at event-block
+		
+on mine gold block:
+	chance of 2%:
+		execute console command "crates key give %player% mine 1"
+		send "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw &7| &6Youve earned a &8&lMine key! &6for mining" to player
+play sound "entity.firework_rocket.large_blast_far" with volume 10 to the player
+		play firework explosion at event-block
+		
+on mine iron block:
+	chance of 2%:
+		execute console command "crates key give %player% mine 1"
+		send "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw &7| &6Youve earned a &8&lMine key! &6for mining" to player
+		play sound "entity.firework_rocket.large_blast_far" with volume 10 to the player
+		play firework explosion at event-block
+		
+on mine prismarine block:
+	chance of 1%:
+		execute console command "crates key give %player% mine 1"
+		send "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw &7| &6Youve earned a &8&lMine key! &6for mining" to player
+        play sound "entity.firework_rocket.large_blast_far" with volume 10 to the player
+		play firework explosion at event-block
+		
+on mine dark prismarine block:
+	chance of 1%:
+		execute console command "crates key give %player% mine 1"
+		send "&6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw &7| &6Youve earned a &8&lMine key! &6for mining" to player
+		play sound "entity.firework_rocket.large_blast_far" with volume 10 to the player
+		play firework explosion at event-block
+		

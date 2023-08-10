@@ -1,0 +1,8 @@
+on place of any lantern:
+  cancel event
+on place of blue candle:
+  cancel event
+on place of light blue candle:
+  cancel event
+on place of horn coral:
+  cancel event

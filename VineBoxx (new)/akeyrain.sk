@@ -1,0 +1,22 @@
+command /keyrain <integer>:
+    permission: op
+    trigger:
+        if arg-1 is not set:
+            send "&cUsage: /rain <amount>" to player
+            stop
+        send player title "&1&lVine&b&lBoxx &a&lKey Rain" with subtitle "&e&lKey Tokens are being dropped in the box!" for 5 seconds
+        loop all players:
+            set {_amount} to arg-1
+            loop {_amount} times:
+                set {_x} to random integer between 1412 and 1207
+                play sound "MUSIC_DISC_MALL" at loop-player
+                set {_y} to random integer between 37 and 130
+                set {_z} to random integer between 298 and 467
+                set {_location} to location({_x}, {_y}, {_z}, (player's world))
+                drop 1 purple dye named "&dKey Token" at {_location}
+                remove 1 from {_amount}
+                wait 1 second
+            if {_amount} is 0:
+                broadcast "&aThe Key Rain has ended!"
+                play sound "BLOCK_CHEST_CLOSE" at loop-player
+                stop

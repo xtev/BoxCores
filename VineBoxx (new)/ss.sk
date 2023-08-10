@@ -1,0 +1,88 @@
+
+
+
+
+options:
+    prefix: &6&kw &6&lᴠɪɴᴇ&e&lʙᴏxx &e&kw
+    discord: https://discord.gg/QtP5rUyYmd
+
+command /check <text> <offline player>:
+    aliases: ss
+    usage: &6/check <check/clear/setroom/setspawn/help/refused/cheating> <player>
+    permission: staff
+    permission message: &cYou do not have permission to use this command!
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-1 is "check":
+                    set {beingssd::%arg-2%} to true
+                    teleport player to {checkroom}
+                    teleport arg-2 to {checkroom}
+                    send "&aYou are now checking &e%arg-2%" to player
+                    broadcast "{@prefix} &a%player% &7is now checking &e%arg-2%"
+                    post "%player% Just started checking %arg-2%" to text channel with id "1130569175572697192"
+                    loop 3 times:
+                        if {beingssd::%arg-2%} is true:
+                            send arg-2 title "&c&lYOU ARE BEING CHECKED!" with subtitle "&d&lPLEASE LISTEN TO STAFF THAT IS CHECKING YOU, LEAVING WILL RESULT IN LONGER BAN!" for 300 seconds
+                            send "{@prefix} &a%arg-2% You have 30 seconds to join {@discord} and join ScreenShare VC. If you want to admit type 'admit' on chat. <link:https://discord.gg/szsdZw5NJB>DISCORD CLICK ME<reset>" to arg-2
+                            send "{@prefix} &a%arg-2% You have 30 seconds to join {@discord} and join ScreenShare VC. If you want to admit type 'admit' on chat. <link:https://discord.gg/szsdZw5NJB>DISCORD CLICK ME<reset>" to arg-2
+                            send "{@prefix} &a%arg-2% You have 30 seconds to join {@discord} and join ScreenShare VC. If you want to admit type 'admit' on chat. <link:https://discord.gg/szsdZw5NJB>DISCORD CLICK ME<reset>" to arg-2
+                            wait 15 seconds
+                else if arg-1 is "clear":
+                    set {beingssd::%arg-2%} to false
+                    send "&aYou are no longer checking &e%arg-2%" to player
+                    broadcast "{@prefix} &a%player ? Console% &dended checking &e%arg-2% &dand he turned out to be &f&lCLEAN!"
+                    send arg-2 title "&a&lYOU ARE NO LONGER BEING CHECKED!" with subtitle "&d&lTHANK YOU FOR COOPERATING!" for 5 seconds
+                    send "{@prefix} &a%arg-2% You are no longer being checked!" to arg-2
+                    teleport arg-2 to {checkspawn}
+                    teleport player to {checkspawn}
+                    send arg-2 title " " with subtitle " " for 1 second
+                    post "%player% Just stopped checking %arg-2% and declared hes **CLEAN**" to text channel with id "1130569175572697192"
+                else if arg-1 is "setroom":
+                    set {checkroom} to player's location
+                else if arg-1 is "setspawn":
+                    set {checkspawn} to player's location
+                else if arg-1 is "help":
+                    send "{@prefix} &7&l» &eCommands:" to player
+                    send "&7- &e/check <player> &7- &dStarts checking a player" to player
+                    send "&7- &e/check clear <player> &7- &dEnds checking a player" to player
+                    send "&7- &e/check setroom &7- &dSets the room where the player will be teleported to" to player
+                    send "&7- &e/check setspawn &7- &dSets the spawn where the player will be teleported to" to player
+                    send "&7- &e/check help &7- &dShows this message" to player
+                else if arg-1 is "refused":
+                    broadcast "{@prefix} &a%arg-2% &7has refused to be checked!"
+                    console command "tempban %arg-2% 11d Refused to be checked! -%player%"
+                    kill arg-2
+                    post "%player% Just banned %arg-2% for **REFUSING TO SS**" to text channel with id "1130569175572697192"
+                    set {beingssd::%arg-2%} to false
+                    teleport player to {checkspawn}
+                else if arg-1 is "cheating":
+                    broadcast "{@prefix} &a%arg-2% &7has been caught cheating!"
+                    console command "tempban %arg-2% 6d Caught cheating! -%player%"
+                    kill arg-2
+                    post "%player% Just banned %arg-2% while ssing with reason **CHEATS**" to text channel with id "1129046992161624085"
+                    set {beingssd::%arg-2%} to false
+                    teleport player to {checkspawn}
+on leave:
+    wait 1 second
+    if {beingssd::%player%} is true:
+        broadcast "{@prefix} &a%player% &7has left the server while being checked!"
+        console command "tempban %player% 16d Left while being checked!"
+        set {beingssd::%player%} to false
+        teleport player to {checkspawn}
+        post "%player% Just left while being checked" to text channel with id "1130569175572697192"
+command checkbug <player>:
+    permission: staff
+    trigger:
+        set {beingssd::%arg-1%} to false
+        teleport arg-1 to {checkspawn}
+on chat:
+    if {beingssd::%player%} is true:
+        if message is "admit":
+            console command "tempban %player% 4d Admitted to cheating!"
+            kill player
+            post "%player% Just confessed to cheating" to text channel with id "1129046992161624085"
+on command :
+    if {beingssd::%player%} is true:
+        cancel event
+        send "&cYou cannot use commands while being checked!" to player

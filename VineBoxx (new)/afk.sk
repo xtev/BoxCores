@@ -1,0 +1,5 @@
+every 10 minutes:
+    broadcast "&1Everyone in AFK Pool just got afk rewards!"
+    loop all players:
+        if "%region at loop-player%" is "afk":
+            console command "crate givekey %loop-player% afk 1"

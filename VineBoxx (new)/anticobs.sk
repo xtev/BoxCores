@@ -1,0 +1,9 @@
+on damage:
+    if victim is holding golden boots named "&e&lANTI&4&l-&f&lCOBS":
+        create fake explosion
+        teleport victim to attacker
+        remove golden boots named "&e&lANTI&4&l-&f&lCOBS" from victim's inventory
+command anticobs:
+    permission: op
+    trigger:
+        give 1 golden boots named "&e&lANTI&4&l-&f&lCOBS" to player

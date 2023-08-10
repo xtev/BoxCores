@@ -1,0 +1,19 @@
+command /kitvip:
+  permission: kit.hax.vip
+  cooldown: 12 hours
+  cooldown message: You can claim it only once per 12 hours!
+  trigger:
+    give 7 purple dye named "&dKey Token" to player
+    console command "crate givekey %player% rank 1"
+command /kitbooster:
+  permission: kit.hax.booster
+  cooldown: 12 hours
+  cooldown message: You can claim it only once per 12 hours!
+  trigger:
+    give 5 purple dye named "&dKey Token" to player
+command /boosterkey:
+  permission: kit.hax.booster
+  cooldown: 36 hours
+  cooldown message: You can claim it only once per 36 hours!
+  trigger:
+    console command "crate givekey %player% rank 1"

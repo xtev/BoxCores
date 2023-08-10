@@ -1,0 +1,24 @@
+command /announce <text>:
+    permission: server.title
+    trigger:
+        send title "&1&lVine&b&lBoxx" with subtitle arg-1 to all players
+        broadcast ""
+        broadcast "&1&lVine&b&lBoxx &8&l| &f%arg-1% "
+        broadcast ""
+        play sound "BLOCK_NOTE_BLOCK_PLING" with volume 1 and pitch 2
+
+on right click with stone button:
+    cancel event
+    if {cooldownb::%player's uuid%} is true:
+        send "You have cooldown" to player
+    else:
+        loop all players in radius 7 of player:
+            if loop-player is not player:
+                "%region at loop-player%" does not contain "spawn":
+                    push loop-player backwards at speed 2
+                    remove stone button from player's inventory
+                    set {cooldownb::%player's uuid%} to true
+                    wait 30 ticks
+                    set {cooldownb::%player's uuid%} to false
+                else:
+                    send "&c&lNot on spawn!" to player
