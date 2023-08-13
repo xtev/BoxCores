@@ -1,0 +1,53 @@
+options:
+	p: &x&d&a&f&f&b&e&lE&x&d&a&f&f&b&e&lV&x&d&a&f&f&b&e&lE&x&d&a&f&f&b&e&lN&x&d&a&f&f&b&e&lT&x&d&a&f&f&b&e&lS &8|&f
+	teleportTime: 100
+	
+command /event:
+	trigger:
+		if {event} is elytra:
+			message "{@p}Teleporting to &b&levent&7 in &b&l%{@teleportTime}/20% &b&lseconds&7."
+			message "{@p}If you &b&lmove&7 the teleport will be &b&lcancelled&7."
+			message "{@p}&b&lYOU WILL BE CLEARED, COME WITH NO ITEMS."
+		
+			set {_preloc} to player's location
+			set {_health} to player's health
+		
+			set {_i} to 0
+		
+			wait 5 seconds
+			
+			if player's health < {_health}:
+				message "{@p}Your teleport was &c&lcancelled&7 because you lost health."
+				send action bar "&4&lTeleport cancelled" to player
+				stop trigger
+
+			if distance between player's location and {_preloc} > 0.5:
+				message "{@p}Your teleport was &c&lcancelled&7 because you moved."
+				send action bar "&4&lTeleport cancelled" to player
+				stop trigger
+			
+			
+			execute console command "/warp eventlobby1 %player%"
+			send action bar "&b&lTeleported!" to player
+			message "{@p}Teleported to &b&levent&7."
+			execute console command "/minecraft:clear %player%"
+		else:
+			send "{@p} There is no event happening. Try again later." to player
+			stop
+
+
+
+command /eventman [<Text>]:
+	permission: op
+	aliases: eventmanager
+	trigger:
+		if arg-1 is "start":
+			set {event} to elytra
+			send "{@p} Starting the event. Players can now warp to the event lobby."
+				
+		if arg-1 is "end":
+			set {event} to false
+			send "{@p} Ending the event. Players now cannot warp to the event lobby."
+			delete {InEventElytra::%player's uuid%}
+		
+

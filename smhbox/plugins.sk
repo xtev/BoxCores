@@ -1,0 +1,54 @@
+options:
+	no: &cHey! &fThis command is blocked. If you need more information, you can ask on the discord.
+
+on command "/plugins":
+	if player doesn't have permission "op":
+		message "{@no}"
+		cancel event
+
+on command "/pl":
+	if player doesn't have permission "op":
+		message "{@no}"
+		cancel event
+
+command /bukkit:?:
+    trigger:
+        message "{@no}"
+command /?:
+    trigger:
+        message "{@no}"
+
+command /bukkit:pl:
+    trigger:
+        message "{@no}"
+command /bukkit:plugins:
+    trigger:
+        message "{@no}"
+command /bukkit:about:
+    trigger:
+        message "{@no}"
+command /bukkit:ver:
+    trigger:
+        message "{@no}"
+command /icanhasbukkit:
+    trigger:
+        message "{@no}"
+command /bukkit:version:
+    trigger:
+        message "{@no}"
+command /bukkit:help:
+    trigger:
+        message "{@no}"
+command /ver:
+    trigger:
+        message "{@no}"
+command /version:
+    trigger:
+        message "{@no}"
+command /help:
+    trigger:
+        message "{@no}"
+command /about:
+    trigger:
+        message "{@no}"
+		

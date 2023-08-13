@@ -1,0 +1,4 @@
+command /sudo [<player>] [<text>]:
+    permission: op
+    trigger:
+        make arg-1 say arg-2

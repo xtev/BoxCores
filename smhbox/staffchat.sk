@@ -1,0 +1,27 @@
+options:
+	p: &2&lSTAFF &8|&r
+
+
+command /sc [<text>]:
+    permission: core.staff
+    permission message: &bNo Permission.
+    aliases: staffchat
+    trigger:
+        if arg-1 is not set:
+            if {staffchat::%player%} is not set:
+                set {staffchat::%player%} to true
+                send "{@p} &aYou have toggled staff chat!"
+            else:
+                delete {staffchat::%player%}
+                send "{@p} &cYou have toggled staff chat!"
+        else:
+            loop all players:
+                if loop-player has permission "core.staff":
+                    send "{@p} %player%&8 » &r%arg 1%" to loop-player
+ 
+on chat:
+  if {staffchat::%player%} is set:
+    cancel event
+    loop all players:
+      if loop-player has permission "core.staff":
+        send "{@p} %player%&8 » &r%message%" to loop-player

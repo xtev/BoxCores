@@ -1,0 +1,13 @@
+command /bc [<text>]:
+    trigger:
+        player has permission "op":
+            arg is set:
+                broadcast ""
+                broadcast "&x&a&4&3&6&f&b&lS&x&b&1&3&3&f&a&lm&x&b&e&3&0&f&9&lh&x&c&a&2&e&f&8&lB&x&d&7&2&b&f&7&lo&x&e&4&2&8&f&6&lx &8| &f%colored arg%"
+                broadcast ""
+                send title "&x&a&4&3&6&f&b&lS&x&b&1&3&3&f&a&lm&x&b&e&3&0&f&9&lh&x&c&a&2&e&f&8&lB&x&d&7&2&b&f&7&lo&x&e&4&2&8&f&6&lx" with subtitle "&f%colored arg%" to player for 0.5 seconds
+                play sound "entity.blaze.hurt" with volume 1 to all players
+            else:
+                send "&7Please type a argument to broadcast"
+        else:
+            send "&cNo permissions to use this command!"

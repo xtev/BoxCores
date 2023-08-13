@@ -1,0 +1,5 @@
+
+command /discord:
+	aliases: /server, /community, /dc
+	trigger:
+		send "&9&lDISCORD &8| &fLink to the discord is <tooltip:&f&lClick for the invite link><link:https://discord.gg/kxUjhRfju3>&c&lhere." to player

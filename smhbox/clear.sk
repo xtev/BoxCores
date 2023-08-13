@@ -1,0 +1,15 @@
+command /clear [<player>]:
+	permission: op
+	trigger:
+		if arg-1 is set:
+			execute console command "/minecraft:clear %arg-1%"
+		else:
+			execute console command "/minecraft:clear %player%"
+		
+
+on item spawn:
+	if name of event-item is set:
+		set display name of event-entity to name of event-item
+	else:
+		set {_type} to "%type of event-item%"
+		set display name of event-entity to {_type} in strict proper case

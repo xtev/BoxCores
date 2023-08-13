@@ -1,0 +1,5 @@
+command /playtime [<offlineplayer=%player%>]:
+    trigger:
+        send ""
+        send "&c&lPLAYTIME &8| &f%arg-1%&f's playtime: &d%time played of arg-1%"
+        send ""

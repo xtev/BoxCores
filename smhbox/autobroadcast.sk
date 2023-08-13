@@ -1,0 +1,18 @@
+every 5 minutes:
+		broadcast ""
+		broadcast "&5&lTIPS &8→ &fWant an extra gear key? Run &3&l/link &fand follow the instructions to get a free &4&lGear Key"
+		broadcast ""
+every 7 minutes:
+		broadcast ""
+		broadcast "&5&lTIPS &8→ &fYou can support the server using /buy"
+		broadcast ""
+every 6 minutes:
+		broadcast ""
+		broadcast "&5&lTIPS &8→ &fYou can access a personal vault using /pv (number). Buy a rank to access more!"
+		broadcast ""
+
+every 4 minutes:
+		broadcast ""
+		broadcast "&5&lTIPS &8→ &fYou can join the &9/discord &ffor updates, giveaways, sneak peeks and more!"
+		broadcast ""
+

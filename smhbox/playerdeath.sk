@@ -1,0 +1,2 @@
+on death:
+	execute console command "/smite %victim%"

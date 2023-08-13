@@ -1,0 +1,7 @@
+every 10 minutes:
+	send "" to all players
+	send "&a&lAFK &8→ &fAll AFK players just recieved a key!" to all players
+	send "" to all players
+	loop all players:
+		if loop-player is in region "afk":
+			execute console command "/crate givekey %loop-player% afk 1"

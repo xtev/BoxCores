@@ -1,0 +1,4 @@
+command /ip:
+	aliases: /serverip
+	trigger:
+		send "&c&lsmhbox.minehut.gg &fis the ip" to the player

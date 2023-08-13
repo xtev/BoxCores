@@ -1,0 +1,41 @@
+options:
+	prefix: &b&lSS &8|
+
+
+command /ss [<player>]:
+    permission: ss.screanshare
+    trigger:
+        if arg-1 isn't set:
+            send "{@prefix} &7You must also inclued a player in the command such as the person you want to SS!"
+            stop
+        else:
+            make console execute command "teleport %arg-1% 438 89 690"
+            make console execute command "teleport %command sender% 438 89 690"
+            send "{@prefix} &7You have been teleported to the SS room with &e%arg-1%&7 in order to ss them." to player
+            send "{@prefix} &7You have been sent to the SS room by &e%player%&7 DO NOT LEAVE, &7please join screenshare vc in &c&l<link:https://discord.gg/kxUjhRfju3>CLICK HERE" to arg-1
+            broadcast "{@prefix} &e%arg-1% &7is getting screen shared by &e%player%"
+            set {beingSS::%arg-1's uuid%} to true
+command /unss [<player>]:
+    permission: ss.stopss
+    trigger:
+        if arg-1 isn't set:
+            send "{@prefix} &cPlease select a player that you want to stop the ss off, /stopss PLAYER"
+        else:
+            execute console command "espawn %arg-1%"
+            execute console command "espawn %command sender%"
+            send "{@prefix} &aYou are no longer being ssed!" to arg-1
+            broadcast "{@prefix} &e%arg-1% &7is Cleared By &e%player%"
+            delete {beingSS::%arg-1's uuid%}
+on command:
+    if {beingSS::%player's uuid%} is set:
+        if command is "/discord" or "/community" or "/disc" or "/server":
+            stop
+        else:
+            cancel event
+            send "{@prefix} &cYou may not use commands while being SSed!"
+
+on disconnect:
+    if {beingSS::%player's uuid%} is set:
+        execute console command "/tempban %player% 5d refusal to ss"
+        broadcast "{@prefix} &e%player% &7logged out while being SSed so they were banned for &e5 &7days!"
+        delete {beingSS::%player's uuid%}

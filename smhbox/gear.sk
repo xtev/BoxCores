@@ -1,0 +1,75 @@
+command /gear <text> [<text>]:
+    usage: &c/gear <armor/Sword> <armor>
+    permission: op
+    trigger:
+        if arg-1 is "armor":
+            if arg-2 is "head":
+                execute player command "/ie attribute add armor 3 add_number head"
+                execute player command "/ie attribute add armor_toughness 3 add_number head"
+                execute player command "/ie unbreakable"
+                send "&aYou have Added Armor To Your Gear"
+        if arg-1 is "armor":
+            if arg-2 is "Chest":
+                execute player command "/ie attribute add armor 3 add_number chest"
+                execute player command "/ie attribute add armor_toughness 3 add_number chest"
+                execute player command "/ie unbreakable"
+                send "&aYou have Added Armor To Your Gear"
+        if arg-1 is "armor":
+            if arg-2 is "Legs":
+                execute player command "/ie attribute add armor 6 add_number legs"
+                execute player command "/ie attribute add armor_toughness 3 add_number legs"
+                execute player command "/ie unbreakable"
+                send "&aYou have Added Armor To Your Gear"
+        if arg-1 is "armor":
+            if arg-2 is "feet":
+                execute player command "/ie attribute add armor 3 add_number feet"
+                execute player command "/ie attribute add armor_toughness 3 add_number feet"
+                execute player command "/ie unbreakable"
+                send "&aYou have Added Armor To Your Gear"
+        if arg-1 is "sword":
+            if arg-2 is "speed":
+            execute player command "/ie attribute add attack_damage 17 add_number hand"
+            execute player command "/ie attribute add attack_speed -2 add_number hand"
+            execute player command "/ie unbreakable"
+            send "&aYou have Added Attack Damage To Your Sword"
+        if arg-2 is "sword":
+            if arg-2 is "nospeed":
+            execute player command "/ie attribute add attack_damage 17 add_number hand"
+            execute player command "/ie unbreakable"
+            send "&aYou have Added Attack Damage To Your Sword"
+
+
+
+on tab complete of "/gear":
+	set tab completions for position 1 to "Sword" and "Armor"
+	if tab arg-1 = "armor":
+		set tab completions for position 2 to "head" and "chest" and "legs" and "feet"
+	else if tab arg-1 = "Sword":
+		set tab completions for position 2 to "speed" and "nospeed"
+
+command /lore [<text>] [<text>] [<number>]:
+    permission: op
+    usage: &c/lore <armor/tool> <options> <number>
+    trigger:
+        if arg-1 is "armor":
+            if arg-2 is "protection":
+                execute player command "/ie lore add &7Protection %arg-3%"
+        if arg-1 is "tool":
+            if arg-2 is "sharpness":
+                execute player command "/ie lore add &7Sharpness %arg-3%"
+        if arg-1 is "tool":
+            if arg-2 is "Efficiency":
+                execute player command "/ie lore add &7Efficiency %arg-3%"
+        if arg-1 is "tool":
+            if arg-2 is "Fire":
+                execute player command "/ie lore add &7Fire Aspect %arg-3%"
+        if arg-1 is "custom":
+            execute player command "/ie lore add &7%arg-2%"
+
+
+on tab complete of "/lore":
+	set tab completions for position 1 to "armor" and "tool"
+	if tab arg-1 = "armor":
+		set tab completions for position 2 to "protection"
+	else if tab arg-1 = "tool":
+		set tab completions for position 2 to "Sharpness" and "Fire" and "Efficiency"

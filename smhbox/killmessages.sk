@@ -1,0 +1,11 @@
+on death of player:
+	if attacker is not a player:
+		if attacker is set:
+			set the death message to "&4☠ &8&l| &a&l&n%attacker%&r &7&lhas killed &c&l&n%victim%&r &7&lusing %name of attacker's tool%"
+	
+	if damage was caused by potion:
+		set the death message to "&4☠ &c%victim% &7was killed by magic"
+		
+	if attacker is a player:
+		if attacker is set:
+			set the death message to "&f[&b&lSmh&3&lBox&f] &a&l&n%attacker%&r &7has killed &c&l&n%victim%&r &7using %name of attacker's tool%"

@@ -1,0 +1,15 @@
+options:
+    BotName: SmhBox - Linking
+    BotToken: MTA4NzkyODkwNjkyMjg2ODg3Ng.GmBvix.RgDRdMG97Ks3zwx7Mm9KbSEIzoXRWOF0lQg3FE
+    Channel: 1091872733786292356
+    servername: SmhBox
+
+
+define new bot named "{@BotName}":
+    token: "{@BotToken}"
+	
+    intents: default intents
+
+on command:
+    if player has permission "staff.see" or "staff.*":
+        post "**%player% »** /%whole command%" to text channel with id "{@Channel}"

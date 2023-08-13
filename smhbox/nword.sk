@@ -1,0 +1,7 @@
+on chat:
+    replace all "fuck", "fucking" , "faggot", "twat", "piss",  "slut", "pussy", "anal", "dick", "cum", "cock", "slut", "wanker", "nigga", "niggas", "cunt", "niggers", "ngga", "ngger", "n1gger", "n1gg3r", "n1iggers", "n1gg3rs", "kys", "KYS", "penis", "niggwe"  or "nigger", "niger", "nlgger", "nlgga", "n-i-g-g-e-r", "n-i-g-g-a", "niqger", "niqga", "ky s", "k ys", "k ys" in message with "&8[&c&lCensored&8] &r"
+    replace all "fu ck", "fuc k", "f u c k", "f uck", "f uc k", "k y s", "p e n i s", "n i g w g w e" or "f u ck" in message with "&8[&c&lCensored&8] &r"
+    replace all "sh it", "s h i t", "shi t", "s h it", "s hit", "sh i t", or "shite" in message with "&8[&c&lCensored&8] &r"
+    replace all ":skull:" in message with "☠"	
+    replace all ":lit:", ":fire:", ":up:" in message with "&c🔥&r"
+    replace all "<3", ":heart:" in message with "&4❤&r"

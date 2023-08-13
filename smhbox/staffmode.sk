@@ -1,0 +1,19 @@
+options:
+	prefix: &a&lSTAFF &8| &f
+
+
+command /sm:
+   permission: staffmode.staff
+   trigger:
+      execute console command "/vanish %player%"
+      execute console command "/gmsp %player%"
+      broadcast "&a[-] &7%player%"
+      send "{@prefix} You have entered staff mode." to player
+command /unsm:
+	permission: staffmode.staff
+	trigger:
+		execute console command "/vanish %player%"
+		execute console command "/gms %player%"
+		execute console command "/espawn %player%"
+		broadcast "&a[+] &7%player%"
+		send "{@prefix} You have exited staff mode." to player

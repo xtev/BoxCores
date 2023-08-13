@@ -1,0 +1,43 @@
+command /link:
+    trigger:
+        if {discord.linked::%player's uuid%} isn't set:
+            set {_link} to a random integer between 10000 and 99999
+            set {linking::%{_link}%} to player
+            send formatted "&9&lDISCORD &8→ &7Your code is &e%{_link}% &7go to linking channel and type &e!link %{_link}% <suggest command:!link %{_link}%>&e&l[COPY]" to player
+        else:
+            send formatted "&9&lDISCORD &8→ &7You're account is already linked to &e%{discord.linked::%player's uuid%}%" to player
+    
+discord command !link [<integer>]:
+    trigger:
+        set {_link} to arg-1
+        if {linking::%{_link}%} is set:
+            set {discord.linked::%{linking::%{_link}%}'s uuid%} to event-member
+            make embed:
+                set title of embed to "Linked!"
+                set author of the embed to "Linking"
+                set embed color of embed to lime
+                set description of embed to "You've successfully linked your account to `%{linking::%{_link}%}%`!"
+                set footer of embed to "SmhBox"
+                set timestamp of embed to now
+            reply with last made embed
+            set the nickname of event-member to "%{linking::%{_link}%}%"
+            execute console command "/crate givekey %{linking::%{_link}%}% gear 1"
+            delete {linking::%{_link}%}
+            stop
+        else:
+            make embed:
+                set title of embed to "Error"
+                set author of the embed to "Linking"
+                set embed color of embed to red
+                set description of embed to "Unknown Code. Please /link again."
+                set footer of embed to "SmhBox"
+                set timestamp of embed to now
+            reply with last made embed
+
+
+command /resetlinking:
+    permission: op
+    trigger:
+        delete {discord.linked::*}
+        delete {linking::*}
+        send "&b&lLinking &8&l| &fDeleted All Linked Users!"

@@ -1,0 +1,45 @@
+on death of drowned:
+	clear drops
+	drop brown dye named "&4&lCoconut Seed" at position of victim
+
+on death of zombie:
+	clear drops
+	drop 2 orange dye named "&e&lCoconut Jewel" at position of victim
+
+on right click with phantom membrane:
+    name of player's tool is "&4&lCoconut King":
+        send "&c☠ %player% has summoned the &4&lCoconut King" to all players
+        remove 1 of player's held item from player
+        spawn 1 of zombie at location of player
+        set last spawned zombie's held item to stick
+        set last spawned zombie's offhand item to totem of undying
+        set last spawned zombie's max health to 300
+        set last spawned zombie's health to 300
+        set display name of last spawned zombie to "&4&lCOCONUT KING"
+        apply speed 2 to last spawned zombie for 9999999 days
+        apply fire resistance to last spawned zombie for 9999999 days
+        apply strength 8 to last spawned zombie for 9999999 days
+        set last spawned zombie's helmet to brown glass
+        set last spawned zombie's chestplate to gold chestplate
+        set last spawned zombie's leggings to gold leggings
+        set last spawned zombie's boots to gold boots
+
+on damage:
+    if display name of victim is "&4&lCOCONUT KING":
+        chance of 15%:
+            apply wither to attacker for 5 seconds
+            apply blindness 1 to attacker for 5 seconds
+            damage attacker by 5
+        chance of 7%:
+            create a fake explosion at attacker
+            damage attacker by 10
+        chance of 15%:
+            execute console command "smite %attacker%"
+        chance of 15%:
+            push attacker upward at speed 1
+        chance of 10%:
+            force victim to ride attacker
+            wait 5 seconds
+            force victim to dismount
+            create fake explosion
+            damage attacker by 15

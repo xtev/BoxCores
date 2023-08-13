@@ -1,0 +1,2 @@
+on command "/irp":
+    broadcast "&e&l%player% &rrestored &e&l%arg-2%"

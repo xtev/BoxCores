@@ -1,0 +1,22 @@
+every 3 minutes:
+	broadcast ""
+	broadcast "&4&lCLEARLAG &8→ &cClearing lag in 15 seconds"
+	broadcast ""
+	wait 15 seconds
+	broadcast ""
+	broadcast "&4&lCLEARLAG &8→ &cCleared %size of dropped items% dropped items"
+	broadcast ""
+	kill dropped items
+
+command /clearlag:
+	permission: op
+	trigger:
+		broadcast ""
+		broadcast "&4&lCLEARLAG &8→ &cClearing lag in 15 seconds"
+		broadcast ""
+		wait 15 seconds
+		broadcast ""
+		broadcast "&4&lCLEARLAG &8→ &cCleared %size of dropped items% dropped items"
+		broadcast ""
+		kill dropped items
+
