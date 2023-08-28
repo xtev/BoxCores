@@ -1,0 +1,276 @@
+define new bot named "RizzBox Utils": 
+    token: "MTEwOTUyMjExMzQ5MDA1OTI3NA.GfOtQu.1H8izN4YyW0PLgQJu0x2Voj171zO-9rnSwDWD4"
+    intents: default intents
+    policy: all
+    auto reconnect: true
+    compression: none
+    on ready:
+        set {_linked} to new slash command named "linked" with description "Check for linked people."
+        add new required user option named "user" with description "The user you want to check!" to options of {_linked}
+        set {_unlink} to new slash command named "unlink" with description "Unlink a user."
+        add new required user option named "user" with description "The user you want to unlink!" to options of {_unlink}
+        set {_link} to new slash command named "link" with description "Link your Discord account to Minecraft!"
+        add new required string option named "code" with description "Enter the code!" to options of {_link}
+        set {_info} to new slash command named "info" with description "Server Info!"
+        update {_linked} and {_unlink} and {_link} and {_info} globally in event-bot
+
+on slash command:
+    set {_name} to event-string
+    if {_name} = "linked":
+        event-member has discord permission administrator
+        set {_arg} to argument "user" as user
+        if {linkedGeneral::%discord id of {_arg}%::*} is set:
+            loop indexes of {linkedGeneral::%discord id of {_arg}%::*}:
+                reply with hidden "The Discord user **%{_arg}%** is linked to the Minecraft account **%loop-value parsed as offlineplayer%** (UUID: **%loop-value%**)"
+        else:
+            reply with hidden "The Discord user **%{_arg}%** is not linked to Minecraft."
+    if {_name} = "unlink":
+        event-member has discord permission administrator
+        set {_arg} to argument "user" as user
+        if {linkedGeneral::%discord id of {_arg}%::*} is set:
+            loop indexes of {linkedGeneral::%discord id of {_arg}%::*}:
+                set {_player} to (loop-value parsed as offlineplayer)
+                delete {linkedGeneral::%discord id of {_arg}%::*}
+                delete {minecraftLinked::%loop-value%::*}
+                reply with hidden "The Discord user **%{_arg}%** has been unlinked from the Minecraft account **%{_player}%** (UUID: **%loop-value%**)"
+        else:
+            reply with hidden "The Discord user **%{_arg}%** is not linked to Minecraft."
+    if {_name} = "link":
+        set {_arg} to argument "code" as string
+        if {linkedGeneral::%discord id of event-member%::*} is true:
+            reply with hidden "You have already linked your Discord account to a Minecraft account"
+            stop
+        if {code::%{_arg}%} is not set:
+            reply with hidden "❌ Invalid code"
+            stop
+        reply with hidden "✅ You are now linked to %{code::%{_arg}%}%! 🎉"
+        set {minecraftLinked::%{code::%{_arg}%}'s uuid%::%discord id of event-member%} to true
+        set ({linkedGeneral::%discord id of event-member%::%{code::%{_arg}%}'s uuid%}) to true
+        make console execute "/crates key give %{code::%{_arg}%}% gear 1"
+        delete {code::%{_arg}%}
+    if {_name} = "info":
+        make embed:
+            set embed color of embed to red
+            set title of embed to "**__SERVER INFO__**"
+            set description of embed to "STORE: **store.rizzbox.com**%nl%IP: **play.rizzbox.com**%nl%Owners: **GhostCrit & Donut**"
+        reply with last embed
+
+command link:
+    trigger:
+        if {minecraftLinked::%player's uuid%::*} is true:
+            send "&aYou cannot link more than once!" to player
+        else:
+            set {_code} to "%random integer between 11111 and 99999%"
+            set {code::%{_code}%} to player
+            send "&aYour link code is &b%{_code}%&a. Run the Discord command &b/link %{_code}%&a to link your account. This code will be deleted in &c1&a minute."
+            wait 1 minute
+            delete {code::%{_code}%}
+
+command /resetlinking:
+    permission: command.resetlink
+    permission message: &cYou cannot perform this command!
+    trigger:
+        send "&aRemoved all linked accounts."
+        set {linkedGeneral::*} to {linkedGeneral::*}
+        set {minecraftLinked::*} to {minecraftLinked::*}
+
+on load:
+    if {boosterKey} is not set:
+        set {boosterKey} to now
+
+function boosterKeys():
+    set {_role} to guild boost role of guild with id "1050616292341731338"
+    make embed:
+        set embed color of embed to red
+        set title of embed to "**__BOOSTER REWARDS__**"
+        set footer of embed to "Happens every 2 days"
+        set description of embed to "You have been rewarded with a **GEAR and 2 CASINO KEYS**!%nl%%nl%Claim your **keys** in-game using the command:%nl%**| /claimbooster |**"
+        post last embed to text channel with id "1050671428338454558"
+    post mention tag of {_role} to text channel with id "1050671428338454558"
+    loop indexes of {linkedGeneral::*}:
+        set {_m} to member with id loop-value from guild with id "1013682377014386709"
+        if {_m} is a member:
+            if {_m} has discord role {_role}:
+                loop indexes of {linkedGeneral::%loop-value%::*}:
+                    if {BoosterClaim::%loop-value-2%} is set:
+                        add 1 to {BoosterClaim::%loop-value-2%}
+                    else:
+                        set {BoosterClaim::%loop-value-2%} to 1
+
+command /claimbooster:
+    trigger:
+        if {BoosterClaim::%player's uuid%} is set:
+            console command "/crates key give %player% gear %{BoosterClaim::%player's uuid%}%"
+            console command "/crates key give %player% casino %{BoosterClaim::%player's uuid%}+1%"
+            send "&eYou have claimed your booster rewards!"
+            delete {BoosterClaim::%player's uuid%}
+        else:
+            send "&cYou are not boosting the server, or you don't have any keys to claim!" to player
+
+every 1 hour:
+    if time since {boosterKey} >= 48 hours:
+        boosterKeys()
+        set {boosterKey} to now
+
+command /forcebooster:
+    permission: forceboost
+    trigger:
+        boosterKeys()
+       
+discord command online:
+    prefixes: ! 
+    trigger:
+        make embed:
+            set title of embed to "Online Players"
+            set description of embed to "Current online players: %online player count%"
+            set thumbnail of embed to "https://cdn.discordapp.com/attachments/1110988688617377794/1141470447859417138/RizzBoxWithGlow.png"
+            set embed color of embed to blue
+            set footer of embed to "Rizzbox"
+        reply with last embed
+        
+discord command tps:
+    prefixes: !
+    trigger:
+        make embed:
+            set title of embed to "RizzBox's TPS"
+            set embed color of the embed to blue
+            add inline field named "RizzBox's TPS" with value "%tps%" to fields of embed
+            set footer of embed to "RizzBox"
+            set timestamp of embed to now
+        reply with last embed
+        
+        set {_info} to new slash command named "info" with description "Server Info!"
+        if {_name} = "info":
+        make embed:
+            set embed color of embed to blue
+            set title of embed to "SERVER INFO"
+            set description of embed to "STORE: store.rizzbox.com%nl%IP: play.rizzbox.com%nl%Owners: GhostCrit & Donut %nl%Co-Owners: NoahSch"
+        reply with last embed
+       
+        
+                       # Made by itztotem.
+
+# Inventory Rollback Plus download: https://www.spigotmc.org/resources/inventory-rollback-plus-1-8-1-20-x.85811/
+
+# Bugs
+
+options:
+    srmodLimit: 3
+    adminLimit: 5
+    # When changing the limt you MUST reset current cooldowns (will be updated later)
+    prefix: &f[&bIRP Protection&f]&7
+    cooldown: 24 # hours
+    embedImage: https://cdn.discordapp.com/attachments/1110988688617377794/1141470447859417138/RizzBoxWithGlow.png
+    alertsChannel: 1125557663799971933
+    alertsPing: 1013682377198940187
+    embedColor: gold
+
+
+command refundmanager [<text>] [<text>]:
+    permission: op
+    aliases: /refundman
+    trigger:
+        if arg-1 is "resetall":
+            set {refunds::*} to 0
+            send "{@prefix} Reset all refund cooldowns."
+        if arg-1 is "check":
+            if arg-2 is set:
+                send "{@prefix} %(arg-2 parsed as a player)% has used %{refunds::%(arg-2 parsed as a player)'s uuid%}% total refund(s)."
+        if arg-1 is "resetplayer":
+            if arg-2 is set:
+                send "{@prefix} Reset %(arg-2 parsed as a player)%'s refund cooldowns"
+                set {refunds::%(arg-2 parsed as a player)'s uuid%} to 0
+        else if arg-1 isn't set:
+            send " "
+            send "&e&lRefund Protection"
+            send "&a/refundman <resetall> &7&o(Resets all refund cooldowns)"
+            send "&a/refundman <check> <player> &7&o(Checks a players refund count)"
+            send "&a/refundman <resetplayer> <player> &7&o(Resets the specified player refunds)"
+            send " "
+
+on tab complete:
+    event-string is "/refundmanager" or "/refundman"
+    set tab completions for position 1 to "resetall", "resetplayer" and "check"
+
+on command "/ir restore":
+    set {_refundAlerts} to role with the id "{@alertsPing}"
+    if player's group is "srmod":
+        if {refunds::%player's uuid%} >= {@srmodLimit}:
+            send "{@prefix} &cYou cannot refund more than {@srmodLimit} times per day. Please contact server admins if you believe this is a mistake."
+            cancel event
+            make embed:
+                set embed color of embed to {@embedColor}
+                set title of embed to "__Refund Attempt__"
+                set description of embed to "%player% was denied refund permissions, as they have already used the max limit (%{refunds::%player's uuid%}%)."
+                set timestamp of embed to now
+                set thumbnail of embed to "{@embedImage}"
+            post last embed to channel with id "{@alertsChannel}"
+            post mention tag of {_refundAlerts} to text channel with id "{@alertsChannel}"
+        else:
+            add 1 to {refunds::%player's uuid%}
+            make embed:
+                set title of embed to "__Player Refunded__ (Sr-Mod)"
+                set embed color of embed to {@embedColor}
+                set description of embed to "%player% has just used 1 of their refund limits. They now have %{refunds::%player's uuid%}% total refunds today. %nl%**Full Command: __/%full command%__**"
+                set timestamp of embed to now
+                set thumbnail of embed to "{@embedImage}"
+            post last embed to channel with id "{@alertsChannel}"
+            
+        
+    if player's group is "admin":
+        if {refunds::%player's uuid%} >= {@adminLimit}:
+            send "{@prefix} &cYou cannot refund more than {@adminLimit} times per day. Please contact server admins if you believe this is a mistake."
+            cancel event
+            make embed:
+                set embed color of embed to {@embedColor}
+                set title of embed to "__Refund Attempt__"
+                set description of embed to "%player% was denied refund permissions, as they have already used the max limit (%{refunds::%player's uuid%}%)."
+                set timestamp of embed to now
+                set thumbnail of embed to "{@embedImage}"
+            post last embed to channel with id "{@alertsChannel}"
+            post mention tag of {_refundAlerts} to text channel with id "{@alertsChannel}"
+        else:
+            add 1 to {refunds::%player's uuid%}
+            make embed:
+                set title of embed to "__Player Refunded__ (Admin)"
+                set embed color of embed to {@embedColor}
+                set description of embed to "%player% has used there %{refunds::%player's uuid%}% /5 refund. %nl%**Full Command: __/%full command%__**"
+                set timestamp of embed to now
+                set thumbnail of embed to "{@embedImage}"
+            post last embed to channel with id "{@alertsChannel}"
+
+every {@cooldown} hours:
+    set {refunds::*} to 0
+
+
+on command "/irp restore":
+    if player doesn't have permission "server.refund.override.*":
+        cancel event
+        send "&cYou cannot use &e/irp restore&c for refunds. &7Use &e/ir restore&7 instead." to player
+        
+        
+
+    
+on chat:
+    set {_m} to message
+    replace all "@" in {_m} with ""
+    post "%player% » %uncoloured {_m}%" to text channel with id "1142939014731669734"
+on join:
+    post "%player% » has joined :tada: " to text channel with id "1142939014731669734"
+on quit:
+    post "%player% » has left :x:" to text channel with id "1142939014731669734"
+    
+command /tebexannouncement [<text>] [<text>] [<text>]:
+    trigger:
+        command sender is console:
+            set {_purchase::ign} to arg-1
+            set {_purchase::price} to arg-3
+            set {_purchase::product} to arg-2
+            make embed:
+                set title of embed to "NEW PURCHASE!"
+                set description of embed to "%{_purchase::ign}% has just purchased %{_purchase::product}%!%nl%%nl%**Price:**%nl%%{_purchase::price}%"
+                set footer of embed to "Check out our store at store.rizzbox.com!"
+                set thumbnail of embed to "https://cdn.discordapp.com/attachments/1110988688617377794/1141470447859417138/RizzBoxWithGlow.png"
+            post last embed to channel with id "1051378593118310440"
+            
+            

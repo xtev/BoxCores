@@ -1,0 +1,11 @@
+function font(s: string) :: string:
+    set {_a::*} to "aᴀ|bʙ|cᴄ|dᴅ|eᴇ|fꜰ|gɢ|hʜ|iɪ|jᴊ|kᴋ|lʟ|mᴍ|nɴ|oᴏ|pᴘ|rʀ|sѕ|tᴛ|uᴜ|wᴡ|xх|yʏ|zᴢ" split at "|"
+    loop {_a::*}:
+        delete {_a::%loop-index%}
+        set {_a::%first character of loop-value%} to last character of loop-value
+    set {_s::*} to {_s} split at ""
+    loop {_s::*}:
+        add 1 to {_n}
+        set {_s::%loop-index%} to {_a::%loop-value%} if {_a::%loop-value%} exists
+    delete {_s::%{_n}%}
+    return join {_s::*} with ""

@@ -1,0 +1,2 @@
+every 30 minutes:
+        execute console command "/broadcast /link for a gear key!"

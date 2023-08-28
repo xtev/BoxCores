@@ -1,0 +1,30 @@
+command /keyall-small:
+    permission: keyall.ADMIN
+    trigger:
+        broadcast "&7[&bRB&7] &8» &aKeyall in 5 seconds go spawn now! &a&lKeyall By &c%player%"
+        send title "&akeyall" with subtitle "&c&lIn 5 Seconds Go Spawn Now!" to all players for 5 seconds
+        play sound "entity.ender_dragon.hurt" with volume 1 at all players                 
+        wait 5 seconds
+        execute console command "crates key giveall afk 3"
+        execute console command "crates key giveall jungle 4"
+command /keyall-medium:
+    permission: keyall.ADMIN
+    trigger:
+        broadcast "&7[&bRB&7] &8» &aKeyall in 5 seconds go spawn now! &a&lKeyall By &c%player%"
+        send title "&akeyall" with subtitle "&c&lIn 5 Seconds Go Spawn Now!" to all players for 5 seconds
+        play sound "entity.ender_dragon.hurt" with volume 1 at all players                   
+        wait 5 seconds
+        execute console command "crates key giveall casino 2"
+        execute console command "crates key giveall afk 5"
+command /keyall-large:
+    permission: keyall.ADMIN
+    trigger:
+        broadcast "&7[&bRB&7] &8» &aKeyall in 5 seconds go spawn now! &a&lKeyall By &c%player%"
+        send title "&akeyall" with subtitle "&c&lIn 5 Seconds Go Spawn Now!" to all players for 5 seconds
+        play sound "entity.ender_dragon.hurt" with volume 1 at all players              
+        wait 5 seconds
+        execute console command "crates key giveall gear 1"
+        execute console command "crates key giveall afk 7"
+        execute console command "crates key giveall casino 3"
+        execute console command "crates key giveall jungle 7"
+        

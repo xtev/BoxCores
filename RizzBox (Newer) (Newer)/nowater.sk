@@ -1,0 +1,5 @@
+on place:
+    if event-block is water:
+        if "%region at player%" contains "plots":
+            send "&cWater Placement isnt allowed here." to player
+            cancel event

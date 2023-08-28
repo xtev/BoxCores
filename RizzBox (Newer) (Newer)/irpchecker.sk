@@ -1,0 +1,9 @@
+command /irp restore:
+    permission: log.commands
+    trigger:
+        make embed:
+            set title of embed to "Command Log"
+            set embed color of the embed to gold
+            set the timestamp of the embed to now
+            set description of embed to "%event-player% ran "%command%"
+        post embed to channel with id "1138943587405541456"

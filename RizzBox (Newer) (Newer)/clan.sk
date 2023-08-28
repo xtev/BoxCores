@@ -1,0 +1,284 @@
+options:
+	prefix: &6&lCLANS 
+	prefix_end: &e&o•
+	main_color: &e
+	second_color: &7
+
+command /clan [<text>] [<text>]:
+    aliases: clans, clancmd
+    trigger:
+        if arg-1 is not set:
+            send ""
+            send "{@prefix_end} {@main_color}/clan create <name> {@second_color}&oCreates a clan."
+            send "{@prefix_end} {@main_color}/clan invite <player> {@second_color}&oInvites a player to your clan"
+            send "{@prefix_end} {@main_color}/clan join <name> {@second_color}&oAllows you to join clans."
+            send "{@prefix_end} {@main_color}/clan leave {@second_color}&oAllows you to leave your clan."
+            send "{@prefix_end} {@main_color}/clan chat {@second_color}&oToggles clan chat mode."
+            send "{@prefix_end} {@main_color}/clan kick <player> {@second_color}&oKicks a player from your clan."
+            send ""
+        else:
+            if arg-1 is "create" or "disband" or "join" or "leave" or "chat" or "invite" or "info" or "kick":
+                if arg-1 is "create":
+                    if arg-2 is not set:
+                        send "{@prefix} {@prefix_end} {@main_color}/clan create <name>"
+                    else:
+                        if length of arg-2 is greater than 8:
+                            send "{@prefix} {@prefix_end} {@second_color}Clan names can only be up to {@main_color}8 {@second_color}characters."
+                            stop
+                        if arg 2 matches "[a-zA-Z]+":
+                            if {clans2::%player%} is not set:
+                                loop {clans2::*}:
+                                    if loop-value is argument 2:
+                                        set {_n} to true
+                                if {_n} is not set:
+                                    set {clans2::%player%} to arg-2
+                                    set {clans2::%{clans2::%player%}%::owner} to the player
+                                    add player to {members2::%player%::*}
+                                    send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}has created a clan named {@main_color}%arg-2%{@second_color}!"
+                                    setTab(player)
+                                else:
+                                    send "{@prefix} {@prefix_end} {@second_color}A clan with that name already exists!"
+                            else:
+                                send "{@prefix} {@prefix_end} {@second_color}You're already in a clan!"
+                        else:
+                            send "{@prefix} {@prefix_end} {@second_color}Name must be {@main_color}alphabetical."
+                            stop
+                if arg-1 is "disband":
+                    if {clans2::%player%} is not set:
+                        send "{@prefix} {@prefix_end} {@second_color}You're not in a clan!"
+                    else:
+                        if {clans2::%{clans2::%player%}%::owner} is not the player:
+                            send "{@prefix} {@prefix_end} {@second_color}You aren't the leader of your clan!"
+                        else:
+                            send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}has disbanded the {@main_color}%{clans2::%player%}% {@second_color}clan!"
+                            loop {invited2::%{clans2::%player%}%::*}:
+                                remove {clans2::%player%} from {clansinvites2::%loop-value%::*}
+                            loop {members2::%{clans2::%{clans2::%player%}%::owner}%::*}:
+                                delete {clanchat2::%loop-value%}
+                                delete {clans2::%loop-value%}
+                                remove loop-value from {members2::%player%::*}
+                            delete {clans2::%{clans2::%player%}%::owner}
+                            remove player from {members2::%player%::*}
+                            setTab(player)
+                if arg-1 is "leave":
+                    if {clans2::%player%} is not set:
+                        send "{@prefix} {@prefix_end} {@second_color}You're not in a clan!"
+                    else:
+                        if {clans2::%{clans2::%player%}%::owner} is the player:
+                            send "{@prefix} {@prefix_end} {@second_color}You cannot leave your own clan! Use /clan disband!"
+                        else:
+                            send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}has left the clan!"
+                            loop {members2::%{clans2::%{clans2::%player%}%::owner}%::*}:
+                                set {_b} to "%loop-value%" parsed as an offline player
+                                send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}has left the clan!" to {_b}
+                                remove the player from {members2::%{clans2::%{clans2::%player%}%::owner}%::*}
+                                delete {clans2::%player%}
+                                delete {clanchat2::%player%}
+                                setTab(player)
+                if arg-1 is "invite":
+                    if {clans2::%player%} is not set:
+                        send "{@prefix} {@prefix_end} {@second_color}You're not in a clan!"
+                    else:
+                        if {clans2::%{clans2::%player%}%::owner} is not the player:
+                            send "{@prefix} {@prefix_end} {@second_color}You're not the owner of the clan!"
+                        else:
+                            if arg-2 is set:
+                                set {_b} to arg-2 parsed as an offline player
+                                if {invited2::%{clans2::%player%}%::%arg-2%} is not set:
+                                    send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}invited you to join {@main_color}%{clans2::%player%}%{@second_color}!" to {_b}
+                                    set {invited2::%{clans2::%player%}%::%arg-2%} to true
+                                    loop {members2::%player%::*}:
+                                        set {_b2} to "%loop-value%" parsed as an offline player
+                                        send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}invited {@main_color}%arg-2% {@second_color}to the clan!" to {_b2}
+                                else:
+                                    set {_b} to arg-2 parsed as an offline player
+                                    send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}revoked your invite." to {_b}
+                                    delete {invited2::%{clans2::%player%}%::%arg-2%}
+                                    loop {members2::%player%::*}:
+                                        set {_b2} to "%loop-value%" parsed as an offline player
+                                        send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}revoked {@main_color}%arg-2%{@second_color}'s invite." to {_b2}
+                            else:
+                                send "{@prefix} {@prefix_end} {@second_color}/clan invite <player>"
+                if arg-1 is "join":
+                    if arg-2 is not set:
+                        send "{@prefix} {@prefix_end} {@second_color}/clan join <clan name>"
+                    else:
+                        if {clans2::%player%} is set:
+                            send "{@prefix} {@prefix_end} {@second_color}You're already in a clan!"
+                        else:
+                            loop {clans2::*}:
+                                if loop-value is arg-2:
+                                    set {_n} to true
+                                    stop loop
+                                else:
+                                    set {_n} to false
+                            if {_n} is false:
+                                send "{@prefix} {@prefix_end} {@second_color}That clan doesn't exist!"
+                            else:
+                                if {invited2::%arg-2%::%player%} is set:
+                                    set {clans2::%player%} to arg-2
+                                    set {_player} to {clans2::%{clans2::%player%}%::owner}
+                                    set {clans2::%player%} to {clans2::%{_player}%}
+                                    loop {members2::%{clans2::%{clans2::%player%}%::owner}%::*}:
+                                        set {_b} to "%loop-value%" parsed as an offline player
+                                        send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}joined the clan!" to {_b}
+                                    send "{@prefix} {@prefix_end} {@second_color}You joined the {@main_color}%arg-2% {@second_color}clan!"
+                                    add the player to {members2::%{clans2::%{clans2::%player%}%::owner}%::*}
+                                    delete {invited2::%arg-2%::%player%}
+                                    setTab(player)
+                                else:
+                                    send "{@prefix} {@prefix_end} {@second_color}You weren't invited to this clan!"
+                if arg-1 is "home":
+                    if {clans2::%player%} is not set:
+                        send "{@prefix} {@prefix_end} {@second_color}You aren't in a clan!"
+                    else:
+                        if {clanshome::%{clans2::%{clans2::%player%}%::owner}%} is not set:
+                            send "{@prefix} {@prefix_end} {@second_color}Your clan doesn't have a home!"
+                        else:
+                            teleport player to {clanshome::%{clans2::%{clans2::%player%}%::owner}%}
+                            send "{@prefix} {@prefix_end} {@second_color}You teleported to your clan home!"
+                if arg-1 is "sethome":
+                    if {clans2::%player%} is not set:
+                        send "{@prefix} {@prefix_end} {@second_color}You aren't in a clan!"
+                    else:
+                        loop all players in radius 30 of player:
+                            if {clans2::%loop-player%} is not set:
+                                send "&cYou are too close to players who are not in your clan!"
+                                stop
+                            if {clans2::%loop-player%} is set:
+                                if {clans2::%loop-player%} is not {clans2::%player%}:
+                                    send "&cYou are too close to players who are not in your clan!"
+                                    stop
+                                else:
+                                    if {clans2::%{clans2::%player%}%::owner} is not the player:
+                                        send "{@prefix} {@prefix_end} {@second_color}You must be the Clan Leader!"
+                                    else:
+                                        set {clanshome::%{clans2::%{clans2::%player%}%::owner}%} to location of player
+                                        send "{@prefix} {@prefix_end} {@second_color}Your Clan home has been set!"
+				
+                if arg-1 is "info":
+                    if arg-2 is not set:
+                        if {clans2::%player%} is not set:
+                            send "{@prefix} {@prefix_end} {@second_color}You are not in a clan!"
+                        else:
+                            send ""
+                            send "&6%{clans2::%player%}%'s Information:"
+                            send ""
+                            send "{@main_color}Leader: {@second_color}%{clans2::%{clans2::%player%}%::owner}%"
+                            set {_m::*} to {members2::%{clans2::%{clans2::%player%}%::owner}%::*}
+                            remove {clans2::%{clans2::%player%}%::owner} from {_m::*}
+                            if size of {_m::*} is greater than 0:
+                                loop {_m::*}:
+                                    add loop-value to {_local2::*}
+                                send "{@main_color}Members: {@second_color}%{_local2::*}%"
+                            send ""
+                    else:
+                        loop {clans2::*}:
+                            if {clans2::*} contains argument 2:
+                                send ""
+                                send "&6%arg-2%'s Information:"
+                                send ""
+                                send "{@main_color}Leader: {@second_color}%{clans2::%arg-2%::owner}%"
+                                set {_m::*} to {members2::%{clans2::%arg-2%::owner}%::*}
+                                remove {clans2::%arg-2%::owner} from {_m::*}
+                                if size of {_m::*} is greater than 0:
+                                    loop {_m::*}:
+                                        add loop-value-2 to {_local3::*}
+                                    send "{@main_color}Members: {@second_color}%{_local3::*}%"
+                                send ""
+                                stop loop
+                            else:
+                                set {_f} to arg-2 parsed as an offline player
+                                if {_f} has not played before:
+                                    send "{@prefix} {@prefix_end} {@second_color}There is no clan or player that exists by that name."
+                                    stop loop
+                                else:
+                                    if {clans2::%{_f}%} is not set:
+                                        send "{@prefix} {@prefix_end} {@second_color}That player isn't in a clan!"
+                                        stop loop
+                                    else:
+                                        send "&6%{clans2::%arg-2%}%'s Information:"
+                                        send ""
+                                        send "{@main_color}Leader: {@second_color}%{clans2::%{clans2::%arg-2%}%::owner}%"
+                                        set {_m::*} to {members2::%{clans2::%{clans2::%arg-2%}%::owner}%::*}
+                                        remove {clans2::%{clans2::%arg-2%}%::owner} from {_m::*}
+                                        if size of {_m::*} is greater than 0:
+                                            loop {_m::*}:
+                                                add loop-value-2 to {_local3::*}
+                                            send "{@main_color}Members: {@second_color}%{_local3::*}%"
+                                        send ""
+                                        stop loop
+                if arg-1 is "chat":
+                    if {clans2::%player%} is not set:
+                        send "{@prefix} {@prefix_end} {@second_color}You're not in a clan!"
+                    else:
+                        if {clanchat2::%player%} is not set:
+                            set {clanchat2::%player%} to true
+                            send "{@prefix} {@prefix_end} {@second_color}Enabled clan chat...%nl%Type this command again to disable it!"
+                        else:
+                            delete {clanchat2::%player%}
+                            send "{@prefix} {@prefix_end} {@second_color}Disabled clan chat...%nl%Type this command again to enable it!"
+                if arg-1 is "kick":
+                    if {clans2::%player%} is not set:
+                        send "{@prefix} {@prefix_end} {@second_color}You're not in a clan!"
+                    else:
+                        if {clans2::%{clans2::%player%}%::owner} is not the player:
+                            send "{@prefix} {@prefix_end} {@second_color}Only clan leaders can kick members!"
+                        else:
+                            set {_n} to arg-2 parsed as offline player
+                            if {members2::%player%::*} does not contain {_n}:
+                                send "{@prefix} {@prefix_end} {@main_color}%arg-2% {@second_color}isn't in your clan!"
+                            else:
+                                if arg-2 is not the player:
+                                    remove {_n} from {members2::%player%::*}
+                                    delete {clans2::%arg-2%}
+                                    delete {clanchat2::%arg-2%}
+                                    send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}kicked you from the clan!" to {_n}
+                                    loop {members2::%player%::*}:
+                                        set {_n2} to "%loop-value%" parsed as offline player
+                                        send "{@prefix} {@prefix_end} {@main_color}%player% {@second_color}kicked {@main_color}%arg-2% {@second_color}from the clan!" to {_n2}
+                                else:
+                                    send "{@prefix} {@prefix_end} {@second_color}You cannot kick yourself."
+            else:
+                send ""
+                send "&6&o• {@main_color}/clan create <name> {@second_color}&oCreates a clan."
+                send "&6&o• {@main_color}/clan invite <player> {@second_color}&oInvites a player to your clan"
+                send "&6&o• {@main_color}/clan join <name> {@second_color}&oAllows you to join clans."
+                send "&6&o• {@main_color}/clan leave {@second_color}&oAllows you to leave your clan."
+                send "&6&o• {@main_color}/clan chat {@second_color}&oToggles clan chat mode."
+                send "&6&o• {@main_color}/clan kick <player> {@second_color}&oKicks a player from your clan."
+                send ""
+
+on block place of bamboo:
+	cancel event
+
+on damage of player:
+	if {clans2::%victim%} is set:
+		if {clans2::%victim%} is {clans2::%attacker%}:
+			cancel event
+			send "{@prefix} {@prefix_end} {@main_color}This player is in your clan!" to attacker
+			stop
+
+on chat:
+	if {clanchat2::%player%} is true:
+		loop {members2::%{clans2::%{clans2::%player%}%::owner}%::*}:
+			cancel event
+			send "&3&lCLAN &3%player% &b» &3%message%" to loop-value
+		stop
+	
+	else if {clanchat2::%player%} is not set:
+		if {clans2::%player%} is set:
+			stop
+		else:
+			stop
+			
+on join:
+  setTab(player)
+function setTab(player:player):
+	if {clans2::%{_player}%} is not set:
+		execute console command "tab player %{_player}% tagsuffix"
+		execute console command "tab player %{_player}% tabsuffix"
+		stop
+	set {_clan} to " &7[&b%{clans2::%{_player}%}%&7]"
+	execute console command "tab player %{_player}% tagsuffix '%{_clan}%'"
+	execute console command "tab player %{_player}% tabsuffix '%{_clan}%'"

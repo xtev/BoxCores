@@ -1,0 +1,79 @@
+on join:
+    set {hidden::%player's uuid%} to false
+
+command /staffnick [<text>] [<text>]:
+    permission: server.staff.nick
+    aliases: /hide
+    trigger:
+        if arg-1 is not set:
+            if player is op:
+                send " "
+                send "&e&lStaff Hider"
+                send "&a/staffnick disable"
+                send "&a/staffnick enable"
+                send "&a/staffnick addskin"
+                send "&a/staffnick addname"
+                send "&a/staffnick check"
+                send " "
+            else:
+                send " "
+                send "&e&lStaff Hider"
+                send "&a/staffnick enable"
+                send "&a/staffnick disable"
+                send " "
+        else if arg-1 is "disable":
+            if {hidden::%player's uuid%} is false:
+                send "&7You cannot disable your nick as you do not have a current one set."
+            else:
+                make console execute "/undisguiseplayer %player%"
+                send "&7You have disabled your staff nick."
+                set {hidden::%player's uuid%} to false
+      
+        else if arg-1 is "addskin":
+            if player is op:
+                if arg-2 is set:
+                    if {staffnick::skins::*} does not contain arg-2:
+                        add arg-2 to {staffnick::skins::*}
+                        send "&7Added &e%arg-2%&7 to the player skin file."
+                else:
+                    send "&cYou cannot use this command."
+        else if arg-1 is "addname":
+            if player is op:
+                if arg-2 is set:
+                    if {staffnick::name::*} does not contain arg-2:
+                        add arg-2 to {staffnick::name::*}
+                        send "&7Added &e%arg-2%&7 to the username file."
+            else:
+                send "&cYou cannot use this command."
+
+        else if arg-1 is "enable":
+            if {hidden::%player's uuid%} is true:
+                send "&cYou are already nicked, use &e/staffnick disable."
+            else:    
+                set {_name} to random element out of {staffnick::name::*}
+                set {_skin} to random element out of {staffnick::skins::*}
+                set {_d} to new disguise from "&7[&7Player]&f %{_name}%"
+                set skin of {_d} to "%{_skin}%"
+                set disguise of player to {_d}
+                send "&7You have disguised as &e%{_name}%&7!"
+                set {hidden::%player's uuid%} to true
+        else if arg-1 is "check":
+            if arg-2 is set:
+                if {hidden::%(arg-2 parsed as a offline player)'s uuid%} isn't set:
+                    set {hidden::%(arg-2 parsed as a offline player)'s uuid%} to false
+                create a gui with virtual chest inventory with 3 rows named "Staff Nick":
+                    make gui slot (integers between 0 and 35) to gray stained glass pane named " "
+                    if {hidden::%(arg-2 parsed as a offline player)'s uuid%} is true:
+                        make gui slot 13 to paper named "&a%(arg-2 parsed as a offline player)%" with lore "&eIs Nicked: &cYes &7(%{_name}%)"
+                    else:
+                        make gui slot 13 to paper named "&a%(arg-2 parsed as a offline player)%" with lore "&eIs Nicked: &cNo"
+                open last gui to player
+            else:
+                send "&7A player is required to check if they are nicked."
+
+on tab complete:
+    event-string is "/staffnick" or "/hide"
+    if player is op:
+        set tab completions for position 1 to "disable" and "enable" and "addname" and "addskin" and "check"
+    else:
+        set tab completions for position 1 to "disable" and "enable"

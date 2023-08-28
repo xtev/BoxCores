@@ -1,0 +1,9 @@
+command /keyall1:
+    permission: op
+    trigger:
+        loop all players:
+            if loop-player has permission "op":
+                send title "&6&ltest" with subtitle "&f&l%player% test" to loop-player
+        
+on tab complete of "keyall1":
+    set tab completions for position 1 to "small"

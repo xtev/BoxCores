@@ -1,0 +1,29 @@
+on first join:
+    set {reports::%player's uuid%} to 0
+
+command /report [<player>] [<text>]:
+    permission: server.report
+    cooldown: 3 minutes
+    cooldown message: &cPlease wait %remaining time% before using this command again, this is to prevent spam.
+    trigger:
+        if arg-1 isn't set:
+            send "&7Please select a user to report."
+        if arg-1 is set:
+            if arg-2 is not set:
+                send "&7Please provide a reason to report the player."
+            else:
+                make embed:
+                    set title of embed to "New Player Report"
+                    set description of embed to "**%player%** has reported **%arg-1%** for `%arg-2%`%nl%- %arg-1%'s Ping: `%arg-1's ping%`%nl%- %arg-1%'s Past Report(s) Count: `%{reports::%arg-1's uuid%}%`%nl%- Server TPS: `%tps from the last 1 minute%`"
+                    set embed color of embed to blue
+                    set thumbnail of embed to "https://cdn.discordapp.com/attachments/1110988688617377794/1111066573684346890/image.png"
+                post embed to channel with id "1139415665363664896"
+                send " " to all players where [input has permission "server.report.see"]
+                send "&a&lPlayer Report" to all players where [input has permission "server.report.see"]
+                send "| &e%player%&7 has reported %arg-1% for &a%arg-2%" to all players where [input has permission "server.report.see"]
+                send "| &e%arg-1%&7's ping: &a%arg-1's ping%" to all players where [input has permission "server.report.see"]
+                send "| &eServer Tps: %tps from the last 1 minute%" to all players where [input has permission "server.report.see"]
+                send "| &e%arg-1%&7's location: &a%arg-1's location%" to all players where [input has permission "server.report.see"]
+                send " " to all players where [input has permission "server.report.see"]
+                add 1 to {reports::%arg-1's uuid%}
+                

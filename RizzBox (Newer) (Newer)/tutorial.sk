@@ -1,0 +1,24 @@
+command /tutorial:
+	trigger:
+		send title "&3Getting Tutorial... Hang Tight!" with subtitle "&7This will only take a breif moment" to player for 3 seconds
+		wait 3 seconds
+		teleport player to {tutorial1}
+		send title "&a&lExplore the Wild" with subtitle "&7Possible Secrets, and trades" to player for 4 seconds
+		wait 5 seconds
+		teleport player to {tutorial2}
+		send title "&a&lMine for ores" with subtitle "&7This is the main way to earn money" to player for 4 seconds
+		wait 5 seconds
+		teleport player to {tutorial3}
+		send title "&4&lKoth" with subtitle "&7Capture Koth for amazing rewards!" to player for 4 seconds
+		wait 5 seconds
+		teleport player to {tutorial4}
+		send title "&3&lStruggling?" with subtitle "&7AFK to get keys!" to player for 4 seconds
+		wait 5 seconds
+		teleport player to {tutorial5}
+		send title "&e&lCrates" with subtitle "&7Open Crates for Prizes!" to player for 4 seconds
+		wait 5 seconds
+		teleport player to {tutspawn}		
+		send title "&b&lThanks for Playing" with subtitle "&rHave fun playing &6&lRizzBox!" to player for 3 seconds
+		if {tut::%player%} is not set:
+			set {tut::%player%} to true
+			execute console command "excellentcrates key give %player% rank 1"

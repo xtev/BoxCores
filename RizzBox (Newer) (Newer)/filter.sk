@@ -1,0 +1,57 @@
+# this first skript is for chat, some basic commands. /filter list /filter add /filter remove.
+
+
+options:
+  
+  #CONFIG
+  prefix: &6&lRizzBox &7|
+  no-prefix: &6&lRizzBox &7|
+  permission: chat.bypass.sk
+  
+
+on chat:
+    if player doesn't have permission "chat.bypass.sk":
+        loop {filterswear::*}:
+            if message contains loop-value:
+                cancel event
+                send "{@no-prefix} &cYou cannot send that here."
+                console command "mute %player% 5s Blacklisted word -s"
+                send "&c[FILTER] &8%player% &7%message%" to all players where [input has permission "chatfilter.see"]
+
+command /filter [<text>] [<text>]:
+    permission: filter.set.sk
+    trigger:
+        if arg-1 is "add":
+            if arg-2 is set:
+                if {filterswear::*} does not contain arg-2:
+                    add arg-2 to {filterswear::*}
+                    send "{@prefix} &7Added %arg-2% &7to the swear filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat word is already blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a word to filter!"
+                stop
+        if arg-1 is "remove":
+            if arg-2 is set:
+                if {filterswear::*} contains arg-2:
+                    remove arg-2 from {filterswear::*}
+                    send "{@prefix} &7Removed %arg-2% &7from the swear filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat word is not blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a word to unfilter!"
+                stop
+        if arg-1 is "list":
+            send "&cThe filtered words are: &7%{filterswear::*}%"
+            stop
+        else:
+            send "{@no-prefix} &cUnknown argument"
+            stop
+            
+on tab complete:
+    event-string is "/filter"
+    set tab completions for position 1 to "list", "remove", and "add"

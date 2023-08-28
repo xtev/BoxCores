@@ -1,0 +1,355 @@
+discord command createapps:
+    prefixes: .
+    trigger:
+        if event-member has discord permission administrator:
+            set {_buttons} to new components row
+            add new secondary button with url "rizzbox-trainee" named "Trainee" with reaction "newspaper" to components of {_buttons}
+            add new secondary button with url "rizzbox-developer" named "Developer" with reaction "technologist" to components of {_buttons}
+            add new secondary button with url "rizzbox-media" named "Media" with reaction "movie_camera" to components of {_buttons}
+            make embed:
+                set title of embed to "Applications"
+                set description of embed to "If applying for staff, make sure to read the following terms:"
+                set embed color of the embed to blue
+                add inline field named "Terms" with value "• Required to be 14 years old.%nl%• You must obey the rules as staff no threats to players%nl%• You must not have any valid punishments%nl%" to fields of embed
+                add inline field named "Extra Info" with value "• If you are making an application after a prior application which got rejected, you must wait 2 weeks before making a new one.%nl%" to fields of embed
+                set footer of embed to "Read the above rules, and then click on one of these buttons to get started" 
+            post message last embed with components {_buttons} to channel with id "1050619650054029333"
+        else:
+            reply with hidden "You may not run this command"
+
+on button click:
+    if discord id of event-button is "rizzbox-trainee":
+        set {_modula} to new modal with id "trainee-app" named "Trainee Application"
+        set {_ign} to new components row
+        set {_ign} to new short text input with id "trainee-ign" named "WHATS'S YOUR MINECRAFT USERNAME?"
+        set required state of {_ign} to true
+        add {_ign} to the rows of {_modula}
+
+        set {_wswcy} to new components row
+        set {_wswcy} to new text input with id "trainee-wswcy" named "WHY SHOULD WE CHOOSE YOU?"
+        set maximum range of {_wswcy} to 4000
+        set required state of {_wswcy} to true
+        add {_wswcy} to the rows of {_modula}
+
+        set {_dyhamars} to a new components row
+        set {_dyhamars} to new short text input with id "trainee-dyhamars" named "DO YOU HAVE A MIC AND RECORDING SOFTWARE?"
+        set required state of {_dyhamars} to true
+        add {_dyhamars} to the rows of {_modula}
+
+        set {_plssywsi} to a new components row
+        set {_plssywsi} to new text input with id "trainee-plssywsi" named "PLEASE LINK SOME SERVERS YOU WERE STAFF IN"
+        set maximum range of {_plssywsi} to 4000
+        set required state of {_plssywsi} to true
+        add {_plssywsi} to the rows of {_modula}
+
+        set {_wswymm} to a new components row
+        set {_wswymm} to a new short text input with id "trainee-wswymm" named "HOW WOULD YOU SS A PLAYER?"
+        set required state of {_wswymm} to true
+        add {_wswymm} to the rows of {_modula}
+
+        show {_modula} to the user
+
+on button click: 
+    if discord id of event-button is "rizzbox-developer":
+        set {_modula} to a new modal with id "dev-app" named "Developer Application"
+        set {_ign} to new components row
+        set {_ign} to a new short text input with id "dev-ign" named "WHAT'S YOUR MINECRAFT USERNAME?"
+        set required state of {_ign} to true
+        add {_ign} to the rows of {_modula}
+
+        set {_wswcy} to new components row
+        set {_wswcy} to new text input with id "dev-wswcy" named "WHY SHOULD WE CHOOSE YOU?"
+        set maximum range of {_wswcy} to 4000
+        set required state of {_wswcy} to true
+        add {_wswcy} to the rows of {_modula}
+
+        set {_sltpsym} to a new components row
+        set {_sltpsym} to new short text input with id "dev-sltpsym" named "SEND LINKS TO PLUGINS/SKRIPT YOU MADE"
+        set required state of {_sltpsym} to true
+        add {_sltpsym} to the rows of {_modula}
+
+        set {_hmtcyd} to a new components row
+        set {_hmtcyd} to new text input with id "dev-hmtcyd" named "HOW MUCH TIME CAN YOU DECICATE?"
+        set maximum range of {_hmtcyd} to 4000
+        set required state of {_hmtcyd} to true
+        add {_hmtcyd} to the rows of {_modula}
+
+        set {_hlhybciyl} to a new components row
+        set {_hlhybciyl} to new short text input with id "dev-hlhybciyl" named "HOW LONG HAVE YOU BEEN CODING IN YOUR LANG?"
+        set required state of {_hlhybciyl} to true
+        add {_hlhybciyl} to the rows of {_modula}
+
+        show {_modula} to the user
+on button click:
+    if discord id of event-button is "rizzbox-media":
+        set {_modula} to a new modal with id "media-app" named "Media Application"
+
+        set {_ign} to new components row
+        set {_ign} to a new short text input with id "media-ign" named "WHAT'S YOUR MINECRAFT USERNAME?"
+        set required state of {_ign} to true
+        add {_ign} to the rows of {_modula}
+
+        set {_aof} to new components row
+        set {_aof} to a new short text input with id "media-aof" named "AMOUNT OF FOLLOWERS"
+        set required state of {_aof} to true
+        add {_aof} to the rows of {_modula}
+
+        set {_wiytyl} to new components row
+        set {_wiytyl} to a new short text input with id "media-wiytyl" named "WHAT IS YOUR TIKTOK/YOUTUBE LINK?"
+        set required state of {_wiytyl} to true
+        add {_wiytyl} to the rows of {_modula}
+
+        set {_hmvoehym} to new components row
+        set {_hmvoehym} to a new short text input with id "media-hmvoehym" named "HOW MANY VIDEOS OF f HAVE YOU MADE?"
+        set required state of {_hmvoehym} to true
+        add {_hmvoehym} to the rows of {_modula}
+
+        set {_hmvdygftv} to new components row
+        set {_hmvdygftv} to a new short text input with id "media-hmvdygftv" named "HOW MANY VIEWS DID YOU GET FROM THAT VIDEO?"
+        set required state of {_hmvdygftv} to true
+        add {_hmvdygftv} to the rows of {_modula}
+
+        show {_modula} to the user
+#trainee
+
+on modal receive:
+    if event-string = "trainee-app":
+        reply with hidden "Application submitted!"
+        set {_ign} to value of text input with id "trainee-ign"
+        set {_wswcy} to value of text input with id "trainee-wswcy"
+        set {_dyhamars} to value of text input with id "trainee-dyhamars"
+        set {_plssywsi} to value of text input with id "trainee-plssywsi"
+        set {wswymm} to value of text input with id "trainee-wswymm"
+        set {user} to event-user
+        set {ign::%{_}%} to "%{ign}%"
+        set {mention::%{user}%} to mention tag of event-user
+
+
+        set {_buttons} to new components row
+        add new success button with url "trainee-accept" named "Accept With Reason" to components of {_buttons}
+        add new danger button with url "trainee-deny" named "Deny With Reason" to components of {_buttons}
+        set {a} to "pending"
+        set {status::%{user}%} to {a}
+        make embed:
+            set title of embed to "%{user}%'s application for trainee"
+            add field named "What's your minecraft name?"  with value "%{_ign}%" to fields of embed
+            add field named "Why should we choose you?" with value "%{_wswcy}%" to fields of embed
+            add field named "Do you have mic and recording software?" with value "%{_dyhamars}%" to fields of embed
+            add field named "Please link some servers you were staff in" with value "%{_plssywsi}%" to fields of embed
+            add field named "Which server will you main/moderate?" with value "%{_wswymm}%" to fields of embed
+        post message last embed with components {_buttons} to channel with id "1050617379056521316"
+on button click:
+    if discord id of event-button is "trainee-accept":
+        set {_modula} to a new modal with id "trainee-modal-accept" named "Accept applicant"
+
+        set {_key} to new components row
+        set {_key} to a short text input with id "trainee-applicant-name" named "WHAT IS THE APPLICANT'S DISCORD TAG?"
+        set required state of {_key} to true
+        add {_key} to the rows of {_modula} 
+
+        set {_rzn} to new components row
+        set {_rzn} to a text input with id "trainee-accept-rzn" named "REASON"
+        set required state of {_rzn} to true
+        add {_rzn} to the rows of {_modula}
+
+        show {_modula} to the user
+
+on modal receive:
+    if event-string = "trainee-modal-accept":
+        set {_an} to value of text input with id "trainee-applicant-name"
+        set {_ar} to value of text input with id "trainee-accept-rzn"
+        reply with hidden "Accepted %{_an}%"
+        make embed:
+            set title of embed to "Staff Accepted as trainee: %{ign::%{_an}%}%"
+            add field named "Application was accepted due to" with value "%{_ar}%" to fields of embed
+            set embed color of the embed to yellow
+        post "%{mention::%{_an}%}%" to channel with id "1050622122579472464"
+        post message last embed with components {_buttons} to channel with id "1050622122579472464"
+
+on button click:
+    if discord id of event-button is "trainee-deny":
+        set {_modula} to a new modal with id "trainee-modal-deny" named "Deny Applicant"
+        set {_key} to new components row
+        set {_key} to a short text input with id "trainee-applicant-name" named "WHAT IS THE APPLICANT'S DISCORD TAG?"
+        
+        set required state of {_key} to true
+        add {_key} to the rows of {_modula} 
+
+        set {_rzn} to new components row
+        set {_rzn} to a text input with id "trainee-deny-rzn" named "REASON"
+        set required state of {_rzn} to true
+        add {_rzn} to the rows of {_modula}
+
+        show {_modula} to the user
+
+on modal receive:
+    if event-string = "trainee-modal-deny":
+        set {_an} to value of text input with id "trainee-applicant-name"
+        set {_dr} to value of text input with id "trainee-deny-rzn"
+        reply with hidden "Denied %{_an}%"
+        make embed:
+            set title of embed to "Trainee Application Denied: %{ign::%{_an}%}%"
+            add field named "Application was denied due to" with value "%{_dr}%" to fields of embed
+            set embed color of the embed to red
+        post "%{mention::%{_an}%}%" to channel with id "1050622122579472464"
+        post message last embed with components {_buttons} to channel with id "1050622122579472464"
+
+#dev
+on modal receive:
+    if event-string = "dev-app":
+        reply with hidden "Application submitted!"
+        set {_ign} to value of text input with id "dev-ign"
+        set {_wswcy} to value of text input with id "dev-wswcy"
+        set {_sltpsym} to value of text input with id "dev-sltpsym"
+        set {_hmtcyd} to value of text input with id "dev-hmtcyd"
+        set {hlhybciyl} to value of text input with id "dev-hlhybciyl"
+        set {user} to event-user
+        set {ign::%{_}%} to "%{ign}%"
+        set {mention::%{user}%} to mention tag of event-user
+
+
+        set {_buttons} to new components row
+        add new success button with url "dev-accept" named "Accept With Reason" to components of {_buttons}
+        add new danger button with url "dev-deny" named "Deny With Reason" to components of {_buttons}
+        set {a} to "pending"
+        set {status::%{user}%} to {a}
+        make embed:
+            set title of embed to "%{user}%'s application for Developer"
+            add field named "What's your minecraft name?"  with value "%{_ign}%" to fields of embed
+            add field named "Why should we choose you?" with value "%{_wswcy}%" to fields of embed
+            add field named "Send links to plugins/skript you made" with value "%{_sltpsym}%" to fields of embed
+            add field named "How much time can you dedicate?" with value "%{_hmtcyd}%" to fields of embed
+            add field named "How long have you been coding in your lang?" with value "%{_hlhybciyl}%" to fields of embed
+        post message last embed with components {_buttons} to channel with id "1050619650054029333"
+on button click:
+    if discord id of event-button is "dev-accept":
+        set {_modula} to a new modal with id "dev-modal-accept" named "Accept applicant"
+        set {_key} to new components row
+        set {_key} to a short text input with id "dev-applicant-name" named "WHAT IS THE APPLICANT'S DISCORD TAG?"
+        
+        set required state of {_key} to true
+        add {_key} to the rows of {_modula} 
+        set {_rzn} to new components row
+        set {_rzn} to a text input with id "dev-accept-rzn" named "REASON"
+        set required state of {_rzn} to true
+        add {_rzn} to the rows of {_modula}
+        show {_modula} to the user
+
+on modal receive:
+    if event-string = "dev-modal-accept":
+        set {_an} to value of text input with id "dev-applicant-name"
+        set {_ar} to value of text input with id "dev-accept-rzn"
+        reply with hidden "Accepted %{_an}%"
+        make embed:
+            set title of embed to "Staff Accepted as Developer: %{ign::%{_an}%}%"
+            add field named "Application was accepted due to" with value "%{_ar}%" to fields of embed
+            set embed color of the embed to yellow
+        post "%{mention::%{_an}%}%" to channel with id "1050622122579472464"
+        post message last embed with components {_buttons} to channel with id "1050622122579472464"
+
+on button click:
+    if discord id of event-button is "dev-deny":
+        set {_modula} to a new modal with id "dev-modal-deny" named "Deny Applicant"
+
+        set {_key} to new components row
+        set {_key} to a short text input with id "dev-applicant-name" named "WHAT IS THE APPLICANT'S DISCORD TAG?"
+        
+        set required state of {_key} to true
+        add {_key} to the rows of {_modula} 
+
+        set {_rzn} to new components row
+        set {_rzn} to a text input with id "dev-deny-rzn" named "REASON"
+        set required state of {_rzn} to true
+        add {_rzn} to the rows of {_modula}
+
+        show {_modula} to the user
+
+on modal receive:
+    if event-string = "dev-modal-deny":
+        set {_an} to value of text input with id "dev-applicant-name"
+        set {_dr} to value of text input with id "dev-deny-rzn"
+        reply with hidden "Denied %{_an}%"
+        make embed:
+            set title of embed to "Developer Application Denied: %{ign::%{_an}%}%"
+            add field named "Application was denied due to" with value "%{_dr}%" to fields of embed
+            set embed color of the embed to red
+        post "%{mention::%{_an}%}%" to channel with id "1050622122579472464"
+        post message last embed with components {_buttons} to channel with id "1050622122579472464"
+
+#media 
+
+on modal receive:
+    if event-string = "media-app":
+        reply with hidden "Application submitted!"
+        set {_ign} to value of text input with id "media-ign"
+        set {_aof} to value of text input with id "media-aof"
+        set {_wiytyl} to value of text input with id "media-wiytyl"
+        set {_hmvoehym} to value of text input with id "media-hmvoehym"
+        set {hmvdygftv} to value of text input with id "media-hmvdygftv"
+        set {user} to event-user
+        set {ign::%{_}%} to "%{ign}%"
+        set {mention::%{user}%} to mention tag of event-user
+        set {_buttons} to new components row
+        add new success button with url "media-accept" named "Accept With Reason" to components of {_buttons}
+        add new danger button with url "media-deny" named "Deny With Reason" to components of {_buttons}
+        set {a} to "pending"
+        set {status::%{user}%} to {_a}
+        make embed:
+            set title of embed to "%{_}%'s application for Media"
+            add field named "What's your minecraft name?"  with value "%{_ign}%" to fields of embed
+            add field named "Amount of followers?" with value "%{_aof}%" to fields of embed
+            add field named "What is your tiktok/youtube link?" with value "%{_wiytyl}%" to fields of embed
+            add field named "How videos of BoxPulse have you made?" with value "%{_hmvoehym}%" to fields of embed
+            add field named "How many views did you get from that video?" with value "%{_hmvdygftv}%" to fields of embed
+        post message last embed with components {_buttons} to channel with id "1050617379056521316"
+
+on button click:
+    if discord id of event-button is "media-accept":
+        set {_modula} to a new modal with id "media-modal-accept" named "Accept applicant"
+
+        set {_key} to new components row
+        set {_key} to a short text input with id "media-applicant-name" named "WHAT IS THE APPLICANT'S DISCORD TAG?"
+        
+        set required state of {_key} to true
+        add {_key} to the rows of {_modula} 
+
+        set {_rzn} to new components row
+        set {_rzn} to a text input with id "media-accept-rzn" named "REASON"
+        set required state of {_rzn} to true
+        add {_rzn} to the rows of {_modula}
+
+        show {_modula} to the user
+        set title of embed to "Media was accepted: %{ign::%{_an}%}%"
+        add field named "Application was accepted due to" with value "%{_ar}%" to fields of embed
+        set embed color of the embed to yellow
+        post "%{mention::%{_an}%}%" to channel with id "1050622122579472464"
+        post message last embed with components {_buttons} to channel with id "1050622122579472464"
+
+on button click:
+    if discord id of event-button is "media-deny":
+        set {_modula} to a new modal with id "media-modal-deny" named "Deny Applicant"
+
+        set {_key} to new components row
+        set {_key} to a short text input with id "media-applicant-name" named "WHAT IS THE APPLICANT'S DISCORD TAG?"
+        
+        set required state of {_key} to true
+        add {_key} to the rows of {_modula} 
+
+        set {_rzn} to new components row
+        set {_rzn} to a text input with id "media-deny-rzn" named "REASON"
+        set required state of {_rzn} to true
+        add {_rzn} to the rows of {_modula}
+
+        show {_modula} to the user
+
+on modal receive:
+    if event-string = "media-modal-deny":
+        set {_an} to value of text input with id "media-applicant-name"
+        set {_dr} to value of text input with id "media-deny-rzn"
+        reply with hidden "Denied %{_an}%"
+        make embed:
+            set title of embed to "Media Application Denied: %{ign::%{_an}%}%"
+            add field named "Application was denied due to" with value "%{_dr}%" to fields of embed
+            set embed color of the embed to red
+        post "%{mention::%{_an}%}%" to channel with id "1050622122579472464"
+        post message last embed with components {_buttons} to channel with id "1050622122579472464"

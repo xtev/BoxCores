@@ -1,0 +1,17 @@
+command /update <text>:
+    permission: update.sk
+    permission message: &cYou cannot use this command.
+    trigger:
+        wait 1 tick
+        make embed:
+            set embed color of embed to light blue
+            set title of embed to "New in-game Update!"
+            #set thumbnail of embed to "https://cdn.discordapp.com/attachments/1110988688617377794/1111066573684346890/image.png"
+            if executor is not a player:
+                set footer of embed to "New Update made by GhostCrit"
+            else:
+                set footer of embed to "New Update made by %player%"
+            set description of embed to arg-1
+        post last embed to channel with id "1139375087825469501"
+        wait 1 tick
+        broadcast "", "&6&l&nNEW SERVER UPDATE!", "", "&7There is a new server update! Check it out", "&7in the &9discord &7if you don't want to", "&7miss out on future updates!", "&9/discord &fto join", and ""

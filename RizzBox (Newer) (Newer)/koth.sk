@@ -1,0 +1,67 @@
+options:
+    prefix: &b&l%font("RizzBox")% &8| &7
+
+function startKoth():
+    set {koth::remaining} to 1 minute
+    delete {server::nextkoth}
+
+function endKoth():
+    set {server::nextkoth} to 120
+    delete {koth::remaining}
+    {koth::capper} is set
+    broadcast "{@prefix}&b&l%{koth::capper}% &7won the koth!"
+    make console execute "/crates key give %{koth::capper}% koth_key 1"
+    set {koth::capper} to "Not Active"
+    execute console command "hologram setline kothcap 2 &3&lCapper: &rNot Active"
+
+every 1 minute:
+    if {server::nextkoth} is not equal to 0:
+        subtract 1 from {server::nextkoth}
+    else:
+        startKoth()
+        broadcast "{@prefix}A koth has started! Stand in the &c&lred &7area in the Koth for &b&l1 minute&7 to win!"
+
+command /koth <text> [<text>]:
+    permission: server.koth
+    permission message: You do not have the required permission &8(&c&lserver.koth&8)
+    usage: Incorrect usage&8: &c&l/koth help
+    trigger:
+        if arg-1 is "forcestart":
+            startKoth()
+            broadcast "{@prefix}Koth has been force started by &b&l%player%&7! Stand in the &7&lCapture Point&7 in the corner of the map for &b&l1 minutes&7 to win!"
+        
+        if arg-1 is "forceend":
+            endKoth()
+            broadcast "{@prefix}Koth has been force ended by &b&l%player%"
+            
+        else:
+            message "&b&l/koth forcestart"
+            message "&b&l/koth forceend"
+            message "&b&lKoth time is 2 hours!"
+
+every 1 second:
+    if {koth::remaining} is set:
+        if {koth::capper} is not set:
+            loop all players:
+                if "%region at loop-player%" contains "kotharea":
+                    set {koth::capper} to loop-player
+                    broadcast "{@prefix} &b&l%loop-player% &7is now capping koth!"
+                    execute console command "hologram setline kothcap 2 &3&lCapper: &r%loop-player%"
+                    send title "&b&lYou are now capping Koth!" with subtitle "&9&lStay on the Koth for 1 minute to win" to loop-player for 10 ticks
+                    stop
+        else:
+            if {koth::capper} is offline:
+                set {koth::remaining} to 1 minute
+                delete {koth::capper}
+                stop
+                
+            if "%region at {koth::capper}%" does not contain "kotharea":
+                set {koth::remaining} to 1 minute
+                execute console command "hologram setline kothcap 2 &3&lCapper: &rNo One"
+                delete {koth::capper}
+                stop
+        
+            remove 1 second from {koth::remaining}
+        
+            if {koth::remaining} <= 0 ticks:
+                endKoth()

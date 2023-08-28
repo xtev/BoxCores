@@ -1,0 +1,14 @@
+on mine ore:
+    chance of 5%:
+        execute console command "crates key give %player% jungle 1"
+        send "&6&lRizzBox&6&l &7| &7You recieved a &2&lJungle Key &7for mining" to player
+        send "hi"
+        
+on mine netherite block:
+    chance of 10%:
+        execute console command "crates key give %player% jungle 1"
+        send "&6&lRizzBox&6&l &7| &7You recieved a &2&lJungle Key &7for mining" to player
+        
+on place of netherite block:
+  cancel event
+      

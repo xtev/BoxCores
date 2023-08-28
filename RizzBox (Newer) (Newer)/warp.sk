@@ -1,0 +1,42 @@
+command /warp [<text>] [<player>]:
+    trigger:
+        if arg-1 does not contain "vip" or "mvp" or "elite" or "overlord" or "custom" or "media" or "staff" or "afk":
+            send "&c&lInvalid Warp." to player
+            stop
+        if arg-1 is not set:
+            send "&cCorrect usage: /warp <set/location> <player>" to player
+        if arg-1 is set:
+            if arg-2 is not set:
+
+
+                if player has permission "warp.%arg-1%":
+                    teleport player to {warp::%arg-1%}
+                    send "&eYou have been Warped to &6%arg-1%." to player
+                else:
+                    send "&cYou cannot execute this command" to player
+            
+            else:
+                
+                if player has permission "staff.warp.%arg-1%":
+                    teleport arg-2 to {warp::%arg-1%}
+                    send "&eYou have been Warped to &6%arg-1%." to arg-2
+                else:
+                    send "&cYou cannot execute this command" to player 
+
+command /delwarp [<text>]:
+    permission: del.warp
+    trigger:
+        delete {warp::%arg-1%}
+        send "&6&lWarps &7&l| &fYou have removed the warp &e%arg-1%&f."
+
+
+command /setwarp <text>:
+    permission: set.warp
+    trigger:
+        set {warp::%arg-1%} to player's location
+        send "&6&lWarps &7&l| &fYou have set warp &e%arg-1%&f."
+        
+        
+on tab complete:
+    event-string is "/warp"
+    set tab completions for position 1 to "vip", "mvp", "elite", "overlord", "custom", "media", "afk" and "staff"

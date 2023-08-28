@@ -1,0 +1,72 @@
+options:
+	prefix: &9&lLocalbox &7&o>>&r
+
+command /setpos1x:
+	permission: op
+	trigger:
+		set {pos1::x} to player's x coordinate 
+		send "&a&lDone!"
+command /setpos2x:
+	permission: op
+	trigger:
+		set {pos2::x} to player's x coordinate 
+		send "&a&lDone!"
+command /setpos1z:
+	permission: op
+	trigger:
+		set {pos1::z} to player's z coordinate 
+		send "&a&lDone!"
+command /setpos2z:
+	permission: op
+	trigger:
+		set {pos2::z} to player's z coordinate 
+		send "&a&lDone!"
+command /setposy:
+	permission: op
+	trigger:
+		set {posy} to player's y coordinate
+		send "&a&lDone!"
+command /supplydrop:
+	permission: op
+	trigger:
+		set player's gamemode to spectator
+		set {supplydropx} to a random integer between {pos1::x} and {pos2::x}
+		set {supplydropz} to a random integer between {pos1::z} and {pos2::z}
+		set block at location at {supplydropx}, {posy}, {supplydropz} to chest
+		set {falling.supply} to "%{supplydropx}%, %{posy}%, %{supplydropz}%"
+		execute console command "teleport %player% %{supplydropx}% %{posy}% %{supplydropz}%"
+		broadcast "{@prefix} &a%player% is dropping a supply drop at &3%{supplydropx}% %{supplydropz}%"
+		set {fallingy} to {posy}
+		set {loop} to true
+		execute console command "tp %player% %{supplydropx}% %{fallingy} - 1% %{supplydropz}%"
+		while {loop} = true:
+			execute player command "fallchest"
+			wait 10 ticks
+
+command /fallchest:
+	permission: op
+	trigger:
+		if block under player is air:
+			set block at location at {supplydropx}, {fallingy}, {supplydropz} to air
+			set {fallingy} to {fallingy} - 1
+			set block at location at {supplydropx}, {fallingy}, {supplydropz} to chest
+			execute console command "tp %player% %{supplydropx}% %{fallingy}% %{supplydropz}%"
+		else:
+			broadcast "{@prefix} &aThe supply drop has landed"
+			execute player command "rewardsupply"
+			clear {loop}
+
+command /rewardsupply:
+	permission: op
+	trigger:
+		loop all blocks in radius 3 around player:
+			if loop-block is chest:
+				loop {supplyinventory::*}:
+					chance of 25%:
+						add loop-value-2 to loop-block's inventory
+		send "{@prefix} &aA supply drop has been given rewards"
+command /addsupplyitem:
+	permission: op
+	trigger:
+		add player's tool to {supplyinventory::*}
+		send "&aAdded &3&l%player's tool%&a to supply drops"

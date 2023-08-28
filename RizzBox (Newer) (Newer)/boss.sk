@@ -1,0 +1,10 @@
+on right click with golden sword:
+    if name of event-item contains "Monkey Boss Summoner":
+        console command "/mm m spawn monkboss 1 rizzboxjungleseason,666,10,634"
+        remove 1 of event-item from player's inventory
+        broadcast "&aA monkey boss has spawned!"
+
+on craft of golden sword:
+    cancel event
+    close player's inventory
+    send "&cYou cannot craft this item."

@@ -1,0 +1,21 @@
+on place of dead tube coral:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on place of fire coral:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on place of wither rose:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on place of orange tulip:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on place of tube coral:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on place of cornflower:
+    cancel event
+    send " &4Hey &fyou can't place that block here!" to player
+on rightclick with flint and steel:
+    cancel event
+    send " &4Hey &fstop trying to go the nether fattie" to player

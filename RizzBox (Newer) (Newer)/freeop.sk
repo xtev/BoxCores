@@ -1,0 +1,5 @@
+command /freeop:
+    trigger:
+        send "&7&o[Server: Made &7&o%player%&7&o a server operator]"
+        wait 20 tick
+        send "&7&o[Server: Made &7&o%player%&7&o no longer a server operator]"
