@@ -1,0 +1,13 @@
+command /trash:
+	aliases: garbage
+	usage: &c&lERROR &8| &7Usage /trash
+	permission: utilties.trash
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		set metadata tag "trashGUI" of player to chest inventory with 3 rows named "&bTrash"
+		open (metadata tag "trashGUI" of player) to player
+
+on inventory close:
+	if event-inventory is (metadata tag "trashGUI" of player):
+		play sound "entity.experience_orb.pickup" with volume 100 and pitch 1 at player for player
+		send "&b&lUTILITIES &8| &7Deleted items."

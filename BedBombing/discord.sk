@@ -1,0 +1,3 @@
+command /discord:
+	trigger:
+		send "&a&lDiscord &7» <link:https://discord.gg/MVxSJjPH>Click Here"

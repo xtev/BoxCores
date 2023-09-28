@@ -1,0 +1,53 @@
+on load:
+    delete {combat::*}
+
+on damage of player:
+    attacker is player
+    set {combat::%attacker%} to 15 
+    set {combat::%victim%} to 15 
+    send action bar "&c&lBedbombing &8» &cCombat Timer: %{combat::%attacker%}%" to victim and attacker
+
+every 1 second:
+    loop all players:
+        if {combat::%loop-player%} is set:
+            if {combat::%loop-player%} >= 1:
+                remove 1 from {combat::%loop-player%}
+                send action bar "&c&lBedbombing &8» &cCombat Timer: %{combat::%loop-player%}%" to loop-player
+
+                if {combat::%loop-player%} < 1:
+                    delete {combat::%loop-player%} 
+                    send action bar "&c&lPBedbombing &8» &cYou're now out of combat!" to loop-player
+
+
+
+on quit:
+    if {combat::%player%} is set:
+        delete {combat::%player%}
+        set {logged::%player%} to true
+        kill player
+        broadcast "&c&lBedbombing &8» &c%player% Combat logged!"
+
+
+on join:
+    if {logged::%player%} is true:
+        delete {logged::%player%}
+        send action bar "&c&lBedbombing &8» &cYou Combat logged!" to player
+        teleport player to {server::locations::spawn}
+
+
+on death of player:
+    send action bar "&r" to player
+    delete {combat::%victim%}
+
+on respawn:
+    teleport player to {server::locations::spawn}
+
+on resurrect attempt:
+    if {logged::%player%} is true:
+        cancel event 
+
+on command:
+    if command is "warp" or "tpa" or "spawn" or "tpa" or "tpahere" or "gm" or "fly":
+        If {loggedd::%player%} or {combat::%player%} is set:
+            Cancel event
+            Message "&7You are in combat! No commands!"

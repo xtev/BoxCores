@@ -1,0 +1,22 @@
+on tab complete of "/world", "w" and "wtp":
+	set tab completions for position 1 to all worlds
+
+command /world [<text>]:
+	aliases: w, wtp
+	usage: &c&lERROR &8| &7Usage /world (World)
+	permission: utilties.world
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if arg-1 parsed as world is set:
+				if player's world is arg-1:
+					send "&c&lERROR &8| &7You are already in this world." to player
+					stop
+				else:
+					send "&b&lUTILITIES &8| &7Teleporting you to &b%arg-1%&7." to player
+					teleport player to spawn of arg-1 parsed as world
+					stop
+			else:
+				send "&c&lERROR &8| &7The world &c%arg-1% &7does not exist." to player
+		else:
+			send "&c&lERROR &8| &7Usage /world (World)" to player

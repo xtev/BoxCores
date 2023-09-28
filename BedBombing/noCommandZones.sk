@@ -1,0 +1,5 @@
+on command:
+	if player does not have permission "nocommands.bypass":
+		if "%region at player%" contains "gladiator_arena":
+			cancel event
+			send "&cNo commands in the arena!" to player

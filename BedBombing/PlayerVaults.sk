@@ -1,0 +1,56 @@
+command pv <int>:
+	aliases: playervault, vault
+	usage: &c&lERROR &8&l| &7Correct Usage: &a/pv [&6Number&a]&7!
+	trigger:	
+		if "%region at player%" contains "box":
+			send "&cYou cannot access your vault while dropped!" to player
+			stop
+			
+		if arg-1 is 1:
+			if player has permission "playerVault.1":
+				openPV(player, arg-1)
+			else:
+				send "&c&lERROR &8| &7You do not have permission for &6/pv 1 &7Do /link or buy VIP+ to gain access!"
+		else if arg-1 is 2:
+			if player has permission "playerVault.2":
+				openPV(player, arg-1)
+			else:
+				send "&c&lERROR &8| &7You do not have permission for &6/pv 2 &7Buy VIP+ to gain access!"
+		else if arg-1 is 3:
+			if player has permission "playerVault.3":
+				openPV(player, arg-1)
+			else:
+				send "&c&lERROR &8| &7You do not have permission for &6/pv 3 &7Buy MVP+ to gain access!"
+		else if arg-1 is 4:
+			if player has permission "playerVault.4":
+				openPV(player, arg-1)
+			else:
+				send "&c&lERROR &8| &7You do not have permission for &6/pv 4 &7Buy Patron+ to gain access!"
+		else if arg-1 is 5:
+			if player has permission "playerVault.5":
+				openPV(player, arg-1)
+			else:
+				send "&c&lERROR &8| &7You do not have permission for &6/pv 2 &7Buy Overlord to gain access!"
+		else:
+			send "&c&lERROR &8| &7Invalid PV Number"
+
+
+
+function openPV(p: player, pv: int):
+	open chest inventory with 6 rows named "&6&lPlayer Vault %{_pv}%" to {_p}
+	set {_s} to 0
+	loop 54 times:
+		set slot {_s} of {_p}'s current inventory to {playervault.items::%{_pv}%::%{_p}'s UUID%::%{_s}%}
+		add 1 to {_s}
+	set {playervault.open::%{_p}'s UUID%} to true
+
+
+on inventory close:
+	if {playervault.open::%player's UUID%} is true:
+		set {_pv} to name of event-inventory
+		replace all "&6&lPlayer Vault " in {_pv}  with ""
+		loop 54 times:
+			set {playervault.items::%{_pv}%::%player's UUID%::%loop-number - 1%} to slot "%loop-number - 1%" parsed as an integer of event-inventory
+		set {playervault.open::%player's UUID%} to false
+
+ 

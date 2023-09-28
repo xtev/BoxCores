@@ -1,0 +1,3 @@
+on right click:
+    if player's tool is item frame:
+        cancel event

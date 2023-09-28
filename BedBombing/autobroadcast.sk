@@ -1,0 +1,67 @@
+command /staffannounce <text>:
+	permission: staff.announce
+	trigger:
+		broadcast(arg-1, player's name)
+		
+		
+function broadcast(message: text, title: text = "null"):
+	if {_title} is "null":
+		broadcast ""
+		broadcast "&b&lBROADCAST"
+		broadcast "&8» &7%colored {_message}%"
+		broadcast ""
+	else if {_title} is a player:
+		broadcast ""
+		broadcast "&b&l%{_title}%"
+		broadcast "&8» &7%colored {_message}%"
+		broadcast ""
+	else:
+		broadcast ""
+		broadcast "%{_title}%"
+		broadcast "&8» &7%colored {_message}%"
+		broadcast ""
+	play sound "block.note_block.harp" to all players
+	
+
+
+every 5 minutes:
+	if {reminders.nextAnnounce} is not set:
+		set {reminders.nextAnnounce} to 1
+		
+	if {reminders.nextAnnounce} is 1:
+		broadcast("&7Buy ranks via &e/Buy &7to help out the server!", "&e&lSTORE")
+		set {reminders.nextAnnounce} to 2
+		stop
+	if {reminders.nextAnnounce} is 2:
+		broadcast("&7Join our Discord for News and Giveaways! &d/Discord", "&d&lDISCORD")
+		set {reminders.nextAnnounce} to 3
+		stop
+	if {reminders.nextAnnounce} is 3:
+		broadcast("&7Want access to /pv 1? Use &6/link&7 and follow the instructions! ", "&6&lLINKING")
+		set {reminders.nextAnnounce} to 1
+		stop
+		
+command /forceremind <int>:
+	permission: op
+	trigger:
+		
+		if arg-1 is 1:
+			broadcast("&7Buy ranks via &e/Buy &7to help out the server!", "&e&lSTORE")
+			stop
+		
+		if arg-1 is 2:
+			broadcast("&7Join our Discord for News and Giveaways! &d/Discord", "&d&lDISCORD")
+			stop
+		
+		if arg-1 is 3:
+			broadcast("&7Want access to /pv 1? Use &6/link&7 and follow the instructions! ", "&6&lLINKING")
+			stop
+		
+		if arg-1 is 4:
+			send "" to all players
+			send "&b&lSkripts.net" to all players
+			send "&8» &7Want to make a server of your own? Check out &d<link:https://discord.skripts.net>Skripts.net &7for Skripts and even FULL Server setups" to all players
+			send "" to all players
+			stop
+	
+		

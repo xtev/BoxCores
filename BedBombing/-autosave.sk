@@ -1,0 +1,2 @@
+every 5 minutes:
+	execute console command "save-all"

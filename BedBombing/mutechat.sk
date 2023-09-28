@@ -1,0 +1,22 @@
+#Mute Chat Skript
+
+command /mutechat:
+    permission: staff.mutechat
+    permission message: &c You don't have the required permission to perform that command.
+    trigger:
+        if {Globalchat} is not set:
+            set {Globalchat} to true
+            broadcast "&c&lBEDBOMBING &8- &7Chat Muted By &r&c%player%"
+            stop trigger
+
+        if {Globalchat} is set:
+            clear {Globalchat}
+            broadcast "&c&lBEDBOMBING &8- &7Chat Unmuted By &r&c%player%"
+
+on chat:
+    if {Globalchat} is true:
+        if player has permission "chat.mute.bypass":
+            stop trigger
+        else:
+            cancel event
+            send "&8(&c!&8) &7Chat is currently muted."

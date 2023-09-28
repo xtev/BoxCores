@@ -1,0 +1,7 @@
+on death of enderman:
+	clear drops
+	drop 1 chorus flower named "&5Enderman Carcass"
+
+on place of chorus flower:
+	if player's gamemode is survival:
+		cancel event

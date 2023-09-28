@@ -1,0 +1,49 @@
+options:
+	frequency: 2 hour
+
+on join:
+	set {playtime.lastReward::%player's uuid%} to now
+
+every second:
+	loop all players:
+		if {playtime.lastReward::%loop-player's uuid%} is not set:
+			set {playtime.lastReward::%loop-player's uuid%} to now
+		if {playtime.rewardCount::%loop-player's uuid%} is not set:
+			set {playtime.rewardCount::%loop-player's uuid%} to 0
+		if difference between now and {playtime.lastReward::%loop-player's uuid%} >= {@frequency}:
+			add 1 to {playtime.rewardCount::%loop-player's uuid%}
+			send "&8(&cREDEEM&8) &7Thanks for playing the server! Redeem your reward at &6/redeem&e." to loop-player
+			set {playtime.lastReward::%loop-player's uuid%} to now
+
+on inventory click:
+	if event-inventory is (metadata tag "redeemGUI" of player):
+		cancel event
+		if index of event-slot is 13:
+			close player's inventory
+			if {playtime.rewardCount::%player's uuid%} > 0:
+				set {_reward} to random integer between 1 and 2
+				if {_reward} is 1:
+					set {_key} to "magma"
+				if {_reward} is 2:
+					set {_key} to "magma"
+				remove 1 from {playtime.rewardCount::%player's uuid%}
+				send "&8(&cREDEEM&8) &7You have redeemed your reward!" to player
+				execute console command "/crate key give %player% %{_key}% 1"
+			else:
+				send "&8(&cREDEEM&8) &7You don't have a reward to redeem!" to player
+		if index of event-slot is 22:
+			close player's inventory
+
+function openRedeemGUI(player: player):
+	set metadata tag "redeemGUI" of {_player} to chest inventory with 3 rows named "Redeem"
+	set slot 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25 and 26 of metadata tag "redeemGUI" of {_player} to black stained glass pane named " "
+	set slot 13 of metadata tag "redeemGUI" of {_player} to nether star named "&a&lREDEEM" with lore "&7Redeem you reward you earned", "&7from playing the server.", " ", "&7Rewards: &6%{playtime.rewardCount::%{_player}'s uuid%}%", " " and "&aClick to Redeem"
+	set slot 22 of metadata tag "redeemGUI" of {_player} to barrier named "&c&lEXIT" with lore " " and "&aClick to Exit"
+	open (metadata tag "redeemGUI" of {_player}) to {_player}
+
+command /redeem:
+	usage: &8(&cREDEEM&8) &7Usage redeem
+	permission: playtime.redeem
+	permission message: &8(&cREDEEM&8) &7You don't have permission to do this.
+	trigger:
+		openRedeemGUI(player)

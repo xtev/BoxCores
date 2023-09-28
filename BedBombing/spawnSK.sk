@@ -1,0 +1,57 @@
+options:
+	waittime: 5
+
+on first join:
+	wait 5 ticks
+	teleport player to {spawn.spawn}
+
+on join:
+	if "%region at player%" doesn't contain "pvpzone":
+		wait 5 ticks
+		teleport player to {spawn.spawn}
+	while player is online:
+		if "%region at player%" contains "spawn":
+			set player's saturation to 10
+		wait 1 second
+
+on respawn:
+	teleport player to {spawn.spawn}
+
+on click:
+	if name of clicked entity is "spawnNPC":
+		teleport player to {spawn.spawn}
+		send action bar "&cTeleported." to player
+		send "&8(&cSPAWN&8) &7You have been teleported to spawn." to player
+
+command /spawn:
+	usage: &8(&cSPAWN&8) &7Usage: /spawn
+	permission: spawn.cmd
+	permission message: &8(&cSPAWN&8) &7You don't have permission to do this!
+	trigger:
+		if player has permission "spawn.bypass":
+			teleport player to {spawn.spawn}
+			send action bar "&7Teleported." to player
+			send "&8(&cSPAWN&8) &7You have bypassed the wait time and been teleported to spawn." to player
+		else:
+			set {_loc} to player's location
+			set {_remainingtime} to {@waittime}
+			send "&8(&cSPAWN&8) &7Please wait &c%{_remainingtime}% seconds &7to teleport to spawn." to player
+			loop {_remainingtime} times:
+				if distance between player's location and {_loc} > 0.5:
+					send "&8(&cSPAWN&8) &7You have moved! Cancelled teleportation." to player
+					send action bar "&7Teleportation canceleed." to player
+					stop
+				set {_remainingtime} to {_remainingtime} - 1
+				send action bar "&c%{_remainingtime}% &7until teleportation." to player
+				wait 1 second
+			teleport player to {spawn.spawn}
+			send action bar "&7Teleported." to player
+			send "&8(&cSPAWN&8) &7You have been teleported to spawn." to player
+
+command /setspawn:
+	usage: &8(&c!&8) &7Usage: /setspawn
+	permission: spawn.setspawn
+	permission message: &8(&c!&8) &7You don't have permission to do this!
+	trigger:
+		set {spawn.spawn} to player's location
+		send "&8(&c!&8) &7You have set spawn to your location." to player

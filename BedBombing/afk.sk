@@ -1,0 +1,6 @@
+every 10 minutes:
+	set {last::afkkey} to now
+	broadcast "&a&lAFK&7 | &aEveryone in the AFK Pit has been given an &a&lAFK &aKey!"
+	loop all players:
+		if "%region at loop-player%" contains "afk":
+			execute console command "/crates key give %loop-player% afk 1"

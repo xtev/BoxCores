@@ -1,0 +1,19 @@
+on chat:
+	if {staff.auth.firstLoginMode::%player's uuid%} or {staff.auth.loginMode::%player's uuid%} is true:
+		stop
+	add "&8» &a%message% &8(&7%now%&8)" to {logs.chat::%player's uuid%::*}
+
+on tab complete of "/chatlogs":
+	set tab completions for position 1 to all players
+
+command /chatlogs [<offline player>]:
+	usage: &c&lERROR &8| &7Usage: /chatlogs (Player)
+	permission: logs.chatlogs
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			send "&a&lLOGS &8| &a%arg-1%'s &7chat logs:" to player
+			loop {logs.chat::%arg-1's uuid%::*}:
+				send "%loop-value%" to player
+		else:
+			send "&c&lERROR &8| &7Usage: /chatlogs (Player)" to player

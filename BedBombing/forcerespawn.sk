@@ -1,0 +1,4 @@
+command forcerespawn <player>:
+	permission: op
+	trigger:
+		force arg-1 to respawn

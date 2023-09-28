@@ -1,0 +1,55 @@
+on tab complete of "/setfood":
+	if player has permission "utilities.setfood.others":
+		set tab completions for position 2 to all players
+
+on tab complete of "/feed":
+	if player has permission "utilities.setfood.others":
+		set tab completions for position 1 to all players
+
+command /setfood [<number>] [<player>]:
+	usage: &c&lERROR &8| &7Usage /setfood (0-10) (Player)
+	permission: utilities.setfood
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if arg-1 is between 0 and 10:
+				if arg-2 is set:
+					if player has permission "utilities.setfood.others":
+						set arg-2's food to arg-1
+						set saturation of arg-2 to arg-1
+						send "&b&lUTILITIES &8| &7Your food has been set to &b%arg-1%&7." to arg-2
+						send "&b&lUTILITIES &8| &b%arg-2%'s &7food has been set to &b%arg-1%&7." to player
+					else:
+						send "&c&lERROR &8| &7You don't have permission to this command." to player
+				else:
+					set player's food to arg-1
+					set saturation of player to arg-1
+					send "&b&lUTILITIES &8| &7Your food has been set to &b%arg-1%&7." to player
+			else:
+				send "&c&lERROR &8| &7Invalid input." to player
+		else:
+			send "&c&lERROR &8| &7Usage /setfood (0-10) (Player)" to player
+
+command /feed [<player>]:
+	usage: &c&lERROR &8| &7Usage /feed (Player)
+	permission: utilities.setfood
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.setfood.others":
+				if arg-1's food is 10:
+					send "&c&lERROR &8| &b%arg-1%'s &7food is already full." to player
+				else:
+					set arg-1's food to 10
+					set saturation of arg-1 to 10
+					send "&b&lUTILITIES &8| &7Your food has been set to &b10&7." to arg-1
+					send "&b&lUTILITIES &8| &b%arg-1%'s &7food has been set to &b10&7." to player
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+		else:
+			if player's food is 10:
+				send "&c&lERROR &8| &7Your food is already full." to player
+			else:
+				set player's food to 10
+				set saturation of player to 10
+				send "&b&lUTILITIES &8| &7Your food has been set to &b10&7." to player

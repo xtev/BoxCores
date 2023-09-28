@@ -1,0 +1,16 @@
+on explode:
+    loop exploded blocks:
+        if {server::playerplacedblocks::*} contains loop-block:
+            stop
+        
+        regenWorld(loop-block's location, loop-block)
+
+function regenWorld(loc: location, block: block):
+    set {_blockType} to type of {_block}
+    set block at {_loc} to air
+    set {_num} to a random number between 100 and 200
+    set {_time} to round({_num})
+    wait "%{_time}% ticks" parsed as timespan
+    loop all players in radius 1 of {_loc}:
+        teleport loop-player to location(floor(loop-player's x-coord) + 0.5, floor(loop-player's y-coord) + 5, floor(loop-player's z-coord) + 0.5, loop-player's world) 
+    set block at {_loc} to {_blockType}

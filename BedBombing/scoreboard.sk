@@ -1,0 +1,15 @@
+on placeholderapi placeholder request for the placeholder "newJoins":
+	set the result to "%server_unique_joins%"
+	
+on first join:
+    add 1 to {newJoins}
+
+command special-rmc-command <int>:
+	permission: op
+	permission message: &cno!
+	usage: &cDon't use this if you don't know what it does or how to use it please!
+	trigger:
+		set {newJoins} to arg-1
+
+
+	

@@ -1,0 +1,158 @@
+options:
+	prefix: &6&lTRACKER &8→
+	mc: &e
+	sc: &f
+		
+function clock(s: number, f: text) :: text:
+	if (unix timestamp of now) - (unix timestamp of 1 second ago) is 1000:
+		set {_s} to {_s} / 1000
+	set {_m} to floor({_s} / 60)
+	remove ({_m} * 60) from {_s}
+	set {_h} to floor({_m} / 60)
+	remove ({_h} * 60) from {_m}
+	set {_d} to floor({_h} / 24)
+	remove ({_d} * 24) from {_h}
+	replace all "/s" in {_f} with "%{_s}%"
+	replace all "/m" in {_f} with "%{_m}%"
+	replace all "/h" in {_f} with "%{_h}%"
+	replace all "/d" in {_f} with "%{_d}%"
+	return {_f}
+
+function tracker_firstJoin(p: player):
+	{tracker::enabled} is true
+	set {_u} to uuid of {_p}
+	set {tracker::statistics::joinedbefore::%{_u}%} to true
+
+function tracker_join(p: player):
+	{tracker::enabled} is true
+	set {_u} to uuid of {_p}
+	set {tracker::statistics::join::%{_u}%} to now
+
+function tracker_quit(p: player):
+	{tracker::enabled} is true
+	set {_u} to uuid of {_p}
+	if {tracker::statistics::join::%{_u}%} is set:
+		set {_difference} to difference between (unix timestamp of now) and (unix timestamp of {tracker::statistics::join::%{_u}%})
+		if {tracker::statistics::joinedbefore::%{_u}%} is set:
+			add {_difference} to {tracker::statistics::firstsession::*}
+		else:
+			add {_difference} to {tracker::statistics::playedsessions::*}
+		add {_difference} to {tracker::statistics::session::*}
+		add 1 to {tracker::statistics::worlds::%{_p}'s world%}
+		if region at {_p} is set:
+			set {_rg} to "%region at {_p}%"
+		else:
+			set {_rg} to "__global__ in %{_p}'s world%"
+		add 1 to {tracker::statistics::regions::%{_rg}%}
+		clear {tracker::statistics::joinedbefore::%{_u}%}
+
+command /tracker [<text>] [<text>] [<text>]:
+	permission: tracker.use
+	trigger:
+		if arg-1 is "on" or "enable":
+			set {tracker::enabled} to true
+			send "{@prefix} {@sc}Tracker {@mc}enabled"
+		else if arg-1 is "off" or "disable":
+			set {tracker::enabled} to false
+			make player execute command "tracker view"
+
+			clear {tracker::statistics::regions::*}
+
+			clear {tracker::statistics::worlds::*}
+				
+			clear {tracker::statistics::joinedbefore::*}
+			clear {tracker::statistics::join::*}
+			clear {tracker::statistics::firstsession::*}
+			clear {tracker::statistics::playedsessions::*}
+			clear {tracker::statistics::session::*}
+		else if arg-1 is "view":
+
+			if {tracker::enabled} is false:
+				send "{@prefix} &cYou must to /tracker enable"
+				exit
+
+			# Display results
+
+			set {_total} to size of {tracker::statistics::session::*}
+			loop {tracker::statistics::session::*}:
+				set {_amount} to {_amount} + loop-value
+			set {_averagesession} to {_amount} / {_total}
+			
+			clear {_amount}
+			set {_totalfirst} to size of {tracker::statistics::firstsession::*}
+			loop {tracker::statistics::firstsession::*}:
+				set {_amount} to {_amount} + loop-value
+			set {_averagefirst} to {_amount} / {_totalfirst}
+			
+			clear {_amount}
+			set {_totalplayed} to size of {tracker::statistics::playedsessions::*}
+			loop {tracker::statistics::playedsessions::*}:
+				set {_amount} to {_amount} + loop-value
+			set {_averageplayed} to {_amount} / {_totalplayed}
+			
+			send "{@prefix} {@sc}Tracker &8(%{_total}% sessions)"
+			send "{@prefix} {@mc}Played more than"
+			send "{@prefix} {@mc}Total         &8| {@mc}Joined Before &8| {@mc}First Join"
+			loop "session", "firstsession", "playedsessions":
+				set {_name} to loop-value
+				set {_bounce::%{_name}%} to true
+				loop {tracker::statistics::%{_name}%::*}:
+					if (unix timestamp of now) - (unix timestamp of 1 second ago) is 1000:
+						set {_millis} to loop-value-2
+					else:
+						set {_millis} to loop-value-2 * 1000
+					set {_time} to "%{_millis}/50% ticks" parsed as timespan
+					loop 1, 2, 5, 10, 15, 30, 45, 60, 120:
+						set {_minutes} to loop-value-3
+						set {_comparetime} to "%{_minutes}% minutes" parsed as timespan
+						if {_comparetime} < {_time}:
+							add 1 to {_bounce::%{_name}%::%{_minutes}%}
+						else:
+							exit loop
+
+			loop {_bounce::session::*}:
+				set {_totalinfo} to "{@mc}%{_bounce::session::%loop-index%}% &8(%{_bounce::session::%loop-index%} / {_total} * 100%%%)"
+				set {_beforeinfo} to "{@mc}%{_bounce::playedsessions::%loop-index%}% &8(%{_bounce::playedsessions::%loop-index%} / {_totalplayed} * 100%%%)"
+				set {_firstinfo} to "{@mc}%{_bounce::firstsession::%loop-index%}% &8(%{_bounce::firstsession::%loop-index%} / {_totalfirst} * 100%%%)"
+				send "{@mc}| {@sc}%loop-index% Minutes: {@mc}%{_totalinfo}% &8| {@mc}%{_beforeinfo}% &8| {@mc}%{_firstinfo}%"
+			send ""
+
+			send "{@prefix} {@mc}Session Lengths"
+			send "{@mc}| {@sc}Overall: {@mc}%clock(round({_averagesession}), "/dd, /hh, /mm, /ss") if {tracker::statistics::session::*} is set else "None"% &8(%{_total}% sessions)"
+			send "{@mc}| {@sc}New Players: {@mc}%clock(round({_averagefirst}), "/dd, /hh, /mm, /ss") if {tracker::statistics::firstsession::*} is set else "None"% &8(%{_totalfirst}% sessions)"
+			send "{@mc}| {@sc}Played Before: {@mc}%clock(round({_averageplayed}), "/dd, /hh, /mm, /ss") if {tracker::statistics::playedsessions::*} is set else "None"% &8(%{_totalplayed}% sessions)"
+
+
+			send ""
+			send "{@prefix} {@mc}Worlds"
+			loop {tracker::statistics::worlds::*}:
+				send "{@mc}| {@sc}%loop-index in strict proper case%: {@mc}%loop-value%"
+
+			send ""
+			send "{@prefix} {@mc}Regions"
+			loop {tracker::statistics::regions::*}:
+				send "{@mc}| {@sc}%loop-index in strict proper case%: {@mc}%loop-value%"
+			send ""
+
+		else if arg-1 is "info":
+			set {_p} to arg-2 parsed as offlineplayer
+			if {_p} is not set:
+				send "{@prefix} &cPlayer has never joined before"
+				exit
+			send "{@prefix} {@sc}Info"
+			send "{@mc}| {@sc}Online for: {@mc}%difference between now and {tracker::statistics::join::%uuid of player%}%"
+		else:
+			send "{@prefix} &c/tracker <on/off/info>"
+
+on tab complete for "/tracker":
+	set tab completions for position 1 to "on", "off", "info"
+	set tab completions for position 2 to all players if tab arg-1 is "info"
+
+on first join:
+	tracker_firstJoin(player)
+
+on join:
+	tracker_join(player)
+
+on quit:
+	tracker_quit(player)

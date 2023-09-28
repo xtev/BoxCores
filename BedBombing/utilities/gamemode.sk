@@ -1,0 +1,246 @@
+on tab complete of "/gamemode" and "/gm":
+	if player has permission "utilities.gamemode.survival":
+		add "survival", "0" and "s" to tab completions for position 1
+	if player has permission "utilities.gamemode.creative":
+		add "creative", "1" and "c" to tab completions for position 1
+	if player has permission "utilities.gamemode.adventure":
+		add "adventure", "2" and "a" to tab completions for position 1
+	if player has permission "utilities.gamemode.spectator":
+		add "spectator", "3" and "sp" to tab completions for position 1
+	if player has permission "utilities.gamemode.others":
+		set tab completions for position 2 to all players
+
+on tab complete of "/gms", "/gmc", "/gma", "/gmsp", "/gm0", "/gm1", "/gm2" and "/gm3":
+	if player has permission "utilities.gamemode.others":
+		set tab completions for position 2 to all players
+
+command /gamemode [<text>] [<player>]:
+	aliases: gm
+	usage: &c&lERROR &8| &7Usage /gamemode (Gamemode) (Player)
+	trigger:
+		if arg-1 is "survival", "0" or "s":
+			if player has permission "utilities.gamemode.survival":
+				if arg-2 is set:
+					if player has permission "utilities.gamemode.others":
+						set arg-2's gamemode to survival
+						send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSurvival&7." to arg-2
+						send "&b&lUTILITIES &8| &b%arg-2%'s &7gamemode has been set to &bSurvival&7." to player
+						stop
+					else:
+						send "&c&lERROR &8| &7You don't have permission to this command." to player
+						stop
+				else:
+					set player's gamemode to survival
+					send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSurvival&7." to player
+					stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		if arg-1 is "creative", "1" or "c":
+			if player has permission "utilities.gamemode.creative":
+				if arg-2 is set:
+					if player has permission "utilities.gamemode.others":
+						set arg-2's gamemode to creative
+						send "&b&lUTILITIES &8| &7Your gamemode has been set to &bCreative&7." to arg-2
+						send "&b&lUTILITIES &8| &b%arg-2%'s &7gamemode has been set to &bCreative&7." to player
+						stop
+					else:
+						send "&c&lERROR &8| &7You don't have permission to this command." to player
+						stop
+				else:
+					set player's gamemode to creative
+					send "&b&lUTILITIES &8| &7Your gamemode has been set to &bCreative&7." to player
+					stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		if arg-1 is "adventure", "2" or "a":
+			if player has permission "utilities.gamemode.adventure":
+				if arg-2 is set:
+					if player has permission "utilities.gamemode.others":
+						set arg-2's gamemode to adventure
+						send "&b&lUTILITIES &8| &7Your gamemode has been set to &bAdventure&7." to arg-2
+						send "&b&lUTILITIES &8| &b%arg-2%'s &7gamemode has been set to &bAdventure&7." to player
+						stop
+					else:
+						send "&c&lERROR &8| &7You don't have permission to this command." to player
+						stop
+				else:
+					set player's gamemode to adventure
+					send "&b&lUTILITIES &8| &7Your gamemode has been set to &bAdventure&7." to player
+					stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		if arg-1 is "spectator", "3" or "sp":
+			if player has permission "utilities.gamemode.spectator":
+				if arg-2 is set:
+					if player has permission "utilities.gamemode.others":
+						set arg-2's gamemode to spectator
+						send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSpectator&7." to arg-2
+						send "&b&lUTILITIES &8| &b%arg-2%'s &7gamemode has been set to &bSpectator&7." to player
+						stop
+					else:
+						send "&c&lERROR &8| &7You don't have permission to this command." to player
+						stop
+				else:
+					set player's gamemode to spectator
+					send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSpectator&7." to player
+					stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			send "&c&lERROR &8| &7Usage /gamemode (Gamemode) (Player)" to player
+
+command /gms [<player>]:
+	usage: &c&lERROR &8| &7Usage /gms (Player)
+	permission: utilties.gamemode.survival
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.gamemode.others":
+				set arg-1's gamemode to survival
+				send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSurvival&7." to arg-1
+				send "&b&lUTILITIES &8| &b%arg-1%'s &7gamemode has been set to &bSurvival&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			set player's gamemode to survival
+			send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSurvival&7." to player
+			stop
+
+command /gmc [<player>]:
+	usage: &c&lERROR &8| &7Usage /gmc (Player)
+	permission: utilties.gamemode.creative
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.gamemode.others":
+				set arg-1's gamemode to creative
+				send "&b&lUTILITIES &8| &7Your gamemode has been set to &bCreative&7." to arg-1
+				send "&b&lUTILITIES &8| &b%arg-1%'s &7gamemode has been set to &bCreative&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			set player's gamemode to creative
+			send "&b&lUTILITIES &8| &7Your gamemode has been set to &bCreative&7." to player
+			stop
+
+command /gma [<player>]:
+	usage: &c&lERROR &8| &7Usage /gma (Player)
+	permission: utilties.gamemode.adventure
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.gamemode.others":
+				set arg-1's gamemode to adventure
+				send "&b&lUTILITIES &8| &7Your gamemode has been set to &bAdventure&7." to arg-1
+				send "&b&lUTILITIES &8| &b%arg-1%'s &7gamemode has been set to &bAdventure&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			set player's gamemode to adventure
+			send "&b&lUTILITIES &8| &7Your gamemode has been set to &bAdventure&7." to player
+			stop
+
+command /gmsp [<player>]:
+	usage: &c&lERROR &8| &7Usage /gmc (Player)
+	permission: utilties.gamemode.spectator
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.gamemode.others":
+				set arg-1's gamemode to spectator
+				send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSpectator&7." to arg-1
+				send "&b&lUTILITIES &8| &b%arg-1%'s &7gamemode has been set to &bSpectator&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			set player's gamemode to spectator
+			send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSpectator&7." to player
+			stop
+
+command /gm0 [<player>]:
+	usage: &c&lERROR &8| &7Usage /gm0 (Player)
+	permission: utilties.gamemode.survival
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.gamemode.others":
+				set arg-1's gamemode to survival
+				send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSurvival&7." to arg-1
+				send "&b&lUTILITIES &8| &b%arg-1%'s &7gamemode has been set to &bSurvival&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			set player's gamemode to survival
+			send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSurvival&7." to player
+			stop
+
+command /gm1 [<player>]:
+	usage: &c&lERROR &8| &7Usage /gm1 (Player)
+	permission: utilties.gamemode.creative
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.gamemode.others":
+				set arg-1's gamemode to creative
+				send "&b&lUTILITIES &8| &7Your gamemode has been set to &bCreative&7." to arg-1
+				send "&b&lUTILITIES &8| &b%arg-1%'s &7gamemode has been set to &bCreative&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			set player's gamemode to creative
+			send "&b&lUTILITIES &8| &7Your gamemode has been set to &bCreative&7." to player
+			stop
+
+command /gm2 [<player>]:
+	usage: &c&lERROR &8| &7Usage /gm2 (Player)
+	permission: utilties.gamemode.adventure
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.gamemode.others":
+				set arg-1's gamemode to adventure
+				send "&b&lUTILITIES &8| &7Your gamemode has been set to &bAdventure&7." to arg-1
+				send "&b&lUTILITIES &8| &b%arg-1%'s &7gamemode has been set to &bAdventure&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			set player's gamemode to adventure
+			send "&b&lUTILITIES &8| &7Your gamemode has been set to &bAdventure&7." to player
+			stop
+
+command /gm3 [<player>]:
+	usage: &c&lERROR &8| &7Usage /gm3 (Player)
+	permission: utilties.gamemode.spectator
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.gamemode.others":
+				set arg-1's gamemode to spectator
+				send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSpectator&7." to arg-1
+				send "&b&lUTILITIES &8| &b%arg-1%'s &7gamemode has been set to &bSpectator&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+				stop
+		else:
+			set player's gamemode to spectator
+			send "&b&lUTILITIES &8| &7Your gamemode has been set to &bSpectator&7." to player
+			stop

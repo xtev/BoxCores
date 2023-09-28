@@ -1,0 +1,49 @@
+options:
+  SERVERNAME: &c&lBEDBOMBING
+
+
+
+
+#Clear Chat Skript
+command /clearchat:
+    aliases: /cc, /chatclear
+    permission: staff.clearchat
+    permission message: {@SERVERNAME} &4&lError! &7You do not have permission to do this!
+    trigger:
+        loop 300 times:
+            broadcast "&8 "
+        broadcast "&8&m--------------------------------------------"
+        broadcast "{@SERVERNAME} &7&l%player% &7has cleared the chat!"
+        broadcast "&8&m--------------------------------------------" 
+        
+        
+        
+#Chat Slowmode Skript        
+on chat:
+    if player does not have permission "slowmode.bypass":
+        if now < {cooldown::%player%}:
+            cancel event
+            send action bar "&cWait %difference between {cooldown::%player%} and now%&c." to player
+        else:
+            set {cooldown::%player%} to {delay} later
+
+
+command /slowmode [<timespan>]:
+    permission: staff.slowmode
+    permission message: &cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.
+    usage: &7/slowmode (time span)
+    trigger:
+        if arg-1 isn't set:
+            send "&cPlease contain an argument!"
+            stop
+        if arg-1 < 0 seconds:
+            send "&cEnter a positive number!"
+            stop
+        set {delay} to arg-1
+        loop all players:
+            set {cooldown::%loop-player%} to arg-1 
+        if arg-1 is 0 seconds:
+            broadcast "&8Slowmode has been lifted!"
+        else:
+            broadcast "&8Slowmode was set to %arg-1%&e!"
+            

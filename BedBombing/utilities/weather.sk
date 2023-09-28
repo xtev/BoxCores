@@ -1,0 +1,26 @@
+on tab complete of "/weather" and "setweather":
+	set tab completions for position 1 to "clear", "rain" and "thunder"
+
+command /weather [<text>]:
+	aliases: setweather
+	usage: &c&lERROR &8| &7Usage /weather (Clear|Rain|Thunder)
+	permission: utilties.world
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if player has permission "utilities.weather":
+			if arg-1 is "clear":
+				set player's world's weather to clear
+				send "&b&lUTILITIES &8| &b%player's world%'s &7weather has been set to &bClear&7." to player
+				stop
+			if arg-1 is "rain":
+				set player's world's weather to rain
+				send "&b&lUTILITIES &8| &b%player's world%'s &7weather has been set to &bRain&7." to player
+				stop
+			if arg-1 is "thunder":
+				set player's world's weather to thunder
+				send "&b&lUTILITIES &8| &b%player's world%'s &7weather has been set to &bThunder&7." to player
+				stop
+			else:
+				send "&c&lERROR &8| &7Usage /weather (Clear|Rain|Thunder)" to player
+		else:
+			send "&c&lERROR &8| &7You don't have permission to this command." to player

@@ -1,0 +1,16 @@
+on tab complete of "/clear":
+	set tab completions for position 1 to all players
+
+command /clear [<player>]:
+	usage: &c&lERROR &8| &7Usage /clear (Player)
+	permission: utilties.clear
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			clear arg-1's inventory
+			send "&b&lUTILITIES &8| &7Cleared &b%arg-1%'s &7inventory." to player
+			stop
+		else:
+			clear player's inventory
+			send "&b&lUTILITIES &8| &7Cleared &b%player%'s &7inventory." to player
+			stop

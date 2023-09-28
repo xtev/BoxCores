@@ -1,0 +1,24 @@
+on tab complete of "/teleport", "/tp":
+	set tab completions for position 1 to all players
+	if player has permission "utilities.teleport.others":
+		set tab completions for position 2 to all players
+
+command /teleport [<player>] [<player>]:
+	aliases: tp
+	usage: &c&lERROR &8| &7Usage /teleport (Player) (Player)
+	permission: utilties.teleport
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if arg-2 is set:
+				if player has permission "utilities.teleport.others":
+					teleport arg-1 to arg-2
+					send "&b&lUTILITIES &8| &7You have been teleported to &b%arg-2%&7." to arg-1
+					send "&b&lUTILITIES &8| &7Teleported &b%arg-1% &7to &b%arg-2%&7." to player
+				else:
+					send "&c&lERROR &8| &7You don't have permission to this command." to player
+			else:
+				teleport player to arg-1
+				send "&b&lUTILITIES &8| &7You have been teleported to &b%arg-1%&7." to player
+		else:
+			send "&c&lERROR &8| &7Usage /teleport (Player) (Player)" to player

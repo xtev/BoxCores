@@ -1,0 +1,138 @@
+#Made by eult#0001
+#Version 4.2
+options:
+	#This is the permission required to
+	#Access the shulker box using
+	permission: bsb.use
+
+	#To enable placing shulker box change this to true
+	#To disable placing shulker box change this to false
+	#! careful the pleyer without this permission are still able
+	#! to place the shulker box even if it's false
+	place-shulker: true
+
+	# You can change the sound effect from this site
+	#? https://www.digminecraft.com/lists/sound_list_pc.php
+	cooldown-sound: block.chest.locked
+
+#!----------------------------------------------------------------
+on right click with any shulker box:
+	if player doesn't have permission "{@permission}":
+		stop
+	if {@place-shulker} is false:
+		cancel event
+	wait tick
+	#This block code down below just to make sure
+	#the skript keep the minecraft's established behavior
+	if name of inventory of player is not "Crafting":
+		stop
+	if target block is Crafting table:
+		if distance between the player and location of target block <= 5:
+			stop
+	if target entity is item frame:
+		if distance between the player and location of target block <= 5:
+			stop
+	if player's tool is any shulker box:
+		if player's gamemode is creative:
+			if player's target block is any shulker box:
+				stop
+	else:
+		stop
+	set {_item} to player's tool
+	BSBcheckCooldown(player, {_item})
+
+
+on inventory close:
+	if player doesn't have permission "{@permission}":
+		stop
+	if name of event-inventory is not "&8︱ &r%name of {-better-shulkers::%player%} ? "Shulker box"%":
+		stop
+	set {_item} to {-better-shulkers::%player%}
+	play sound "block.shulker_box.close" with volume 2 and pitch 1 to player
+	set {_nbt} to (nbt compound of {_item})
+	delete (compound list tag "BlockEntityTag;Items" of {_nbt})
+	set {_items::*} to slots (integers between 0 and 26) of event-inventory
+	# Add the items in the inventory to the shulker box's NBT data
+	add full nbt compound of {_items::*} to compound list tag "BlockEntityTag;Items" of {_nbt}
+	set {_slots::*} to compound list tag "BlockEntityTag;Items" of {_nbt}
+	# Set the "Slot" tag of each item in the shulker box's NBT data
+	loop {_slots::*}:
+		set {_n} to loop-index parsed as number - 1
+		set byte tag "Slot" of loop-value to {_n}
+	if full nbt compound of player's tool is full nbt compound of {-better-shulkers::%player%}:
+		set player's held item to {_item}
+	else:
+		loop items in player's inventory:
+			if full nbt compound of loop-value is full nbt compound of {-better-shulkers::%player%}:
+				set loop-value to {_item}
+				exit loop
+	delete {-better-shulkers::%player%}
+	#! if you know a better approach dm (discord eult#0001)
+
+on inventory click:
+	if player doesn't have permission "{@permission}":
+		stop
+	if event-inventory is player inventory:
+		if event-item is not any shulker box:
+			stop
+		if name of event-inventory is not "&8︱ &r%name of {-better-shulkers::%player%} ? "Shulker box"%":
+			if click action is right mouse button:
+				cancel event
+				close player's inventory
+				wait tick
+				BSBcheckCooldown(player, event-item)
+		else:
+			#this just to ignore the dubble click action
+			if event-item is {-better-shulkers::%player%}:
+				cancel event
+				stop
+			if click action is right mouse button:
+				close player's inventory
+				wait tick
+				BSBcheckCooldown(player, event-item)
+
+function BSBvalueBlockEntityTag(p: player, item: item):
+	#! make sure don't go lower than 1.3 case hackers can dupe the item
+	#! case of some hacking clients
+	set {-better-shulkers::%{_p}%::cooldown} to 2.2 seconds from now
+	play sound "block.shulker_box.open" with volume 2 and pitch 1 to {_p}
+	set {_nbt} to (nbt compound of {_item})
+	set {_items::*} to (compound list tag "BlockEntityTag;Items" of {_nbt})
+	set {_gui} to shulker box inventory with name "&8︱ &r%name of {_item} ? "Shulker box"%"
+	loop {_items::*}:
+		set {_s} to tag "Slot" of loop-value
+		set slot {_s} of {_gui} to (nbt item from loop-value)
+	open {_gui} to {_p}
+
+function BSBcheckCooldown(p: player, item: item):
+	if {-better-shulkers::%{_p}%::cooldown} > now:
+		play sound "{@cooldown-sound}" with volume 2 and pitch 2 to {_p}
+		#? You can enable the message cooldown by uncommenting the code below
+		#set {_diff} to difference between {-better-shulkers::%{_p}%::cooldown} and now
+		#send "You have to wait %{_diff}% to use this event again." to {_p}
+		stop
+	set {-better-shulkers::%{_p}%} to {_item}
+	BSBvalueBlockEntityTag({_p}, {-better-shulkers::%{_p}%})
+
+on quit:
+	#this is just to make sure the variable is not been saved in the database
+	delete {-better-shulkers::%player%::cooldown}
+on drop:
+	if name of player's inventory is "&8︱ &r%name of {-better-shulkers::%player%} ? "Shulker box"%":
+		if event-item is {-better-shulkers::%player%}:
+			cancel event
+on death:
+	if gamerule keepInventory of world of victim is true:
+		stop
+	if name of victim's current inventory is "&8︱ &r%name of {-better-shulkers::%victim%} ? "Shulker box"%":
+		remove {-better-shulkers::%victim%} from drops
+		set {_item} to {-better-shulkers::%victim%}
+		set {_nbt} to (nbt compound of {_item})
+		delete (compound list tag "BlockEntityTag;Items" of {_nbt})
+		set {_items::*} to slots (integers between 0 and 26) of victim's current inventory
+		add full nbt compound of {_items::*} to compound list tag "BlockEntityTag;Items" of {_nbt}
+		set {_slots::*} to compound list tag "BlockEntityTag;Items" of {_nbt}
+		loop {_slots::*}:
+			set {_n} to loop-index parsed as number - 1
+			set byte tag "Slot" of loop-value to {_n}
+		drop {_item}

@@ -1,0 +1,7 @@
+on chat:
+    if {server::plots::addingmember::%player%}:
+        stop
+    loop all players:
+        if message contains "%loop-player%":
+            replace all "%loop-player%" in message with "&b@%loop-player%&f"
+            play sound "entity.experience_orb.pickup" with volume 1 to loop-player

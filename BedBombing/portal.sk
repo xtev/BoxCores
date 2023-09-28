@@ -1,0 +1,12 @@
+on portal create:
+    cancel event
+
+on portal:
+    cancel event
+    send "&cYou can't be here!" to player
+
+every second:
+    loop all players:
+        if "%loop-player's world%" is "world":
+            if loop-player is not op:
+                execute console command "/spawn %loop-player%" 

@@ -1,0 +1,43 @@
+options:
+	botName: BedBombing
+	botToken: MTA4OTU4NTcxNzM2MzA5NzY5MA.GhaG-a.ENWcMrAxagp7eM6HO5v6ou9tSI0441UzLO0rZM
+	channelID: 979514871840387133 
+	linkedPerm: playerVault.1
+
+define new bot named "{@botName}":
+	token: {@botToken}
+	intents: default intents
+	policy: all
+	auto reconnect: true
+	compression: none
+
+command link:
+	trigger:
+		set {_code} to a random integer between 11111 and 99999
+		set {code::%{_code}%} to player
+		send "&8(&c!&8) &7Your unique code is %{_code}%. Run the command !link %{_code}% on our discord to link your account &d(/discord)&7. This code will be deleted in 1 minute."
+		wait 1 minute
+		delete {code::%{_code}%}
+
+discord command link [<text>]:
+	prefixes: !
+	trigger:
+		if discord id of event-channel is not "{@channelID}":
+			reply with "You can only link your account in the bot-commands channel!"
+			stop
+		if arg-1 is not set:
+			reply with "Syntax: !link (code)"
+			stop
+		if {code::%arg-1%} is not set:
+			reply with "Invalid code"
+			stop
+		set {discord::%discord id of event-member%::username} to {code::%arg-1%}
+		reply with "You have linked with the Minecraft account %{code::%arg-1%}%."
+		make console execute command "lp user %{code::%arg-1%}% permission set {@linkedPerm}"
+
+		set {discord::%discord id of event-member%::nickname} to "%discord name of event-member% | %{code::%arg-1%}%"
+
+		send "" to all players
+		send " &8(&c!&8) &7%{code::%arg-1%}% &7has just linked their account for access to /pv! &7Run /link to do it yourself!" to all players
+		send "" to all players
+		delete {code::%arg-1%}

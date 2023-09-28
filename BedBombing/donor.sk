@@ -1,0 +1,14 @@
+command /donor:
+    trigger:
+        if player has permission "donor.mine":
+            teleport player to {donor.mine}
+            send "&8(&c!&8) &7Teleporting you to donor &7mine." to player
+        else:
+            send "&8(&c!&8) &7No permission." to player
+
+command /setdonorspawn:
+    permission: donor.setmine
+    permission message: &8(&c!&8) &7No Permission.
+    trigger:
+        set {donor.mine} to player's location
+        send "&8(&c!&8) &7Set your current location to &7donor spawn" to player

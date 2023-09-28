@@ -1,0 +1,8 @@
+options:
+    wait: 120 #ticks, 20 ticks = 1 second
+import: 
+    org.bukkit.event.entity.ProjectileLaunchEvent
+    org.bukkit.Material
+on ProjectileLaunchEvent:
+    wait 1 tick
+    event.getEntity().getShooter().setCooldown(Material.ENDER_PEARL, {@wait})

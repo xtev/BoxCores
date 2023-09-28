@@ -1,0 +1,44 @@
+import:
+	org.bukkit.event.player.AsyncPlayerChatEvent 
+	java.util.List
+	org.bukkit.Bukkit
+on load:
+	clear {filter::words::*}
+	
+	add "nigga" to {filter::words::*}
+	add "nigger" to {filter::words::*}
+	add "faggot" to {filter::words::*}
+	add "doxxed" to {filter::words::*}
+	add "ddossed" to {filter::words::*}
+	add "ddoss" to {filter::words::*}
+	add "jew" to {filter::words::*}
+	add "n1gga" to {filter::words::*}
+	add "n1gger" to {filter::words::*}
+	add "beaner" to {filter::words::*}
+	add "beaners" to {filter::words::*}
+	add "niggas" to {filter::words::*}
+	add "niggers" to {filter::words::*}
+
+on AsyncPlayerChatEvent:
+	set {_message} to event.getMessage()
+	loop {filter::words::*}:
+		if {_message}.toLowerCase().contains(loop-value):
+			event.setCancelled(true)
+			wait 1 tick
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mute %event.getPlayer()% 1d filter")
+			stop
+	
+		
+command /clearchat:
+	permission: clearchat.use
+	permission message: &cYou do not have permission to use this command!
+	aliases: /cc
+	trigger:
+		loop 200 times:
+			broadcast "%nl%"
+			broadcast "%nl% %nl%"
+		broadcast "&aThe Chat has been cleared by &7[&o&e%player%&7]"
+		stop
+
+	
+	

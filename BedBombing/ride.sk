@@ -1,0 +1,15 @@
+command ride <player>:
+	permission: op
+	trigger:
+		make player ride arg-1
+
+command pickup <player>:
+	permission: op
+	trigger:
+		make arg-1 ride player
+
+command place <player> <player>:
+	permission: op	
+	trigger:
+		make arg-1 ride arg-2
+

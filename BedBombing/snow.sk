@@ -1,0 +1,20 @@
+on mine of snow block:
+    cancel event
+    set event-block to air
+	
+command /startspleef:
+    permission: op
+    trigger:
+        play sound "block.bell.resonate" with volume 10 and pitch 1 to all players
+        send title "&a5" to all players
+        wait 1 second
+        send title "&e4" to all players
+        wait 1 second
+        send title "&63" to all players
+        wait 1 second
+        send title "&c2" to all players
+        wait 1 second
+        send title "&41" to all players
+        wait 1 second
+        play sound "block.bell.use" with volume 10 and pitch 1 to all players
+        send title "&a&lEVENT STARTED" to all players

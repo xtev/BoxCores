@@ -1,0 +1,28 @@
+on tab complete of "/fly":
+	if player has permission "utilities.fly.others":
+		set tab completions for position 1 to all players
+
+command /fly [<player>]:
+	usage: &c&lERROR &8| &7Usage /fly (Player)
+	permission: utilities.fly
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if player has permission "utilities.fly.others":
+				if arg-1's flight mode is true:
+					set arg-1's flight mode to false
+					send "&b&lUTILITIES &8| &7Your flight mode has been set to &bfalse&7." to arg-1
+					send "&b&lUTILITIES &8| &b%arg-1%'s &7flight mode has been set to &bfalse&7." to player
+				else:
+					set arg-1's flight mode to true
+					send "&b&lUTILITIES &8| &7Your flight mode has been set to &btrue&7." to arg-1
+					send "&b&lUTILITIES &8| &b%arg-1%'s &7flight mode has been set to &btrue&7." to player
+			else:
+				send "&c&lERROR &8| &7You don't have permission to this command." to player
+		else:
+			if player's flight mode is true:
+				set player's flight mode to false
+				send "&b&lUTILITIES &8| &7Your flight mode has been set to &bfalse&7." to player
+			else:
+				set player's flight mode to true
+				send "&b&lUTILITIES &8| &7Your flight mode has been set to &btrue&7." to player

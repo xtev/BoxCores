@@ -1,0 +1,3 @@
+on command:
+    if player's world is "event2":
+        cancel event

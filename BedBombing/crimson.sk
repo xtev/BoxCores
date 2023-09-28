@@ -1,0 +1,4 @@
+on rightclick with paper:
+    if name of tool of player is "&4&lCrimson Rank":
+        execute console command "/lp user %player% parent set crimson"
+        remove paper from player

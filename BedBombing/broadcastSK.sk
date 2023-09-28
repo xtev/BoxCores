@@ -1,0 +1,10 @@
+command /broadcast <text>:
+	usage: &8(&c!&8) &7Usage: /broadcast <message>
+	aliases: bc, bcast, announce
+	permission: broadcast.command.broadcast
+	permission message: &8(&c!&8) &7You don't have permission to do this!
+	trigger:
+		broadcast " "
+		broadcast "&c&lBEDBOMBING"
+		broadcast "&8» &f%arg-1%"
+		broadcast " "

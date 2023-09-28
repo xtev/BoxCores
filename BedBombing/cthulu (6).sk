@@ -1,0 +1,223 @@
+on load:
+	set {cthulu::item} to ender eye named "&dThe Core of Cthulhu"
+	set {cthulu::maxhp} to 300
+command /cthulhu <text>:
+	permission: cthulhu.admin
+	trigger:
+		if arg-1 is "settp":
+			set {cthulu::spawnloc} to player's location
+		if arg-1 is "tp":
+			if {cthulu::spawnloc} is not set:
+				message "The requested location is not set!"
+				stop
+			teleport player to {cthulu::spawnloc}
+		if arg-1 is "spawn":
+			if {cthulu::hp} is set:
+				loop all withers:
+					if name of loop-entity contains "&4&lCthulhu":
+						kill loop-entity
+			if {cthulu::spawnloc} is set:
+				spawn wither at {cthulu::spawnloc}
+				set {cthulu::hp} to 300
+				delete {cthulu::phase2}
+				set name of last spawned wither to "&4&lCthulhu | %floor({cthulu::hp})%/%{cthulu::maxhp}%"
+				apply resistance 50 to last spawned wither for 999 days
+				create a fake explosion at {cthulu::spawnloc}
+				broadcast "&4&lCthulhu &7has awoken"
+on damage:
+	if attacker is wither skeleton:
+		remove wither from the victim
+		apply wither 1 to victim for 3 seconds
+every 2 hours:
+	if {cthulu::hp} is set:
+		loop all withers:
+			if name of loop-entity contains "&4&lCthulhu":
+				kill loop-entity
+
+	if {cthulu::spawnloc} is set:
+		spawn wither at {cthulu::spawnloc}
+		set {cthulu::hp} to 300
+		delete {cthulu::phase2}
+		set name of last spawned wither to "&4&lCthulhu | %floor({cthulu::hp})%/%{cthulu::maxhp}%"
+		apply resistance 50 to last spawned wither for 999 days
+		create a fake explosion at {cthulu::spawnloc}
+		broadcast "&4&lCthulhu &7has awoken"
+		apply resistance 50 to last spawned wither for 999 days
+		set {cthulu::y} to y coord of last spawned wither
+		loop all skeletons:
+			if name of loop-entity contains "&4&lCthulhu":
+				kill loop-entity
+		loop all wither skeletons:
+			if name of loop-entity contains "&4&lCthulhu":
+				kill loop-entity
+every 2 seconds:
+	loop all withers:
+		if name of loop-entity contains "&4&lCthulhu | %floor({cthulu::hp})%/%{cthulu::maxhp}%":
+			loop blocks in radius 1 around loop-entity:
+				if loop-block is air:
+					if block above loop-block is air:
+						if block below loop-block is not air:
+							chance of 1%:
+								teleport loop-entity to loop-block
+			loop blocks in radius 3 around loop-entity:
+				if block above loop-block is air:
+					if block 2 blocks above loop-block is air:
+						chance of 0.1%:
+							spawn 1 skeleton above loop-block
+							set held item of last spawned skeleton to bow of power 2
+							set name of last spawned skeleton to "&4&lCthulhu Guard"
+			if {cthulu::hp} <= 150:
+				loop blocks in radius 3 around loop-entity:
+					if loop-block is air:
+						if block above loop-block is air:
+							if block below loop-block is not air:
+								chance of 5%:
+									teleport loop-entity to loop-block
+
+				loop blocks in radius 3 around loop-entity:
+					if block above loop-block is air:
+						if block 2 blocks above loop-block is air:
+							chance of 0.1%:
+								spawn 1 wither skeleton above loop-block
+								set held item of last spawned wither skeleton to netherite sword
+								set helmet slot of last spawned wither skeleton to chainmail helmet
+								set chestplate slot of last spawned wither skeleton to chainmail chestplate
+								set leggings slot of last spawned wither skeleton to chainmail leggings
+								set boots slot of last spawned wither skeleton to chainmail boots
+								set offhand item of last spawned wither skeleton to shield
+								set name of last spawned wither skeleton to "&4&lArmored Cthulhu Guard"
+
+
+on death of wither skeleton:
+	if name of victim contains "&4&lArmored Cthulhu Guard":
+		loop players in radius 5 around victim:
+			push loop-player upwards at speed 2
+		push attacker forwards at speed 1
+		clear drops
+on death of skeleton:
+	if name of victim contains "&4&lCthulus Guard":
+		clear drops
+
+
+on damage:
+	if victim is skeleton:
+		if name of victim contains "&4&lArmored Cthulhu Guard":
+			if damage cause is projectile:
+				cancel event
+on damage:
+	if victim is skeleton:
+		if name of victim contains "&4&lCthulhu Guard":
+			if damage cause is projectile:
+				cancel event
+
+
+
+every tick:
+	loop all withers:
+		if name of loop-entity contains "&4&lCthulhu | %floor({cthulu::hp})%/%{cthulu::maxhp}%":
+			if loop-entity's y coord is bigger than 83:
+				teleport loop-entity to location(floor(loop-entity's x-coord) + 0.5, floor(loop-entity's y-coord) - 1, floor(loop-entity's z-coord) + 0.5, loop-entity's world)
+			if {cthulu::hp} <= 0:
+				set health of loop-entity to 0
+				broadcast "&4&lCthulhu &7has died"
+			if {cthulu::hp} <= 150:
+				if {cthulu::phase2} is not set:
+					set {cthulu::phase2} to true
+					strike lightning effect at loop-entity
+					broadcast ""
+					broadcast "&4&lCthulhu &7is getting angry"
+					broadcast ""
+			if {cthulu::hp} <= 150:
+				loop all players in radius 10 of loop-entity:
+					chance of 1%:
+						remove blindness from the loop-player
+						remove slowness from the loop-player
+						remove weakness from the loop-player
+						apply blindness 5 to loop-player for 10 seconds
+						apply slowness 5 to loop-player for 10 seconds
+						apply weakness 1 to loop-player for 3 seconds
+				loop all players in radius 5 of loop-entity-1:
+					chance of 1%:
+						damage loop-player by 4 hearts
+						remove wither from the loop-player
+						apply wither 3 to loop-player for 10 seconds
+						play sound "minecraft:item.shield.break" at loop-player
+						send "&4&lCthulhu bit you" to loop-player
+				loop all players in radius 20 of loop-entity:
+					if block below loop-player is air:
+						chance of 1%:
+							create a safe explosion with force 0.5 at loop-player
+						chance of 0.1%:
+							create a safe explosion with force 3 at loop-player
+			loop all players in radius 5 of loop-entity:
+				chance of 1%:
+					damage loop-player by 2 hearts
+					play sound "minecraft:item.shield.break" at loop-player
+					send "&4&lCthulhu &7bit you" to loop-player
+			loop all players in radius 10 of loop-entity:
+				chance of 0.1%:
+					remove poison from the loop-player
+					apply poison 3 to loop-player for 10 seconds
+					send "&4&lCthulhu &7has opened a deep wound" to loop-player
+
+on explode:
+	if event-entity is wither skull:
+		cancel event
+		loop all players in radius 5 of event-entity:
+			damage loop-player by 1 heart
+on damage:
+	if victim is player:
+		if damage cause is wither skull:
+			damage victim by 3 hearts
+	if victim is a wither:
+		if name of victim contains "&4&lCthulhu | %floor({cthulu::hp})%/%{cthulu::maxhp}%":
+			if damage cause is suffocation:
+				cancel event
+				loop blocks in radius 5 around victim:
+					if block below loop-block is not air:
+						if loop-block is air:
+							if block 2 blocks above loop-block is air:
+								teleport victim to loop-block
+				stop
+			if {cthulu::hp} <= 150:
+				chance of 10%:
+					play sound "minecraft:entity.wither.break_block" at attacker
+					push attacker upwards at speed 2
+				chance of 20%:
+					teleport victim to attacker
+					play sound "minecraft:item.chorus_fruit.teleport" at attacker
+				if damage cause is projectile:
+					chance of 100%:
+						cancel event
+						stop
+				chance of 20%:
+					damage attacker by damage / 1.25
+					play sound "minecraft:item.shield.block" at attacker
+					send "&7You touched his spikes!" to attacker
+			chance of 10%:
+				damage attacker by damage / 1.5
+				play sound "minecraft:item.shield.block" at attacker
+				send "&4&lYou touched his spikes!" to attacker
+
+			if damage cause is projectile:
+				chance of 10%:
+					cancel event
+					stop
+
+			set {cthulu::hp} to floor({cthulu::hp} - damage *2)
+			loop all players:
+				if {cthulu::hp} > 0:
+					send action bar "&4&lCthulhu | %floor({cthulu::hp})%/%{cthulu::maxhp}%" to all players
+			set name of victim to "&4&lCthulhu | %floor({cthulu::hp})%/%{cthulu::maxhp}%"
+			if {cthulu::hp} <= 0:
+				set health of victim to 0
+				stop
+on death:
+	if victim is a wither:
+		if name of victim contains "&4&lCthulhu":
+			clear drops
+			if {cthulu::hp} > 0:
+				stop
+			create a safe explosion of force 5 at victim
+			drop 1 of {cthulu::item}
+			broadcast "&4&lCthulhu &chas been killed"

@@ -1,0 +1,19 @@
+on tab complete of "/time", "settime" and "timeset":
+	set tab completions for position 1 to "day" and "night"
+
+command /time [<text>]:
+	aliases: settime, timeset
+	usage: &c&lERROR &8| &7Usage /time (Day/Night)
+	permission: utilties.time
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is "day":
+			set time to 12:00
+			send "&b&lUTILITIES &8| &b%player's world%'s &7time has been set to &bDay&7." to player
+			stop
+		if arg-1 is "night":
+			set time to 24:00
+			send "&b&lUTILITIES &8| &b%player's world%'s &7time has been set to &bNight&7." to player
+			stop
+		else:
+			send "&c&lERROR &8| &7Usage /time (Day/Night)" to player

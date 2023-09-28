@@ -1,0 +1,97 @@
+options:
+	error: &4&lERROR &8» &7
+	prefix: &4&lBedBombing &8» &7
+	teleportTime: 100
+
+
+command redrover <text>:
+	aliases: rr
+	permission: redrover.host
+	trigger:
+
+		if arg-1 is "red":
+			redroverWall("red")
+		
+		else if arg-1 is "blue":
+			redroverWall("blue")
+
+		else if arg-1 is "open":
+			set {redrover.open} to true
+
+		else if arg-1 is "close":
+			set {redrover.open} to false 
+		
+		else if arg-1 is "set":
+			set {_loc} to location(floor(player's x-coord) + 0.5, floor(player's y-coord), floor(player's z-coord) + 0.5, player's world)
+			set {_loc}'s yaw to player's yaw
+			set {_loc}'s pitch to player's pitch
+			set {server::locations::redrover} to {_loc}
+		
+			message "{@prefix}Set the redrover location to %{server::locations::redrover}%"
+
+		else if arg-1 is "auto":
+			send "&bI'll add this at some point lmao" to player
+
+
+on tab complete of "/redrover":
+	set tab completions for position 1 to "red", "blue", "open", "auto", "set", and "close"
+
+
+
+
+function redroverWall(wall: text):
+	if {_wall} is "red":
+		loop blocks in region "redwall":
+			if loop-block is red stained glass:
+				set loop-block to air
+			else if loop-block is air:
+				set loop-block to red stained glass
+	
+	if {_wall} is "blue":
+		loop blocks in region "bluewall":
+			if loop-block is blue stained glass:
+				set loop-block to air
+			else if loop-block is air:
+				set loop-block to blue stained glass
+
+
+
+command event-redrover:
+	trigger:
+		if {redrover.open} is true:
+			if {combat::%player%} is not set:
+				message "{@prefix}Teleporting to redrover&7 in %{@teleportTime}/20% seconds&7."
+				message "{@prefix}If you move&7 the teleport will be cancelled&7."
+			
+				set {_preloc} to player's location
+			
+				set {_i} to 0
+			
+				loop {@teleportTime} times:
+					if {combat::%player%} >= 1:
+						send action bar "&c&lYou may not /redrover in combat!" to player
+						send "&c&lTeleportation cancelled due to combat!"
+						stop trigger
+					wait 1 tick
+					if distance between player's location and {_preloc} > 0.5:
+						send action bar "teleportation was cancelled&7 because you moved." to player
+						stop trigger
+					if {combat::%player%} is not set:
+						set {_remaining ticks} to {@teleportTime} - {_i}
+						send action bar "%floor({_remaining ticks} / 20) + 1% seconds until teleport" to player
+						add 1 to {_i}
+					else:
+						send action bar "{@prefix}&cYou can't teleport to redrover in combat!" to player
+				if {combat::%player%} is not set:
+					teleport player to {server::locations::redrover}
+					send action bar "Teleported!" to player
+					message "{@prefix}Teleported to redrover&7."
+				else if {combat::%player%} is set:
+					send action bar "{@prefix}&cYou can't teleport to redrover in combat!" to player
+			else if {combat::%player%} is set:
+				send action bar "{@prefix}&cYou can't teleport to redrover in combat!" to player
+		else:
+			send "&c&lREDROVER &8| &7Redrover is closed!"
+
+
+

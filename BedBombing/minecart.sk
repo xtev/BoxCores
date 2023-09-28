@@ -1,0 +1,4 @@
+on vehicle create:
+	if "%event.getVehicle()%" contains "minecart":
+		cancel event
+		remove 1 of event.getVehicle() from player's inventory 

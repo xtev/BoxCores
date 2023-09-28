@@ -1,0 +1,99 @@
+import:
+    org.bukkit.event.block.BlockExplodeEvent
+options:
+	frequency: 30 minutes
+	clearRegion: "end_box"
+	clearMap: "world_the_end"
+
+on load:
+	set {mapclear.falldamage} to false
+
+on BlockExplodeEvent:
+    if player's gamemode is creative:
+        stop
+    if "%region at player%" doesn't contain {@clearRegion}:
+        stop
+    if "%region at event-block%" contains "mine":
+        stop
+    if "%player's world%" is not {@clearMap}:
+        stop
+    if {mapclear.placedblocks::*} contains location of event-block:
+        stop
+    event.setCancelled(true)
+
+on place:
+	if player's gamemode is creative:
+		stop
+	if "%player's world%" is not {@clearMap}:
+		stop
+	if "%region at player%" doesn't contain {@clearRegion}:
+		stop
+	add location of event-block to {mapclear.placedblocks::*}
+
+on break:
+	if player's gamemode is creative:
+		stop
+	if "%region at player%" doesn't contain {@clearRegion}:
+		stop
+	if "%region at event-block%" contains "mine":
+		stop
+	if "%player's world%" is not {@clearMap}:
+		stop
+	if {mapclear.placedblocks::*} contains location of event-block:
+		stop
+	cancel event
+
+on damage:
+	if damage cause is fall:
+		if {mapclear.nofalldamage} is true:
+			cancel event
+
+on placeholderapi placeholder request for the prefix "mapclear":
+	if the identifier is "countdown":
+		set {_MapClearCountdown} to {@frequency}
+		remove difference between {mapclear.lastclear} and now from {_MapClearCountdown}
+		set {_raw} to {_MapClearCountdown}.getTicks() / 20
+		set {_seconds} to "%floor(mod({_raw}, 60))%"
+		set {_minutes} to "%floor(mod({_raw}, 60 * 60) / 60)%"
+		set {_hours} to "%floor({_raw} / (60 * 60))%"
+		if length of {_seconds} is 1:
+			set {_seconds} to "0%{_seconds}%"
+		if length of {_minutes} is 1:
+			set {_minutes} to "0%{_minutes}%"
+		if length of {_hours} is 1:
+			set {_hours} to "0%{_hours}%"
+		set the result to "%{_hours}%:%{_minutes}%:%{_seconds}%"
+
+every second:
+	set {_time} to difference between now and {mapclear.lastclear}
+	if {_time} >= {@frequency}:
+		broadcast("&7The map has been cleared! Fall damage will be disabled for the next &c30 seconds&7.", "&c&lMAPCLEAR")
+		set {mapclear.nofalldamage} to true
+		loop {mapclear.placedblocks::*}:
+			set block at loop-value to air
+		delete {mapclear.placedblocks::*}
+		set {mapclear.lastclear} to now
+		wait 30 seconds
+		set {mapclear.nofalldamage} to false
+
+on tab complete of "/mapclear":
+	set tab completions for position 1 to "forceclear"
+
+command /mapclear [<text>]:
+	usage: &8(&cMAP&8) &7Usage: /mapclear (Forceclear)
+	permission: mapclear.cmd
+	permission message: &8(&cMAP&8) &7You don't have permission to this command.
+	trigger:
+		if arg-1 is "forceclear":
+			send "&8(&cMAP&8) &7Force clearing the map." to player
+			broadcast("&7The map has been forced cleared! Fall damage will be disabled for the next &b30 seconds&7.", "&b&lMAPCLEAR")
+			set {mapclear.nofalldamage} to true
+			loop {mapclear.placedblocks::*}:
+				set block at loop-value to air
+			delete {mapclear.placedblocks::*}
+			set {mapclear.lastclear} to now
+			wait 30 seconds
+			set {mapclear.nofalldamage} to false
+			stop
+		else:
+			send "&8(&cMAP&8) &7Usage: /mapclear (Forceclear)" to player

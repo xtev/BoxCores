@@ -1,0 +1,52 @@
+
+command /setcoins <text>:
+	permission: setcoins.use
+	trigger:
+		if arg-1 is "coin":
+			set {server::coins} to player's held item
+			send "&aCoins have been set to your held item!" to player
+			stop
+		else if arg-1 is "comp":
+			set {server::comp} to player's held item
+			send "&aComp Coins have been set to your held item!" to player
+			stop
+		
+
+on tab complete of "/setcoins":
+	set tab completions for position 1 to "coin" and "comp"
+	
+
+
+on right click:
+	set {_item} to player's held item
+	{_item}.setAmount(1)
+	if {server::coins} is {_item}:
+		remove 1 of tool from tool
+		add 1 to balance of player
+		stop
+	if {server::comp} is {_item}:
+		remove 1 of tool from tool
+		add 64 to balance of player
+		stop
+
+command /withdraw [<integer>]:
+	trigger:
+		if arg-1 is not set:
+			send "&a/withdraw <amount>" to player
+			stop
+		if arg-1 < 1:
+			send "&aThat withdrawable amount is too low!" to player
+			stop
+		if balance of player >= arg-1:
+			remove arg-1 from balance of player
+			set {_item} to {server::coins}
+			{_item}.setAmount(arg-1)
+			if player can hold {_item}:
+				give {_item} to player
+			else:
+				drop {_item} at player
+			send "&aYou have successfully withdrawed %arg-1% coins!" to player
+			stop
+		else:
+			send "&aYou do not have coins to withdraw this amount!" to player
+			stop

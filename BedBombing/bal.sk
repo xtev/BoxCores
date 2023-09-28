@@ -1,0 +1,4 @@
+command balset <offlineplayer> <int>:
+	permission: op
+	trigger:
+		set arg-1's balance to arg-2

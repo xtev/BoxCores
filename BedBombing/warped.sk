@@ -1,0 +1,4 @@
+on rightclick with paper:
+    if name of tool of player is "&9&lWarped Rank":
+        execute console command "/lp user %player% parent set warped"
+        remove paper from player

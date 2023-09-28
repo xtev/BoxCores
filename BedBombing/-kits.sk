@@ -1,0 +1,133 @@
+on click:
+	if name of clicked entity is "kitsNPC":
+		openKitsGUI(player)
+
+on quit:
+	if {kits.specifySaveKit::%player's uuid%} is set:
+		delete {kits.specifySaveKit::%player's uuid%}
+	if {kits.specifyLoadKit::%player's uuid%} is set:
+		delete {kits.specifyLoadKit::%player's uuid%}
+
+on chat:
+	if {kits.specifySaveKit::%player's uuid%} is true:
+		cancel event
+		if message is "none":
+			set {kits.specifySaveKit::%player's uuid%} to false
+			stop
+		set {kits.specifySaveKit::%player's uuid%} to message
+	if {kits.specifyLoadKit::%player's uuid%} is true:
+		cancel event
+		if message is "none":
+			set {kits.specifyLoadKit::%player's uuid%} to false
+			stop
+		set {kits.specifyLoadKit::%player's uuid%} to message
+
+on inventory click:
+	if event-inventory is (metadata tag "kitsGUI" of player):
+		cancel event
+		if index of event-slot is 11:
+			close player's inventory
+			set {kits.specifySaveKit::%player's uuid%} to true
+			send "&c&lKITS &8| &7Please specify the kit name... (Type ""none"" to cancel)" to player
+			while {kits.specifySaveKit::%player's uuid%} is true:
+				wait 1 tick
+			if {kits.specifySaveKit::%player's uuid%} is false:
+				send "&c&lKITS &8| &7Canceled the operation." to player
+				stop
+			execute player command "/kits save %{kits.specifySaveKit::%player's uuid%}%"
+			delete {kits.specifySaveKit::%player's uuid%}
+		if index of event-slot is 15:
+			close player's inventory
+			set {kits.specifyLoadKit::%player's uuid%} to true
+			send "&c&lKITS &8| &7Please specify the kit name... (Type ""none"" to cancel)" to player
+			while {kits.specifyLoadKit::%player's uuid%} is true:
+				wait 1 tick
+			if {kits.specifyLoadKit::%player's uuid%} is false:
+				send "&c&lKITS &8| &7Canceled the operation." to player
+				stop
+			execute player command "/kits load %{kits.specifyLoadKit::%player's uuid%}%"
+			delete {kits.specifyLoadKit::%player's uuid%}
+		if index of event-slot is 22:
+			close player's inventory
+
+on tab complete of "/kits":
+	set tab completions for position 1 to "load" and "save"
+
+on tab complete of "/kitmanager":
+	set tab completions for position 1 to "delete"
+
+function openKitsGUI(player: player):
+	set metadata tag "kitsGUI" of {_player} to chest inventory with 3 rows named "Kits"
+	set slot 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25 and 26 of metadata tag "kitsGUI" of {_player} to black stained glass pane named " "
+	set slot 11 of metadata tag "kitsGUI" of {_player} to lime concrete named "&a&lSAVE KIT" with lore "&7Save your current", "&7inventory as a kit!", " ", and "&aClick to Save"
+	set slot 15 of metadata tag "kitsGUI" of {_player} to red concrete named "&c&lLOAD KIT" with lore "&7Load a kit created", "&7by someone!", " ", and "&aClick to Load"
+	set slot 22 of metadata tag "kitsGUI" of {_player} to barrier named "&c&lEXIT" with lore " " and "&aClick to Exit"
+	open (metadata tag "kitsGUI" of {_player}) to {_player}
+
+command /kits [<text>] [<text>]:
+	usage: &c&lERROR &8| &7Usage /kits (Load|Save) (Code)
+	permission: kits.cmd
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is "load":
+			if arg-2 is not set:
+				send "&c&lERROR &8| &7Usage /kits (Load|Save) (Code)" to player
+				stop
+			if {kits.kitOwner::%arg-2%} is not set:
+				send "&c&lERROR &8| &7This kit doesn't exist!" to player
+				stop
+			clear player's inventory
+			set {_slot} to 0
+			loop 36 times:
+				set slot {_slot} of player's inventory to {kits.kitItems::%arg-2%::%{_slot}%}
+				add 1 to {_slot}
+			set player's helmet to {kits.kitHelmet::%arg-2%}
+			set player's chestplate to {kits.kitChestplate::%arg-2%}
+			set player's leggings to {kits.kitLeggings::%arg-2%}
+			set player's boots to {kits.kitBoots::%arg-2%}
+			set player's offhand tool to {kits.kitOffhand::%arg-2%}
+			send "&c&lKITS &8| &7Loaded kit &c%arg-2%&7!" to player
+		else if arg-1 is "save":
+			if arg-2 is not set:
+				send "&c&lERROR &8| &7Usage /kits (Load|Save) (Code)" to player
+				stop
+			if {kits.kitOwner::%arg-2%} is set:
+				send "&c&lERROR &8| &7This kit already exists!" to player
+				stop
+			set {_slot} to 0
+			loop 36 times:
+				set {kits.kitItems::%arg-2%::%{_slot}%} to slot {_slot} of player's inventory
+				add 1 to {_slot}
+			set {kits.kitHelmet::%arg-2%} to player's helmet
+			set {kits.kitChestplate::%arg-2%} to player's chestplate
+			set {kits.kitLeggings::%arg-2%} to player's leggings
+			set {kits.kitBoots::%arg-2%} to player's boots
+			set {kits.kitOwner::%arg-2%} to player's uuid
+			set {kits.kitOffhand::%arg-2%} to player's offhand tool
+			send "&c&lKITS &8| &7Saved kit &c%arg-2%&7!" to player
+		else:
+			openKitsGUI(player)
+
+command /kitmanager [<text>] [<text>]:
+	aliases: kitman
+	usage: &c&lERROR &8| &7Usage /kitmanager (Delete) (Kit)
+	permission: kits.admin
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is "delete":
+			if arg-2 is not set:
+				send "&c&lERROR &8| &7Usage /kits (Delete) (Kit)" to player
+				stop
+			if {kits.kitOwner::%arg-2%} is not set:
+				send "&c&lERROR &8| &7This kit doesn't exist!" to player
+				stop
+			delete {kits.kitItems::%arg-2%::*}
+			delete {kits.kitHelmet::%arg-2%}
+			delete {kits.kitChestplate::%arg-2%}
+			delete {kits.kitLeggings::%arg-2%}
+			delete {kits.kitBoots::%arg-2%}
+			delete {kits.kitOwner::%arg-2%}
+			delete {kits.kitOffhand::%arg-2%}
+			send "&c&lKITS &8| &7Deleted kit &c%arg-2%&7." to player
+		else:
+			send "&c&lERROR &8| &7Usage /kitmanager (Delete) (Kit)" to player

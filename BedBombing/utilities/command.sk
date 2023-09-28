@@ -1,0 +1,48 @@
+on command:
+	if sender is a player:
+		if command is "changepassword":
+			stop
+		loop all players:
+			if {logs.commandspy::%loop-player's uuid%} is true:
+				send "&c&lLOGS &8| &c%player% &8» &7/%full command%" to loop-player
+		add "&8» &c/%full command% &8(&7%now%&8)" to {logs.commands::%player's uuid%::*}
+
+on tab complete of "/commandspy":
+	set tab completions for position 1 to all players
+
+on tab complete of "/commandlogs" and "cmdlogs":
+	set tab completions for position 1 to all players
+
+command /commandspy [<offline player>]:
+	aliases: cmdspy, cspy
+	usage: &c&lERROR &8| &7Usage: /commandspy (Player)
+	permission: logs.commandspy
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			if {logs.commandspy::%arg-1's uuid%} is true:
+				set {logs.commandspy::%arg-1's uuid%} to false
+				send "&c&lLOGS &8| &7Toggled command spy &coff&7 for &c%arg-1%&7." to player
+			else:
+				set {logs.commandspy::%arg-1's uuid%} to true
+				send "&c&lLOGS &8| &7Toggled command spy &con&7 for &c%arg-1%&7." to player
+		else:
+			if {logs.commandspy::%player's uuid%} is true:
+				set {logs.commandspy::%player's uuid%} to false
+				send "&c&lLOGS &8| &7Toggled command spy &coff&7." to player
+			else:
+				set {logs.commandspy::%player's uuid%} to true
+				send "&c&lLOGS &8| &7Toggled command spy &con&7." to player
+
+command /commandlogs [<offline player>]:
+	aliases: cmdlogs
+	usage: &c&lERROR &8| &7Usage: /commandlogs (Player)
+	permission: logs.commandlogs
+	permission message: &c&lERROR &8| &7You don't have permission to this command.
+	trigger:
+		if arg-1 is set:
+			send "&c&lLOGS &8| &c%arg-1%'s &7command logs:" to player
+			loop {logs.commands::%arg-1's uuid%::*}:
+				send "%loop-value%" to player
+		else:
+			send "&c&lERROR &8| &7Usage: /commandlogs (Player)" to player
