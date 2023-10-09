@@ -1,0 +1,158 @@
+on right click with bamboo:
+  cancel event
+  
+on place of orange tulip:
+  cancel event
+  
+on place of wither rose:
+  cancel event
+  
+on place of white candle:
+  cancel event
+  
+on right click with chorus fruit:
+  cancel event
+  
+on place of spore blossom:
+  cancel event
+  
+on place of yellow candle:
+  cancel event
+  
+on place of fire coral:
+  cancel event
+  
+on place of campfire:
+  cancel event
+  
+on place of sea pickle:
+  cancel event
+
+on place of Spruce sapling:
+  cancel event
+
+on place of large fern:
+  cancel event
+
+on right click with snowball:
+  cancel event
+
+on place of dead bush:
+  cancel event
+
+on right click with sweet berries:
+  cancel event
+  
+on right click with glow berries:
+  cancel event
+  
+on place of soul lantern:
+  cancel event
+
+on place of lightning rod:
+  cancel event
+  
+on place of lantern:
+  cancel event
+  
+on place of white candle:
+  cancel event
+  
+on place of purple candle:
+  cancel event
+  
+on place of magenta candle:
+  cancel event
+  
+on place of blue candle:
+  cancel event
+  
+on place of red candle:
+  cancel event
+  
+on place of yellow candle:
+  cancel event
+  
+on right click with dried kelp:
+  cancel event
+  
+on place of tube coral:
+  cancel event
+
+on right click with leather chestplate:
+  cancel event
+
+on right click with elytra:
+  cancel event
+  
+on place of lever:
+  cancel event
+  
+on place of redstone dust:
+  cancel event 
+  
+on place of block of redstone:
+  cancel event
+  
+on place of redstone torch:
+  cancel event
+  
+on place of redstone repeater:
+  cancel event
+  
+on place of redstone comparator:
+  cancel event
+  
+on place of boat:
+  cancel event
+    
+on place of observer:
+  cancel event
+  
+on place of dispenser:
+  cancel event
+  
+on place of dropper:
+  cancel event
+  
+on place of tnt:
+  cancel event
+  
+on place of piston:
+  cancel event
+  
+on place of sticky piston:
+  cancel event
+
+on place of brewing stand:
+  cancel event
+
+on right click with brewing stand:
+  cancel event
+
+on right click with minecart with tnt:
+  cancel event
+
+on place of red banner:
+  cancel event
+
+on place of yellow banner:
+  cancel event
+
+on place of blue banner:
+  cancel event
+
+on place of light gray banner:
+  cancel event
+
+on place of black banner:
+  cancel event
+
+on place of magenta banner:
+  cancel event
+
+on place of purple banner:
+  cancel event
+
+on right click on brewing stand:
+  cancel event

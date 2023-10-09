@@ -1,0 +1,7 @@
+command /claimranked:
+    permission: ranked.use
+    permission message: &cYou have not boosted so you cannot claim! &7(/discord).
+    cooldown: 1 day
+    cooldown message: &cYou must wait %remaining time% before claiming again.
+    trigger:
+        make console execute "/crates key give %player% rankeds5 2"

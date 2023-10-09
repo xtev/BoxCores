@@ -1,0 +1,27 @@
+on join:
+    if {Kills::%player%} is not set:
+        set {Kills::%player%} to 0
+    if {Deaths::%player%} is not set:
+        set {Deaths::%player%} to 0
+    while player is online:
+        set title of player's scoreboard to "§f❀ §d&lNix§f&lBoxx&f ❀"
+        set line 12 of player's scoreboard to " "
+        set line 11 of player's scoreboard to "&fServer: "
+        set line 10 of player's scoreboard to "§d❀§d Online: &f%size of all players%"
+        set line 9 of player's scoreboard to " "
+        set line 8 of player's scoreboard to "&fPlayer: "
+        set line 7 of player's scoreboard to "&d❀§d &dKills: &f%{Kills::%player%}%         "
+        set line 6 of player's scoreboard to "§d❀§d &dDeaths: &f%{Deaths::%player%}% "
+        set line 5 of player's scoreboard to "&7| KDR: &b%player kills stat for player/{_deaths}%"
+        set line 4 of player's scoreboard to " "
+        set line 3 of player's scoreboard to "&fStore: /buy"
+        set line 2 of player's scoreboard to " "
+        set line 1 of player's scoreboard to "&7&o NixBoxx.minehut.gg"
+        wait 1 second
+        
+on death of player:
+    add 1 to {Deaths::%victim%}
+    add 1 to {Kills::%attacker%}
+on first join:
+  delete {Deaths::%player%}
+  delete {kills::%player%}

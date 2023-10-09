@@ -1,0 +1,11 @@
+on right click on gilded blackstone:
+    cancel event
+    teleport player to {event}
+
+command /setevent:
+    trigger:
+        if player has permission "event.sk":
+            set {event} to player's location
+            send "Set event to your location!"
+        else:
+            send "No permission!"

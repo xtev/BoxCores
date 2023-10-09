@@ -1,0 +1,31 @@
+command /setsword1:
+    permission: op
+    trigger:
+        set {swod1} to player's tool
+
+command /setsword2:
+    permission: op
+    trigger:
+        set {swod2} to player's tool
+
+every 1 second:
+    loop all players:
+        if loop-player's inventory contains {swod1}:
+            remove {swod1} from loop-player
+            give {swod2} to loop-player
+
+command /setsword3:
+    permission: op
+    trigger:
+        set {sword3} to player's tool
+
+command /setsword4:
+    permission: op
+    trigger:
+        set {sword4} to player's tool
+
+every 1 second:
+    loop all players:
+        if loop-player's inventory contains {sword3}:
+            remove {sword3} from loop-player
+            give {sword4} to loop-player

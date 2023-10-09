@@ -1,0 +1,5 @@
+on first join:
+  make console execute command "crates give %player% gear_"
+
+on join:
+  make console execute command "lp user %player% parent add spark"

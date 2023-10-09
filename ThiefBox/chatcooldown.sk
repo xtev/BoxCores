@@ -1,0 +1,11 @@
+on chat:
+    if player doesn't have permission "chat.cooldownbypass":
+        set {_chat} to difference between {chat.%player%.cooldown} and now
+        if {_chat} is less than 1 seconds:
+            message "&cYou cannot chat for another &e%difference between 1 second and {_chat}% &cseconds!"
+            cancel event
+        set {chat.%player%.cooldown} to now
+        stop
+
+on quit:
+    delete {chat.%player%.cooldown}

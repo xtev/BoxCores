@@ -1,0 +1,59 @@
+function join(o: objects, s: text) :: text:
+    loop {_o::*}:
+        add loop-value to {_fin::*}
+        add {_s} to {_fin::*}
+    
+    set {_s} to ""
+    loop {_fin::*}:
+        set {_s} to "%{_s}%%loop-value%"
+    
+    return {_s}
+
+function parseTimespan(t: text) :: timespan:
+    set {_timespan} to {_t}
+    set {_x::*} to {_timespan} split at ""
+    remove all "" from {_x::*}
+    
+    loop {_x::*}:
+        if loop-value is "s":
+            add " seconds " to {_s::*}
+        else if loop-value is "m":
+            add " minutes " to {_s::*}
+        else if loop-value is "h":
+            add " hours " to {_s::*}
+        else if loop-value is "d":
+            add " days " to {_s::*}
+        else:
+            add loop-value to {_s::*}
+        
+    set {_timespan} to join({_s::*}, "") parsed as timespan
+    
+    return {_timespan}
+    
+function parseLocation(s: text) :: location:
+    set {_v::*} to {_s} split at ":"
+    set {_world} to {_v::1}
+    set {_v::*} to {_v::2} split at ","
+    set {_x} to {_v::1} parsed as number
+    set {_y} to {_v::2} parsed as number
+    set {_z} to {_v::3} parsed as number
+    set {_loc} to location({_x}, {_y}, {_z}, {_world})
+    
+    return {_loc}
+
+function prettifyTimespan(time: timespan) :: text:
+    set {_raw} to {_time}.getTicks() / 20
+    set {_seconds} to "%floor(mod({_raw}, 60))%"
+    set {_minutes} to "%floor(mod({_raw}, 60 * 60) / 60)%"
+    set {_hours} to "%floor({_raw} / (60 * 60))%"
+    
+    if length of {_seconds} is 1:
+        set {_seconds} to "0%{_seconds}%"
+        
+    if length of {_minutes} is 1:
+        set {_minutes} to "0%{_minutes}%"
+        
+    if length of {_hours} is 1:
+        set {_hours} to "0%{_hours}%"
+    
+    return "%{_hours}%:%{_minutes}%:%{_seconds}%"

@@ -1,0 +1,6 @@
+every 40 minutes:
+  loop all players:
+    if "%region at loop-player%" contains "rankedlounge":
+      execute console command "crate key give %loop-player% ranked 1"
+on entering of region "rankedlounge":
+    send title "&7[&c&lThief&f&lBox]" with subtitle "&5&lRanked&d&lLounge" to player for 20 ticks

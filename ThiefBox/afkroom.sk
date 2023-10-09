@@ -1,0 +1,7 @@
+every 15 minutes:
+  loop all players:
+    if "%region at loop-player%" contains "afkroom":
+        execute console command "crate key give %loop-player% afk 1"
+		
+on entering of region "afkroom":
+    send title "&d&lNix&f&lBox" with subtitle "&f&lAFK &f&lArea" to player for 20 ticks

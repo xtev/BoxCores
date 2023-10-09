@@ -1,0 +1,40 @@
+every 10 minutes:
+  execute console command "cm reset em1"
+  wait 2 seconds
+  execute console command "cm reset em2"
+  wait 2 seconds
+  execute console command "cm reset em3"
+  wait 2 seconds
+  execute console command "cm reset em4"
+  wait 2 seconds
+  execute console command "cm reset em5"
+  wait 2 seconds
+  execute console command "cm reset gold1"
+  wait 2 seconds
+  execute console command "cm reset gold2"
+  wait 2 seconds
+  execute console command "cm reset gold3"
+  wait 2 seconds
+  execute console command "cm reset gold4"
+  wait 2 seconds
+  execute console command "cm reset gold5"
+  wait 2 seconds
+  execute console command "cm reset iron1"
+  wait 2 seconds
+  execute console command "cm reset iron2"
+  wait 2 seconds
+  execute console command "cm reset iron3"
+  wait 2 seconds
+  execute console command "cm reset iron4"
+  wait 2 seconds
+  execute console command "cm reset mage1"
+  wait 2 seconds
+  execute console command "cm reset mage2"
+  wait 2 seconds
+  execute console command "cm reset stonet"
+  wait 2 seconds
+  execute console command "cm reset woodt"
+  wait 2 seconds
+  execute console command "cm reset diamondt"
+  wait 2 seconds
+  execute console command "cm reset netht"

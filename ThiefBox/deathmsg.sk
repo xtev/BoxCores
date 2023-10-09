@@ -1,0 +1,7 @@
+on death:
+    if attacker is a player:
+        if victim is a player:
+            if name of attacker's tool is set:
+                set death message to "&4☠ &8| &c&l%attacker% &7has murdered &a&l%victim% &7with [&f&r%name of attacker's tool%&f]"
+            else if name of attacker's tool is not set:
+                set death message to "&4☠ &8| &c&l%attacker% &7has murdered &a&l%victim%"

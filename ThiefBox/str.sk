@@ -1,0 +1,45 @@
+every 1 second:
+    loop all players:
+        if loop-player is in region "str":
+            apply potion of strength 1 to loop-player for 1 seconds
+every 1 second:
+    loop all players:
+        if loop-player is in region "str2":
+            apply potion of strength 1 to loop-player for 1 seconds
+			
+on region enter:
+    if event-region is "strength" parsed as a region:
+        send title "&d&lNix&f&lBox" with subtitle "&7Gained Strength 2"
+		
+every 1 second:
+    loop all players:
+        if loop-player is in region "kotharea":
+            apply potion of strength 1 to loop-player for 1 seconds
+            apply potion of fire resistance 1 to loop-player for 1 seconds
+			
+every 1 second:
+    loop all players:
+        if loop-player is in region "dangers5":
+            apply potion of strength 2 to loop-player for 1 seconds
+			
+every 1 second:
+    loop all players:
+        if loop-player is in region "kothdanger":
+            apply potion of strength 2 to loop-player for 1 seconds
+
+every 1 second:
+    loop all players:
+        if loop-player is in region "event":
+            apply potion of strength 2 to loop-player for 1 seconds
+            apply potion of fire resistance 1 to loop-player for 1 seconds
+
+every 3 seconds:
+    loop all players:
+        apply potion of night vision of tier 1 to the loop-player for 999 days
+
+every 1 second:
+    loop all players:
+        if loop-player is in region "danger":
+            apply potion of strength 1 to loop-player for 1 seconds
+            apply potion of fire resistance 1 to loop-player for 1 seconds
+            apply potion of resistance 1 to loop-player for 1 seconds

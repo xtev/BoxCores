@@ -1,0 +1,14 @@
+command /easyplot <text>:
+	permission: op
+	trigger:
+		execute player command "plotman create %arg-1%"
+		execute player command "plotman setrent %arg-1% 180"
+		execute player command "plotman setwgregion %arg-1% %arg-1%"
+		execute player command "plotman setsign %arg-1%"
+		execute player command "region create %arg-1%"
+		execute player command "region flag %arg-1% -g members blockplace allow"
+		execute player command "region flag %arg-1% -g members chest-access allow"
+		execute player command "region flag %arg-1% -g members blockplace allow"
+		execute player command "region flag %arg-1% -g members blockbreak allow"
+		execute player command "region setpriority %arg-1% 5"
+		send "&a&lMade by: Noah"

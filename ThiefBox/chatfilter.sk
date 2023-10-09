@@ -1,0 +1,50 @@
+options:
+  
+  #CONFIG
+  prefix: &a✔
+  no-prefix: &8✖
+  permission: filter.see
+  
+
+on chat:
+    loop {filterswear::*}:
+        if message contains loop-value:
+            if player doesn't have permission "filter.bypass":
+                cancel event
+                send "{@no-prefix} &cYou cannot send that here"
+                send "&c[FILTER] &8%player% &7%message%" to all players where [input has permission "{@permission}"]
+                stop
+
+command /filter [<text>] [<text>]:
+    permission: op
+    trigger:
+        if arg-1 is "add":
+            if arg-2 is set:
+                if {filterswear::*} does not contain arg-2:
+                    add arg-2 to {filterswear::*}
+                    send "{@prefix} &7Added %arg-2% &7to the swear filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat word is already blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a word to filter!"
+                stop
+        if arg-1 is "remove":
+            if arg-2 is set:
+                if {filterswear::*} contains arg-2:
+                    remove arg-2 from {filterswear::*}
+                    send "{@prefix} &7Removed %arg-2% &7from the swear filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat word is not blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a word to unfilter!"
+                stop
+        if arg-1 is "list":
+            send "&cThe filtered words are: &7%{filterswear::*}%"
+            stop
+        else:
+            send "{@no-prefix} &cUnknown argument"
+            stop

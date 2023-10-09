@@ -1,0 +1,10 @@
+every 1 second:
+    loop all players:
+        if "%region at loop-player%" contains "tallgrass":
+            set {_random} to a random integer from 1 and 100
+            if {_random} is between 1 and 25:
+                set loop-player's health to loop-player's health - (2)
+                send action bar "&f&lA &c&lPokemon &f&lhas attacked you!" to loop-player
+                stop
+            if {_random} is between 26 and 100:
+                stop

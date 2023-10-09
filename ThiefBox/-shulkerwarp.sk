@@ -1,0 +1,21 @@
+on right click on jungle leaves:
+    cancel event
+    send "&cPlots are disabled right now come back later!"
+
+
+command /setplots:
+    trigger:
+        if player has permission "op":
+            set {plots} to player's location
+            send "Set crates to your location!"
+        else:
+            send "No permission!"
+
+
+command /setspawn:
+    trigger:
+        if player has permission "op":
+            set {spawn} to player's location
+            send "set spawn"
+        else:
+            send "No permission!"

@@ -1,0 +1,15 @@
+command /settool1:
+    permission: op
+    trigger:
+        set {tool1} to player's tool
+
+command /settool2:
+    permission: op
+    trigger:
+        set {tool2} to player's tool
+
+every 1 second:
+    loop all players:
+        if loop-player's inventory contains {tool1}:
+            remove {tool1} from loop-player
+            give {tool2} to loop-player

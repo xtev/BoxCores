@@ -1,0 +1,18 @@
+command /settesting:
+    permission: test.set
+    permission message: &cNo Permission!
+    trigger:
+        set {testing} to player's location
+        send "Set testingarea to your location!"
+
+command /tiertesting:
+    permission: warp.testing
+    permission message: &cNo Permission!
+    trigger:
+        teleport player to {testing}
+
+command /test <player>:
+    permission: testing.give
+    trigger:
+        execute console command "lp user %arg-1% parent set testing"
+        send "&a&l%Command Sender% Has Set Your Rank To Testing!"

@@ -1,0 +1,16 @@
+every 15 minutes:
+    execute console command "announce &d&lDropping &6&lCoins Box &d&lIn &a&l5"
+    wait 1 seconds
+    execute console command "announce &d&lDropping &6&lCoins Box &d&lIn &a&l4"
+    wait 1 seconds
+    execute console command "announce &d&lDropping &6&lCoins Box &d&lIn &c&l3"
+    wait 1 seconds
+    execute console command "announce &d&lDropping &6&lCoins Box &d&lIn &c&l2"
+    wait 1 seconds
+    execute console command "announce &d&lDropping &6&lCoins Box &d&lIn &c&l1"
+    wait 1 seconds
+    execute console command "announce &9&lDropped &6&lCoins Box &9&lAt &a&lTallGrass!"
+    execute console command "crates drop coins ballz 18 49 -98"
+    execute console command "crates drop coins ballz -9 49 -133"
+    execute console command "crates drop coins ballz 59 49 -137"
+    execute console command "crates drop coins ballz 79 49 -117"

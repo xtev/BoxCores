@@ -1,0 +1,4 @@
+every 1 second:
+    loop all players:
+        if loop-player is holding blaze rod in offhand:
+            apply potion of strength 1 to loop-player for 1 seconds

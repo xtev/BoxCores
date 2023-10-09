@@ -1,0 +1,37 @@
+command /mapclear:
+  trigger:
+    broadcast " "
+    broadcast "&c&lClearing map (may take a bit) fall damage will be disabled for 40 seconds"
+    broadcast " "
+    execute console command "gamerule fallDamage false"
+    wait 3 seconds
+    execute console command "cm reset mapclear1"
+    wait 3 seconds
+    execute console command "cm reset mapclear2"
+    wait 3 seconds
+    execute console command "cm reset mapclear3"
+    wait 3 seconds
+    execute console command "cm reset mapclear4"
+    wait 3 seconds
+    execute console command "cm reset mapclear5"
+    wait 3 seconds
+    execute console command "cm reset mapclear6"
+    wait 3 seconds
+    execute console command "cm reset mapclear7"
+    wait 3 seconds
+    execute console command "cm reset mapclear8"
+    wait 3 seconds
+    execute console command "cm reset mapclear9"
+    wait 3 seconds
+    execute console command "cm reset mapclear10"
+    wait 3 seconds
+    execute console command "cm reset mapclear11"
+    wait 3 seconds
+    execute console command "cm reset mapclear12"
+    wait 3 seconds
+    execute console command "cm reset mapclear13"
+    wait 1 second
+    broadcast " "
+    broadcast "&a&lMap Cleared! (fall damage is now enabled)"
+    broadcast " "
+    execute console command "gamerule fallDamage true"

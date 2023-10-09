@@ -1,0 +1,13 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &d&lNix&f&lBox &8| &7
+
+command /staffchat <text>:
+	aliases: /sch
+	permission: server.staffchat
+	permission message: {@error}You do not have the required permission &8(&c&lserver.staffchat&8)
+	usage: {@error}Incorrect usage&8: &c&l/staffchat <message>
+	trigger:	
+		loop all players:
+			if loop-player has permission "server.staffchat":
+				message "&9&lSTAFFCHAT &b%player% &f%arg-1%" to loop-player

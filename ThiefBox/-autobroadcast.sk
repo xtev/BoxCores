@@ -1,0 +1,11 @@
+every 10 minutes:
+  play sound "entity.ender_dragon.flap" at volume 1000000 to all players
+  broadcast ""
+  broadcast "&d&lNix&f&lBox &f&lMake sure to do /link!"
+  broadcast ""
+
+every 25 minutes:
+  play sound "entity.ender_dragon.flap" at volume 1000000 to all players
+  broadcast ""
+  broadcast "&d&lNix&f&lBox &f&lJoin Our Discord! /discord"
+  broadcast ""

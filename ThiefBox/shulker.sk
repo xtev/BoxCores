@@ -1,0 +1,63 @@
+on place:
+    If "%event-block%" contain " shulker box":
+        send "&cSuccessfully placed a Shulker!"
+        set {mysterygift.%location of event-block%} to uuid of event-player
+
+on break:
+    If "%event-block%" contain " shulker box":
+        if player is op:
+            send "&cSuccessfully removed a Shulker!"
+            delete {mysterygift.%location of event-block%}
+            stop
+        if {mysterygift.%location of event-block%} is uuid of event-player:
+            send "&f&lShulker Removed"
+            delete {mysterygift.%location of event-block%}
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "mv tp %event-player% valorant"
+
+on rightclick:
+    If "%event-block%" contain " shulker box":
+        if player is op:
+            stop
+        if {mysterygift.%location of event-block%} is uuid of event-player:
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "tp %player% -1192 126 -214"
+
+on place of hopper or normal rail or powered rail or detector rail or activator rail: #yep, isn't mine!
+    if "%block above event-block%" contain " shulker box":
+        if player is op:
+            stop
+        if {mysterygift.%location of block above event-block%} is uuid of event-player:
+            stop
+        else:
+            cancel event
+            send "&4Error: &cThis shulker box isn't yours!"
+            execute console command "spawn %event-player%"
+
+on place of any shulker box:
+    if "%region at event-block%" contains "tlayer1":
+        send "&cYou can only place shulkers in the Shulker Room." to player
+        cancel event
+
+on place:
+    if event-block is water:
+        if "%region at player%" contains "plots":
+            send "&cWater Placement isnt allowed here." to player
+            cancel event
+on place:
+    if event-block is item frame:
+        if "%region at player%" contains "tlayer1":
+            send "&cYou can only place item frames in plots!." to player
+            cancel event
+on place:
+    if event-block is water:
+        if "%region at player%" contains "shulker2":
+            send "&cWater Placement isnt allowed here." to player
+            cancel event
+on join:
+	apply blindness to player for 1 seconds

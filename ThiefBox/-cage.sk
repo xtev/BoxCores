@@ -1,0 +1,25 @@
+on right click with stick:
+    set block 3 north of the player to birch fence
+    set block 3 north 1 west of the player to birch fence
+    set block 3 north 2 west of the player to birch fence
+    set block 3 north 1 east of the player to birch fence
+    set block 3 north 2 east of the player to birch fence
+    set block 3 northeast of the player to birch fence
+    set block 3 east of the player to birch fence
+    set block 3 east 1 north of the player to birch fence
+    set block 3 east 2 north of the player to birch fence
+    set block 3 east 1 south of the player to birch fence
+    set block 3 east 2 south of the player to birch fence
+    set block 3 southeast of the player to birch fence
+    set block 3 south of the player to birch fence
+    set block 3 south 1 west of the player to birch fence
+    set block 3 south 2 west of the player to birch fence
+    set block 3 south 1 east of the player to birch fence
+    set block 3 south 2 east of the player to birch fence
+    set block 3 southwest of the player to birch fence
+    set block 3 west of the player to birch fence
+    set block 3 west 1 north of the player to birch fence
+    set block 3 west 2 north of the player to birch fence
+    set block 3 west 1 south of the player to birch fence
+    set block 3 west 2 south of the player to birch fence
+    set block 3 northwest of the player to birch fence

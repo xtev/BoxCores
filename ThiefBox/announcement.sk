@@ -1,0 +1,15 @@
+options:
+    prefix: &d&lNix&fBox -
+
+command /announcement [<text>]:
+    aliases: announce, announcements
+    permission: announcement.use
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease put a valid message!"
+            stop
+        else:
+            broadcast ""
+            broadcast "{@prefix} %colored arg-1%"
+            broadcast ""
+            play sound "entity.experience_orb.pickup" at volume 1000000 to all players

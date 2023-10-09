@@ -1,0 +1,5 @@
+command /discord:
+  trigger:
+    send " " to player
+    send "&5&l<link:https://discord.gg/3eJ332tYbJ>&eClick &5&lhere&r&e for our discord" to player
+    send " " to player

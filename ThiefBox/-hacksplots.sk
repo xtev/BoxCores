@@ -1,0 +1,606 @@
+on load:
+    set {server::customtool::plots} to chain named "&6[Plot Chance!]" with lore "", "&6&l| &7Plot Chance a chance to get a plot", "&6&l| &7There are only 32 plots avalible EVER", "", "&6&lLEGENDARY"
+    enchant {server::customtool::plots} with mending
+
+on place of chain:
+    cancel event
+command /giveplot [<player>]:
+    permission: op
+    trigger:
+        if arg-1 is not set:
+            give player {server::customtool::plots}
+        else:
+            give arg-1 {server::customtool::plots}
+
+on right click:
+    plottool(player)
+
+
+function plottool(p: player):
+    if {server::plots::*} contains "%{_p}%":
+        if {_p}'s tool is {server::customtool::plots}:
+            send "&6&lThief&f&lBox &8&l| &fYou Are In Plot Already" to {_p}
+            stop
+    else:
+        if {_p}'s tool is {server::customtool::plots}:
+            if {server::plots::1} is not set:
+                set {server::plots::1} to {_p}
+                send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)" to {_p}
+                set {server::plots::1::owner} to {_p}
+                
+                make console execute command "warp plot1 %{_p}% "
+                make console execute "/rg addmember plot1 %{_p}% -w ballz"
+                remove 1 of {server::customtool::plots} from {_p}
+                make console execute command "resetammountmembers 1"
+                stop
+            if {server::plots::1} is set:
+                if {server::plots::2} is not set:
+                    set {server::plots::2} to {_p}
+                    send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)" to {_p} 
+                    set {server::plots::2::owner} to {_p}
+                      
+                    make console execute command "warp %{_p}% plot2"
+                    make console execute "/rg addmember plot2 %{_p}% -w ballz"
+                    remove 1 of {server::customtool::plots} from {_p}
+                    make console execute command "resetammountmembers 2"
+                    stop
+                if {server::plots::2} is set:
+                    if {server::plots::3} is not set:
+                        set {server::plots::3} to {_p}
+                        send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)" to {_p}   
+                        set {server::plots::3::owner} to {_p}
+                        
+                        make console execute command "warp %{_p}% plot3"
+                        make console execute "/rg addmember plot3 %{_p}% -w ballz"
+                        remove 1 of {server::customtool::plots} from {_p}
+                        make console execute command "resetammountmembers 3"
+                        stop
+                    if {server::plots::3} is set:
+                        if {server::plots::4} is not set:
+                            set {server::plots::4} to {_p}    
+                            send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)" to {_p}   
+                            set {server::plots::4::owner} to {_p}
+                            
+                            make console execute command "warp %{_p}% plot4"
+                            make console execute "/rg addmember plot5 %{_p}% -w ballz"
+                            remove 1 of {server::customtool::plots} from {_p}
+                            make console execute command "resetammountmembers 4"
+                            stop
+                        if {server::plots::4} is set:
+                            if {server::plots::5} is not set:
+                                set {server::plots::5} to {_p}
+                                send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                set {server::plots::5::owner} to {_p}
+                                
+                                make console execute command "warp %{_p}% plot5"
+                                make console execute "/rg addmember plot5 %{_p}% -w ballz"
+                                remove 1 of {server::customtool::plots} from {_p}
+                                make console execute command "resetammountmembers 5"
+                                stop
+                            if {server::plot::5} is set:
+                                if {server::plots::6} is not set:
+                                    set {server::plots::6} to {_p}
+                                    send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                    set {server::plots::6::owner} to {_p}
+                                    
+                                    make console execute command "warp %{_p}% plot6"
+                                    make console execute "/rg addmember plot6 %{_p}% -w ballz"
+                                    remove 1 of {server::customtool::plots} from {_p}
+                                    make console execute command "resetammountmembers 6"
+                                    stop
+                                if {server::plots::6} is set:
+                                    if {server::plots::7} is not set:
+                                        set {server::plots::7} to {_p}
+                                        send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                        set {server::plots::7::owner} to {_p}
+                                        
+                                        make console execute command "warp %{_p}% plot7"
+                                        make console execute "/rg addmember plot7 %{_p}% -w ballz"
+                                        remove 1 of {server::customtool::plots} from {_p}
+                                        make console execute command "resetammountmembers 7"
+                                        stop
+                                    if {server::plots::7} is set:
+                                        if {server::plots::8} is not set:
+                                            set {server::plots::8} to {_p}
+                                            send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                            set {server::plots::8::owner} to {_p}
+                                            
+                                            make console execute command "warp %{_p}% plot8"
+                                            make console execute "/rg addmember plot8 %{_p}% -w ballz"
+                                            remove 1 of {server::customtool::plots} from {_p}
+                                            make console execute command "resetammountmembers 8"
+                                            stop
+                                        if {server::plots::8} is set:
+                                            if {server::plots::9} is not set:
+                                                set {server::plots::9} to {_p}
+                                                send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                set {server::plots::9::owner} to {_p}
+                                                
+                                                make console execute command "warp %{_p}% plot9"
+                                                make console execute "/rg addmember plot9 %{_p}% -w ballz"
+                                                remove 1 of {server::customtool::plots} from {_p}
+                                                make console execute command "resetammountmembers 9"
+                                                stop
+                                            if {server::plots::9} is set:
+                                                if {server::plots::10} is not set:
+                                                    set {server::plots::10} to {_p}
+                                                    send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                    set {server::plots::10::owner} to {_p}
+                                                
+                                                    make console execute command "warp %{_p}% plot10"
+                                                    make console execute "/rg addmember plot10 %{_p}% -w ballz"
+                                                    remove 1 of {server::customtool::plots} from {_p}
+                                                    make console execute command "resetammountmembers 10"
+                                                    stop
+                                                if {server::plots::10} is set:
+                                                    if {server::plots::11} is not set:
+                                                        set {server::plots::11} to {_p}
+                                                        send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                        set {server::plots::11::owner} to {_p}
+                                                        
+                                                        make console execute command "warp %{_p}% plot11"
+                                                        make console execute "/rg addmember plot11 %{_p}% -w ballz"
+                                                        remove 1 of {server::customtool::plots} from {_p}
+                                                        make console execute command "resetammountmembers 11"
+                                                        stop
+                                                    if {server::plots::11} is set:
+                                                        if {server::plots::12} is not set:
+                                                            set {server::plots::12} to {_p}
+                                                            send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                            set {server::plots::12::owner} to {_p}
+                                                        
+                                                            make console execute command "warp %{_p}% plot12"
+                                                            make console execute "/rg addmember plot12 %{_p}% -w ballz"
+                                                            remove 1 of {server::customtool::plots} from {_p}
+                                                            make console execute command "resetammountmembers 12"
+                                                            stop
+                                                        if {server::plots::12} is set:
+                                                            if {server::plots::13} is not set:
+                                                                set {server::plots::13} to {_p}
+                                                                send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                set {server::plots::13::owner} to {_p}
+                                                                
+                                                                make console execute command "warp %{_p}% plot13"
+                                                                make console execute "/rg addmember plot13 %{_p}% -w ballz"
+                                                                remove 1 of {server::customtool::plots} from {_p}
+                                                                make console execute command "resetammountmembers 13"
+                                                                stop
+                                                            if {server::plots::13} is set:
+                                                                if {server::plots::14} is not set:
+                                                                    set {server::plots::14} to {_p}
+                                                                    send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                    set {server::plots::14::owner} to {_p}
+                                                                    
+                                                                    make console execute command "warp %{_p}% plot14"
+                                                                    make console execute "/rg addmember plot14 %{_p}% -w ballz"
+                                                                    remove 1 of {server::customtool::plots} from {_p}
+                                                                    make console execute command "resetammountmembers 14"
+                                                                    stop
+                                                                if {server::plots::14} is set:
+                                                                    if {server::plots::15} is not set:
+                                                                        set {server::plots::15} to {_p}
+                                                                        send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                        set {server::plots::15::owner} to {_p}
+                                                                    
+                                                                        make console execute command "warp %{_p}% plot15"
+                                                                        make console execute "/rg addmember plot15 %{_p}% -w ballz"
+                                                                        remove 1 of {server::customtool::plots} from {_p}
+                                                                        make console execute command "resetammountmembers 15"
+                                                                        stop
+                                                                    if {server::plots::15} is set:
+                                                                        if {server::plots::16} is not set:
+                                                                            set {server::plots::16} to {_p}
+                                                                            send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                            set {server::plots::16::owner} to {_p}
+                                                                        
+                                                                            make console execute command "warp %{_p}% plot16"
+                                                                            make console execute "/rg addmember plot16 %{_p}% -w ballz"
+                                                                            remove 1 of {server::customtool::plots} from {_p}
+                                                                            make console execute command "resetammountmembers 16"
+                                                                            stop
+                                                                        if {server::plots::16} is set:
+                                                                            if {server::plots::17} is not set:
+                                                                                set {server::plots::17} to {_p}
+                                                                                send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                set {server::plots::17::owner} to {_p}
+                                                                                make console execute command "warp %{_p}% plot17"
+                                                                                make console execute "/rg addmember plot17 %{_p}% -w ballz"
+                                                                                remove 1 of {server::customtool::plots} from {_p}
+                                                                                make console execute command "resetammountmembers 18"
+                                                                                stop
+                                                                            if {server::plots::18} is set:
+                                                                                if {server::plots::19} is not set:
+                                                                                    set {server::plots::19} to {_p}
+                                                                                    send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                    set {server::plots::19::owner} to {_p}
+                                                                                    make console execute command "warp %{_p}% plot19"
+                                                                                    make console execute "/rg addmember plot19 %{_p}% -w ballz"
+                                                                                    remove 1 of {server::customtool::plots} from {_p}
+                                                                                    make console execute command "resetammountmembers 19"
+                                                                                    stop
+                                                                                if {server::plots::19} is set:
+                                                                                    if {server::plots::20} is not set:
+                                                                                        set {server::plots::20} to {_p}
+                                                                                        send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                        set {server::plots::20::owner} to {_p}
+                                                                                        make console execute command "warp %{_p}% plot20"
+                                                                                        make console execute "/rg addmember plot20 %{_p}% -w ballz"
+                                                                                        remove 1 of {server::customtool::plots} from {_p}
+                                                                                        make console execute command "resetammountmembers 20"
+                                                                                        stop
+                                                                                    if {server::plots::20} is set:
+                                                                                        if {server::plots::21} is not set:
+                                                                                            set {server::plots::21} to {_p}
+                                                                                            send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                            set {server::plots::21::owner} to {_p}
+                                                                                            make console execute command "warp %{_p}% plot21"
+                                                                                            make console execute "/rg addmember plot21 %{_p}% -w ballz"
+                                                                                            remove 1 of {server::customtool::plots} from {_p}
+                                                                                            make console execute command "resetammountmembers 21"
+                                                                                            stop
+                                                                                        if {server::plots::21} is set:
+                                                                                            if {server::plots::22} is not set:
+                                                                                                set {server::plots::22} to {_p}
+                                                                                                send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                set {server::plots::22::owner} to {_p}
+                                                                                                make console execute command "warp %{_p}% plot22"
+                                                                                                make console execute "/rg addmember plot22 %{_p}% -w ballz"
+                                                                                                remove 1 of {server::customtool::plots} from {_p}
+                                                                                                make console execute command "resetammountmembers 22"
+                                                                                                stop
+                                                                                            if {server::plots::22} is set:
+                                                                                                if {server::plots::23} is not set:
+                                                                                                    set {server::plots::23} to {_p}
+                                                                                                    send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                    set {server::plots::23::owner} to {_p}
+                                                                                                    make console execute command "warp %{_p}% plot23"
+                                                                                                    make console execute "/rg addmember plot23 %{_p}% -w ballz"
+                                                                                                    remove 1 of {server::customtool::plots} from {_p}
+                                                                                                    make console execute command "resetammountmembers 23"
+                                                                                                    stop
+                                                                                                if {server::plots::23} is set:
+                                                                                                    if {server::plots::24} is not set:
+                                                                                                        set {server::plots::24} to {_p}
+                                                                                                        send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                        set {server::plots::24::owner} to {_p}
+                                                                                                        make console execute command "warp %{_p}% plot24"
+                                                                                                        make console execute "/rg addmember plot24 %{_p}% -w ballz"
+                                                                                                        remove 1 of {server::customtool::plots} from {_p}
+                                                                                                        make console execute command "resetammountmembers 24"
+                                                                                                        stop
+                                                                                                    if {server::plots::24} is set:
+                                                                                                        if {server::plots::25} is not set:
+                                                                                                            set {server::plots::25} to {_p}
+                                                                                                            send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                            set {server::plots::25::owner} to {_p}
+                                                                                                            make console execute command "warp %{_p}% plot25"
+                                                                                                            make console execute "/rg addmember plot25 %{_p}% -w ballz"
+                                                                                                            remove 1 of {server::customtool::plots} from {_p}
+                                                                                                            make console execute command "resetammountmembers 25"
+                                                                                                            stop
+                                                                                                        if {server::plots::25} is set:
+                                                                                                            if {server::plots::26} is not set:
+                                                                                                                set {server::plots::26} to {_p}
+                                                                                                                send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                                set {server::plots::26::owner} to {_p}
+                                                                                                                make console execute command "warp %{_p}% plot26"
+                                                                                                                make console execute "/rg addmember plot26 %{_p}% -w ballz"
+                                                                                                                remove 1 of {server::customtool::plots} from {_p}
+                                                                                                                make console execute command "resetammountmembers 26"
+                                                                                                                stop
+                                                                                                            if {server::plots::26} is set:
+                                                                                                                if {server::plots::27} is not set:
+                                                                                                                    set {server::plots::27} to {_p}
+                                                                                                                    send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                                    set {server::plots::27::owner} to {_p}
+                                                                                                                    make console execute command "warp %{_p}% plot27"
+                                                                                                                    make console execute "/rg addmember plot27 %{_p}% -w ballz"
+                                                                                                                    remove 1 of {server::customtool::plots} from {_p}
+                                                                                                                    make console execute command "resetammountmembers 27"
+                                                                                                                    stop
+                                                                                                                if {server::plots::27} is set:
+                                                                                                                    if {server::plots::28} is not set:
+                                                                                                                        set {server::plots::28} to {_p}
+                                                                                                                        send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                                        set {server::plots::28::owner} to {_p}
+                                                                                                                        make console execute command "warp %{_p}% plot28"
+                                                                                                                        make console execute "/rg addmember plot28 %{_p}% -w ballz"
+                                                                                                                        remove 1 of {server::customtool::plots} from {_p}
+                                                                                                                        make console execute command "resetammountmembers 28"
+                                                                                                                        stop
+                                                                                                                    if {server::plots::28} is set:
+                                                                                                                        if {server::plots::29} is not set:
+                                                                                                                            set {server::plots::29} to {_p}
+                                                                                                                            send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                                            set {server::plots::29::owner} to {_p}
+                                                                                                                            make console execute command "warp %{_p}% plot29"
+                                                                                                                            make console execute "/rg addmember plot29 %{_p}% -w ballz"
+                                                                                                                            remove 1 of {server::customtool::plots} from {_p}
+                                                                                                                            make console execute command "resetammountmembers 29"
+                                                                                                                            stop
+                                                                                                                        if {server::plots::29} is set:
+                                                                                                                            if {server::plots::30} is not set:
+                                                                                                                                set {server::plots::30} to {_p}
+                                                                                                                                send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                                                set {server::plots::30::owner} to {_p}
+                                                                                                                                make console execute command "warp %{_p}% " 
+                                                                                                                                make console execute "/rg addmember plot30 %{_p}% -w ballz"
+                                                                                                                                remove 1 of {server::customtool::plots} from {_p}
+                                                                                                                                make console execute command "resetammountmembers 30"
+                                                                                                                                stop
+                                                                                                                            if {server::plots::30} is set:
+                                                                                                                                if {server::plots::31} is not set:
+                                                                                                                                    set {server::plots::31} to {_p}
+                                                                                                                                    send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                                                    set {server::plots::31::owner} to {_p}
+                                                                                                                                    make console execute command "warp %{_p}% " 
+                                                                                                                                    make console execute "/rg addmember plot31 %{_p}% -w ballz"
+                                                                                                                                    remove 1 of {server::customtool::plots} from {_p}
+                                                                                                                                    make console execute command "resetammountmembers 31"
+                                                                                                                                    stop
+                                                                                                                                if {server::plots::31} is set:
+                                                                                                                                    if {server::plots::32} is not set:
+                                                                                                                                        set {server::plots::32} to {_p}
+                                                                                                                                        send "&6&lThief&f&lBox &8&l| &fYou Have Recieved a very rare plot! &6(LEGENDARY)"  to {_p}
+                                                                                                                                        set {server::plots::32::owner} to {_p}
+                                                                                                                                        make console execute command "warp %{_p}% " 
+                                                                                                                                        make console execute "/rg addmember plot32 %{_p}% -w ballz"
+                                                                                                                                        remove 1 of {server::customtool::plots} from {_p}
+                                                                                                                                        make console execute command "resetammountmembers 32"
+                                                                                                                                        stop
+                                                                                                                                    if {server::plots::32} is set:
+                                                                                                                                        send "&6&lThief&f&lBox &8&l| &fNo More Plots Tough Luck &c(L Bozo)" to {_p}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+command /easyitemplots:
+	permission: op
+	trigger:
+		execute player command "region flag plot1 -g members blockplace allow"
+		execute player command "region flag plot1 -g members chest-access allow"
+		execute player command "region flag plot1 -g members blockbreak allow"
+		execute player command "region flag plot2 -g members blockplace allow"
+		execute player command "region flag plot2 -g members chest-access allow"
+		execute player command "region flag plot2 -g members blockbreak allow"
+		execute player command "region flag plot3 -g members blockplace allow"
+		execute player command "region flag plot3 -g members chest-access allow"
+		execute player command "region flag plot3 -g members blockbreak allow"
+		execute player command "region flag plot4 -g members blockplace allow"
+		execute player command "region flag plot4 -g members chest-access allow"
+		execute player command "region flag plot4 -g members blockbreak allow"
+		execute player command "region flag plot5 -g members blockplace allow"
+		execute player command "region flag plot5 -g members chest-access allow"
+		execute player command "region flag plot5 -g members blockbreak allow"
+		execute player command "region flag plot6 -g members blockplace allow"
+		execute player command "region flag plot6 -g members chest-access allow"
+		execute player command "region flag plot6 -g members blockbreak allow"
+		execute player command "region flag plot7 -g members blockplace allow"
+		execute player command "region flag plot7 -g members chest-access allow"
+		execute player command "region flag plot7 -g members blockbreak allow"
+		execute player command "region flag plot8 -g members blockplace allow"
+		execute player command "region flag plot8 -g members chest-access allow"
+		execute player command "region flag plot8 -g members blockbreak allow"
+		execute player command "region flag plot9 -g members blockplace allow"
+		execute player command "region flag plot9 -g members chest-access allow"
+		execute player command "region flag plot9 -g members blockbreak allow"
+		execute player command "region flag plot10 -g members blockplace allow"
+		execute player command "region flag plot10 -g members chest-access allow"
+		execute player command "region flag plot10 -g members blockbreak allow"
+		execute player command "region flag plot11 -g members blockplace allow"
+		execute player command "region flag plot11 -g members chest-access allow"
+		execute player command "region flag plot11 -g members blockbreak allow"
+		execute player command "region flag plot12 -g members blockplace allow"
+		execute player command "region flag plot12 -g members chest-access allow"
+		execute player command "region flag plot12 -g members blockbreak allow"
+		execute player command "region flag plot13 -g members blockplace allow"
+		execute player command "region flag plot13 -g members chest-access allow"
+		execute player command "region flag plot13 -g members blockbreak allow"
+		execute player command "region flag plot14 -g members blockplace allow"
+		execute player command "region flag plot14 -g members chest-access allow"
+		execute player command "region flag plot14 -g members blockbreak allow"
+		execute player command "region flag plot15 -g members blockplace allow"
+		execute player command "region flag plot15 -g members chest-access allow"
+		execute player command "region flag plot15 -g members blockbreak allow"
+		execute player command "region flag plot16 -g members blockplace allow"
+		execute player command "region flag plot16 -g members chest-access allow"
+		execute player command "region flag plot16 -g members blockbreak allow"
+		execute player command "region flag plot17 -g members blockplace allow"
+		execute player command "region flag plot17 -g members chest-access allow"
+		execute player command "region flag plot17 -g members blockbreak allow"
+		execute player command "region flag plot18 -g members blockplace allow"
+		execute player command "region flag plot18 -g members chest-access allow"
+		execute player command "region flag plot18 -g members blockbreak allow"
+		execute player command "region flag plot19 -g members blockplace allow"
+		execute player command "region flag plot19 -g members chest-access allow"
+		execute player command "region flag plot19 -g members blockbreak allow"
+		execute player command "region flag plot20 -g members blockplace allow"
+		execute player command "region flag plot20 -g members chest-access allow"
+		execute player command "region flag plot20 -g members blockbreak allow"
+		execute player command "region flag plot21 -g members blockplace allow"
+		execute player command "region flag plot21 -g members chest-access allow"
+		execute player command "region flag plot21 -g members blockbreak allow"
+		execute player command "region flag plot22 -g members blockplace allow"
+		execute player command "region flag plot22 -g members chest-access allow"
+		execute player command "region flag plot22 -g members blockbreak allow"
+		execute player command "region flag plot23 -g members blockplace allow"
+		execute player command "region flag plot23 -g members chest-access allow"
+		execute player command "region flag plot23 -g members blockbreak allow"
+		execute player command "region flag plot24 -g members blockplace allow"
+		execute player command "region flag plot24 -g members chest-access allow"
+		execute player command "region flag plot24 -g members blockbreak allow"
+		execute player command "region flag plot25 -g members blockplace allow"
+		execute player command "region flag plot25 -g members chest-access allow"
+		execute player command "region flag plot25 -g members blockbreak allow"
+		execute player command "region flag plot26 -g members blockplace allow"
+		execute player command "region flag plot26 -g members chest-access allow"
+		execute player command "region flag plot26 -g members blockbreak allow"
+		execute player command "region flag plot27 -g members blockplace allow"
+		execute player command "region flag plot27 -g members chest-access allow"
+		execute player command "region flag plot27 -g members blockbreak allow"
+		execute player command "region flag plot28 -g members blockplace allow"
+		execute player command "region flag plot28 -g members chest-access allow"
+		execute player command "region flag plot28 -g members blockbreak allow"
+		execute player command "region flag plot29 -g members blockplace allow"
+		execute player command "region flag plot29 -g members chest-access allow"
+		execute player command "region flag plot29 -g members blockbreak allow"
+		execute player command "region flag plot30 -g members blockplace allow"
+		execute player command "region flag plot30 -g members chest-access allow"
+		execute player command "region flag plot30 -g members blockbreak allow"
+		execute player command "region flag plot31 -g members blockplace allow"
+		execute player command "region flag plot31 -g members chest-access allow"
+		execute player command "region flag plot31 -g members blockbreak allow"
+		execute player command "region flag plot32 -g members blockplace allow"
+		execute player command "region flag plot32 -g members chest-access allow"
+		execute player command "region flag plot32 -g members blockbreak allow"
+
+command /setsign <text>:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            set {sign::number} to "%arg-1%"
+            set {sign::%player%} to true
+            send "&6&lThief&f&lBox &8&l| &fStarting Placing Sign!"
+
+on break:
+    if event-block is oak sign:
+        loop {server::plots::*}:
+            if {server::plots::%loop-index%::loc} contains event-block:
+                remove event-block from {server::plots::%loop-index%::loc}
+
+on place of oak sign:
+    if {sign::%player%} is set:
+        set {server::plots::%{sign::number}%::loc} to location of event-block
+        set line 1 of event-block to "&6&lThief&f&lBox"
+        set line 2 of event-block to "&3Plot: &F%{sign::number}%"
+        if {server::plots::%{sign::number}%::owner} is not set:
+            set line 3 of event-block to "&3Owner: &fNone"
+            set line 4 of event-block to "&3Members: &f0/15"
+            delete {sign::%player%}
+        else:
+            set line 3 of event-block to "&3Owner: &f%{server::plots::%{sign::number}%::owner}%" 
+            set line 4 of event-block to "&3Members: &F%{server::plots::%{sign::number}%::members::ammount}%/15"
+            delete {sign::%player%}
+
+every 5 seconds:
+    loop {server::plots::*}:
+        if {server::plots::%loop-index%::loc} is set:
+            set line 1 of block at {server::plots::%loop-index%::loc} to "&6&lThief&f&lBox"
+            set line 2 of block at {server::plots::%loop-index%::loc} to "&3Plot: &F%loop-index%"
+            if {server::plots::%loop-index%::owner} is not set:
+                set line 3 of block at {server::plots::%loop-index%::loc} to "&3Owner: &fNone"
+                set line 4 of block at {server::plots::%loop-index%::loc} to "&3Members: &f0/15"
+            if {server::plots::%loop-index%::owner} is set:
+                set line 3 of block at {server::plots::%loop-index%::loc} to "&3Owner: &f%{server::plots::%loop-index%::owner}%" 
+                set line 4 of block at {server::plots::%loop-index%::loc} to "&3Members: &F%{server::plots::%loop-index%::members::ammount}%/15"
+
+
+command /plotadd <offline player>:
+    cooldown: 30 seconds
+    cooldown message: &6&lThief&f&lBox &8&l| &fConsole Spam, we put cooldown because of that
+    cooldown bypass: op
+    trigger:
+        loop {server::plots::*}:
+            if {server::plots::%loop-index%::owner} contains "%player%":
+                if arg-1 contains "%player%":
+                    send "&6&lThief&f&lBox &8&l| &fYou're already added to you're plot"
+                    stop
+                else:
+                    if {server::plots::%loop-index%::members::*} contains "%player%":
+                        send "&6&lThief&f&lBox &8&l| &fThey Are Already Added To Plot!"
+                    if {server::plots::%loop-index%::members::*} does not contain "%arg-1%":
+                        if {server::plots::%loop-index%::members::ammount} < 16:
+                            add "%arg-1%" to {server::plots::%loop-index%::members::*}
+                            send "&6&lThief&f&lBox &8&l| &fAdded %arg-1% to you're plot"
+                            make console execute command "rg addmember plot%loop-index% %arg-1% -w ballz"
+                            make console execute command "lp user %arg-1% permission set essentials.warps.plot%loop-index%"
+                            add 1 to {server::plots::%loop-index%::members::ammount}
+                        else:
+                            send "&6&lThief&f&lBox &8&l| &fTo Many People In Plot"
+            
+command /plotremove <offline player>:
+    cooldown: 30 seconds    
+    cooldown message: &6&lThief&f&lBox &8&l| &fConsole Spam, we put cooldown because of that
+    trigger:
+        loop {server::plots::*}:
+            if {server::plots::%loop-index%} contains "%player%":
+                if {server::plots::%loop-index%::members::*} contains "%arg-1%":
+                    make console execute "/rg removemember plot%loop-index% %arg-1% -w ballz"
+                    make console execute command "lp user %arg-1% permission remove essentials.warps.plot%loop-index%"
+                    remove "%arg-1%" from {server::plots::%loop-index%::members::*}
+                    remove 1 from {server::plots::%loop-index%::members::ammount}
+                    send "&6&lThief&f&lBox &8&l| &fRemoved %arg-1% Succsesfully!"
+                else:
+                    send "&6&lThief&f&lBox &8&l| &fPlayer Is Not In Plot!"
+command /resetammountmembers <number>:
+    permission: op
+    trigger:
+        set {server::plots::%arg-1%::members::ammount} to 0
+        send "&6&lThief&f&lBox &8&l| &fLooped Plots!"
+command /deleteplots:
+    permission: op
+    trigger:
+        delete {server::plots::*}
+        send "&6&lThief&f&lBox &8&l| &fDeleted All Plots Succsesfully"
+
+on pick up chain:
+    loop {server::plots::*}:
+        if {server::plots::%loop-index%::owner} contains "%player%":
+            if player is not op:
+                cancel event
+                send "&6&lThief&f&lBox &8&l| &fYou Already Own A Plot!"
+                stop
+
+
+every 5 seconds:
+    loop all players:
+        loop {server::plots::*}:
+            if {server::plots::%loop-index%::owner} contains "%loop-player%":
+                if loop-player's inventory contains {server::customtool::plots}:
+                    if loop-player is not op:
+                        remove {server::customtool::plots} from loop-player
+                        send "&6&lThief&f&lBox &8&l| &fYou're plot got removed (giving u 1 koth crates)" to loop-player
+                        make console execute command "crates key give %loop-player% koth 1"
+
+command /plotshelp:
+    trigger:
+        send formatted ""
+        send formatted "      &6&lThief&f&lBox"
+        send formatted "&6 - <tooltip:&f/plotadd adds a player to you're plot Maximum 15>/plotadd"
+        send formatted "&6 - <tooltip:&f/plotremove removes a player from your plot>/plotremove"
+        send formatted ""
+        send formatted "&6 - &7Thats all thanks for reading this Hover Over Text to see usage"
+        send formatted ""
+
+command /plotevict <text>:
+    permission: op
+    trigger:
+        delete {server::plots::%arg-1%::owner}
+        delete {server::plots::%arg-1%::members::*}
+        delete {server::plots::%arg-1%::owner}
+        delete {server::plots::%arg-1%}
+        send "&6&lThief&f&lBox &8&l| &fEvicted %arg-1% Plot!"
+        if {server::plots::%arg-1%::loc} is set:
+            set line 1 of block at {server::plots::%arg-1%::loc} to "&6&lThief&f&lBox"
+            set line 2 of block at {server::plots::%arg-1%::loc} to "&3Plot: &F%arg-1%"
+            set line 3 of block at {server::plots::%arg-1%::loc} to "&3Owner: &fNone"
+            set line 4 of block at {server::plots::%arg-1%::loc} to "&3Members: &f0/15"

@@ -1,0 +1,131 @@
+options:
+	error: &cNah &8| &7
+	prefix: &c&lThief&f&lBox &7
+
+on load:
+	delete {server::cblocks::*}
+	
+	add "me" to {cmdblock}
+	add "minecraft:me" to {cmdblock}
+	add "teammsg" to {cmdblock}
+	add "te" to {server::cblocks::*}
+	add "minecraft:te" to {server::cblocks::*}
+	add "minecraft:teammsg" to {server::cblocks::*}
+	add "minecraft:msg" to {server::cblocks::*}
+	add "minecraft:tell" to {server::cblocks::*}
+	add "minecraft:w" to {server::cblocks::*}
+	add "w" to {server::cblocks::*}
+	add "pl" to {server::cblocks::*}
+	add "bukkit:pl" to {server::cblocks::*}
+	add "plugins" to {server::cblocks::*}
+	add "bukkit:plugins" to {server::cblocks::*}
+	add "?" to {server::cblocks::*}
+	add "bukkit:?" to {server::cblocks::*}
+	add "ver" to {server::cblocks::*}
+	add "bukkit:ver" to {server::cblocks::*}
+	add "version" to {server::cblocks::*}
+	add "bukkit:version" to {server::cblocks::*}
+	add "help" to {server::cblocks::*}
+	add "bukkit:help" to {server::cblocks::*}
+	add "about" to {cmdblock}
+
+every 60 seconds:
+    execute console command "tab reload"
+
+on command:
+	if {cmdblock} contains command:
+		if player does not have permission "server.bypasscmdblocking":
+			cancel event
+			message "{@error}That command is blocked"
+
+on craft oak boat:
+  cancel event
+
+on fish:
+	cancel event
+#	if "%event.getState()%" is "BITE" or "CAUGHT_FISH":
+#		cancel event
+on command "about":
+    cancel event
+command /about:
+  trigger:
+    send "&fnah"
+
+
+command /?:
+  trigger:
+    send "&fnah"
+
+
+command /plugins:
+  trigger:
+    send "&fnah"
+    
+command /sm:
+  trigger:
+    send "&fnah"
+    
+command /skript:sm:
+  trigger:
+    send "&fnah"
+command /plugin:
+  trigger:
+    send "&fnah"
+
+command /pl:
+  trigger:
+    send "&fnah"
+command /ver:
+  trigger:
+    send "&fnah"
+command /version :
+  trigger:
+    send "&fnah"
+command /bukkit:version:
+  trigger:
+    send "&fnah"
+command /bukkit:ver:
+  trigger:
+    send "&fnah"
+command /nuke:
+  trigger:
+    send "&fnah"
+command /reload:
+  trigger:
+    send "&fnah"
+command /minecraft::
+  trigger:
+    send "&fnah"
+command /minecraft:tm:
+  trigger:
+    send "&fnah"
+command /minecraft:teammsg:
+  trigger:
+    send "&fnah"
+command /teammsg:
+  trigger:
+    send "&fnah"
+command /teamme:
+  trigger:
+    send "&fnah"
+command /minecraft:me:
+  trigger:
+    send "&fnah"
+command /bukkit:plugins:
+  trigger:
+    send "&fnah"
+command /bukkit:pl:
+  trigger:
+    send "&fnah"
+command /bukkit:?:
+  trigger:
+    send "&fnah"
+command /bukkit:help:
+  trigger:
+    send "&fnah"
+command /bukkit:about:
+  trigger:
+    send "&fnah"
+command /cake:
+  trigger:
+    send "&fnah"

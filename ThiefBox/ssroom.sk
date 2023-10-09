@@ -1,0 +1,43 @@
+command /setSSROOM:
+    permission: ss.setSS
+    trigger:
+        set {ssROOM} to location of block at location of player
+        send "&d&lNix&f&lBox &7ss room was set to &c%{ssROOM}%" 
+
+command /ss [<player>]:
+    permission: ss.screanshare
+    trigger:
+        if arg-1 isn't set:
+            send "&d&lNix&f&lBox &7You must also inclued a player in the command such as the person you want to SS!"
+            stop
+        else:
+            teleport arg-1 to {ssROOM}
+            teleport player to {SSROOM}
+            send "&d&lNix&f&lBox &7You have been teleported to the SS room with &f%arg-1%&7 in order to ss them." to player
+            send "&d&lNix&f&lBox &7You have been sent to the SS room by &f%player%&7 DO NOT LEAVE, &7please join screenshare vc in &f/discord" to arg-1
+            broadcast "&d&lNix&f&lBox &f%arg-1% &7is getting screen shared by &f%player%"
+            set {beingSS::%arg-1's uuid%} to true
+
+command /unss [<player>]:
+    permission: ss.stopss
+    trigger:
+        if arg-1 isn't set:
+            send "&d&lNix&f&lBox &cPlease select a player that you want to stop the ss of, /unss PLAYER"
+        else:
+            teleport arg-1 to {spawn}
+            teleport player to {spawn}
+            send "&d&lNix&f&lBox &aYou are no longer being ssed!" to arg-1
+            delete {beingSS::%arg-1's uuid%}
+on command:
+    if {beingSS::%player's uuid%} is true:
+        if command is "discord":
+            stop
+        else:
+            cancel event
+            send "&d&lNix&f&lBox &fYou may not use commands while being SSed!"
+
+on quit:
+    if {beingSS::%player's uuid%} is true:
+        execute console command "tempban %player% 8d Leaving the server while being checked."
+        set {beingSS::%player's uuid%} to false
+        broadcast "&d&lNix&f&lBox &8%player% &7Logged out when while checked!"

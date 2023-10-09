@@ -1,0 +1,14 @@
+on mine ore:
+	chance of 1.5%:
+		execute console command "crates key give %player% mine_ 1"
+		send " " to player
+		send "&c&lThief&f&lBox &7| &6You Just Got a &7Mine Key!" to player
+		send " " to player
+		
+		
+on mine netherite block:
+	chance of 5%:
+		execute console command "crates key give %player% mine_ 1"
+		send " " to player
+		send "&c&lThief&f&lBox &7| &6You Just Got a &7Mine Key" to player
+		send " " to player

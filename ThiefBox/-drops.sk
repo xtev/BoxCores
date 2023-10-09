@@ -1,0 +1,31 @@
+on death of zombie:
+on death:
+  if victim is zombie:
+    clear the drops
+    set {_drop} to sea pickle named "&2&lCactus Spike"  
+    drop {_drop} at victim's location
+
+
+on eat of cookie:
+  apply potion of regeneration 2 to player for 10 second
+
+on right click with phantom membrane:
+    if item cooldown of sugar cane is 0 seconds: 
+        set item cooldown for sugar cane to 120 seconds
+        send action bar "&7You have used resistance" to player
+        apply potion of resistance of tier 2 to player for 10 seconds
+
+on right click with shield:
+  cancel event
+
+on right click with yellow candle:
+    if item cooldown of yellow candle for player is 0 seconds:
+        send action bar "&eYou have used lightning strike." to player
+        loop players in radius 5 around player:
+            if loop-player is not player:
+                damage loop-player by 20
+                play sound "ENTITY_LIGHTNING_BOLT_THUNDER" at loop-player
+                strike lightning effect at loop-player
+        set item cooldown for yellow candle to 2 minutes
+    else:
+        send action bar "&e&lYou cannot use this yet!" to player
