@@ -1,0 +1,59 @@
+function cl(p: player):
+    if {combat::%{_p}'s uuid%} is not set:
+        set {combat::%uuid of {_p}%} to 15
+        send "&4&lCOMBAT &7| &cYou are now in combat! Do not log out!" to {_p}
+    else:
+        set {combat::%uuid of {_p}%} to 15
+        send action bar "&cCombat Time: &7%{combat::%{_p}'s uuid%}%" to {_p}
+
+every second:
+    loop all players:
+        if {combat::%loop-player's uuid%} is set:
+            if {combat::%loop-player's uuid%} > 1:
+                reduce {combat::%loop-player's uuid%} by 1
+                send action bar "&cCombat Time: &7%{combat::%loop-player's uuid%}%" to loop-player
+            else:
+                delete {combat::%loop-player's uuid%}
+                send "&4&lCOMBAT &7| &cYou are now out of combat! You may log out!" to loop-player
+                send action bar "&cYou are now out of combat!" to loop-player
+
+on leave:
+    if {combat::%player's uuid%} is set:
+        console command "/minecraft:kill %player%"
+        broadcast "&4&lCOMBAT &7| &c%player% died attempting to combat log!"
+        delete {combat::%player's uuid%}
+
+on command:
+    if {combat::%player's uuid%} is set:
+        if player does not have permission "combatcommand.bypass":
+            cancel event
+            send "&4&lCOMBAT &7| &cYou can not run commands in combat!"
+
+on damage:
+    attacker is player
+    victim is player
+    cl(victim)
+    cl(attacker)
+	
+on death of player:
+	delete {combat::%victim's uuid%}
+	teleport victim to {spawn}
+
+on load:
+    broadcast "&4&lCOMBAT &7| &cCombat log loaded!"
+
+on unload:
+    loop all players:
+        delete {combat::%loop-player's uuid%}
+    broadcast "&4&lCOMBAT &7| &cCombat log unloaded!"
+
+on consume of golden apple:
+    if player is wearing leather tunic:
+        {goldapple.%player%.lastused} was less than 3 seconds ago:
+            set {_g} to difference between {goldapple.%player%.lastused} and now
+            if {_g} is less than 3 seconds:
+                set {_g} to difference between {_g} and 3 seconds
+                message "&cYou cannot eat another Golden Apple for &e&L%{_g}%&cs"
+                cancel event
+                stop
+        set {goldapple.%player%.lastused} to now

@@ -1,0 +1,3 @@
+command /rules:
+  trigger:
+    send "&b&lOur rules are: %nl% No Unfair advantages of any kind. %nl% No hate speech or any slurs. %nl% No 8v1ing. %nl% No shulker stealing. %nl% No glitching out the map. %nl% No Ban evading. %nl% Don't impersonate anyone. %nl% No dox threats %nl% No IRL Trading. %nl% No advertising any servers within our server. %nl% Don't flood chat. %nl% Don't flood the map. %nl% No rank scamming/item scamming. %nl% also don't be dumb. <3"

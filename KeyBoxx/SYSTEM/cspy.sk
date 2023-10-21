@@ -1,0 +1,24 @@
+command /commandspy [<offline player>]:
+  aliases: cmdspy
+  permission: command.spy
+  trigger:
+    if arg-1 is set:
+      if player has permission "command.spy.others":
+        if {cSpy::%arg-1's uuid%} is set:
+          clear {cSpy::%arg-1's uuid%}
+          send "&c&lCMDSPY&8 | &7Comamnd Spy Turned &4Off&7! for %arg-1%"
+        else:
+          set {cSpy::%arg-1's uuid%} to true
+          send "&c&lCMDSPY&8 | &7Comamnd Spy Turned &aOn&7! for %arg-1%"
+    if {cSpy::%player's uuid%} is set:
+      clear {cSpy::%player's uuid%}
+      send "&4&lCMDSPY&8 | &7Command Spy turned &cOff&7!"
+    else:
+      set {cSpy::%player's uuid%} to true
+      send "&c&lCMDSPY&8 | &7Command Spy turned &aOn&7!"
+      
+on command:
+  loop all players:
+    loop-player has permission "command.spy"
+    {cSpy::%loop-player's uuid%} is true
+    send "&c&lCMDSPY &8| &c%player% &8» &c/%the full command%" to loop-player

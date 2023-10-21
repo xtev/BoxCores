@@ -1,0 +1,7 @@
+command /bc [<text>]:
+    aliases: bc, broadcast, announce
+    permission: bc.use
+    trigger:
+        broadcast "","<##00ACFF>&lAlert &8|&f %colored arg-1%",""
+        send title "<##00ACFF>&lAlert" with subtitle colored arg-1 to all players
+        play sound "BLOCK_NOTE_BLOCK_BIT" to all players

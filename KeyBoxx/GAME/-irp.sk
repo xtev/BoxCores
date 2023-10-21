@@ -1,0 +1,19 @@
+command /restore <player> <text>:
+    permission: refund.sk
+    aliases: /refund
+    trigger:
+        if arg-2 is "Oxygen":
+            give arg-1 light blue dye named "&bOxygen Refund"
+        if arg-2 is "Star":
+            give arg-1 yellow dye named "&eStar Refund"
+        if arg-2 is "Asteroid":
+            give arg-1 black dye named "&0Asteroid Refund"
+        if arg-2 is "KB3":
+            give arg-1 stick named "&fKB 3"
+        if arg-2 is "KB7":
+            give arg-1 stick named "&fKB 7"
+        if arg-2 is "Strength":
+            give arg-1 red dye named "&cStrength Offhand"
+
+on tab complete of "/restore" and "/refund":
+    set tab completions for position 2 to "Oxygen" and "Star" and "Asteroid" and "KB3" and "KB7" and "Strength"

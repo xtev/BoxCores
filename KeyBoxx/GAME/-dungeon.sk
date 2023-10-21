@@ -1,0 +1,115 @@
+every 15 minutes:													#Open
+    console command "mrl reset skull -s"
+    broadcast ""
+    broadcast "&e&lDUNGEON &fis reseting!"
+    broadcast "&e| &7The mine is in the middle of the dungeon room!"
+    broadcast "&e| &7It will be closing in &e5 seconds&f!"
+    broadcast "&e| &7Next Reset In &d15 Minutes&7."
+    broadcast ""
+    execute command "fill 3020 79 1086 3020 79 1090 air"
+    wait 0.5 seconds
+    execute command "fill 3020 80 1084 3020 80 1092 air"
+    wait 0.5 seconds
+    execute command "fill 3020 81 1082 3020 81 1094 air"
+    wait 0.5 seconds
+    execute command "fill 3020 82 1081 3020 82 1095 air"
+    wait 0.5 seconds
+    execute command "fill 3020 83 1081 3020 83 1095 air"
+    wait 0.5 seconds
+    execute command "fill 3020 84 1080 3020 84 1096 air"
+    wait 0.5 seconds
+    execute command "fill 3020 85 1080 3020 85 1096 air"
+    wait 0.5 seconds
+    execute command "fill 3020 86 1097 3020 86 1079 air"
+    wait 0.5 seconds
+    execute command "fill 3020 87 1097 3020 87 1079 air"
+    wait 0.5 seconds
+    execute command "fill 3020 88 1097 3020 88 1079 air"
+    wait 0.5 seconds
+    execute command "fill 3020 89 1097 3020 89 1079 air"
+    wait 0.5 seconds
+    execute command "fill 3020 90 1097 3020 90 1079 air"
+    wait 0.5 seconds
+    execute command "fill 3020 91 1096 3020 91 1080 air"
+    wait 0.5 seconds
+    execute command "fill 3020 92 1096 3020 92 1080 air"
+    wait 0.5 seconds
+    execute command "fill 3020 93 1081 3020 93 1095 air"
+    wait 0.5 seconds
+    execute command "fill 3020 94 1095 3020 94 1081 air"
+    wait 0.5 seconds
+    execute command "fill 3020 95 1094 3020 95 1082 air"
+    wait 0.5 seconds
+    execute command "fill 3020 96 1092 3020 96 1084 air"
+    wait 0.5 seconds
+    execute command "fill 3020 97 1090 3020 97 1086 air"
+    wait 5 seconds													#Close
+    execute command "fill 3020 97 1090 3020 97 1086 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 96 1092 3020 96 1084 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 95 1094 3020 95 1082 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 94 1095 3020 94 1081 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 93 1081 3020 93 1095 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 92 1096 3020 92 1080 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 91 1096 3020 91 1080 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 90 1097 3020 90 1079 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 89 1097 3020 89 1079 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 88 1097 3020 88 1079 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 87 1097 3020 87 1079 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 86 1097 3020 86 1079 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 85 1080 3020 85 1096 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 84 1080 3020 84 1096 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 83 1081 3020 83 1095 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 82 1081 3020 82 1095 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 81 1082 3020 81 1094 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 80 1084 3020 80 1092 tinted_glass"
+    wait 0.5 seconds
+    execute command "fill 3020 79 1086 3020 79 1090 tinted_glass"
+
+
+command /setrew1:
+    permission: op
+    trigger:
+        set {rew1} to player's held item
+        message "&bSet %name of player's tool%&b to reward 1"
+        
+command /setrew2:
+    permission: op
+    trigger:
+        set {rew2} to player's held item
+        message "&bSet %name of player's tool%&b to reward 2"
+       
+command /setrew3:
+    permission: op
+    trigger:
+        set {rew3} to player's held item
+        message "&bSet %name of player's tool%&b to reward 3"
+        
+        
+on break of wither skeleton skull:
+    cancel drops
+    chance of 40%:
+        drop {rew1} at event-location
+        stop
+    chance of 35%:
+        drop {rew2} at event-location
+        stop
+    chance of 25%:
+        drop {rew3} at event-location
+        stop

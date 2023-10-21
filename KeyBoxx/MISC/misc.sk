@@ -1,0 +1,14 @@
+on right click:
+  if event-block is any anvil:
+    cancel event
+
+command playtime [<offline player>]:
+  trigger:
+    if arg-1 is set:
+      send "&b&lKeyBoxx &8» &b%arg-1%&f's time played is: &b%arg-1's time played%" to executor
+    else:
+      send "&b&lKeyBoxx &8» &b%player%&f's time played is: &b%player's time played%" to player
+
+command rainbowtest <text>:
+  trigger:
+    send "<##rainbow>%arg-1%<##rainbow>" to player

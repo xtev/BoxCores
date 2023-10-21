@@ -1,0 +1,33 @@
+on quit:
+  set quit message to ""
+  wait 1 tick
+  make new embed:
+    set title of embed to ":red_circle: %player% left"
+    set footer of embed to "Players: %size of online players%"
+    set timestamp of embed to now
+    set embed color of the embed to red
+  post last embed to channel with id "1118926353169920130"
+
+on join:
+  set join message to "&a&l+ &7%player%"
+  wait 2 ticks
+  make new embed:
+    set title of embed to ":green_circle: %player% joined"
+    set footer of embed to "Players: %size of online players%"
+    set timestamp of embed to now
+    set embed color of the embed to green
+  post last embed to channel with id "1118926353169920130"
+
+on first join:
+  joinKeyall()
+  set join message to "&7[&a&lNEW&7] &8▪ &f%player%"
+  set {kills::%player's uuid%} to 0
+  set {deaths::%player's uuid%} to 0
+  set {tokens::%player's uuid%} to 0
+  wait 1 tick
+  make new embed:
+    set title of embed to ":blue_circle: New player: %player%"
+    set footer of embed to "Join: ##%{joins}%  •  Players: %size of online players%"
+    set timestamp of embed to now
+    set embed color of the embed to light blue
+  post last embed to channel with id "1118926353169920130"

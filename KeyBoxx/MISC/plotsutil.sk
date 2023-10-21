@@ -1,0 +1,4 @@
+on npc right click:
+  if citizen is 245:
+    teleport player to {plots}
+    send "&b&lKeyBoxx &8» &fTeleporting you to &bPlots&f."

@@ -1,0 +1,44 @@
+command /keyall <text>:
+  usage: &cUsage: /keyall <small/medium/large/massive>
+  permission: keyall.use
+  permission message: &cGo buy a keyall brokie
+  trigger: 
+    if arg-1 is "small": 
+      console command "crate key giveall gear 2"
+      console command "crate key giveall offhand 2"
+      console command "crate key giveall afk 2"
+      console command "crate key giveall coin 1"
+      send title "<##00ACFF>&lKEYALL" to all players 
+      send subtitle "<##00ACFF>&l%player% &7Has Done a <##00ACFF>&lSMALL KEYALL" to all players
+      play sound "BLOCK_NOTE_BLOCK_BIT" to all players
+    if arg-1 is "medium":
+      console command "crate key giveall gear 3"
+      console command "crate key giveall coin 2"
+      console command "crate key giveall offhand 3"
+      console command "crate key giveall afk 4"
+      send title "<##00ACFF>&lKEYALL" to all players
+      send subtitle "<##00ACFF>&l%player% &7Has Done a <##00ACFF>&lMEDIUM KEYALL" to all players 
+      play sound "BLOCK_NOTE_BLOCK_BIT" to all players
+    if arg-1 is "large":
+      console command "crate key giveall afk 6"
+      console command "crate key giveall coin 3"
+      console command "crate key giveall offhand 4"
+      console command "crate key giveall gear 4"
+      console command "crate key giveall suffix 2"
+      send title "<##00ACFF>&lKEYALL" to all players
+      send subtitle "<##00ACFF>&l%player% &7Has Done a <##00ACFF>&lLARGE KEYALL" to all players
+      play sound "BLOCK_NOTE_BLOCK_BIT" to all players
+    if arg-1 is "massive":
+      console command "crate key giveall afk 8"
+      console command "crate key giveall coin 4"
+      console command "crate key giveall offhand 5"
+      console command "crate key giveall gear 5"
+      console command "crate key giveall suffix 3"
+      send title "<##00ACFF>&lKEYALL" to all players
+      send subtitle "<##00ACFF>&l%player% &7Has Done a <##00ACFF>&lMASSIVE KEYALL" to all players
+      play sound "BLOCK_NOTE_BLOCK_BIT" to all players
+    
+
+
+on tab complete of "/keyall":
+    set tab completions for position 1 to "Small", "Medium", "Large" and "Massive"

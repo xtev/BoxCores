@@ -1,0 +1,15 @@
+options:
+    server: &b&lKeyboxx &7>>&r
+command /setsuffixpaper <text>:
+    permission: op
+    trigger:
+        add player's tool to {suffixs::*}
+        set {suffixset::%player's tool%} to arg-1
+        send "&a&lDone!"
+
+on right click:
+    event-item is paper
+    if {suffixs::*} contains event-item:
+        execute console command "lp user %player% meta setsuffix %{suffixset::%player's tool%}%"
+        send "{@server} You have claimed your suffix"
+        set player's tool to air

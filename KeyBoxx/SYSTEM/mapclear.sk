@@ -1,0 +1,36 @@
+on block place:
+    player's gamemode is survival:
+        player's tool is water bucket:
+            add location of event-block to {waterplaced::*}
+        else:
+            event-block is not any shulker box
+            add location of event-block to {placed::*}
+
+on block break:
+    event-block's location contains {placed::*}:
+        remove location of event-block from {placed::*}
+
+function mapclear():
+    loop {waterplaced::*}:
+        set block at loop-value to sponge
+    loop {placed::*}:
+        set block at loop-value to air
+    wait 5 ticks
+    loop {waterplaced::*}:
+        set block at loop-value to air
+    clear {waterplaced::*}
+    clear {placed::*}
+
+command mapclear:
+    permission: *
+    permission message: &cStop it :(
+    trigger:
+        mapclear()
+
+every 29 minutes and 30 seconds:
+  Broadcast "%nl%&b&lKeyBoxx &8» &fClearing map in 30 seconds.."
+  wait 25 seconds
+  Broadcast "%nl%&b&lKeyBoxx &8» &fClearing map in 5 seconds.."
+  wait 5 seconds
+  Broadcast "%nl%&b&lKeyBoxx &8» &fClearing map."
+  mapclear()

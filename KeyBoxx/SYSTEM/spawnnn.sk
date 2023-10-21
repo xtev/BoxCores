@@ -1,0 +1,51 @@
+options:
+	error: &4&lERROR &8| &7
+	prefix: &c&lKeyboxx &8| &7
+	teleportTime: 100
+
+on first join:
+   teleport player to {spawn}
+   equip player with all iron armor of curse of vanishing
+   give player iron sword of curse of vanishing
+   give player iron pickaxe of curse of vanishing
+   give player iron axe of curse of vanishing
+   add 1 to {joins}
+   execute console command "excellentcrates key give %player% gear 2"
+on respawn:
+  teleport player to {spawn}
+
+command spawn [<player>]:
+  cooldown: 5 seconds
+  cooldown message: &cYou're on a cooldown.
+  cooldown bypass: spawn.cdbypass
+  trigger:
+    if arg-1 is set:
+      if player has permission "spawn.others":
+        teleport arg-1 to {spawn}
+        send "&b&lKeyBoxx &8» &fAn &bAdmin &fhas sent you to &bspawn&f." to arg-1
+    if player has permission "spawn.instant":
+      teleport player to {spawn}
+      send "&b&lKeyBoxx &8» &fTeleported you to &bspawn&f." to player
+    else:
+      if {combat::%player's uuid%} is set:
+        send "&b&lKeyBoxx &8» &fYou can't go to spawn while in combat!" to player
+      else:
+        send "&b&lKeyBoxx &8» &fTeleporting to &bspawn&f. &cDon't move&f." to player
+        set {_tploc} to player's location
+        set {_scnds::1} to 5
+        set {_scnds::2} to 4
+        set {_scnds::3} to 3
+        set {_scnds::4} to 2
+        set {_scnds::5} to 1
+        loop 5 times:
+          send action bar "&b&lKeyBoxx &8» &b%{_scnds::%loop-value%}% &fseconds until teleport." to player
+          wait 1 second
+          if {combat::%player's uuid%} is set:
+            send "&b&lKeyBoxx &8» &fTeleport &bcancelled &fas you are &bin combat&f." to player
+            stop trigger
+          if distance between player's location and {_tploc} > 0.5:
+            send "&b&lKeyBoxx &8» &fTeleport &bcancelled &fas you &bmoved&f." to player
+            stop trigger
+        teleport player to {spawn}
+        send "&b&lKeyBoxx &8» &bTeleported you to spawn." to player
+        send action bar "&b&lKeyBoxx &8» &fTeleported you to spawn." to player

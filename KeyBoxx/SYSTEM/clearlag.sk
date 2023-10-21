@@ -1,0 +1,13 @@
+function clearlag():
+    console command "/minecraft:kill @e[type=item]"
+    broadcast "%nl%&b&lClearLag &8» &fCleared all dropped items!%nl%"
+
+command /clearlag:
+    permission: lag.clearlag
+    trigger:
+        clearlag()
+
+every 9 minutes and 55 seconds:
+    broadcast "&b&lClearLag &8» &fClearing all dropped items in 5 seconds!"
+    wait 5 seconds
+    clearlag()

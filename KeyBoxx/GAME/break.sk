@@ -1,0 +1,4 @@
+on break:
+  player is not op:
+    event-block is brown concrete or brown concrete powder or brown wool or black stained glass or white stained glass or orange stained glass or black concrete or yellow concrete powder or yellow glazed terracotta or yellow terracotta or yellow concrete or yellow wool or brown mushroom block or polished deepslate or polished deepslate wall or polished deepslate slab or pink stained glass pane:
+      cancel event

@@ -1,0 +1,8 @@
+on block place:
+    if "%region at event-block%" contains "shulker":
+        event-block is not any shulker box
+        cancel event
+on block break:
+    if "%region at event-block%" contains "shulker":
+        event-block is not any shulker box
+        cancel event

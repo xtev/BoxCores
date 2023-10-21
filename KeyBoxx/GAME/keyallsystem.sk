@@ -1,0 +1,7 @@
+function joinKeyall():
+  remove 1 from {joinkeyall}
+  wait 1 tick
+  if {joinkeyall} <= 0:
+    set {joinkeyall} to 15
+    console command "crate key giveall afk 3"
+    broadcast "%nl%&b&lKeyall &8» &fKeyall join amount reached!%nl%"

@@ -1,0 +1,10 @@
+command /setevent:
+    permission: set.event
+    trigger:
+        set {setevent} to location of block at location of player
+        send "&f&levent room was set to &a%{setevent}%" 
+
+command /event:
+  trigger:
+    teleport player to {setevent}
+    send "&bYou Were Teleported To The Event Room!"

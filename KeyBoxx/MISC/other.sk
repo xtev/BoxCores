@@ -1,0 +1,50 @@
+command /discord:
+  trigger:
+    send "<link:https://discord.gg/sxPa2e97DC>&b&lKeyBoxx &8»&f &fClick here to join our Discord&f.%nl%&8- &7https://discord.gg/sxPa2e97DC <reset>"
+
+command store:
+  aliases: buy
+  trigger:
+    send "<link:https://keyboxx.tebex.io>&b&lKeyBoxx &8»&f &fClick here to see our store!&f%nl%&8- &7https://keyboxx.tebex.io <reset>"
+
+every 4 minutes:
+  broadcast "<link:https://discord.gg/sxPa2e97DC>"
+  broadcast "<link:https://discord.gg/sxPa2e97DC>   &b&l%fancyFont("Stay updated!")%"
+  broadcast "<link:https://discord.gg/sxPa2e97DC>     &f➥ &fJoin our &bDiscord&f!"
+  broadcast "<link:https://discord.gg/sxPa2e97DC>     &f➥ &fUse &b/discord&f or &bclick here&f!"
+  broadcast "<link:https://discord.gg/sxPa2e97DC>"
+  play sound "entity.llama.chest" to all players
+  wait 1 minutes
+  loop all players:
+    if {linked::%loop-player's uuid%} is not set:
+      send "<run command:/link>                                                    " to loop-player
+      send "<run command:/link>   &b&l%fancyFont("Looks like you haven't linked yet..")%          " to loop-player
+      send "<run command:/link>     &f➥ &bLinking &fgives you &b1 free Gear Key&f!" to loop-player
+      send "<run command:/link>     &f➥ &fUse &b/link&f or &bclick here&f!        " to loop-player
+      send "<run command:/link>                                                    " to loop-player
+      add 1 to {_notlinked}
+      play sound "minecraft:entity.egg.throw" with volume 0.6 and pitch 1.5 to loop-player
+  send "&bLink Ad/Reminder sent to %{_notlinked}% players." to console
+  wait 1 minutes
+  broadcast "<suggest command:/afk>"
+  broadcast "<suggest command:/afk>   &b&l%fancyFont("Need to go somewhere?")%"
+  broadcast "<suggest command:/afk>     &f➥ &fYou can get &brewards &fwhile &bAFK&f!"
+  broadcast "<suggest command:/afk>     &f➥ &fEnter the portal behind &b/spawn&f!"
+  broadcast "<suggest command:/afk>"
+  play sound "entity.llama.chest" to all players
+  wait 1 minutes
+  broadcast "<link:https://keyboxx.tebex.io>"
+  broadcast "<link:https://keyboxx.tebex.io>   &b&l%fancyFont("Support the server!")% &c&o25%% off!"
+  broadcast "<link:https://keyboxx.tebex.io>     &f➥ &fBuy &bRanks &fand &bKeys&f!"
+  broadcast "<link:https://keyboxx.tebex.io>     &f➥ &fUse &b/buy&f or &bclick here&f!"
+  broadcast "<link:https://keyboxx.tebex.io>"
+  play sound "entity.llama.chest" to all players
+
+command /unlinkedplayers:
+  permission: *
+  trigger:
+    loop all players:
+      if {linked::%loop-player's uuid%} is not set:
+        add loop-player to {_unlinked::*}
+    wait 1 tick
+    send "&b%size of {_unlinked::*}% unlinked players: %nl%%{_unlinked::*}%" to executor

@@ -1,0 +1,4 @@
+#command /chatcolor:
+#  aliases: chatcolour, chatgui
+#  trigger:
+#    player command "chat gui"

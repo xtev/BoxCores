@@ -1,0 +1,45 @@
+on mine:
+    if event-block is diamond ore:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is iron ore:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is iron block:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is coal block:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is coal ore:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is diamond block:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is emerald ore:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is stone:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is gold ore:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is gold block:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block
+    if event-block is magma block:
+        chance of 1%:
+            execute console command "excellentcrates key give %player% mine 1"
+            play firework spark at event-block

@@ -1,0 +1,14 @@
+every 20 minutes:
+  loop all players:
+    if "%region at loop-player%" contains "afkarea":
+      chance of 2.5%:
+        execute console command "crate key give %loop-player% gear 1"
+      chance of 5%: 
+        execute console command "crate key give %loop-player% coin 1"
+      chance of 10%:
+        execute console command "crate key give %loop-player% offhand 1"
+      chance of 75%:
+        execute console command "crate key give %loop-player% afk 1"
+		
+on entering of region "afkarea":
+    send title "&6&lAfk Pit" with subtitle "&f1 Random key every 15 minutes!" to player for 30 ticks

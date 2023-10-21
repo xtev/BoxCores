@@ -1,0 +1,7 @@
+on death of player:
+	if attacker is a player:
+		set the death message to "&c☠ &8| &c%victim% &7has been killed by &c%attacker%&7."
+	else:
+		set the death message to "&c☠ &8| &c%victim% &7has died."
+	add 1 to {kills::%attacker's uuid%}
+	add 1 to {deaths::%victim's uuid%}

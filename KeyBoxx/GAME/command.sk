@@ -1,0 +1,69 @@
+on command "/pl":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/plugins":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/bukkit:plugins":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/minecraft:me":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/teammsg":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/te":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/minecraft:te":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/minecraft:teammsg":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/minecraft:msg":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/minecraft:tell":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/minecraft:w":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/w":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/?":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/bukkit:?":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/ver":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/bukkit:ver":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/version":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/bukkit:version":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/help":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/bukkit:help":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/bukkit:about":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "/bukkit:pl":
+     cancel event
+     send "&cStop pulling a Pxzk"
+on command "":
+     cancel event
+     send "&cStop pulling a Pxzk"

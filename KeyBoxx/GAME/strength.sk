@@ -1,0 +1,19 @@
+on entering of region "magic":
+    apply strength 2 to player for 1 hour
+    apply fire resistance 1 to player for 1 hour
+
+on exiting of region "magic":
+    remove strength from player
+    remove fire resistance from player
+on entering of region "magic":
+    send title "&b&lKey&3&lBoxx" with subtitle "&4&lStrength 2 &7&land &6&lFire Resistance &b&lArea!" to player for 10 ticks
+    
+on entering of region "bedrock":
+    apply strength 2 to player for 1 hour
+    apply fire resistance 2 to player for 1 hour
+
+on exiting of region "bedrock":
+    remove strength from player
+    remove fire resistance from player
+on entering of region "bedrock":
+    send title "&b&lKey&3&lBoxx" with subtitle "&8&lBEDROCK ROOM &7(&4STRENGTH 2 &7& &6FIRE RESISTENCE&7)" to player for 20 ticks

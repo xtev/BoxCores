@@ -1,0 +1,4 @@
+command /fakejoin [<text>]:
+	permission: fakejoin.use
+	trigger:
+		broadcast "&a&l+ &7%arg-1%"

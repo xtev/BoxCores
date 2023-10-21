@@ -1,0 +1,5 @@
+on chat:
+    replace ":skull:" in message with "☠"
+    replace ":star:" in message with "⭐"
+    replace ":sad:" in message with "☹"
+    replace ":alert:" in message with "⚠"

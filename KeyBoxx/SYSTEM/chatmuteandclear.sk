@@ -1,0 +1,45 @@
+options:
+ prefix: &3&lKey&b&lBoxx &8|
+ Message: &cPlease wait 1 seconds.
+ CoolDown: 2 seconds
+
+
+command /clearchat:
+    aliases: /cc
+    permission: chat.clear
+    permission message: &bYou don't have permission to clear chat.
+    trigger:
+        loop 1000 times:
+            broadcast " "
+        wait 5 tick
+        broadcast "{@prefix} &cChat has been cleared by &3&l%player%&8!"
+
+			
+command /mutechat:
+  permission: mutechat.use
+  trigger:
+    if {mutechat} is false:
+      set {mutechat} to true
+      broadcast "{@prefix}  &cChat has been muted by &3&l%player%&8!"
+    else:
+      set {mutechat} to false
+      broadcast "{@prefix} &aChat has been unmuted by &3&l%player%&8!"
+ 
+on chat:
+  if player does not have permission "mutechat.bypass":
+    if {mutechat} is true:
+      send "{@prefix} &cThe chat is currently muted."
+      cancel event
+	  
+on chat:
+	if {mini.%player%.cooldown} is true:
+		send "{@prefix} {@Message}"
+		cancel event
+	else:
+		if player does not have permission "op":
+			set {mini.%player%.cooldown} to true
+			wait {@CoolDown}
+			clear {mini.%player%.cooldown}
+ 
+on leave:
+ clear {mini.%player%.cooldown}

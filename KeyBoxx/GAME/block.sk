@@ -1,0 +1,24 @@
+on place:
+    if event-block is any command block or yellow candle or dead brain coral or red candle:
+        cancel event
+        Send "&aYou are not allowed to place that block!"
+
+on place:
+	if event-block is command block:
+		cancel event
+		send "&aYou are not allowed to place that block!"
+        
+on place:
+	if event-block is red candle:
+		cancel event
+		send "&aYou are not allowed to place that block!"
+
+on place:
+	if event-block is yellow candle:
+		cancel event
+		send "&aYou are not allowed to place that block!"
+        
+on place:
+    if event-block is dead brain coral:
+        cancel event
+        Send "&aYou are not allowed to place that block!"

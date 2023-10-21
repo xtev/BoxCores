@@ -1,0 +1,9 @@
+on chat:
+    if message starts with "%%":
+        if player has permission "chat.staff":
+            cancel event
+            set {_m} to message
+            replace all "%%" in {_m} with ""
+            loop all players:
+                if loop-player has permission "chat.staff":
+                    send "&a&lSTAFFCHAT &7| &2%player% &7> &f%{_m}%" to loop-player
