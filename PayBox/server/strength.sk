@@ -1,0 +1,66 @@
+on region enter:
+    if "%region%" contains "str":
+        apply strength 2 to the player for 1 days
+on region leave:
+    if "%region%" contains "str":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "tunnels":
+        apply strength 2 to the player for 1 days
+on region leave:
+    if "%region%" contains "tunnels":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "hole":
+        apply strength 1 to the player for 1 days
+on region leave:
+    if "%region%" contains "hole":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "protectionnk":
+        apply strength 2 to the player for 1 days
+on region leave:
+    if "%region%" contains "protectionnk":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "kotharea":
+        apply strength 3 to the player for 1 days
+on region leave:
+    if "%region%" contains "kotharea":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "danger":
+        apply strength 5 to the player for 1 days
+on region leave:
+    if "%region%" contains "danger":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "middlething":
+        apply strength 3 to the player for 1 days
+on region leave:
+    if "%region%" contains "middlething":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "afk":
+        apply fire resistance 3 to the player for 10 days
+on region leave:
+    if "%region%" contains "afk":
+        remove fire resistance from the player
+on region enter:
+    if "%region%" contains "treasure":
+        apply strength 1 to the player for 1 days
+on region leave:
+    if "%region%" contains "treasure":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "kai":
+        apply strength 2 to the player for 1 days
+on region leave:
+    if "%region%" contains "kai":
+        remove strength from the player
+on region enter:
+    if "%region%" contains "ffa":
+        apply strength 4 to the player for 1 days
+on region leave:
+    if "%region%" contains "ffa":
+        remove strength from the player

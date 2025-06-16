@@ -1,0 +1,222 @@
+options:
+    color: &b
+    prefix: &b&lPay&d&lBox 
+    placeholder: afk
+    server: paybox
+
+
+every 1 minutes:
+    set {server::afk::last} to now
+    loop all players where ["%region at input%" contains "afk"]:
+        if loop-player has permission "server.2shards":
+            add 2 to {server::afk::balance::%loop-player's uuid%}
+            send "{@prefix} &8→ &fYou have been given {@color}+2 &fAfk Shard!" to loop-player
+            add 1 to {_i}
+        else:
+            add 1 to {server::afk::balance::%loop-player's uuid%}
+            send "{@prefix} &8→ &fYou have been given {@color}+1 &fAfk Shard!" to loop-player
+            add 1 to {_i}
+    broadcast "{@prefix} &8→ {@color}%{_i} ? "0"% &fplayers have received rewards for AFKing! &8({@color}/afk&8)"
+
+
+
+on papi request for prefix "{@server}":
+    if the identifier is "{@placeholder}":
+        set {server::afk::countdown} to difference between {server::afk::lastreward} and now
+        set the result to prettifyTimespan(difference between 10 minutes and {server::afk::countdown})
+
+function prettifyTimespan(time: timespan) :: text:
+	set {_raw} to (ticks of {_time})/20
+	set {_seconds} to "%floor(mod({_raw}, 60))%"
+	set {_minutes} to "%floor(mod({_raw}, 60 * 60) / 60)%"
+	set {_hours} to "%floor({_raw} / (60 * 60))%"
+	
+	if length of {_seconds} is 1:
+		set {_seconds} to "0%{_seconds}%"
+		
+	if length of {_minutes} is 1:
+		set {_minutes} to "0%{_minutes}%"
+		
+	if length of {_hours} is 1:
+		set {_hours} to "0%{_hours}%"
+	
+	return "%{_hours}%:%{_minutes}%:%{_seconds}%"
+
+
+command /balance [<player>]:    
+    trigger:    
+        set {_player} to arg-1 ? player
+        send "{@prefix} &8→ {@color}%{_player}%&f's Balance: {@color}%{server::afk::balance::%{_player}'s uuid%} ? 0%" to sender    
+        play sound "block.note_block.bit" to player 
+
+command /afkshopmanager [<text>] [<text>] [<integer>]:
+    permission: afkshop.manager
+    permission message: {@prefix} &8→ &fYou are missing reqiured {@color}Permissions&f.
+    aliases: /afkshopman, /afkman 
+    trigger:
+        if arg-1 is not "add" or "remove" or "setprice" or "addbalance" or "removebalance":
+            send ""
+            send "{@color}&lPLOTS HELP &8| &fPage &8(&f1&8/&f1&8)"
+            send ""
+            send "&8» {@color}/afkshopman add <id> <price>"
+            send "&8» {@color}/afkshopman remove <id>"
+            send "&8» {@color}/afkshopman setprice <id> <number>"
+            send "&8» {@color}/afkshopman addbalance <player> <number>"
+            send "&8» {@color}/afkshopman removebalance <player> <number>"
+            send ""
+        else:
+            if arg-1 is "add":
+                if arg-2 or arg-3 is not set:
+                    send "{@prefix} &8→ {@color}/afkshopman add <id> <price>"
+                else:
+                    if player's tool is air:
+                        send "{@prefix} &8→ &fPlease hold an item!"
+                    else:
+                        loop {server::afkshop::items::*}:
+                            if arg-2 = loop-value:
+                                send "{@prefix} &8→ &fThere is already an {@color}Item&f with that id!"
+                                stop
+                        add arg-2 to {server::afkshop::items::*}
+                        set {server::afkshop::items::%arg-2%::price} to arg-3
+                        set {server::afkshop::items::%arg-2%::item} to player's tool
+                        send "{@prefix} &8→ &fYou have added item with id {@color}%arg-2%&f to the afkshop!"
+            if arg-1 is "remove":
+                if arg-2 is not set:
+                    send "{@prefix} &8→ {@color}/afkshopman remove <id>"
+                else:
+                    loop {server::afkshop::items::*}:
+                        if arg-2 = loop-value:
+                            delete {server::afkshop::items::%arg-2%::*}
+                            remove arg-2 from {server::afkshop::items::*}
+                            delete {server::afkshop::items::%arg-2%}
+                            send "{@prefix} &8→ &fYou have removed item with id {@color}%arg-2%"
+                            stop
+                    send "{@prefix} &8→ &fThere is no item with that id!"
+            if arg-1 is "setprice":
+                if arg-2 or arg-3 is not set:
+                    send "{@color}/afkshopman setprice <id> <number> &7Sets price of item with id!"
+                else:
+                    loop {server::afkshop::items::*}:
+                        if arg-2 = loop-value:
+                            set {server::afkshop::items::%arg-2%::price} to arg-3
+                            send "{@prefix} &8→ &fYou set the price of {@color}%arg-2%&f to {@color}%arg-3%"
+                            stop
+                    send "{@prefix} &8→ &fThere is no item with that id!"
+            if arg-1 is "addbalance":
+                if arg-2 or arg-3 is not set:
+                    send "{@prefix} &8→ {@color}/afkshopman addbalance <player> <number>"
+                else:
+                    set {_p} to arg-2 parsed as player
+                    if {_p} is online:
+                        add arg-3 to {server::afk::balance::%{_p}'s uuid%}
+                        send "{@prefix} &8→ &fYou have given {@color}%{_p}% &f%arg-3% of Shards"
+                    else:
+                        send "{@prefix} &8→ &fThat player is currently offline"
+            if arg-1 is "removebalance":
+                if arg-2 or arg-3 is not set:
+                    send "{@prefix} &8→ {@color}/afkshopman addbalance <player> <number>"
+                else:
+                    set {_p} to arg-2 parsed as player
+                    if {_p} is online:
+                        remove arg-3 from {server::afk::balance::%{_p}'s uuid%}
+                        send "{@prefix} &8→ &fYou have removed {@color}%arg-3%&f of Shards From {@color}%{_p}%"
+                    else:
+                        send "{@prefix} &8→ &fThat player is currently offline"
+command /afkshop:
+    trigger:
+        create a gui with virtual chest inventory with 6 rows named "&8AFK Shop":
+            format gui slot (integers between 45 and 53) with black stained glass pane named "&r" with all item flags
+            format gui slot 45 with dark oak door named "&cClose" with all item flags:
+                close player's inventory
+            format gui slot 49 with prismarine shard named "{@color}&lAFK Balance" with lore "&8ᴀᴍᴏᴜɴᴛ ᴏꜰ ѕʜᴀʀᴅѕ%nl%%nl%{@color}| &fBalance: {@color}%{server::afk::balance::%player's uuid%} ? 0%":
+                close player's inventory
+                make player execute command "/balance"
+
+            set {_i} to 0
+            loop {server::afkshop::items::*}:
+                set {_loop} to loop-value
+                set {_item} to {server::afkshop::items::%loop-value%::item} with lore "&8ᴀꜰᴋ ѕʜᴏᴘ ɪᴛᴇᴍ%nl%%nl%{@color}| &fPrice: {@color}%{server::afkshop::items::%loop-value%::price}% Shards%nl%{@color}| &fAmount: {@color}1"
+                format gui slot {_i} with {_item}:
+                    create a gui with virtual chest inventory with 6 rows named "&8Confirmation":
+                        format gui slot 22 with {_item} with lore "&8ᴀꜰᴋ ѕʜᴏᴘ ɪᴛᴇᴍ%nl%%nl%{@color}| &fPrice: {@color}%{server::afkshop::items::%{_loop}%::price}% Shards%nl%{@color}| &fAmount: {@color}1"
+                        format gui slot 18 with red stained glass pane named "&c-64" with lore "&8ᴀꜰᴋѕʜᴏᴘ ᴀᴍᴏᴜɴᴛ":
+                            format gui slot 22 with 1 of {_item} with lore "&8ᴀꜰᴋ ѕʜᴏᴘ ɪᴛᴇᴍ%nl%%nl%{@color}| &fPrice: {@color}%{server::afkshop::items::%{_loop}%::price} * 1% Shards%nl%{@color}| &fAmount: {@color}1"
+                        format gui slot 19 with red stained glass pane named "&c-10" with lore "&8ᴀꜰᴋѕʜᴏᴘ ᴀᴍᴏᴜɴᴛ":
+                            if (item amount of slot 22 of player's current inventory + -10) >= 1:
+                                format gui slot 22 with (item amount of slot 22 of player's current inventory + -10) of {_item} with lore "&8ᴀꜰᴋ ѕʜᴏᴘ ɪᴛᴇᴍ%nl%%nl%{@color}| &fPrice: {@color}%{server::afkshop::items::%{_loop}%::price} * (item amount of slot 22 of player's current inventory + -10)% Shards%nl%{@color}| &fAmount: {@color}%(item amount of slot 22 of player's current inventory + -10)%"
+                        format gui slot 20 with red stained glass pane named "&c-1" with lore "&8ᴀꜰᴋѕʜᴏᴘ ᴀᴍᴏᴜɴᴛ":
+                            if (item amount of slot 22 of player's current inventory + -1) >= 1:
+                                format gui slot 22 with (item amount of slot 22 of player's current inventory + -1) of {_item} with lore "&8ᴀꜰᴋ ѕʜᴏᴘ ɪᴛᴇᴍ%nl%%nl%{@color}| &fPrice: {@color}%{server::afkshop::items::%{_loop}%::price} * (item amount of slot 22 of player's current inventory + -1)% Shards%nl%{@color}| &fAmount: {@color}%(item amount of slot 22 of player's current inventory + -1)%"
+                        format gui slot 24 with lime stained glass pane named "&a+1" with lore "&8ᴀꜰᴋѕʜᴏᴘ ᴀᴍᴏᴜɴᴛ":
+                            if (item amount of slot 22 of player's current inventory + 1) <= 64:
+                                format gui slot 22 with (item amount of slot 22 of player's current inventory + 1) of {_item} with lore "&8ᴀꜰᴋ ѕʜᴏᴘ ɪᴛᴇᴍ%nl%%nl%{@color}| &fPrice: {@color}%{server::afkshop::items::%{_loop}%::price} * (item amount of slot 22 of player's current inventory + 1)% Shards%nl%{@color}| &fAmount: {@color}%(item amount of slot 22 of player's current inventory + 1)%"
+                        format gui slot 25 with lime stained glass pane named "&a+10" with lore "&8ᴀꜰᴋѕʜᴏᴘ ᴀᴍᴏᴜɴᴛ":
+                            if item amount of slot 22 of player's current inventory + 10 <= 64:
+                                format gui slot 22 with (item amount of slot 22 of player's current inventory + 10) of {_item} with lore "&8ᴀꜰᴋ ѕʜᴏᴘ ɪᴛᴇᴍ%nl%%nl%{@color}| &fPrice: {@color}%{server::afkshop::items::%{_loop}%::price} * (item amount of slot 22 of player's current inventory + 10)% Shards%nl%{@color}| &fAmount: {@color}%(item amount of slot 22 of player's current inventory + 10)%"
+                        format gui slot 26 with lime stained glass pane named "&a+64" with lore "&8ᴀꜰᴋѕʜᴏᴘ ᴀᴍᴏᴜɴᴛ":
+                            format gui slot 22 with 64 of {_item} with lore "&8ᴀꜰᴋ ѕʜᴏᴘ ɪᴛᴇᴍ%nl%%nl%{@color}| &fPrice: {@color}%{server::afkshop::items::%{_loop}%::price} * 64% Shards%nl%{@color}| &fAmount: {@color}64"
+                        format gui slot 41 with lime stained glass named "&aConfirm" with lore "&8ᴀꜰᴋѕʜᴏᴘ ᴄᴏɴꜰɪʀᴍ":
+                            set {_amount} to item amount of slot 22 of player's current inventory
+                            if {server::afk::balance::%player's uuid%} >= {server::afkshop::items::%{_loop}%::price} * {_amount}:
+                                give player {_amount} of {server::afkshop::items::%{_loop}%::item}
+                                remove {server::afkshop::items::%{_loop}%::price} * {_amount} from {server::afk::balance::%player's uuid%}
+                                play sound "block.note_block.pling" to player
+                                close player's inventory
+                                send "&c-%{server::afkshop::items::%{_loop}%::price} * {_amount}% shards"
+                                make player execute command "afkshop"
+                            else:
+                                send "&cYou cannot afford this item!"
+                                play sound "minecraft:entity.blaze.hurt" to player
+                                close player's inventory
+                        format gui slot 39 with red stained glass named "&cClose" with lore "&8ᴀꜰᴋѕʜᴏᴘ ᴄᴀɴᴄᴇʟ":
+                            make player execute command "/afkshop"
+
+                    open last gui to player
+                add 1 to {_i}
+        open last gui to player
+
+
+command /afkpay [<player>] [<integer>]:
+    cooldown: 1 second
+    cooldown message: &cSuck it up for another %remaining time% buttercup
+    trigger:
+        if arg-1 or arg-2 is set:
+            if arg-2 > 0:
+                if {server::afk::balance::%player's uuid%} >= arg-2:
+                    if arg-1 is not player:
+                        send "{@prefix} &8→ &fYou have paid {@color}%arg-1% &f%arg-2% Shards"
+                        send action bar "{@prefix} &8→ &fYou have been given {@color}%arg-2% Shards &fFrom {@color}%player%" to arg-1
+                        remove arg-2 from {server::afk::balance::%player's uuid%}
+                        add arg-2 to {server::afk::balance::%arg-1's uuid%}
+                    else:
+                        send "{@prefix} &8→ &fYou cannot pay yourself"
+                else:
+                    send "{@prefix} &8→ &fYou do not have the required amount of shards!"
+            else:
+                send "{@prefix}  &8→ &fPlease select a number above 0"
+        else:
+            send "{@prefix} &8→ &fUsage: /pay <player> <number>"
+
+command /warpafk:
+    trigger:
+        set {_i} to 50
+        set {_l} to location of player
+        loop 50 times:
+            send action bar "&fTeleporting in {@color}%{_i}/10%&f seconds..." to player
+            remove 1 from {_i}
+            wait 2 ticks
+            if distance between {_l} and player is more than 0.25:
+                send action bar "&fTeleport cancelled due to {@color}movement&f!" to player
+                stop
+        send action bar "&fTeleported!" to player
+        send "{@prefix} &8→ &fTeleported to {@color}AFK!" to player
+        teleport player to {server::locations::afk}
+on tab complete:
+    if event-string contains "/afkshopman" or "afkman":
+        set tab completions of position 1 to "add" and "remove" and "setprice" and "addbalance" and "removebalance"
+        if tab arg-1 is "remove":
+            set tab completions of position 2 to {server::afkshop::items::*}
+        if tab arg-1 is "setprice":
+            set tab completions of position 2 to {server::afkshop::items::*}
+        if tab arg-1 is "addbalance" or "removebalance":
+            set tab completions of position 2 to all players

@@ -1,0 +1,9 @@
+on right click:
+	event-block is crying obsidian:
+		teleport player to {location::plots}
+		send message "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f Teleporting to Plots" to player
+
+command /setplotslocation:
+    permission: op
+    trigger:
+        set {location::plots} to player's location

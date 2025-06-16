@@ -1,0 +1,8 @@
+on stepping on a pressure plate:
+    if event-block is warped pressure plate:
+        if "%region at player%" is not "box":
+            set {_i} to random integer between 1 and 2
+            if {_i} is 1:
+                apply speed 3 to player for 3 seconds
+            else if {_i} is 2:
+                apply jump boost 2 to player for 3 seconds

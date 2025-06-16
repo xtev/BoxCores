@@ -1,0 +1,7 @@
+command /invsee [<player>]:
+    permission: paybox.invsee
+    permission message: &d&lᴘᴀʏ&b&lʙᴏx &8• &cInsufficient permission
+    trigger:
+        if arg 1 is set:
+            open the arg-1's inventory for the player
+            send "&d&lᴘᴀʏ&b&lʙᴏx &8• &fOpening inventory of &e%arg-1%"

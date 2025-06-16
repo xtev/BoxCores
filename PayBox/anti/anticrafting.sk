@@ -1,0 +1,11 @@
+on craft of a boat:
+    cancel event
+on place of boat:	
+    cancel event
+on craft of a shield:
+    cancel event
+on place item frame:
+    cancel event
+on damage:
+    victim is itemframe
+    cancel event

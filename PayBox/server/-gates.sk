@@ -1,0 +1,295 @@
+options:
+  # locations
+    region: gates
+    world: flatroom
+  # block
+    block: wither skeleton skull
+    block-region: treasures
+    closed-block: light blue stained glass 
+    open-block: air
+  # config
+    wave-wall-close-delay: 15 # in ticks
+    close-for-delay: 15 # in minutes
+  # messages
+    gates-teleport-msg: &aYou have been teleported out of gates because there about to open !!
+    gates-closed-broadcast: %nl%&b&lGates%nl%%nl%&f| &7Gates have closed!%nl%&f| &7Gates will open in &b15 &7minutes !!%nl%
+    gates-open-broadcast: %nl%&b&lGates%nl%%nl%&f| &7Gates are &bopen&7 !!%nl%&f| &7Mine treasure in &bgates &7for cool &brewards &7!
+    
+  #gui
+    gates-gui: &eGates Manager
+    gates-add-item: &eAdd Item
+    gates-view-items: &eView Items
+    gates-remove-item: &eRemove Item
+
+# papi request
+
+on papi request for prefix "gates":
+    set the result to "%{gatesPlaceholder}%"
+        
+        
+on unload:
+    gatesTeleportPlayers()
+    gatesUnloadSafe()
+    delete {gatesOpenList::*}
+    add {@close-for-delay} to {gatesTimer}
+# mine event    
+on block break:
+    if event-block is {@block}:
+        if player's gamemode is survival:
+            if "%region at event-block%" contains "{@block-region} in world {@world}":
+                clear the drops
+                set {_item} to a random element of {gatesItems::*}
+                drop {_item} at event-block
+                gatesClose()
+
+            
+# pretty timespan + open
+every second:
+    if now >= {gatesTimer}:
+        gatesOpen()
+        stop
+    set {_x} to difference between {gatesTimer} and now
+    set {_x} to gatesPrettyTimer({_x})
+    gatesSetPlaceholder({_x})
+     
+            
+function gatesPrettyTimer(time: timespan) :: text:
+    set {_raw} to (ticks of {_time}) / 20
+    set {_seconds} to "%floor(mod({_raw}, 60))%"
+    set {_minutes} to "%floor(mod({_raw}, 60 * 60) / 60)%"
+    set {_hours} to "%floor({_raw} / (60 * 60))%"
+    if length of {_seconds} is 1:
+        set {_seconds} to "0%{_seconds}%"
+    if length of {_minutes} is 1:
+        set {_minutes} to "0%{_minutes}%"
+    if length of {_hours} is 1:
+        set {_hours} to "0%{_hours}%"
+    return "%{_hours}%:%{_minutes}%:%{_seconds}%"    
+    
+function gatesSetPlaceholder(i: text):
+    set {gatesPlaceholder} to {_i}
+
+function gatesResetTimespan():
+    set {gatesTimer} to now
+    add 15 minutes to {gatesTimer}
+
+
+function gatesTeleportPlayers():
+    loop all players:
+        if "%region at loop-player%" contains "{@region} in world {@world}":
+            teleport loop-player to {gatesTeleport}
+            send "{@gates-teleport-msg}" to loop-player
+            
+function gatesUnloadSafe():
+    delete {gatesOpenList::*}
+    set {_id} to 1
+    loop 5 times:
+        loop {gatesBlock%{_id}%::*}:
+            set block at loop-value-2 to {@closed-block}
+            add loop-value-2 to {gatesOpenList::*}
+        add 1 to {_id}
+    set {gatesTimer} to now
+    add 1 minutes to {gatesTimer}
+
+command /setgatespos <integer>:
+    permission: *
+    trigger:
+        set {_x} to player's targeted block
+        set {_x} to location of {_x}
+        set {gatesLocation%arg-1%} to {_x}
+        send "set"
+
+
+function gatesClose():
+    gatesResetTimespan()
+    delete {gatesOpenList::*}
+    broadcast "{@gates-closed-broadcast}"
+
+    loop all players:
+        if "%region at loop-player%" contains "{@region} in world {@world}":
+            send title "&c&lDungeons is closing" with subtitle "&c&lLEAVE NOW !!" to loop-player
+            
+    loop {dungeonlist1::*}:
+        if block at loop-value is air:
+            set block at loop-value to light blue stained glass
+    wait {@wave-wall-close-delay} ticks
+    loop {dungeonlist2::*}:
+        if block at loop-value is air:
+            set block at loop-value to light blue stained glass
+    wait {@wave-wall-close-delay} ticks
+    loop {dungeonlist3::*}:
+        if block at loop-value is air:
+            set block at loop-value to light blue stained glass
+    wait {@wave-wall-close-delay} ticks
+    loop {dungeonlist4::*}:
+        if block at loop-value is air:
+            set block at loop-value to light blue stained glass
+    wait {@wave-wall-close-delay} ticks
+    loop {dungeonlist5::*}:
+        if block at loop-value is air:
+            set block at loop-value to light blue stained glass
+    execute console command "cmine reset clear1"
+    execute console command "cmine reset clear2"
+    execute console command "cmine reset clear3"
+  
+
+function gatesOpen():
+    set {gatesTimer} to "00:00:00"
+    gatesTeleportPlayers()
+    broadcast "%nl%&e&lGATES WILL OPEN IN 10 SECONDS...%nl%"
+    wait 10 seconds
+    broadcast "{@gates-open-broadcast}"
+
+    loop {dungeonlist1::*}:
+        if block at loop-value is light blue stained glass:
+            set block at loop-value to air
+    wait {@wave-wall-close-delay} ticks
+    loop {dungeonlist2::*}:
+        if block at loop-value is light blue stained glass:
+            set block at loop-value to air
+    wait {@wave-wall-close-delay} ticks
+    loop {dungeonlist3::*}:
+        if block at loop-value is light blue stained glass:
+            set block at loop-value to air
+    wait {@wave-wall-close-delay} ticks
+    loop {dungeonlist4::*}:
+        if block at loop-value is light blue stained glass:
+            set block at loop-value to air
+    wait {@wave-wall-close-delay} ticks
+    loop {dungeonlist5::*}:
+        if block at loop-value is light blue stained glass:
+            set block at loop-value to air
+    execute console command "cmine reset gates"
+    execute console command "cmine reset clear1"
+    execute console command "cmine reset clear2"
+    execute console command "cmine reset clear3"
+
+
+# gui
+on inventory click:
+    if name of event-inventory is "{@gates-gui}" or "{@gates-add-item}" or "{@gates-view-items}" or "{@gates-remove-item}":
+        cancel event
+        if clicked inventory isn't player's inventory:
+            if clicked slot is an arrow:
+                gatesOpenGui(player)
+                stop
+            if name of event-inventory is "{@gates-gui}":
+                if clicked slot is 0:
+                    delete {gatesItems::*}
+                    send "&aAll gate rewards have been cleared!"
+                if clicked slot is 13:
+                    gatesOpenView(player)
+                if clicked slot is 10:
+                    gatesRemoveItemGui(player)
+                if clicked slot is 16:
+                    gatesAddItemGui(player)
+                    
+            if name of event-inventory is "{@gates-add-item}":
+                if clicked slot is lime dye:
+                    if slot 13 of player's current inventory isn't bedrock:
+                        set {_x} to slot 13 of player's current inventory
+                        add {_x} to {gatesItems::*}
+                        send "&aItem has been added to gate rewards !!"
+                        stop
+                    else:
+                        close player's inventory
+                        send "&cYou cannot input air as a reward."
+            if name of event-inventory is "{@gates-remove-item}":
+                set {_x} to clicked slot
+                clicked slot isn't air
+                remove {_x} from {gatesItems::*}
+                gatesRemoveItemGui(player)
+        if clicked inventory is player's inventory:
+            if name of event-inventory is "{@gates-add-item}":
+                clicked slot isn't air
+                set {_i} to clicked slot
+                set slot 13 of player's current inventory to {_i}
+            
+            
+function gatesOpenGui(p: player):
+    open a chest inventory with 3 rows named "{@gates-gui}" to {_p}
+    set {_i} to 0
+    loop 27 times:
+        set slot {_i} of {_p}'s current inventory to gray stained glass pane named " "
+        add 1 to {_i}
+    set slot 10 of {_p}'s current inventory to a red dye named "&cRemove Reward" with lore "&7Click to remove a reward"
+    set slot 13 of {_p}'s current inventory to a chest named "&fView Rewards" with lore "&7Click to view rewards from gates"
+    set slot 16 of {_p}'s current inventory to a lime dye named "&aAdd Reward" with lore "&7Click to add a reward"
+    set slot 0 of {_p}'s current inventory to a barrier named "&cClear Items" with lore "&7Click to clear all gate rewards"
+function gatesOpenView(p: player):
+    open a chest inventory with 3 rows named "{@gates-view-items}" to {_p}
+    set {_s} to 0
+    loop {gatesItems::*}:
+        set slot {_s} of {_p}'s current inventory to loop-value
+        add 1 to {_s}
+    set slot 26 of {_p}'s current inventory to a arrow named "&fMain Menu" with lore "&7Click to return to the main menu"
+    
+   
+function gatesRemoveItemGui(p: player):
+    open a chest inventory with 3 rows named "{@gates-remove-item}" to {_p}
+    set {_s} to 0
+    loop {gatesItems::*}:
+        set slot {_s} of {_p}'s current inventory to loop-value
+        add 1 to {_s}
+    set slot 26 of {_p}'s current inventory to a arrow named "&fMain Menu" with lore "&7Click to return to the main menu"
+    
+function gatesAddItemGui(p: player):
+    open a chest inventory with 3 rows named "{@gates-add-item}" to {_p}
+    set {_i} to 0
+    loop 27 times:
+        set slot {_i} of {_p}'s current inventory to gray stained glass pane named " "
+        add 1 to {_i}
+    set slot 13 of {_p}'s current inventory to bedrock named "&fItem Preview" with lore "&7Click an item in your inventory to preview it here!"
+    set slot 25 of {_p}'s current inventory to lime dye named "&aConfirm Item Add" with lore "&7Would you like to confirm your item input to gate rewards?"
+    set slot 26 of {_p}'s current inventory to a arrow named "&fMain Menu" with lore "&7Click to return to the main menu"
+
+    
+    
+command /fixtimespan:
+    permission: op
+    trigger:
+        set {gatesTimer} to now
+        add 15 seconds to {gatesTimer}
+        
+command /gatesmanager [<text>] [<text>]:
+    permission: op
+    trigger:
+        if arg-1 isn't set:
+            send "&cPlease specify an option for gates."
+            stop
+        if arg-1 is "help":
+            send "%nl%&b/gatesmanager addtargetedblock <id>%nl%/gatesmanager clearblockid <id>%nl%/gatesmanager open%nl%/gatesmanager close%nl%/gatesmanager clearall%nl%/gatesmanager gui%nl%"
+            stop
+        if arg-1 is "open":
+            gatesOpen()
+            stop
+        if arg-1 is "close":
+            gatesClose()
+            stop
+        if arg-1 is "clearall":
+            set {_clear} to 0
+            loop 10 times:
+                delete {gatesLocation%{_clear}%}
+                add 1 to {_clear}
+            send "&aAll blocks for gates have been cleared."
+            stop
+        if arg-1 is "setsafetp":
+            set {gatesTeleport} to player's location
+            send "&aGates safe teleport location has been set to your location."
+            stop
+        if arg-1 is "gui":
+            gatesOpenGui(player)
+            stop
+        send "&c/gatesmanager help"
+        
+
+        
+on tab complete:
+    event-string is "/gatesmanager"
+    set tab completions for position 1 to "open", "close", "setsafetp", and "gui"
+      
+        
+on quit:
+    if "%region at player%" contains "{@region} in world {@world}":
+        if player doesn't have permission "gates.bypass.death":
+            kill player              

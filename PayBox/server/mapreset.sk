@@ -1,0 +1,24 @@
+on place:
+    if "%region at event-block%" contains "box":
+        gamemode of player is not creative
+        add location of event-block to {mapreset::blocks::*}
+
+on bucket empty:
+    if "%region at event-block%" contains "box":
+        gamemode of player is not creative
+        add location of event-block to {mapreset::blocks::*}
+
+every 1 second:
+    set {mapreset::last} to 31 minutes ago if {mapreset::last} isn't set
+    if difference between now and {mapreset::last} is more than 30 minutes:
+        set {mapreset::last} to now 
+        set blocks at {mapreset::blocks::*} to air
+        broadcast join (" ", minimessage from "<gradient:#A97910:#F3B734:#A97910><b>MAP RESET", "", "<#EF67DB>The map has been reset! Next in: <#67EF7B>30m", " ") using nl
+
+every 1 second:
+    set {_temp} to difference between now and {mapreset::last}
+    set {status2} to prettifyTimespan(difference between 30 minutes and {_temp})
+
+placeholderapi placeholder with the prefix "skript":
+  if the identifier is "mapreset":
+    set the result to {status2}

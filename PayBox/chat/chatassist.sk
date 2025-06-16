@@ -1,0 +1,25 @@
+command /chat [<text>]:
+	permission: server.chat
+	permission message: &d&lᴘᴀʏ&b&lʙᴏx &8• &cInsufficient permission
+	trigger:
+		if arg-1 is "mute":
+			if {Chatmuted} is not set:
+				set {chatmuted} to true
+				broadcast "<#e05e5e>The chat has been silenced by %player%"
+				stop
+			else:
+				send "&cChat is already muted" to player
+		else if arg-1 is "unmute":
+			if {ChatMuted} is set:
+				delete {ChatMuted}
+				broadcast "<##83e05e>The chat has been unsilenced by %player%"
+				stop
+
+on chat:
+	if {ChatMuted} is true:
+		if player does not have permission "justgrindy.mutechatbypass":
+			cancel event
+			send "<#ff4d4d>The chat is currently muted!"
+			
+on tab complete of "/chat":
+    set tab completions for position 1 to "mute" and "unmute"

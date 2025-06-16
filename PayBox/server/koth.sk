@@ -1,0 +1,123 @@
+function startKoth():
+    broadcast ""
+    broadcast "&b&lPay&d&lBox &8→ &fKoth is now active!"
+    broadcast ""
+    play sound "block.note_block.bit" to all players    
+    set {koth::remaining} to {koth::remain}
+
+
+function stopKoth():
+    make console execute command "fastcrate rozdaj Koth %{koth::capper}% 1"
+    broadcast ""
+    broadcast "&b&lPay&d&lBox &8→ &fKoth has ended."
+    broadcast ""
+    play sound "block.note_block.bit" to all players    
+    set {koth::last} to now
+    delete {koth::capper}
+    delete {koth::remaining}
+
+on load:
+    set {koth::region} to "kothcapper"
+    if {koth::remain} is not set:
+        set {koth::remain} to 30 seconds
+    if {koth::timer} is not set:
+        set {koth::timer} to 2 hours
+    if {koth::last} is not set:
+        set {koth::last} to now
+
+
+command /kothmanager [<text>] [<text>]:
+    permission: kothmanager.use 
+    permission message: &b&lPay&d&lBox &8→ &fYou are missing reqiured permissions.
+    aliases: /kothman 
+    trigger:
+        if arg-1 is not "setremaining" or "stop" or "start" or "restart" or "settimer":
+            send "&b&lKOTH COMMAND MANAGER"
+            send ""
+            send "&8| &f1. &b/kothmanager setremaining <timespan>"
+            send "&8| &f2. &b/kothmanager settimer <timespan>"
+            send "&8| &f3. &b/kothmanager start"
+            send "&8| &f4. &b/kothmanager stop"
+            send "&8| &f5. &b/kothmanager reset"
+            send ""
+            play sound "block.note_block.bit" to player
+        if arg-1 is "setremaining":
+            if arg-2 is not set:
+                send "&b&lPay&d&lBox &8→ &f/kothmanager setremaining <timespan>"
+                play sound "block.note_block.pling" to player
+            else:   
+                set {_arg} to arg-2 parsed as timespan
+                if {_arg} is not set:
+                    send "&b&lPay&d&lBox &8→ &fPlease enter valid timespan (ex. 3 minutes)"
+                    play sound "block.note_block.pling" to player
+                else:
+                    set {koth::remain} to {_arg}
+                    send "&b&lPay&d&lBox &8→ &fYou have set the remaining to &d%{_arg}%"
+                    play sound "block.note_block.bit" to player
+        if arg-1 is "settimer":
+            if arg-2 is not set:
+                send "&b&lPay&d&lBox &8→ &f/kothmanager settimer <timespan>"
+                play sound "block.note_block.pling" to player
+            else:   
+                set {_arg} to arg-2 parsed as timespan
+                if {_arg} is not set:
+                    send "&b&lPay&d&lBox &8→ &fPlease enter valid timespan (ex. 3 hours)"
+                    play sound "block.note_block.pling" to player
+                else:
+                    set {koth::timer} to {_arg}
+                    send "&b&lPay&d&lBox &8→ &fYou have set the timer to &d%{_arg}%"
+                    play sound "block.note_block.bit" to player
+        if arg-1 is "start":
+            if {koth::remaining} is set:
+                send "&b&lPay&d&lBox &8→ &fKoth is currently active."
+                play sound "block.note_block.pling"
+            else:
+                startKoth()
+        if arg-1 is "stop":
+            if {koth::remaining} is not set:
+                send "&b&lPay&d&lBox &8→ &fKoth is not currently active."
+                play sound "block.note_block.pling"
+            else:
+                stopKoth()
+        if arg-1 is "restart":
+            if {koth::remaining} is set:
+                send "&b&lPay&d&lBox &8→ &fKoth is currently active."
+                play sound "block.note_block.pling"
+            else:
+                set {koth::last} to now
+                send "&b&lPay&d&lBox &8→ &fKoth has restarted!"
+
+every 1 second:
+    if {koth::remaining} is set:
+        set {status} to "&fCapper: &b%{koth::capper} ? "No One"% &8(%prettifyTimespan({koth::remaining})%)"
+    else:
+        set {_temp} to difference between now and {koth::last}
+        set {status} to "&fKoth In: &b%prettifyTimespan(difference between {koth::timer} and {_temp})%"
+
+every 1 second:
+    if {koth::remaining} is not set:
+        if difference between now and {koth::last} is more than {koth::timer}:
+            startKoth()
+    else:
+        if {koth::capper} is not set:
+            loop all players where ["%region at input%" contains "%{koth::region}%"]:
+                set {koth::capper} to loop-player
+                broadcast "&b&lPay&d&lBox &8→ &f%loop-player% is now capping koth!"
+                stop
+        else:
+            if {koth::capper} is offline:
+                delete {koth::capper}
+                set {koth::remaining} to {koth::remain}
+            else:
+                if "%region at {koth::capper}%" does not contain "%{koth::region}%":
+                    delete {koth::capper}
+                    set {koth::remaining} to {koth::remain}
+
+                else:
+                    remove 1 second from {koth::remaining}
+                    if {koth::remaining} <= 0 seconds:
+                        stopKoth()
+
+placeholderapi placeholder with the prefix "skript":
+  if the identifier is "koth":
+    set the result to {status}

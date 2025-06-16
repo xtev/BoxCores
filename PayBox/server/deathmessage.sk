@@ -1,0 +1,30 @@
+on death:
+    if attacker is a player:
+        if victim is a player:
+            set {_toolName} to name of attacker's tool
+            set {_hasTool} to attacker's tool is set
+            set {_rand} to a random integer between 1 and 3
+
+            if {_rand} is 1:
+                if {_toolName} is set:
+                    set death message to "&4&l☠ &8| &c%attacker% &7has soloed &a%victim% &7with [&f%{_toolName}%&7]"
+                else if {_hasTool}:
+                    set death message to "&4&l☠ &8| &c%attacker% &7has soloed &a%victim% &7using &f[&r%attacker's tool%&f]"
+                else:
+                    set death message to "&4&l☠ &8| &c%attacker% &7has soloed &fa%victim%"
+
+            if {_rand} is 2:
+                if {_toolName} is set:
+                    set death message to "&4&l☠ &8| &a%victim% &7was annihilated by &c%attacker% &7wielding [&f%{_toolName}%&7]"
+                else if {_hasTool}:
+                    set death message to "&4&l☠ &8| &a%victim% &7was annihilated by &c%attacker% &7with &f[&r%attacker's tool%&f]"
+                else:
+                    set death message to "&4&l☠ &8| &a%victim% &7was annihilated by &c%attacker%"
+
+            if {_rand} is 3:
+                if {_toolName} is set:
+                    set death message to "&4&l☠ &8| &c%attacker% &7ended &a%victim%'s &7life using [&f%{_toolName}%&7]"
+                else if {_hasTool}:
+                    set death message to "&4&l☠ &8| &c%attacker% &7ended &a%victim%'s &7life with &f[&r%attacker's tool%&f]"
+                else:
+                    set death message to "&4&l☠ &8| &c%attacker% &7ended &a%victim%'s &7life"

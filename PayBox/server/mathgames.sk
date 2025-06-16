@@ -1,0 +1,60 @@
+every 4 minutes:
+	chatGame()
+
+function chatGame():
+	{CG::Won} isn't set:
+		broadcast (join "" and (minimessage from "<gradient:#5AFF51:#C8FFC5:#5AFF51><bold>CHAT GAMES") and "" and "&r" and "<#ABFFA6>Nobody got the correct answer. It was: &a%{CG::Answer}%<#ABFFA6>." and " " using nl)
+		play sound "block.note_block.chime" to all players
+		clear {CG::*}
+		wait 5 minutes
+	startCG()
+
+function startCG(type: text=""):
+	clear {CG::*}
+	set {_a::*} to "Math" and "Reverse" and "Text" and "Unscramble" and "Fill"
+	set {_type} to random element out of {_a::*} if {_type} = ""
+	
+	{_type} is "Math":
+		set {_b} to random element out of "Add" and "Subtract" and "Divide" and "Multiply"
+		set {_n1} to random integer between 1 and 100
+		set {_n2} to random integer between 1 and 100
+		{_b} is "Add":
+			set {_msg} to "%{_n1}% + %{_n2}%"
+			set {CG::Answer} to {_n1}+{_n2}
+		{_b} is "Subtract":
+			set {_msg} to "%{_n1}% - %{_n2}%"
+			set {CG::Answer} to {_n1}-{_n2}
+		{_b} is "Divide":
+			set {_msg} to "%{_n1}% / %{_n2}%"
+			set {CG::Answer} to {_n1}/{_n2}
+		{_b} is "Multiply":
+			set {_msg} to "%{_n1}% * %{_n2}%"
+			set {CG::Answer} to {_n1}*{_n2}
+		broadcast (join " " and (minimessage from "<gradient:#5AFF51:#C8FFC5:#5AFF51><bold>CHAT GAMES") and "" and "&r" and "<#ABFFA6>The first one to type the answer to &a%{_msg}% <#ABFFA6>wins!" and " " using nl)
+	
+	{_type} is "Text", "Reverse", "Unscramble", or "Fill":
+		set {_b} to random element out of "New" and "Release" and "Lvyt" and "Aswq" and "PayBox" and "Dirt" and "Mine" and "Emerald" and "Gold" and "Netherite" and "Diamond" and "Wood" and "Iron" and "ElytraBox" and "Stone" and "Obsidian" and "Lucky" and "Ultra" and "Mega" and "Mystery" and "Crystal" and "Ancient" and "Gear" and "Starter" and "Rare" and "Epic" and "Legendary" and "Treasure" and "Boxy" and "Galaxy" and "Void" and "Light" and "Dark" and "Frozen" and "Inferno" and "Oceanic" and "Sky" and "Ender" and "Glitch"
+		set {CG::Answer} to {_b}
+		{_type} is "Text":
+			set {_msg} to "type ""%{_b}%"""
+		{_type} is "Reverse":
+			set {_msg} to "reverse ""%join reversed ({_b} split at "") using ""%"""
+		{_type} is "Unscramble":
+			set {_msg} to "unscramble ""%join shuffled ({_b} split at "") using ""%"""
+		{_type} is "Fill":
+			loop random integer between 1 and 4 times:
+				replace first (random element out of (({_b} split at "") where [input != "_"])) in {_b} with "_"
+			set {_msg} to "fill in ""%{_b}%"""
+		broadcast (join " " and (minimessage from "<gradient:#5AFF51:#C8FFC5:#5AFF51><bold>CHAT GAMES") and "" and "&r" and "<#ABFFA6>The first one to &a%{_msg}% <#ABFFA6>wins!" and " " using nl)
+	play sound "block.note_block.chime" to all players
+	set {CG::Active} to true
+
+on chat:
+	uncolored unformatted message contains "%{CG::Answer}%":
+		cancel event
+		broadcast (join " " and (minimessage from "<gradient:#5AFF51:#C8FFC5:#5AFF51><bold>CHAT GAMES") and "" and "&r" and "&a%name of player in strict proper case% <#ABFFA6>has gotten the correct answer of &a%{CG::Answer}%<#ABFFA6>!" and " " using nl)
+		play sound "block.note_block.chime" to all players
+		clear {CG::*}
+		set {CG::Won} to true
+		send action bar "<#ABFFA6>Chat games won! &a+1 Afk Key"
+		execute console command "fastcrate rozdaj Afk %player% 1"

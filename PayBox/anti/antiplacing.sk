@@ -1,0 +1,20 @@
+on place:
+    if event-block is chain:
+        cancel event
+        send "&cYou cant place that item!" to player
+on place:
+    if event-block is black candle:
+        cancel event
+        send "&cYou cant place that item!" to player
+on place:
+    if event-block is tube coral:
+        cancel event
+        send "&cYou cant place that item!" to player
+on place:
+    if event-block is twisting vines:
+        cancel event
+        send "&cYou cant place that item!" to player
+on place:
+    if event-block is dead horn coral:
+        cancel event
+        send "&cYou cant place that item!" to player

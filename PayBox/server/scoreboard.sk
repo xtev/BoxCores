@@ -1,0 +1,25 @@
+options:
+    prefix: &d&kw &b&lPay&d&lBox &b&kw
+every 1 second:
+    loop all players:
+        set title of loop-player's fastboard to "{@prefix}"
+        set line 11 of loop-player's fastboard to "&7PayBox.minehut.gg"
+        set line 10 of loop-player's fastboard to " "
+        set line 9 of loop-player's fastboard to "&b☁ &fPlayers: %number of all players% &f/ %max player count%"
+        set line 8 of loop-player's fastboard to "&a⌚ &fMap Reset: &a%placeholder "skript_mapreset"%"
+        set line 7 of loop-player's fastboard to "&6⚐ &6%placeholder "skript_koth"%"
+        set line 6 of loop-player's fastboard to " "
+        set line 5 of loop-player's fastboard to "&e◆ &fKdr: &e%{kills::%loop-player's uuid%} / {deaths::%loop-player's uuid%} ? 0 %"
+        set line 4 of loop-player's fastboard to "&c☠ &fDeaths: &c%{deaths::%loop-player's uuid%} ? 0%"
+        set line 3 of loop-player's fastboard to "&a🗡 &fKills: &a%{kills::%loop-player's uuid%} ? 0%"
+        set line 2 of loop-player's fastboard to ""
+        set line 1 of loop-player's fastboard to "&7%now formatted as "MM/dd/yyyy"%"
+on death:
+	victim is a player:
+		add 1 to {kills::%attacker's uuid%}
+
+on death:
+    add 1 to {deaths::%victim's uuid%}
+
+on first join:
+    add 1 to {joins::*}

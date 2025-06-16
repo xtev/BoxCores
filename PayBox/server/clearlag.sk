@@ -1,0 +1,20 @@
+command /clearlag:
+	aliases: cl
+	permission: clearlag.use
+	permission message: &d&lᴘᴀʏ&b&lʙᴏx &8&l|&f &cYou don't have permission to use this command!
+	trigger:
+		broadcast "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f &CWarning Items on the ground will be deleted in &75 &cseconds!"
+		wait 5 seconds
+		broadcast "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f &aRemoved %size of dropped items% Entities"
+		kill dropped items
+
+function killitems():
+	broadcast "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f &cWarning Items on the ground will be deleted in &760 &cseconds!"
+	wait 45 seconds
+	broadcast "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f &cWarning Items on the ground will be deleted in &715 &cseconds!"
+	wait 15 seconds
+	broadcast "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f &aRemoved %size of dropped items% Entities"
+	kill dropped items
+	
+every 5 minutes:
+	killitems()

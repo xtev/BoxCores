@@ -1,0 +1,17 @@
+on join:
+	set join message to "&8[&a+&8] &7%player%"
+on quit:
+	set quit message to "&8[&c-&8] &7%player%"
+on first join: 
+	set the join message to "&b&lFIRST JOIN &8• &e%player% &fjoined for the first time! Welcome them for a reward &7(#%size of offline players%)"
+	set {FirstJoin_Welcome} to true
+	console command "fastcrate rozdaj gear %player% 2"
+	wait 10 seconds
+	clear {FirstJoin_Players::*} 
+	clear {FirstJoin_Welcome}
+on chat:
+	if message contains "welcome":
+		if {FirstJoin_Welcome} is true:
+			if {FirstJoin_Players::*} does not contain player:
+				add player to {FirstJoin_Players::*}
+				console command "fastcrate rozdaj Afk %player% 2"

@@ -1,0 +1,21 @@
+on chat:
+    replace ":skull:" in message with "☠"
+    replace ":star:" in message with "⭐"
+    replace ":sad:" in message with "☹"
+    replace ":alert:" in message with "⚠"
+    replace ":nerd:" in message with "🤓"
+    replace ":sob:" in message with "😪"
+    replace ":clown:" in message with "🤡"
+    replace ":angry:" in message with "😤"
+
+command /emojis:
+    trigger:
+        send message "&b&lPay&d&lBox's &f&lEmoji List" to player
+        send message ": skull : > ☠" to player
+        send message ": star : > ⭐" to player
+        send message ": sad : > ☹" to player
+        send message ": alert : > ⚠" to player
+        send message ": nerd : > 🤓" to player
+        send message ": sob : > 😪" to player
+        send message ": clown : > 🤡" to player
+        send message ": angry : > 😤" to player

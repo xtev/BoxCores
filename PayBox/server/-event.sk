@@ -1,0 +1,206 @@
+options:
+	eventtimelimit: 30 minutes # How long the event can last for until forcefully ending.
+	
+	aprefix: &9&lEVENTS &3| # The prefix before action bars.
+	mprefix: &9&lEVENTS # The prefix before messages.
+	
+	location1: location(1,1,1) # Location 1
+	location2: location(2,2,2) # Location 2
+	# Players are randomly teleported to a location between location1 and location2.
+	
+	playertype: 1 # 1: Do /event join to join event, takes 1 minute to start. 2: All players are teleported to event and it starts instantly.
+	
+	kittype: 1 # 1: Clears inventory and replaces with kit. 2: Clears invetory, replaces with kit, and when they die, it loads their inventory from before the event.
+	kitname: event
+	
+command /events [<text>]:
+	aliases: event
+	trigger:
+		arg-1 is "start" or "stop" or "status" or "players":
+			player has permission "staff.events.use":
+				arg-1 is "start":
+					{Event::Status} is not set:
+						startEvent(player)
+						send action bar "{@aprefix} &7Successfully started event!"
+						play sound "entity.player.levelup"
+					else:
+						send action bar "{@aprefix} &7An event is already ongoing."
+						play sound "block.note_block.didgeridoo"
+				else if arg-1 is "stop":
+					{Event::Status} is set:
+						stopEvent()
+						send action bar "{@aprefix} &7Successfully stopped event."
+						play sound "entity.player.levelup"
+					else:
+						send action bar "{@aprefix} &7No event is currently ongoing."
+						play sound "block.note_block.didgeridoo"
+				else if arg-1 is "status":
+					{Event::Status} is set:
+						{Event::Status} is "active":
+							send action bar "{@aprefix} &7An event is currently &a&lACTIVE&7."
+							play sound "block.note_block.pling"
+					
+					else if {Event::Status} is "waiting":
+						send action bar "{@aprefix} &7An event is currently &6&lWAITING FOR PLAYERS&7."
+						play sound "block.note_block.pling"
+					else:
+						send action bar "{@aprefix} &7There is currently &c&lNO ONGOING EVENT&7."
+						play sound "block.note_block.pling"
+				else if arg-1 is "players":
+					{Event::Status} is set:
+						{Event::Players::*} is set:
+							send "%nl%{@mprefix} - PLAYERS%nl%"
+							loop {Event::Players::*}:
+								send "&b▶ &7%loop-value%"
+							send "&7 "
+							play sound "block.note_block.pling"
+						else:
+							send action bar "{@aprefix} &7There are currently no players in the event."
+							play sound "block.note_block.pling"
+					else:
+						send action bar "{@aprefix} &7No event is currently ongoing."
+						play sound "block.note_block.didgeridoo"
+			else:
+				send action bar "{@aprefix} &7Insufficient permissions."
+				play sound "block.note_block.didgeridoo"
+		else if arg-1 is "join":
+			{@playertype} is 1:
+				{Event::Status} is "waiting":
+					joinEvent(player)
+					send action bar "{@aprefix} &7Successfully joined event!"
+					play sound "block.note_block.pling"
+				else:
+					send action bar "{@aprefix} &7An event is currently active, or there is none ongoing."
+					play sound "block.note_block.didgeridoo"
+			else:
+				send action bar "{@aprefix} &7You cannot join an event through commands currently."
+				play sound "block.note_block.didgeridoo"
+				
+		else:
+			send action bar "{@aprefix} &7Invalid subcommand. &8&o/events [start/stop/status/players]"
+			play sound "block.note_block.didgeridoo"
+
+on tab complete for "/event" and "/events":
+	player has permission "staff.events.use":
+		set tab completions for position 1 to "start" and "stop" and "status" and "players"
+	add "join" to tab completions for position 1 if {@playertype} is 1
+
+function startEvent(p: player):
+	
+	{@playertype} is 1:
+		broadcast "%nl%%nl%{@mprefix}%nl%%nl%&fA &6CPVP Event &fwill start in &a1 minute&f!%nl%%nl%&2▶ &aDo &2/event join &ato participate!%nl%&7 "
+		play sound "entity.ender_dragon.growl" to all players
+		
+		joinEvent({_p})
+		
+		set {Event::Status} to "waiting"
+		
+		wait 10 seconds
+		
+		size of {Event::Players::*} > 1:
+			set {Event::Status} to "active"
+			broadcast "%nl%%nl%{@mprefix}%nl%%nl%&fThe &6CPVP Event &fhas started!%nl%&fThe last one standing &a&lWINS&f!%nl%&7 "
+			play sound "entity.ender_dragon.growl" to all players
+			
+			wait {@eventtimelimit}
+			{Event::Status} is "active":
+				stopEvent(1)
+		else:
+			{Event::Status} is set
+			clear {Event::*}
+			loop {Event::Players::*}:
+				kill loop-value
+			broadcast "%nl%%nl%{@mprefix}%nl%%nl%&fNot enough people joined the event for it to start!%nl%&7 "
+			play sound "entity.ender_dragon.growl" to all players
+		
+	else if {@playertype} is 2:
+		
+		size of all players > 1:
+		
+			set {Event::Status} to "active"
+			
+			loop all players:
+				joinEvent(loop-player)
+			
+			broadcast "%nl%%nl%{@mprefix}%nl%%nl%&fA &6CPVP Event &fhas started!%nl%&fThe last one standing &a&lWINS&f!%nl%&7 "
+			play sound "entity.ender_dragon.growl" to all players
+			
+			wait {@eventtimelimit}
+			{Event::Status} is "active":
+				stopEvent(1)
+				
+		
+		else:
+			broadcast "%nl%%nl%{@mprefix}%nl%%nl%&fAn event started, but not enough people were online for it to begin!%nl%&7 "
+			play sound "entity.ender_dragon.growl" to all players
+
+function stopEvent(n: number=0):
+	clear {Event::Status}
+	loop {Event::Players::*}:
+		kill loop-value
+		{@kittype} is 2:
+			loadInventory(loop-value)
+	{_n} is 0:
+		broadcast "%nl%%nl%{@mprefix}%nl%%nl%&fA staff member has ended the event!%nl%&7 "
+	else if {_n} is 1:
+		broadcast "%nl%%nl%{@mprefix}%nl%%nl%&fThe event has ended; nobody won in &6{@eventtimelimit}&f!%nl%&7 "
+	play sound "entity.ender_dragon.growl" to all players
+	clear {Event::*}
+
+function joinEvent(p: player):	
+	
+	add {_p} to {Event::Players::*}
+	
+	{@kittype} is 1:
+		clear {_p}'s inventory
+		execute console command "givekit %name of {_p}% {@kitname}"
+	else if {@kittype} is 2:
+		saveInventory({_p})
+		wait 2 ticks
+		clear {_p}'s inventory
+		execute console command "givekit %name of {_p}% {@kitname}"
+		
+	teleport {_p} to random element out of all blocks within {@location1} and {@location2}
+
+function saveInventory(p: player):
+	loop 41 times:
+		item in slot loop-number of {_p}'s inventory is set:
+			set {SAI::%{_p}'s uuid%::%loop-number%} to item in slot loop-number of {_p}'s inventory
+
+function loadInventory(p: player):
+	loop all indices of {SAI::%{_p}'s uuid%::*}:
+		set slot (loop-value parsed as number) of {_p}'s inventory to {SAI::%{_p}'s uuid%::%loop-value%}
+
+on damage:
+	attacker is player:
+		{Event::Players::*} contains attacker:
+			{Event::Status} = "waiting":
+				cancel event
+
+on place:
+	{Event::Players::*} contains player:
+		{Event::Status} = "waiting":
+			cancel event
+
+on break:
+	{Event::Players::*} contains player:
+		{Event::Status} = "waiting":
+			cancel event
+
+on death:
+	{Event::Status} is set
+	{Event::Players::*} contains victim:
+		{@kittype} is 2:
+			force victim to respawn
+			wait 2 ticks
+			clear victim's inventory
+			loadInventory(victim)
+		send title "&c&lYOU DIED" with subtitle "&fWhilst in the event." to victim
+		play sound "block.note_block.didgeridoo" to victim
+		remove victim from {Event::Players::*}
+		size of {Event::Players::*} = 1:
+			set {_a} to first element out of {Event::Players::*}
+			clear {Event::*}
+			kill {_a}
+			broadcast "%nl%%nl%{@mprefix}%nl%%nl%&a%{_a}% &fhas won the event!%nl%&7 "
+			play sound "entity.ender_dragon.growl" to all players

@@ -1,0 +1,162 @@
+options:
+	prefix: &4&lGIFTS &8» &7
+	namec: &c
+
+function giftsGui(p: player):
+	set {_s} to chest inventory with 6 rows named "&8&lGIFTS"
+	set slot (integers between 45 and 53) of {_s} to gray stained glass pane named "&7 "
+	set slot 49 of {_s} to mangrove hanging sign named "&9● &b&lGIFTING &9●" with lore "&fSend someone a gift with &b/gift [player]%nl%&fGifts for you will show up here."
+	loop {Gifts::%{_p}'s uuid%::IdAm} times:
+		add ({Gifts::%{_p}'s uuid%::IdAm2}-(loop-number)+1) to {_b::*}
+	set {_c::*} to sorted {_b::*}
+	set {_i} to 0
+	loop {_c::*}:
+		set {_a} to loop-value
+		set {_ff} to "%{Gifts::%{_p}'s uuid%::Sender::%{_a}%}%"
+		set {_ff} to {_ff} in upper case
+		set slot ({_i}) of {_s} to red shulker box named "&c&lGIFT FROM &e&l%{_ff}%" with lore "%nl%&aA gift, just for you!%nl%%nl%&6&l| &eID: &d%{_a}%%nl%&6&l| &eAmount of items: &d%size of {Gifts::%{_p}'s uuid%::Items::%{_a}%::*}%%nl%%nl%&fLeft-click to claim%nl%&fRight-click to view" with nbt from "{GiftId:%{_a}%l}"
+		add 1 to {_i}
+
+	open {_s} to {_p}
+
+function giftingGui(p: player, p2: player):
+	set {_s} to chest inventory with 6 rows named "&8&lGIFTING: %name of {_p2} in upper case%"
+	set slot (integers between 45 and 53) of {_s} to gray stained glass pane named "&7 "
+	set slot 49 of {_s} to mangrove hanging sign named "&9● &b&lGIFTING &9●" with lore "&fClick here to send this%nl%&finventory's contents to &6%{_p2}%"
+	
+	open {_s} to {_p}
+
+function viewGifts(p: player, p2: player, id: number):
+	set {_s} to chest inventory with 6 rows named "&8&lGIFT FROM %name of {_p2} in upper case%"
+	loop 44 times:
+		set slot (loop-number)-1 of {_s} to (loop-number)nd element out of {Gifts::%{_p}'s uuid%::Items::%{_id}%::*}
+	set slot (integers between 45 and 53) of {_s} to gray stained glass pane named "&7 "
+	set slot 49 of {_s} to mangrove hanging sign named "&9● &b&lVIEWING GIFT &9●" with lore "&fYou are currently viewing a gift. Click here%nl%&fto claim it, or claim it at &b/gifts&f!" with nbt from "{GiftId:%{_id}%l}"
+	
+	open {_s} to {_p}
+
+every 5 minutes:
+	loop all players where [{Gifts::%input's uuid%::IdAm} >= 1]:
+		send "{@prefix}You have pending gifts, do {@namec}/gifts" to loop-player
+
+on inventory click:
+	name of player's top inventory contains "&8&lGIFT":
+		cancel event if type of event-item is gray stained glass pane or mangrove hanging sign
+		cancel event if "%inventory action%" contains "drop"
+		name of player's top inventory contains "&8&lGIFTING:":
+			index of event-slot is 49:
+				set {_a} to ((2nd element out of (uncolored unformatted name of player's top inventory split at " ")) parsed as player)
+				set {_e} to 0
+				loop 44 times:
+					slot (loop-number)-1 of player's top inventory is set:
+						add 1 to {_e}
+				{_e} > 0:
+					set {_i} to 0
+					set {_h} to {Gifts::%{_a}'s uuid%::IdAm}
+					set {Gifts::%{_a}'s uuid%::IdAm} to {Gifts::%{_a}'s uuid%::IdAm}+1
+					set {Gifts::%{_a}'s uuid%::IdAm2} to {Gifts::%{_a}'s uuid%::IdAm2}+1
+					set {_h} to {Gifts::%{_a}'s uuid%::IdAm2}
+					loop 44 times:
+						slot {_i} of player's top inventory is set:
+							slot {_i} of player's top inventory is not air:
+								set {Gifts::%{_a}'s uuid%::Items::%{_h}%::%{_i}%} to slot {_i} of player's top inventory
+								add 1 to {_i}
+							else:
+								add 1 to {_i}
+						else:
+							add 1 to {_i}
+					set {Gifts::%{_a}'s uuid%::Sender::%{_h}%} to player
+					close player's inventory
+					send action bar "{@prefix}Successfully sent gift to {@namec}%{_a}%" to player
+					send "{@prefix}Successfully sent gift to {@namec}%{_a}%" to player
+					send action bar "{@prefix}You have receieved a package from {@namec}%player%" to {_a}
+					send "{@prefix}You have receieved a package from {@namec}%player%" to {_a}
+					broadcast "{@prefix}{@namec}%player%&7 used {@namec}/gift &7and sent a gift to {@namec}%{_a}%"
+					play sound "entity.player.levelup" to player and {_a}
+					set {GiftingCheck::%player's uuid%} to true
+					wait 10 ticks
+					clear {GiftingCheck::%player's uuid%}
+				else:
+					close player's inventory
+					send action bar "&cYou did not provide any items; no gift was sent." to player
+					play sound "block.note_block.didgeridoo" to player
+		else if name of player's top inventory is "&8&lGIFTS":
+			cancel event if "%inventory action%" does not contain "pickup all" or "pickup half"
+			cancel event if event-inventory is not player's top inventory
+			event-inventory is not player's top inventory:
+				name of event-item contains "&c&lGIFT FROM":
+					remove 100 of event-item from player's inventory
+					close player's inventory
+					wait 2 ticks
+					loop items in player's inventory:
+						name of loop-item contains "&c&lGIFT FROM":
+							remove 100 of loop-item from player's inventory
+							wait 2 ticks
+					giftsGui(player)
+			else:
+				set {_f} to long tag "GiftId" of nbt of event-item
+				{_f} is set:
+					inventory action is pickup all:
+						send "%nl%&6&lITEMS CLAIMED:%nl%%nl%&8ɢɪꜰᴛ ɪᴛᴇᴍꜱ:%nl%&7 "
+						loop {Gifts::%player's uuid%::Items::%{_f}%::*}:
+							give player loop-value
+							set {_f} to name of loop-value if name of loop-value is set, else type of loop-value
+							set {_f1} to item amount of loop-value
+							send "&e&l| &a%{_f1}%x %{_f}%"
+						send "%nl%&7 "
+						set {Gifts::%player's uuid%::IdAm} to {Gifts::%player's uuid%::IdAm}-1
+						clear {Gifts::%player's uuid%::Sender::%{_f}%}
+						clear {Gifts::%player's uuid%::Items::%{_f}%}
+						play sound "entity.player.levelup" to player
+						giftsGui(player)
+					else if inventory action is pickup half:
+						set {_f} to long tag "GiftId" of nbt of event-item
+						viewGifts(player, {Gifts::%player's uuid%::Sender::%{_f}%}, {_f})
+		else if name of player's top inventory contains "&8&lGIFT FROM":
+			cancel event
+			index of event-slot is 49:
+				set {_f} to long tag "GiftId" of nbt of event-item
+				send "%nl%&6&lITEMS CLAIMED:%nl%%nl%&8ɢɪꜰᴛ ɪᴛᴇᴍꜱ:%nl%&7 "
+				loop {Gifts::%player's uuid%::Items::%{_f}%::*}:
+					give player loop-value
+					set {_f} to name of loop-value if name of loop-value is set, else type of loop-value
+					set {_f1} to item amount of loop-value
+					send "&e&l| &a%{_f1}%x %{_f}%"
+				send "%nl%&7 "
+				set {Gifts::%player's uuid%::IdAm} to {Gifts::%player's uuid%::IdAm}-1
+				clear {Gifts::%player's uuid%::Sender::%{_f}%}
+				clear {Gifts::%player's uuid%::Items::%{_f}%}
+				play sound "entity.player.levelup" to player
+				giftsGui(player)
+
+on inventory close:
+	name of event-inventory contains "&8&lGIFTING":
+		wait 2 ticks
+		{GiftingCheck::%player's uuid%} is not set:
+			loop items in event-inventory:
+				loop-item is not gray stained glass pane or mangrove hanging sign:
+					give player loop-item
+			send "{@prefix}&cGifting cancelled." to player
+			play sound "item.shield.break" to player
+
+command /gifts:
+	aliases: packages
+	trigger:
+		giftsGui(player)
+
+command /gift [<player>]:
+	trigger:
+		arg-1 is set:
+			arg-1 != "asd":
+				{Gifts::%arg-1's uuid%::IdAm} is not greater than or equal to 44:
+					giftingGui(player, arg-1)
+					play sound "block.barrel.open"
+				else:
+					send action bar "&c%arg-1% has max gifts. Tell them to claim some!"
+					play sound "item.shield.break"
+			else:
+				send action bar "&cYou cannot gift yourself."
+				play sound "item.shield.break"
+		else:
+			send action bar "&cSpecify a player."
+			play sound "item.shield.break"

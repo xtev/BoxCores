@@ -1,0 +1,6 @@
+command /discord:
+	trigger:
+		send ""
+		send "&bᴊᴏɪɴ ᴏᴜʀ &dᴅɪꜱᴄᴏʀᴅ &bᴛᴏ &dꜱᴛᴀʏ ᴜᴘᴅᴀᴛᴇᴅ!"
+		send "<link:https://discord.gg/uuws44SV>&cᴄʟɪᴄᴋ ʜᴇʀᴇ"
+		send ""

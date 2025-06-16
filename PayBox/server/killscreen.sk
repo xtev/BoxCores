@@ -1,0 +1,13 @@
+on death of player:
+    if attacker is a player:
+        send title "&b🗡 You killed %victim%" to attacker for 1 seconds
+        wait 1 tick
+        send title "&b🗡 You killed %victim%" to attacker for 1 seconds
+        wait 1 tick
+        send title "&b🗡 You killed %victim%" to attacker for 1 seconds
+        wait 1 tick
+        send title "&b🗡 You killed %victim%" to attacker for 1 seconds
+        wait 1 tick
+        send title "&b🗡 You killed %victim%" to attacker for 1 seconds
+        wait 1 tick
+        send title "&b🗡 You killed %victim%" to attacker for 1 seconds

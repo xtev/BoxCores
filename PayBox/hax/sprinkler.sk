@@ -1,0 +1,5 @@
+on rightclick with beacon:
+    if name of event-item is "&bBeacon Sprinkler":
+        console command "catamines reset beacon"
+        broadcast "%player% just used beacon sprinkler"
+        remove event-item from player's inventory

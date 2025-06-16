@@ -1,0 +1,6 @@
+on death:
+    victim is player:
+        set {_l} to location at (random element out of ((all blocks in radius 5 around victim where [input != air]) where [y-coordinate of location at input = y-coordinate of location at victim]))
+        loop all items in victim's inventory:
+            drop loop-item at {_l} without velocity
+        clear victim's inventory

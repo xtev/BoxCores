@@ -1,0 +1,6 @@
+on damage:
+	if victim is a bee:
+		cancel event
+on damage:
+	if victim is a frog:
+		cancel event

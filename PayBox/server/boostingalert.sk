@@ -1,0 +1,18 @@
+on death of player:
+	attacker is player
+	set {_va} to "%uuid of attacker%-%uuid of victim%"
+
+	add 1 to {BoostingKL::%{_va}%}
+
+	if {BoostingKL::%{_va}%} is 5:
+		send formatted "<#ff3b3b>&lADMIN &8• <##ff7070>%attacker% &fmay be boosting! &7(V: %victim%) <tooltip:&aClick to teleport to %attacker%><command:/tp %attacker%>&b[Teleport]<reset>" to all players where [input has permission "justgrindy.admin"]
+		delete {BoostingKL::%{_va}%}
+		make embed:
+			set title of embed to "Boosting Notifications"
+			set embed color of the embed to red
+			set the timestamp of the embed to now
+			set description of embed to "%attacker% may be boosting!%nl%Victim: %victim% | Attacker: %attacker%"
+			post embed to channel with id "1380303735732965497"
+command minecraft:me:
+	trigger:
+    	send "no perms"

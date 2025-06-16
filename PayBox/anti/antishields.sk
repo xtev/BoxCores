@@ -1,0 +1,9 @@
+on inventory click:
+    if player's tool is shield:
+        cancel event
+        send "&cYou are not allowed to equip a shield!" to player
+		
+on craft:
+    if event-item is shield:
+        cancel event
+        send "&cYou are not allowed to craft a shield!" to player

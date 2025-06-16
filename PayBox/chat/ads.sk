@@ -1,0 +1,12 @@
+options:
+    prefix: &b&lPay&d&lBox &7>>
+
+command /advertisemessage:
+    aliases: /admsg, /admessage, /ad
+    trigger:
+        send ""
+        send "{@prefix} <suggest command:/ad PayBox ELYTRA | QUICKDROP | UNIQUE | SEASON 1> &8(&c&lCLICK-HERE&8) &7to copy the [DEFAULT] Ad message."
+        send "{@prefix} <suggest command:/ad PayBox &dELYTRA &8| &aQUICKDROP &8| &9UNIQUE &8| &3SEASON 1> &8(&c&lCLICK-HERE&8) &7to copy the &a[VIP]&7 Ad message."
+        send "{@prefix} <suggest command:/ad PayBox &8(&d&lCLICK HERE&8) &8(&5&LELYTRA&8) &8(&3&lSEASON 1 RELEASED8)> &8(&c&lCLICK-HERE&8) &7to copy the &6[LEGAND]&7 Ad message."
+        send "{@prefix} <suggest command:/ad PayBox &8(&d&lCLICK HERE&8) &8(&5&lELYTRA&8) &8(&3&lSEASON 1 RELEASED&8)> &8(&c&lCLICK-HERE&8) &7to copy the &3[PATRON]&7 Ad message."
+        send ""

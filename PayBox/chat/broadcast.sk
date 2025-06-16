@@ -1,0 +1,50 @@
+command /bc [<text>]:
+    aliases: bc, broadcast, announce
+    permission: bc.use
+    trigger:
+        broadcast "","<##00ACFF>&lAlert &8|&f %colored arg-1%",""
+        send title "<##00ACFF>&lAlert" with subtitle colored arg-1 to all players
+        play sound "BLOCK_NOTE_BLOCK_BIT" to all players
+
+command /ty [<text>]:
+    permission: ty.use
+    trigger:
+        broadcast "&c&lTHANK&f&lYOU &8&l|&f %colored arg-1%"
+        send title "&c&lTHANK&f&lYOU" with subtitle colored arg-1 to all players for 3 seconds
+        play sound "entity.ender_dragon.ambient" with volume 1 and pitch 1 at all players for all players
+
+
+every 20 minutes:
+	broadcast ""
+	broadcast "  &5ꜱᴛᴀʏ ᴜᴘᴅᴀᴛᴇᴅ!"
+	broadcast "&b  ➥ ᴊᴏɪɴ ᴏᴜʀ &dᴅɪꜱᴄᴏʀᴅ &bᴛᴏ &dꜱᴛᴀʏ ᴜᴘᴅᴀᴛᴇᴅ!"
+	broadcast "&b  ➥ ᴜꜱᴇ &d/ᴅɪꜱᴄᴏʀᴅ"
+	broadcast ""
+	play sound "block.note_block.bell" with volume 1 and pitch 1 at all players for all players
+	wait 5 minutes
+	broadcast ""
+	broadcast "  &5ʏᴏᴜ ᴡᴀɴᴛ ᴀ ꜰʀᴇᴇ ɢᴇᴀʀ ᴋᴇʏ?"
+	broadcast "&b  ➥ ʟɪɴᴋ ʏᴏᴜʀ &dᴀᴄᴄᴏᴜɴᴛ &bᴏɴ &dᴅɪꜱᴄᴏʀᴅ &bᴛᴏ ɢᴀɪɴ ᴀ &5ꜰʀᴇᴇ &dɢᴇᴀʀ ᴋᴇʏ!"
+	broadcast "&b  ➥ ᴜꜱᴇ /ʟɪɴᴋ"
+	broadcast ""
+	play sound "block.note_block.bell" with volume 1 and pitch 1 at all players for all players
+	wait 5 minutes
+	broadcast ""
+	broadcast "  &5ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ꜱᴜᴘᴘᴏʀᴛ ᴛʜᴇ ꜱᴇʀᴠᴇʀ?"
+	broadcast "&b  ➥ ʏᴏᴜ ᴄᴀɴ ʙᴜʏ &dʀᴀɴᴋꜱ &bᴀɴᴅ &dᴋᴇʏꜱ"
+	broadcast "&b  ➥ ᴜꜱᴇ &d/ʙᴜʏ"
+	broadcast ""
+	play sound "block.note_block.bell" with volume 1 and pitch 1 at all players for all players
+	wait 5 minutes
+	broadcast ""
+	broadcast "  &5ᴋɪʟʟᴇᴅ ʙʏ ᴀɴ ᴄʜᴇᴀᴛᴇʀ?"
+	broadcast "&b  ➥ ʀᴇᴘᴏʀᴛ ᴛʜᴇ &dᴘʟᴀʏᴇʀ &bᴏʀ ᴊᴏɪɴ ᴏᴜʀ &dᴅɪꜱᴄᴏʀᴅ!"
+	broadcast "&b  ➥ ᴜꜱᴇ &d/ʀᴇᴘᴏʀᴛ ᴏʀ /ᴅɪꜱᴄᴏʀᴅ"
+	broadcast ""
+	play sound "block.note_block.bell" with volume 1 and pitch 1 at all players for all players
+    wait 5 minutes
+    broadcast ""
+    broadcast "  &5ᴏᴜᴛ ᴏꜰ ꜱᴛᴏʀᴀɢᴇ?"
+    broadcast "&b  ➥ ʙᴜʏ ᴀ &dᴘʟᴏᴛ &bᴛᴏ ɢᴇᴛ ᴍᴏʀᴇ &dꜱᴛᴏʀᴀɢᴇ!"
+    broadcast "&b  ➥ ᴜꜱᴇ &d/ᴡᴀʀᴘ &bᴘʟᴏᴛꜱ"
+    broadcast ""

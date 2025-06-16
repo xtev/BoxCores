@@ -1,0 +1,14 @@
+command /cspy:
+	permission: server.commandspy
+	permission message: &d&lPay&b&lBox &8• &cInsufficient permission
+	trigger:
+		if {CommandSpy::*} does not contain player:
+			add player to {CommandSpy::*}
+			send "<##7aff75>You're now recieving command spy messages" 	
+			stop
+		if {CommandSpy::*} contains player:
+			remove player from {CommandSpy::*}
+			send "<#ff7575>You're no longer recieving command spy messages."
+			stop
+on command:
+	send "<##75d3ff>&lCommand Spy &8┃ <##bae9ff>%player% executed &f/%the full command%" to all players where [{CommandSpy::*} contains input]

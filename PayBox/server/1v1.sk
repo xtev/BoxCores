@@ -1,0 +1,101 @@
+options:
+    pos3: -527, 142, 214, world "flatroom" # spot where they get tp out
+
+on load: 
+    set {-1v1check} to 25
+
+function setBarrier():
+    wait 2 ticks
+    set blocks at {1xroom::*} to glass
+
+function delBarrier():
+    set blocks at {1xroom::*} to air
+
+function teleportOut():
+    loop all players:
+        if "%region at loop-player%" contains "1v1room":
+            add loop-player to {_r::*}  
+            set {_l} to last element out of {_r::*}  
+            teleport {_l} to location({@pos3})  
+    send "&cYou guys cannot be more than 2 in a 1v1 room!" to {_r}
+
+on quit:
+    if "%regions at player%" contains "1v1room":
+        kill player
+        broadcast "&b&l1v1 Room &8| &b%player% &chas logged in the 1v1 room!"
+    delete {pos1::%uuid of player%}
+    delete {pos2::%uuid of player%}
+    delete {-positionmode::%uuid of player%}
+
+command /1v1set:
+    permission: op
+    trigger:
+        {-positionmode::%uuid of player%} != true:
+            delete {pos1::%uuid of player%}
+            delete {pos2::%uuid of player%}
+            set {-positionmode::%uuid of player%} to true
+            send "position mode toggled &aon"
+            stop
+        delete {-positionmode::%uuid of player%}
+        send "position mode toggled &coff"
+
+on leftclick:
+    target block is set
+    {-positionmode::%uuid of player%} = true
+    cancel event
+    if {pos1::%uuid of player%} is not set:
+        set {pos1::%uuid of player%} to location of clicked block
+        send "&7Position 1 set to: &b%location of clicked block%" to player
+        stop
+    set {pos2::%uuid of player%} to location of clicked block
+    send "&7Position 2 set to: &b%location of clicked block%" to player
+    delete {-positionmode::%uuid of player%}
+    send "&dAutomatically disabled position mode" to player
+    
+command /1v1create:
+    permission: op
+    trigger:
+        {pos1::%uuid of player%} and {pos2::%uuid of player%} is set:
+            set blocks within {pos1::%uuid of player%} and {pos2::%uuid of player%} to black stained glass
+            set {1xroom::*} to blocks within {pos1::%uuid of player%} and {pos2::%uuid of player%}
+            send "&7Created &b1v1 &7Room"
+            stop
+        send "&cYou have to choose positions first!"
+
+command /1v1delete:
+    permission: op
+    trigger:
+        delete {1xroom::*}
+        send "&cDeleted 1v1 Room!"
+
+on region enter:
+    if "%event-region%" contains "1v1room":
+        add player to {-1v1room::*}
+        if size of {-1v1room::*} = 2:
+            setBarrier()
+        else if size of {-1v1room::*} <= 3:
+            teleportOut()
+
+on region leave:
+    if "%event-region%" contains "1v1room":
+        remove player from {-1v1room::*}
+        if {-1v1room::*} is not set:
+            delBarrier()
+
+on death of player:
+    if "%regions at victim%" contains "1v1room":
+        remove victim from {-1v1room::*}
+
+every 15 seconds:
+    clear {-1v1room::*}
+    loop all players:
+        if "%regions at loop-player%" contains "1v1room":
+            add loop-player to {-1v1room::*}
+    if {-1v1room::*} is not set:
+        clear {-1v1room::*}
+        delBarrier()
+    else if size of {-1v1room::*} = 1:
+        delBarrier()
+        stop
+    else if size of {-1v1room::*} = 2:
+        setBarrier()

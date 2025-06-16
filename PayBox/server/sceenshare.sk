@@ -1,0 +1,59 @@
+options:
+  prefix: &d&lᴘᴀʏ&b&lʙᴏx
+
+command /setss:
+    permission: ss.setSS
+    trigger:
+        set {ssROOM} to location of block at location of player
+        send "{@prefix} &8&l| &f ss room was set to &e%{ssROOM}%" 
+
+command /ss [<player>]:
+    permission: ss.screanshare
+    trigger:
+        if arg-1 isn't set:
+            send "{@prefix} &8&l| &fYou must also inclued a player in the command such as the person you want to SS!"
+            stop
+        else:
+            teleport arg-1 to {ssROOM}
+            teleport player to {SSROOM}
+            send "{@prefix} &8&l| &fYou have been teleported to the SS room with &e%arg-1% in order to ss them." to player
+            send "{@prefix} &8&l| &fYou have been sent to the SS room by &e%player% DO NOT LEAVE, please join screenshare vc in &e&l<link:https://discord.gg/KAyBunnV>Click Here" to arg-1
+            broadcast "{@prefix} &8&l| &f&e%arg-1% is getting screen shared by &e%player%"
+            set {beingSS::%arg-1's uuid%} to true
+
+command /unss [<player>]:
+    permission: ss.stopss
+    trigger:
+        if arg-1 isn't set:
+            send "{@prefix} &8&l| &fPlease select a player that you want to stop the ss off, /stopss PLAYER"
+        else:
+            send "{@prefix} &8&l| &f &aYou are no longer being ssed!" to arg-1
+            broadcast "{@prefix} &8&l| &f &e%arg-1% is Cleared By &e%player%"
+            delete {beingSS::%arg-1's uuid%}
+            make player execute command "spawn %player%"
+            make player execute command "spawn %arg-1%"
+
+command /admit [<player>]:
+    permission: ss.admit
+    trigger:
+        if arg-1 isn't set:
+            send "{@prefix} &8&l| &fPlease select a player that admited, /admit PLAYER"
+        else:
+            send "{@prefix} &8&l| &f&b%arg-1% admitted that he cheated"
+            broadcast "{@prefix} &8&l| &f &e%arg-1% is Banned for 7d because he admitted"
+            delete {beingSS::%arg-1's uuid%}
+            make player execute command "tempban %arg-1% admit 7d"
+			
+on command:
+    if {beingSS::%player's uuid%} is set:
+        if "%command%" contains "disc" or "community" or "discord" or "server":
+            stop
+        else:
+            cancel event
+            send "{@prefix} &8&l|&f You may not use commands while being SSed!"
+
+on disconnect:
+    if {beingSS::%player's uuid%} is set:
+        make console execute command "tempban %player% 21d &4Logging out while being ssed!"
+        broadcast "{@prefix} &8&l| &f&e%player% logged out while being SSed so they were banned for &e14 days!"
+        delete {beingSS::%player's uuid%}

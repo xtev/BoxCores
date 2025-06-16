@@ -1,0 +1,28 @@
+on death:
+    victim and attacker are player:
+        set {TSD::%attacker's uuid%} to now
+        set {TSD::%victim's uuid%} to now
+        play sound "block.note_block.pling" to victim
+        play sound "block.note_block.pling" to attacker
+        send message "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f Be respectful and write gg for good karma!" to victim
+        send message "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f Be respectful and write gg for good karma!" to attacker
+        wait 5 seconds
+        clear {TSD::%attacker's uuid%}
+        clear {TSD::%victim's uuid%}
+
+on chat:
+    {TSD::%player's uuid%} is set
+    "%uncolored unformatted message%&r" contains "gg":
+        add 3 to {Karma::%player's uuid%}
+        send message "&a+3 Karma!"
+        play sound "block.note_block.pling"
+        clear {TSD::%player's uuid%}
+    else if "%uncolored unformatted message%&r" contains "ez":
+        remove 3 from {Karma::%player's uuid%}
+        send message "&c-3 Karma!"
+        play sound "block.note_block.didgeridoo"
+        clear {TSD::%player's uuid%}
+
+command /karma:
+    trigger:
+        send message "&d&lᴘᴀʏ&b&lʙᴏx &8&l|&f You have %"&c" if {Karma::%player's uuid%} < 0, else "&a"%%{Karma::%player's uuid%}% Karma&d." to player

@@ -1,0 +1,13 @@
+command host9:
+	permission: op
+	trigger:
+		make player execute command "amusic play @a 1"
+		player command "bc It's raining tacos! Well... money!"
+		loop 9 times:
+			loop all players:
+				wait 9 seconds
+				give {_item} to loop-player
+command seteventitem5:
+	permission: op
+	trigger:
+		set {_item} to player's tool

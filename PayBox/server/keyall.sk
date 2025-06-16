@@ -1,0 +1,125 @@
+command /keyall:
+    permission: op
+    trigger:
+        create a gui with virtual chest inventory with 3 rows named "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  &6&lGui!" and shape "xxxxxxxxx", "x1234567x" and "xxxxxxxxx":
+            make gui slot "x" with gray stained glass pane named "&6"
+            make gui 10 with coal named "&710" with lore "&6", "&7&L| &7This keyall is for", "&7&l| &710 or more players!":
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  5 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  4 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  3 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 2 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 1 second" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l! Thanks for %size of all players% players!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                make console execute command "fastcrate rozdaj gear all 1"
+                make console execute command "fastcrate rozdaj afk all 1"
+                make console execute command "fastcrate rozdaj afk all 4"
+                broadcast ""
+                broadcast "&7&l| &6&lKeyall! Thanks for %size of all players% players!"
+                broadcast ""
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll " with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+            make gui slot 11 with copper ingot named "&620" with lore "&6", "&6&l| &6This keyall is for", "&6&l| &620 or more players!":
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  5 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  4 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  3 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 2 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 1 second" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!  Thanks for %size of all players% players!"
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                make console execute command "fastcrate rozdaj gear all 2"
+                make console execute command "fastcrate rozdaj afk all 2"
+                make console execute command "fastcrate rozdaj afk all 6"
+                broadcast ""
+                broadcast "&7&l| &6&lKeyall!  Thanks for %size of all players% players!"
+                broadcast ""
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll " with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+            make gui slot 12 with iron ingot named "&f30" with lore "&6", "&f&l| &fThis keyall is for", "&f&l| &f30 or more players!":
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  5 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  4 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  3 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 2 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 1 second" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l! Thanks for %size of all players% players!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                make console execute command "fastcrate rozdaj gear all 3"
+                make console execute command "fastcrate rozdaj afk all 3"
+                make console execute command "fastcrate rozdaj afk all 10"
+                broadcast ""
+                broadcast "&7&l| &6&lKeyall! Thanks for %size of all players% players!"
+                broadcast ""
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll " with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+            make gui slot 13 with gold ingot named "&x&f&f&d&7&0&040" with lore "&6", "&x&f&f&d&7&0&0&l| &x&f&f&d&7&0&0This keyall is for", "&x&f&f&d&7&0&0&l| &x&f&f&d&7&0&040 or more players!":
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  5 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  4 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  3 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 2 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 1 second" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l! Thanks for %size of all players% players!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                make console execute command "fastcrate rozdaj gear all 3"
+                make console execute command "fastcrate rozdaj afk all 3"
+                make console execute command "fastcrate rozdaj afk all 10"
+                broadcast ""
+                broadcast "&7&l| &6&lKeyall! thanks for %size of all players% players"
+                broadcast ""
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll " with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+            make gui slot 14 with amethyst shard named "&d50" with lore "&6", "&d&l| &dthis keyall is for", "&d&l| &d50 or more players!":
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  5 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  4 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  3 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 2 seconds" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll  in 1 second" with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l! Thanks for %size of all players% players!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+                wait 1 second
+                make console execute command "fastcrate rozdaj gear all 5"
+                make console execute command "fastcrate rozdaj afk all 5"
+                make console execute command "crates key giveall 12"
+                broadcast "&7&l| &6&lKeyall! thanks for %size of all players% players"
+                broadcast ""
+                send title "&x&f&b&1&c&b&a&lK&x&f&b&3&b&b&e&le&x&f&c&5&a&c&2&ly&x&f&c&7&9&c&7&la&x&f&d&9&8&c&b&ll&x&f&d&b&7&c&f&ll " with subtitle "&x&f&b&4&d&1&2&lG&x&f&b&6&0&2&a&lo &x&f&c&7&4&4&3&lS&x&f&c&8&7&5&b&lp&x&f&c&9&a&7&3&la&x&f&c&a&d&8&b&lw&x&f&d&c&1&a&4&ln&x&f&d&d&4&b&c&l!" to all players
+                play sound "entity.experience_orb.pickup" at volume 1 at pitch 1
+            open the last gui for the player
